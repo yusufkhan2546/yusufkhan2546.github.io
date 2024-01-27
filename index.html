@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+  <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
   <title>MyResume Bootstrap Template - Index</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
@@ -51,7 +51,7 @@
         <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
         <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
         <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a></li>
-        <li><a href="#certifications" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Certifications</span></a></li>
+        <li><a href="#certifications" class="nav-link scrollto"><i class="bx bx-certification"></i> <span>Certifications</span></a></li>
         <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
@@ -723,31 +723,26 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
-
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+        
+        <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D5j00000DCEh6" method="POST" role="form">
+              <input type=hidden name="oid" value="00D5j00000DCEh6">
+              <input type=hidden name="retURL" value="https://yusufkhan2546.github.io">
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  <input type="text" id="first_name" maxlength="40" name="first_name"placeholder="Your Name" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  <input type="email" class="form-control" id="email" maxlength="80" name="email" size="20"  placeholder="Your Email" required>
                 </div>
               </div>
+           
               <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                <textarea class="form-control" name="description" rows="5" placeholder="Message" required></textarea>
               </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
-
-          </div>
+             
+              <div class="text-center"><button class="form-control" style="background-color:rgb(42, 42, 226); color:white" type="submit">Send Message</button></div>
+            </form> 
+            </div>
 
         </div>
 
