@@ -1304,8 +1304,8 @@ a.hireme{
   padding-top:12px;
 }
 .col-md-6{
-  padding : 5px;
-  margin : 5px;
+  /* padding : 5px;
+  margin : 5px; */
 }
 .form-group{
   margin:5px !important;
