@@ -1307,6 +1307,9 @@ a.hireme{
   padding : 5px;
   margin : 5px;
 }
+.form-group{
+  margin:5px;
+}
 section#portfolio{
   height: 100vh;
   overflow-y: scroll;
