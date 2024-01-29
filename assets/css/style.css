@@ -1320,5 +1320,9 @@ body{
  /* color:white;
  background-color: black; */
 }
+.filter-honors img {
+  height: 50vh;
+  width:40vw;
+}
 
 
