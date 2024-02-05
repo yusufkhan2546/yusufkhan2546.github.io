@@ -63,14 +63,14 @@
     <div class="container" data-aos="zoom-in" data-aos-delay="100">
       <h1>Yusuf Khan</h1>
       
-      <p>I'm a <span class="typed" data-typed-items="Salesforce Consultant,Salesforce Developer, Freelancer , Photographer"></span></p>
+      <p><span class="typed" data-typed-items="Hi, How Are You ?,Hope you are doing good,I am from Hyderabad,India, I have 4+years of Software Industry Experiece, Scroll down to learn more about me"></span></p>
       <div class="social-links">
         <!-- <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
         <a class="facebook" target="new"><i class="bx bxl-facebook"></i></a> -->
         <a href="https://www.instagram.com/yusufkhan_patanmayana"  class="instagram" target="new"><i class="bx bxl-instagram"></i></a>
         <a href="https://join.skype.com/invite/mFkBnvseCQaq" class="google-plus"><i class="bx bxl-skype"></i></a>
         <a href="https://www.linkedin.com/in/yusufkhan2546" class="linkedin" target="new"><i class="bx bxl-linkedin"></i></a>
-        <a href="#contact" class="hireme"> Hire Me</a>
+        <a href="#contact" id="hiremebutton" class="hireme"> Hire Me</a>
       </div>
     </div>
   </section><!-- End Hero -->
@@ -1053,6 +1053,17 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+    const ele = document.getElementById('hiremebutton');
+    ele.addEventListener('mouseover',handlemouseover);
+    function handlemouseover(){
+      ele.innerText = 'Contact';
+    }
+    ele.addEventListener('mouseout',handlemouseout);
+    function handlemouseout(){
+      ele.innerText = 'Hire Me';
+    }
+  </script>
 
 </body>
 

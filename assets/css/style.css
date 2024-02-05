@@ -1303,6 +1303,9 @@ a.hireme{
   align-items: center;
   padding-top:12px;
 }
+a.hireme:hover{
+
+}
 .col-md-6{
   /* padding : 5px;
   margin : 5px; */
