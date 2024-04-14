@@ -60,7 +60,7 @@
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center">
-    <div class="container" data-aos="zoom-in" data-aos-delay="100">
+    <div class="container" data-aos="zoom-in" data-aos-delay="100" id="container">
       <h1>Yusuf Khan</h1>
       
       <p><span class="typed" data-typed-items="4+ Years Experienced Salesforce Professional, 10x Certfied Developer"></span></p>
@@ -71,7 +71,9 @@
         <a href="https://join.skype.com/invite/mFkBnvseCQaq" class="google-plus"><i class="bx bxl-skype"></i></a>
         <a href="https://www.linkedin.com/in/yusufkhan2546" class="linkedin" target="new"><i class="bx bxl-linkedin"></i></a>
         <a href="#contact" id="hiremebutton" class="hireme"> Hire Me</a>
+        <img id="heart" src="./assets/img/Heart.svg" height="300px" >
       </div>
+      
     </div>
   </section><!-- End Hero -->
 
@@ -1054,6 +1056,7 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <script>
+    const heartele = document.getElementById('heart');
     const ele = document.getElementById('hiremebutton');
     ele.addEventListener('mouseover',handlemouseover);
     function handlemouseover(){
@@ -1062,6 +1065,10 @@
     ele.addEventListener('mouseout',handlemouseout);
     function handlemouseout(){
       ele.innerText = 'Hire Me';
+    }
+    heartele.addEventListener('click',handleheart);
+    function handleheart(){
+      heartele.classList.toggle('rotating');
     }
   </script>
 
