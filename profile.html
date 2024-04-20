@@ -8,6 +8,62 @@
 <body>
     <h1>Salesforce OAuth Example</h1>
 
+    <!-- Button to trigger account creation -->
+    <button onclick="showAccountForm()">Add Account</button>
+
+    <!-- Form to collect account details -->
+    <div id="accountForm" style="display: none;">
+        <h2>Enter Account Details</h2>
+        <form onsubmit="addAccount(); return false;">
+            <label for="accountName">Account Name:</label>
+            <input type="text" id="accountName" required><br><br>
+            <label for="accountType">Account Type:</label>
+            <input type="text" id="accountType" required><br><br>
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+
+    <!-- Display area for success or error messages -->
+    <div id="message"></div>
+
+    <script>
+        // Function to show account creation form
+        function showAccountForm() {
+            document.getElementById('accountForm').style.display = 'block';
+            document.getElementById('message').innerText = '';
+        }
+
+        // Function to add account using Salesforce API
+        function addAccount() {
+            const accountName = document.getElementById('accountName').value;
+            const accountType = document.getElementById('accountType').value;
+
+            // Make HTTP POST request to Salesforce to create account
+            fetch('https://worksdairy-dev-ed.develop.my.salesforce.com/services/data/v53.0/sobjects/Account/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Name: accountName,
+                    Type: accountType
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('message').innerText = 'Account created successfully!';
+                } else {
+                    throw new Error('Failed to create account');
+                }
+            })
+            .catch(error => {
+                console.error('Error creating account:', error);
+                document.getElementById('message').innerText = 'Failed to create account';
+            });
+        }
+    </script>
+
     <script>
         // Function to parse query parameters from URL
         function getQueryVariable(variable) {
