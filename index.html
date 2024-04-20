@@ -62,21 +62,6 @@
   <section id="hero" class="d-flex flex-column justify-content-center">
     <div class="container" data-aos="zoom-in" data-aos-delay="100" id="container">
       <h1>Yusuf Khan</h1>
-      <button onclick="loginWithSalesforce()">Log in with Salesforce</button>
-
-      <script>
-          function loginWithSalesforce() {
-              // Specify your Salesforce OAuth configuration
-              const clientId = '3MVG9uk_cDhyHiA6seW4Oav6pvJDj9egtOuWwioXi4BmxTqtK7SsA4.iYkG3DG0uVH9sBsFwHPnIzu3pECG9z';
-              const redirectUri = 'https://yusufkhan2546.github.io'; // Must match the Callback URL in Connected App settings
-              const responseType = 'token'; // Use 'token' for Implicit Grant flow
-  
-              // Construct OAuth authorization URL
-              const authUrl = `https://worksdairy-dev-ed.develop.my.salesforce.com/services/oauth2/authorize?response_type=${responseType}&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-  
-              // Redirect user to Salesforce login page
-              window.location.href = authUrl;
-          }
       </script>
       <p><span class="typed" data-typed-items="4+ Years Experienced Salesforce Professional, 10x Certfied Developer"></span></p>
       <div class="social-links">
