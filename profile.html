@@ -84,8 +84,11 @@
            var tokenac =  localStorage.getItem('accessToken');
            if(tokenac){
                   console.log('EWRWR',tokenac);
-           } 
+                  const accessToken = tokenac;
+           } else {
             const accessToken = getQueryVariable('access_token');
+           }
+           
 
             if (accessToken) {
                 // Store access token in localStorage
