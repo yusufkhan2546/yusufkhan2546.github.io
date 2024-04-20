@@ -32,7 +32,7 @@
                 localStorage.setItem('accessToken', accessToken);
 
                 // Make HTTP request to fetch user details from Salesforce
-                fetch('https://worksdairy-dev-ed.develop.my.salesforce.com/services/data/v53.0/sobjects/User/me', {
+                fetch('https://worksdairy-dev-ed.develop.my.salesforce.com//services/oauth2/userinfo', {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`
                     }
