@@ -41,8 +41,8 @@
                 .then(data => {
                     console.log(data,'dsdasf');
                     // Display user's name and email
-                    const userName = data.sub;
-                    const userEmail = data.Email;
+                    const userName = data.nickname;
+                    const userEmail = data.email;
                     alert(`Logged in as: ${userName} (${userEmail})`);
                 })
                 .catch(error => {
