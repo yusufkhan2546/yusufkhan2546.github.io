@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesforce OAuth Example</title>
+</head>
+<body>
+    <h1>Salesforce OAuth Example</h1>
+
+    <script>
+        // Function to parse query parameters from URL
+        function getQueryVariable(variable) {
+            const query = window.location.search.substring(1);
+            const vars = query.split('&');
+            for (let i = 0; i < vars.length; i++) {
+                const pair = vars[i].split('=');
+                if (decodeURIComponent(pair[0]) === variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+            return null;
+        }
+
+        // Function to handle login callback and fetch user details
+        function handleLoginCallback() {
+            const accessToken = getQueryVariable('access_token');
+
+            if (accessToken) {
+                // Store access token in localStorage
+                localStorage.setItem('accessToken', accessToken);
+
+                // Make HTTP request to fetch user details from Salesforce
+                fetch('https://worksdairy-dev-ed.develop.my.salesforce.com/services/data/v53.0/sobjects/User/me', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Display user's name and email
+                    const userName = data.Name;
+                    const userEmail = data.Email;
+                    alert(`Logged in as: ${userName} (${userEmail})`);
+                })
+                .catch(error => {
+                    console.error('Error fetching user details:', error);
+                    alert('Failed to fetch user details');
+                });
+            } else {
+                alert('Access token not found');
+            }
+        }
+
+        // Call handleLoginCallback() when the page loads
+        window.onload = handleLoginCallback;
+    </script>
+</body>
+</html>

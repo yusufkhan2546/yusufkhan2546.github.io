@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/img/Hansel.png" rel="icon">
+    <link href="assets/img/Hansel.png" rel="apple-touch-icon">
+  
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <title>Login with Salesforce</title>
+</head>
+<body style="text-align:center;padding-top:200px">
+    <h1>Login with Salesforce</h1>
+
+    <button onclick="loginWithSalesforce()">Login with Salesforce</button>
+
+    <script>
+        function loginWithSalesforce() {
+            // Specify your Salesforce OAuth configuration
+            const clientId = '3MVG9uk_cDhyHiA6seW4Oav6pvJDj9egtOuWwioXi4BmxTqtK7SsA4.iYkG3DG0uVH9sBsFwHPnIzu3pECG9z';
+            const redirectUri = 'https://yusufkhan2546.github.io'; // Must match the Callback URL in Connected App settings
+            const responseType = 'token'; // Use 'token' for Implicit Grant flow
+
+            // Construct OAuth authorization URL
+            const authUrl = `https://worksdairy-dev-ed.develop.my.salesforce.com/services/oauth2/authorize?response_type=${responseType}&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+
+            // Redirect user to Salesforce login page
+            window.location.href = authUrl;
+        }
+    </script>
+</body>
+</html>
