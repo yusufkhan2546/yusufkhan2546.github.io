@@ -11,7 +11,7 @@
     <script>
         // Function to parse query parameters from URL
         function getQueryVariable(variable) {
-            const query = window.location.search.substring(1);
+            const query = window.location.hash.substring(1);
             const vars = query.split('&');
             for (let i = 0; i < vars.length; i++) {
                 const pair = vars[i].split('=');
@@ -24,6 +24,7 @@
 
         // Function to handle login callback and fetch user details
         function handleLoginCallback() {
+            console.log(window.location);
             const accessToken = getQueryVariable('access_token');
 
             if (accessToken) {
