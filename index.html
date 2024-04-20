@@ -72,7 +72,7 @@
               const responseType = 'token'; // Use 'token' for Implicit Grant flow
   
               // Construct OAuth authorization URL
-              const authUrl = `https://login.salesforce.com/services/oauth2/authorize?response_type=${responseType}&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+              const authUrl = `https://worksdairy-dev-ed.develop.my.salesforce.com/services/oauth2/authorize?response_type=${responseType}&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
   
               // Redirect user to Salesforce login page
               window.location.href = authUrl;
