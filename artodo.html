@@ -1,69 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR To-Do List</title>
-    <style>
-        /* Basic styling for to-do list */
-        body {
-            font-family: Arial, sans-serif;
-        }
-        #todo-list {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .todo-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
-</head>
-<body>
-    <div id="todo-list">
-        <h1>To-Do List</h1>
-        <input type="text" id="new-todo" placeholder="Add a new task">
-        <button id="add-todo">Add</button>
-        <ul id="todos"></ul>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <div height="100px" width="25px">
+        <a-scene>
+            <a-assets>
+              <img id="ground" src="./assets/img/Heart.svg">
+            </a-assets>
+          
+            <!-- Basic plane. -->
+            <a-plane color="#CCC" height="20" width="20"></a-plane>
+          
+            <!-- Textured plane parallel to ground. -->
+            <a-plane src="#ground" height="50" width="50" rotation="-90 0 0"></a-plane>
+          </a-scene>
     </div>
-    <a-scene embedded arjs>
-        <a-marker preset="hiro">
-            <a-box position='0 0.5 0' material='color: yellow;'></a-box>
-        </a-marker>
-        <a-entity camera></a-entity>
-    </a-scene>
     
-
-    <!-- AR.js scripts -->
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.6.2/aframe/build/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.6.2/aframe/build/aframe-ar.js"></script>
-
-    <!-- Include your JavaScript file -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const todoInput = document.getElementById('new-todo');
-            const addTodoButton = document.getElementById('add-todo');
-            const todosList = document.getElementById('todos');
-        
-            addTodoButton.addEventListener('click', function () {
-                const taskText = todoInput.value.trim();
-                if (taskText !== '') {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'todo-item';
-                    listItem.innerHTML = `${taskText} <button class="delete">Delete</button>`;
-                    todosList.appendChild(listItem);
-                    todoInput.value = '';
-        
-                    // Event listener for delete button
-                    listItem.querySelector('.delete').addEventListener('click', function () {
-                        listItem.remove();
-                    });
-                }
-            });
-        });
-        
-    </script>
-</body>
+  </body>
 </html>
