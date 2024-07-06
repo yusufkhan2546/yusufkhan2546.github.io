@@ -1046,7 +1046,7 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"> <i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <style type='text/css'>
+<style type='text/css'>
 	.embeddedServiceHelpButton .helpButton .uiButton {
 		background-color: #005290;
 		font-family: "Arial", sans-serif;
@@ -1081,25 +1081,25 @@
 		embedded_svc.settings.entryFeature = 'LiveAgent';
 
 		embedded_svc.init(
-			'https://dairyworks-dev-ed.develop.my.salesforce.com',
-			'https://dairyworks-dev-ed.develop.my.site.com/defaulthelpcenter6Jul',
+			'https://ernestinesolutions-dev-ed.develop.my.salesforce.com',
+			'https://ernestinesolutions-dev-ed.develop.my.salesforce-sites.com/',
 			gslbBaseURL,
-			'00DIR000001u8Ms',
-			'Professionals',
+			'00DdM000006p9cz',
+			'MyQueue',
 			{
-				baseLiveAgentContentURL: 'https://c.la1-c2-hn3.salesforceliveagent.com/content',
-				deploymentId: '572IR000000wmgA',
-				buttonId: '573IR000000wmkJ',
-				baseLiveAgentURL: 'https://d.la1-c2-hn3.salesforceliveagent.com/chat',
-				eswLiveAgentDevName: 'Professionals',
-				isOfflineSupportEnabled: false
+				baseLiveAgentContentURL: 'https://c.la1-core1.sfdc-y37hzm.salesforceliveagent.com/content',
+				deploymentId: '572dM000004TmBp',
+				buttonId: '573dM000001AXq9',
+				baseLiveAgentURL: 'https://d.la1-core1.sfdc-y37hzm.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'MyQueue',
+				isOfflineSupportEnabled: true
 			}
 		);
 	};
 
 	if (!window.embedded_svc) {
 		var s = document.createElement('script');
-		s.setAttribute('src', 'https://dairyworks-dev-ed.develop.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.setAttribute('src', 'https://ernestinesolutions-dev-ed.develop.my.salesforce.com/embeddedservice/5.0/esw.min.js');
 		s.onload = function() {
 			initESW(null);
 		};
