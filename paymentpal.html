@@ -11,6 +11,13 @@
 <body>
 <div id="paypal-button-container"></div>
 <script>
+    const url = window.location.href;
+
+// Create a URL object
+   const urlObj = new URL(url);
+
+// Extract the 'amount' parameter value
+const amount = urlObj.searchParams.get('amount');
   var transactionID ='';
     paypal.Buttons({
         message: {
@@ -23,7 +30,7 @@
              return actions.order.create({
                 purchase_units :[{
                     amount: {
-                        value :'10.22'
+                        value :amount
                     }
                 }]
              });
