@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
   <title>Yusuf Khan Portfolio</title>
   <meta content="" name="description">
@@ -34,10 +35,6 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  <script type="text/javascript">
-    $('.timer').slideUp();
-  </script>
- 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
@@ -373,7 +370,7 @@
           </div>
         </div>
         <br>
-        <button class="btn" style="width:100%" ><i class="fa fa-download"></i><a href="./assets/pdf/PATAN MAYANA YUSUF ALI KHAN - Salesforce Resume.pdf" download> Download Resume </a>  </button>
+        <button class="btn button1" style="width:100%" ><i class="fa fa-download"></i><a href="./assets/pdf/PATAN MAYANA YUSUF ALI KHAN - Salesforce Resume.pdf" download> Download Resume </a>  </button>
       </div>
     </section><!-- End Resume Section -->
 
@@ -1049,6 +1046,68 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"> <i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+<style type='text/css'>
+	.embeddedServiceHelpButton .helpButton .uiButton {
+		background-color: #005290;
+		font-family: "Arial", sans-serif;
+	}
+	.embeddedServiceHelpButton .helpButton .uiButton:focus {
+		outline: 1px solid #005290;
+	}
+</style>
+
+<script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+<script type='text/javascript'>
+	var initESW = function(gslbBaseURL) {
+		embedded_svc.settings.displayHelpButton = true; //Or false
+		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+
+		//embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+		//embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+		//embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+		//embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+		// Settings for Chat
+		//embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+			// Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+			// Returns a valid button ID.
+		//};
+		//embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+		//embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+		//embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+
+		embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+		embedded_svc.settings.entryFeature = 'LiveAgent';
+
+		embedded_svc.init(
+			'https://ernestinesolutions-dev-ed.develop.my.salesforce.com',
+			'https://ernestinesolutions-dev-ed.develop.my.salesforce-sites.com/chat',
+			gslbBaseURL,
+			'00DdM000006p9cz',
+			'MyQueue',
+			{
+				baseLiveAgentContentURL: 'https://c.la1-core1.sfdc-y37hzm.salesforceliveagent.com/content',
+				deploymentId: '572dM000004TmBp',
+				buttonId: '573dM000001AXq9',
+				baseLiveAgentURL: 'https://d.la1-core1.sfdc-y37hzm.salesforceliveagent.com/chat',
+				eswLiveAgentDevName: 'MyQueue',
+				isOfflineSupportEnabled: true
+			}
+		);
+	};
+
+	if (!window.embedded_svc) {
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://ernestinesolutions-dev-ed.develop.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+		s.onload = function() {
+			initESW(null);
+		};
+		document.body.appendChild(s);
+	} else {
+		initESW('https://service.force.com');
+	}
+</script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1061,22 +1120,6 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script>
-    const heartele = document.getElementById('heart');
-    const ele = document.getElementById('hiremebutton');
-    ele.addEventListener('mouseover',handlemouseover);
-    function handlemouseover(){
-      ele.innerText = 'Contact';
-    }
-    ele.addEventListener('mouseout',handlemouseout);
-    function handlemouseout(){
-      ele.innerText = 'Hire Me';
-    }
-    heartele.addEventListener('click',handleheart);
-    function handleheart(){
-      heartele.classList.toggle('rotating');
-    }
-  </script>
 
 </body>
 
