@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://worksdairy-dev-ed.develop.my.salesforce.com/lightning/lightning.out.js"></script>
+</head>
+
+<body>
+    <div id="lightningLocator"></div>
+    <script>
+        $Lightning.use("c:myApplication", function() {
+            $Lightning.createComponent(
+                "c:accountsLWC",
+                {},
+                "lightningLocator"
+            );
+        },
+        "https://worksdairy-dev-ed.develop.my.salesforce.com", // Site endpoint
+        );
+      </script>
+</body>
+</html>
