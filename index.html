@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Web Developer</title>
+    <link href="./src/output.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Optional: for icons -->
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200 bg-white/90 backdrop-blur-sm">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-blue-600">DevPortfolio</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <a href="#contact" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition-colors">Get in touch</a>
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
+                    <li>
+                        <a href="#home" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="#about" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 transition-colors">About</a>
+                    </li>
+                    <li>
+                        <a href="#skills" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 transition-colors">Skills</a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 transition-colors">Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="flex flex-col justify-center items-center h-screen text-center bg-gradient-to-br from-blue-50 to-indigo-100 pt-16">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-12">
+            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Building Digital Experiences</h1>
+            <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">I'm a passionate web developer transforming ideas into elegant, responsive, and user-friendly websites.</p>
+            <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+                <a href="#projects" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 transition-transform transform hover:-translate-y-1">
+                    View Projects
+                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </a>
+                <a href="#contact" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 transition-colors">
+                    Contact Me
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="relative">
+                    <img class="w-full rounded-lg shadow-xl" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="About Image">
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-blue-100 rounded-full -z-10"></div>
+                    <div class="absolute -top-6 -left-6 w-32 h-32 bg-indigo-100 rounded-full -z-10"></div>
+                </div>
+                <div>
+                    <h2 class="mb-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">About Me</h2>
+                    <p class="mb-6 font-light text-gray-500 md:text-lg">
+                        I am a dedicated web developer with a keen eye for detail and a love for creating seamless digital experiences. With a strong foundation in HTML, CSS, and JavaScript, I enjoy turning complex problems into simple, beautiful, and intuitive designs.
+                    </p>
+                    <p class="mb-6 font-light text-gray-500 md:text-lg">
+                        When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying a good cup of coffee.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium hover:underline">Download Resume &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-gray-50">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm mb-8 lg:mb-16">
+                <h2 class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">My Skills</h2>
+                <p class="font-light text-gray-500 lg:mb-16 sm:text-xl">Here are some of the technologies and tools I work with.</p>
+            </div> 
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
+                <!-- Skill Item -->
+                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-orange-100 lg:h-16 lg:w-16">
+                        <svg class="w-6 h-6 text-orange-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                           <path d="M12 24l-10-2v-18l10-2 10 2v18l-10 2zm-1.5-5l6.5-1.5 1-9h-12.5l.5 5 8.5.5-.5 3.5-5.5.5 -.5-2.5h-3.5l1 5.5z"/> <!-- Simplified HTML5 icon representation -->
+                        </svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">HTML5</h3>
+                </div>
+                
+                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100 lg:h-16 lg:w-16">
+                         <svg class="w-6 h-6 text-blue-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 24l-10-2v-18l10-2 10 2v18l-10 2zm-1.5-5l6.5-1.5 1-9h-10.5l.5 4.5h6l-.5 3.5-3.5.5-3.5-.5-.25-1.5h-2.25l.5 4 5.5 1 5.5-1 1.5-8.5h-9l-.25-2h9.5l-.5 4.5z"/> <!-- Simplified CSS3 icon -->
+                         </svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">CSS3</h3>
+                </div>
+
+                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-yellow-100 lg:h-16 lg:w-16">
+                        <svg class="w-6 h-6 text-yellow-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                           <path d="M0 0h24v24h-24z" fill="none"/>
+                           <path d="M3 3h18v18h-18z" opacity=".1"/> <!-- Placeholder -->
+                           <text x="5" y="18" font-size="14" font-family="Arial" font-weight="bold">JS</text>
+                        </svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">JavaScript</h3>
+                </div>
+
+                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-teal-100 lg:h-16 lg:w-16">
+                         <svg class="w-6 h-6 text-teal-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <!-- Tailwind Icon placeholder -->
+                            <path d="M12 6c3.313 0 6 2.686 6 6s-2.687 6-6 6-6-2.687-6-6 2.687-6 6-6z"/>
+                         </svg>
+                    </div>
+                    <h3 class="mb-2 text-xl font-bold text-gray-900">Tailwind CSS</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 bg-white">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
+                <h2 class="mb-4 text-3xl lg:text-4xl tracking-tight font-bold text-gray-900">My Projects</h2>
+                <p class="font-light text-gray-500 sm:text-xl">Check out some of my recent work.</p>
+            </div>
+            <div class="grid gap-8 lg:grid-cols-2">
+                <!-- Project Card 1 -->
+                <article class="p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <div class="flex justify-between items-center mb-5 text-gray-500">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded">
+                            <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                            Web Design
+                        </span>
+                        <span class="text-sm">14 days ago</span>
+                    </div>
+                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900"><a href="#">E-Commerce Dashboard</a></h2>
+                    <p class="mb-5 font-light text-gray-500">A responsive dashboard layout for managing orders, products as well as tracking sales analytics. Built with simple HTML and CSS Grid.</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                             <!-- Tech Stack Icons would go here -->
+                        </div>
+                        <a href="#" class="inline-flex items-center font-medium text-blue-600 hover:underline">
+                            View Project
+                            <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </article> 
+                <!-- Project Card 2 -->
+                <article class="p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <div class="flex justify-between items-center mb-5 text-gray-500">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded">
+                            <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V5a1 1 0 00-1-1H5zm-1 1a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M9.293 8.293a1 1 0 011.414 0l2 2a1 1 0 01-1.414 1.414L10 10.414l-1.293 1.293a1 1 0 01-1.414-1.414l2-2z" clip-rule="evenodd"></path></svg>
+                            Application
+                        </span>
+                        <span class="text-sm">1 month ago</span>
+                    </div>
+                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900"><a href="#">Task Management App</a></h2>
+                    <p class="mb-5 font-light text-gray-500">A clean and intuitive task management tool designed to help users organize their daily activities effectively using local storage.</p>
+                    <div class="flex justify-between items-center">
+                         <!-- -->
+                        <a href="#" class="inline-flex items-center font-medium text-blue-600 hover:underline">
+                            View Project
+                            <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="bg-blue-50 py-24">
+        <div class="py-8 px-4 mx-auto max-w-screen-md lg:py-16">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact Me</h2>
+            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Got a technical issue? Want to send feedback related to a beta feature? Need details about our Business plan? Let us know.</p>
+            <form action="#" class="space-y-8">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                    <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required>
+                </div>
+                <div>
+                    <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">Subject</label>
+                    <input type="text" id="subject" class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Let us know how we can help" required>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Your message</label>
+                    <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                </div>
+                <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Send message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-4 bg-white md:p-8 lg:p-10 border-t border-gray-200">
+        <div class="mx-auto max-w-screen-xl text-center">
+            <a href="#" class="flex justify-center items-center text-2xl font-semibold text-gray-900">
+                DevPortfolio
+            </a>
+            <p class="my-6 text-gray-500">A clean, responsive portfolio template built with Tailwind CSS.</p>
+            <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900">
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Premium</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Campaigns</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Blog</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Affiliate Program</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">FAQs</a>
+                </li>
+            </ul>
+            <span class="text-sm text-gray-500 sm:text-center">© 2026-2027 <a href="#" class="hover:underline">DevPortfolio™</a>. All Rights Reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Simple Script for Navbar Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.querySelector('[data-collapse-toggle="navbar-sticky"]');
+            const navbarMenu = document.getElementById('navbar-sticky');
+
+            if (toggleButton && navbarMenu) {
+                toggleButton.addEventListener('click', () => {
+                    navbarMenu.classList.toggle('hidden');
+                    const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
+                    toggleButton.setAttribute('aria-expanded', !expanded);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
