@@ -28,7 +28,11 @@
     <!-- Navigation -->
     <nav
         class="fixed w-full flex justify-between items-center z-50 bg-[#0D0D0D]/95 backdrop-blur-md border-b border-primary/10 px-[5%] py-6">
-        <img src="./src/images/logo.png" alt="YAK Logo" class="h-12 logo-fill">
+        <a href="#home">
+            <img src="./src/images/logo.png" alt="YAK Logo" class="h-12 logo-fill">
+        </a>
+
+        <!-- Desktop Menu -->
         <ul class="hidden md:flex gap-12 list-none items-center">
             <li><a href="#home"
                     class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Home</a>
@@ -51,10 +55,25 @@
                     CV</a>
             </li>
         </ul>
-        <!-- Mobile Menu Icon (Placeholder) -->
-        <button class="md:hidden text-white text-2xl focus:outline-none">
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-toggle" class="md:hidden text-white text-2xl focus:outline-none z-[60]">
             <i class="fas fa-bars"></i>
         </button>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-dark-bg/98 z-50 flex flex-col items-center justify-center gap-8 transition-transform duration-500 translate-x-full md:hidden">
+            <a href="#home" class="text-2xl font-bold text-white hover:text-primary transition-colors">Home</a>
+            <a href="#experience"
+                class="text-2xl font-bold text-white hover:text-primary transition-colors">Experience</a>
+            <a href="#about" class="text-2xl font-bold text-white hover:text-primary transition-colors">About</a>
+            <a href="#social-feed" class="text-2xl font-bold text-white hover:text-primary transition-colors">Social
+                Feed</a>
+            <a href="#contact" class="text-2xl font-bold text-white hover:text-primary transition-colors">Contact</a>
+            <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
+                class="btn-primary py-3 px-8 text-lg">Download CV</a>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -104,18 +123,24 @@
             </div>
 
             <!-- Enhanced Stats Section -->
-            <div class="grid grid-cols-3 gap-6 animate-reveal delay-300">
-                <div class="glass-card-primary p-5 rounded-3xl group hover:border-primary/40 transition-colors">
-                    <div class="text-4xl font-black text-primary mb-1">6+</div>
-                    <div class="text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">Years of Impact</div>
+            <div class="grid grid-cols-3 gap-4 md:gap-6 animate-reveal delay-300">
+                <div
+                    class="glass-card-primary p-3 md:p-5 rounded-2xl md:rounded-3xl group hover:border-primary/40 transition-colors">
+                    <div class="text-2xl md:text-4xl font-black text-primary mb-1">6+</div>
+                    <div class="text-[0.55rem] md:text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">
+                        Years of Impact</div>
                 </div>
-                <div class="glass-card p-5 rounded-3xl group hover:border-white/20 transition-colors">
-                    <div class="text-4xl font-black text-white mb-1">12</div>
-                    <div class="text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">Salesforce Certs</div>
+                <div
+                    class="glass-card p-3 md:p-5 rounded-2xl md:rounded-3xl group hover:border-white/20 transition-colors">
+                    <div class="text-2xl md:text-4xl font-black text-white mb-1">12</div>
+                    <div class="text-[0.55rem] md:text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">
+                        Salesforce Certs</div>
                 </div>
-                <div class="glass-card p-5 rounded-3xl group hover:border-white/20 transition-colors">
-                    <div class="text-4xl font-black text-[#FFD700] mb-1">290k+</div>
-                    <div class="text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">Trailhead Pts</div>
+                <div
+                    class="glass-card p-3 md:p-5 rounded-2xl md:rounded-3xl group hover:border-white/20 transition-colors">
+                    <div class="text-2xl md:text-4xl font-black text-[#FFD700] mb-1">290k+</div>
+                    <div class="text-[0.55rem] md:text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">
+                        Trailhead Pts</div>
                 </div>
             </div>
         </div>
@@ -500,9 +525,10 @@
                 yRenderer.labels.template.setAll({
                     centerY: am5.p50,
                     centerX: am5.p100,
-                    fontSize: 14,
+                    fontSize: 12,
                     fill: am5.color(0xFFFFFF),
-                    fontWeight: "600"
+                    fontWeight: "600",
+                    paddingRight: 15
                 });
                 yRenderer.grid.template.set("forceHidden", true);
 
@@ -820,10 +846,11 @@
                     environments and enjoy mentoring junior developers to help them grow their skills.
                 </p>
 
-                <div class="flex gap-4 mt-6">
-                    <a href="#contact" class="btn-primary">Get In Touch</a>
+                <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                    <a href="#contact" class="btn-primary text-sm sm:text-base px-8 sm:px-10 py-3 sm:py-4">Get In
+                        Touch</a>
                     <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
-                        class="btn-secondary">Download CV</a>
+                        class="btn-secondary text-sm sm:text-base px-8 sm:px-10 py-3 sm:py-4">Download CV</a>
                 </div>
             </div>
         </div>
@@ -1028,9 +1055,11 @@
                 Stay updated with my latest professional insights, project updates, and Salesforce tips from LinkedIn.
             </p>
         </div>
-        <div class="w-full overflow-hidden bg-dark-card border-y border-white/5 p-4 md:p-8">
-            <div class="sk-ww-linkedin-profile-post" data-embed-id="25652180"></div>
-            <script src="https://widgets.sociablekit.com/linkedin-profile-posts/widget.js" defer></script>
+        <div class="w-full bg-dark-card border-y border-white/5 p-4 md:p-8">
+            <div class="max-h-[500px] md:max-h-[700px] overflow-y-auto custom-scrollbar p-2">
+                <div class="sk-ww-linkedin-profile-post" data-embed-id="25652180"></div>
+                <script src="https://widgets.sociablekit.com/linkedin-profile-posts/widget.js" defer></script>
+            </div>
         </div>
     </section>
 
@@ -1239,6 +1268,36 @@
 
         // We can add classes 'opacity-0 translate-y-[30px] transition-all duration-600' to items we want to animate
         // For now, the keyframe animations in CSS handle the hero section.
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = menuToggle.querySelector('i');
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('translate-x-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            }
+        });
+
+        // Close menu when clicking items
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
     </script>
 </body>
 
