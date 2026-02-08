@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Journey - amCharts Timeline</title>
+    <style>
+        body {
+            background: #0D0D0D;
+            color: #FFFFFF;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #chartdiv {
+            width: 100%;
+            height: 600px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #A0A0A0;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Professional Journey</h1>
+        <p>6+ years of delivering enterprise Salesforce solutions</p>
+    </div>
+
+    <div id="chartdiv"></div>
+
+    <!-- amCharts Scripts -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/timeline.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+    <script>
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv");
+            root.setThemes([am5themes_Animated.new(root)]);
+            root.interfaceColors.set("background", am5.color(0x0D0D0D));
+
+            var chart = root.container.children.push(am5timeline.SerpentineChart.new(root, {
+                levelCount: 2,
+                startLocation: 0.1,
+                endLocation: 0.9,
+                wheelY: "zoomX"
+            }));
+
+            chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                orientation: "horizontal"
+            }));
+
+            var yRenderer = am5timeline.AxisRendererCurveY.new(root, {});
+            yRenderer.labels.template.setAll({
+                centerY: am5.p50,
+                centerX: am5.p100,
+                fontSize: 14,
+                fill: am5.color(0xFFFFFF),
+                fontWeight: "600"
+            });
+            yRenderer.grid.template.set("forceHidden", true);
+
+            var xRenderer = am5timeline.AxisRendererCurveX.new(root, {
+                yRenderer: yRenderer,
+                strokeDasharray: [3, 3],
+                strokeOpacity: 0.4,
+                stroke: am5.color(0xFF6B35)
+            });
+
+            xRenderer.labels.template.setAll({
+                centerY: am5.p50,
+                fontSize: 11,
+                fill: am5.color(0xA0A0A0),
+                minPosition: 0.01
+            });
+
+            xRenderer.labels.template.setup = function (target) {
+                target.set("layer", 30);
+                target.set("background", am5.Rectangle.new(root, {
+                    fill: am5.color(0x1A1A1A),
+                    fillOpacity: 1
+                }));
+            }
+
+            var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0,
+                categoryField: "category",
+                renderer: yRenderer
+            }));
+
+            var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+                baseInterval: { timeUnit: "month", count: 1 },
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            var data = [
+                {
+                    "category": "Prodapt Solutions",
+                    "start": new Date("2021-10-01").getTime(),
+                    "end": new Date("2024-09-30").getTime(),
+                    "color": am5.color(0xFF6B35),
+                    "task": "Software Engineer",
+                    "description": "• 60% of development across 5+ projects\n• 50+ Apex classes, 95%+ coverage\n• Reduced onboarding: 2 days → 2 hours\n• 35% productivity improvement"
+                },
+                {
+                    "category": "Certifications",
+                    "start": new Date("2024-01-01").getTime(),
+                    "end": new Date("2024-03-31").getTime(),
+                    "color": am5.color(0xFFB84D),
+                    "task": "Platform Developer II",
+                    "description": "Advanced Apex, Integration & Development"
+                },
+                {
+                    "category": "Certifications",
+                    "start": new Date("2024-04-01").getTime(),
+                    "end": new Date("2024-06-30").getTime(),
+                    "color": am5.color(0xFFA726),
+                    "task": "Service Cloud Consultant",
+                    "description": "Service Cloud implementation expertise"
+                },
+                {
+                    "category": "Certifications",
+                    "start": new Date("2024-07-01").getTime(),
+                    "end": new Date("2024-08-31").getTime(),
+                    "color": am5.color(0xFF9800),
+                    "task": "OmniStudio & FSC",
+                    "description": "OmniStudio Developer + FSC Professional\nFive Star Ranger (291K points)"
+                },
+                {
+                    "category": "K Square Group",
+                    "start": new Date("2024-09-01").getTime(),
+                    "end": new Date("2026-02-08").getTime(),
+                    "color": am5.color(0x4169E1),
+                    "task": "Salesforce Developer",
+                    "description": "• 3 FSC implementations: 100% adoption\n• 60% revenue growth, 90% CSAT\n• Apex, LWC, OmniStudio architecture\n• AI solutions with Agentforce"
+                }
+            ];
+
+            var series = chart.series.push(am5timeline.CurveColumnSeries.new(root, {
+                xAxis: xAxis,
+                yAxis: yAxis,
+                baseAxis: yAxis,
+                valueXField: "end",
+                openValueXField: "start",
+                categoryYField: "category",
+                layer: 30
+            }));
+
+            series.columns.template.setAll({
+                height: am5.percent(18),
+                strokeOpacity: 0,
+                cornerRadiusTL: 6,
+                cornerRadiusTR: 6,
+                cornerRadiusBL: 6,
+                cornerRadiusBR: 6,
+                cursorOverStyle: "pointer"
+            });
+
+            series.columns.template.set("tooltip", am5.Tooltip.new(root, {
+                getFillFromSprite: false,
+                autoTextColor: false,
+                labelText: "[bold fontSize:15px]{task}[/]\n[fontSize:12px]{description}[/]"
+            }));
+
+            series.columns.template.get("tooltip").get("background").setAll({
+                fill: am5.color(0x1A1A1A),
+                fillOpacity: 0.98,
+                stroke: am5.color(0xFF6B35),
+                strokeWidth: 2
+            });
+
+            series.columns.template.get("tooltip").label.setAll({
+                fill: am5.color(0xFFFFFF),
+                maxWidth: 350,
+                oversizedBehavior: "wrap"
+            });
+
+            series.bullets.push(function (root, series, dataItem) {
+                return am5.Bullet.new(root, {
+                    sprite: am5.Circle.new(root, {
+                        radius: 7,
+                        fill: dataItem.dataContext.color,
+                        strokeWidth: 3,
+                        stroke: am5.color(0x0D0D0D),
+                        layer: 30
+                    }),
+                    locationX: 0,
+                    locationY: 0.5
+                });
+            });
+
+            series.bullets.push(function (root, series, dataItem) {
+                return am5.Bullet.new(root, {
+                    sprite: am5.Circle.new(root, {
+                        radius: 7,
+                        fill: dataItem.dataContext.color,
+                        strokeWidth: 3,
+                        stroke: am5.color(0x0D0D0D),
+                        layer: 30
+                    }),
+                    locationX: 1,
+                    locationY: 0.5
+                });
+            });
+
+            series.columns.template.adapters.add("fill", function (fill, target) {
+                return target.dataItem ? target.dataItem.dataContext.color : fill;
+            });
+
+            var cursor = chart.set("cursor", am5timeline.CurveCursor.new(root, {
+                behavior: "zoomX",
+                xAxis: xAxis,
+                yAxis: yAxis
+            }));
+
+            cursor.lineX.setAll({
+                stroke: am5.color(0xFF6B35),
+                strokeWidth: 2,
+                strokeDasharray: [4, 4]
+            });
+
+            cursor.lineY.setAll({
+                stroke: am5.color(0xFF6B35),
+                strokeWidth: 2,
+                strokeDasharray: [4, 4]
+            });
+
+            series.data.setAll(data);
+            yAxis.data.setAll([
+                { category: "Prodapt Solutions" },
+                { category: "Certifications" },
+                { category: "K Square Group" }
+            ]);
+
+            series.appear(1000);
+            chart.appear(1000, 100);
+        });
+    </script>
+</body>
+
+</html>

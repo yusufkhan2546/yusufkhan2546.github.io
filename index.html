@@ -1,260 +1,1245 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
+    <style>
+        .sk-ww-linkedin-profile-post {
+            background-color: rgb(28, 27, 27) !important;
+        }
+
+        .sk-post-item {
+            background-color: rgb(27, 26, 26) !important;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Web Developer</title>
+    <title>Yusuf Ali Khan - Salesforce Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap"
+        rel="stylesheet">
     <link href="./src/output.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Optional: for icons -->
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased">
-    <!-- Navbar -->
-    <nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200 bg-white/90 backdrop-blur-sm">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-2xl font-bold whitespace-nowrap text-blue-600">DevPortfolio</span>
-            </a>
-            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                <a href="#contact" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition-colors">Get in touch</a>
-                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-sticky" aria-expanded="false">
-                    <span class="sr-only">Open main menu</span>
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
-                    <li>
-                        <a href="#home" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Home</a>
-                    </li>
-                    <li>
-                        <a href="#about" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 transition-colors">About</a>
-                    </li>
-                    <li>
-                        <a href="#skills" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 transition-colors">Skills</a>
-                    </li>
-                    <li>
-                        <a href="#projects" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 transition-colors">Projects</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
+<body class="bg-dark-bg text-text-white font-sans antialiased overflow-x-hidden leading-relaxed">
+
+    <!-- Navigation -->
+    <nav
+        class="fixed w-full flex justify-between items-center z-50 bg-[#0D0D0D]/95 backdrop-blur-md border-b border-primary/10 px-[5%] py-6">
+        <img src="./src/images/logo.png" alt="YAK Logo" class="h-12 logo-fill">
+        <ul class="hidden md:flex gap-12 list-none items-center">
+            <li><a href="#home"
+                    class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Home</a>
+            </li>
+            <li><a href="#experience"
+                    class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Experience</a>
+            </li>
+            <li><a href="#about"
+                    class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">About</a>
+            </li>
+            <li><a href="#social-feed"
+                    class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Social
+                    Feed</a>
+            </li>
+            <li><a href="#contact"
+                    class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Contact</a>
+            </li>
+            <li><a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
+                    class="bg-gradient-to-br from-primary to-primary-dark py-3 px-7 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300 block">Download
+                    CV</a>
+            </li>
+        </ul>
+        <!-- Mobile Menu Icon (Placeholder) -->
+        <button class="md:hidden text-white text-2xl focus:outline-none">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="flex flex-col justify-center items-center h-screen text-center bg-gradient-to-br from-blue-50 to-indigo-100 pt-16">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-12">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">Building Digital Experiences</h1>
-            <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">I'm a passionate web developer transforming ideas into elegant, responsive, and user-friendly websites.</p>
-            <div class="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-                <a href="#projects" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 transition-transform transform hover:-translate-y-1">
-                    View Projects
-                    <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </a>
-                <a href="#contact" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 transition-colors">
-                    Contact Me
-                </a>
+    <section id="home"
+        class="min-h-screen grid grid-cols-1 lg:grid-cols-2 items-center gap-8 px-[5%] pt-24 pb-12 relative overflow-hidden">
+        <!-- Background Pulse Effect -->
+        <!-- <div
+            class="absolute -top-[50%] -right-[20%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.15),transparent_70%)] animate-pulse-custom pointer-events-none">
+        </div> -->
+
+        <!-- Content Left -->
+        <div class="relative z-10">
+            <div class="animate-reveal">
+                <p class="text-primary font-bold tracking-[0.2em] uppercase text-sm mb-4">Salesforce Architect &
+                    Developer</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                    <span class="text-white block">Yusuf Ali</span>
+                    <span class="bg-gradient-to-r from-primary to-[#FF9068] bg-clip-text text-transparent">Khan</span>
+                </h1>
+                <p class="text-xl text-text-gray mb-10 max-w-xl leading-relaxed">
+                    Transforming enterprise challenges into seamless digital experiences. Specializing in <span
+                        class="text-white font-semibold">Apex</span>, <span class="text-white font-semibold">LWC</span>,
+                    and <span class="text-white font-semibold">Cloud Architecture</span>.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-6 mb-12 animate-reveal delay-200">
+                <div class="flex gap-4">
+                    <a href="https://www.linkedin.com/in/yusufkhan2546" target="_blank"
+                        class="w-11 h-11 border border-white/10 glass-card rounded-xl flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1 text-lg">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/yusufkhan2546" target="_blank"
+                        class="w-11 h-11 border border-white/10 glass-card rounded-xl flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1 text-lg">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:yusufkhan2546@gmail.com"
+                        class="w-11 h-11 border border-white/10 glass-card rounded-xl flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1 text-lg">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                <div class="h-8 w-px bg-white/10"></div>
+                <div class="flex gap-4">
+                    <a href="#contact" class="btn-primary py-3 px-8 text-sm">Hire Me</a>
+                </div>
+
+            </div>
+
+            <!-- Enhanced Stats Section -->
+            <div class="grid grid-cols-3 gap-6 animate-reveal delay-300">
+                <div class="glass-card-primary p-5 rounded-3xl group hover:border-primary/40 transition-colors">
+                    <div class="text-4xl font-black text-primary mb-1">6+</div>
+                    <div class="text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">Years of Impact</div>
+                </div>
+                <div class="glass-card p-5 rounded-3xl group hover:border-white/20 transition-colors">
+                    <div class="text-4xl font-black text-white mb-1">12</div>
+                    <div class="text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">Salesforce Certs</div>
+                </div>
+                <div class="glass-card p-5 rounded-3xl group hover:border-white/20 transition-colors">
+                    <div class="text-4xl font-black text-[#FFD700] mb-1">290k+</div>
+                    <div class="text-[0.6rem] text-text-gray uppercase tracking-widest font-bold">Trailhead Pts</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portrait Container Right -->
+        <div class="profile-image self-start">
+            <div class="relative w-full max-w-[320px]">
+                <!-- Outer Decorative Glows -->
+                <div
+                    class="absolute -top-10 -left-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl animate-pulse-custom">
+                </div>
+                <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+
+
             </div>
         </div>
     </section>
+
+    <!-- Professional Experience Section - Journey Timeline -->
+    <section id="experience" class="bg-dark-bg py-16 px-[5%] relative overflow-visible z-30">
+        <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-3 font-serif">Professional Journey</h2>
+        <p class="text-center text-text-gray mb-8 text-sm md:text-base max-w-3xl mx-auto">
+            6+ years of delivering enterprise Salesforce solutions across Financial Services, Telecom, and Technology
+            sectors
+        </p>
+
+        <!-- View Toggle -->
+        <div class="flex justify-center gap-4 mb-12">
+            <button onclick="showCircularView()" id="circularBtn"
+                class="px-6 py-2 rounded-full font-semibold transition-all duration-300 bg-primary text-white">
+                Jobs Timeline
+            </button>
+            <button onclick="showTimelineView()" id="timelineBtn"
+                class="px-6 py-2 rounded-full font-semibold transition-all duration-300 bg-dark-card text-text-gray border border-primary/30 hover:border-primary">
+                Certifications Timeline
+            </button>
+        </div>
+
+        <!-- Circular Timeline Container -->
+        <div id="circularTimeline" class="timeline-view">
+            <div class="max-w-6xl mx-auto relative">
+
+
+                <!-- Journey Milestones -->
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center gap-16 md:gap-8 relative">
+
+                    <!-- Milestone 1: Prodapt Solutions -->
+                    <div class="group relative flex flex-col items-center w-full md:w-auto">
+                        <!-- Progress Ring -->
+                        <div class="relative w-40 h-40">
+                            <!-- Background Circle -->
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                                <!-- Gray background ring -->
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="#2A2A2A" stroke-width="8" />
+                                <!-- Orange progress ring with filling animation -->
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="url(#gradient1)" stroke-width="8"
+                                    stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round"
+                                    class="animate-fill-circle" />
+                                <defs>
+                                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#FF8C61;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <!-- Center Content -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div
+                                    class="w-32 h-32 rounded-full bg-dark-card border-2 border-primary/20 flex items-center justify-center transition-all duration-300 group-hover:border-primary group-hover:scale-105">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-primary">2019</div>
+                                        <div class="text-xs text-text-gray mt-1">Start</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Company Info -->
+                        <div class="mt-6 text-center">
+                            <h3 class="text-lg font-bold text-white mb-1">Reliant Vision Group</h3>
+                            <p class="text-sm text-text-light-gray">Salesforce Developer</p>
+                            <p class="text-xs text-primary mt-2">Oct 2019 - Oct 2020</p>
+                        </div>
+
+                        <!-- Hover Card -->
+                        <div
+                            class="absolute top-48 left-1/2 -translate-x-1/2 w-[340px] bg-dark-card p-6 rounded-[20px] border border-primary/30 shadow-[0_20px_60px_rgba(255,107,53,0.3)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div
+                                class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-dark-card border-l border-t border-primary/30 rotate-45">
+                            </div>
+
+                            <div class="flex items-center gap-3 mb-4">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-2xl">
+                                    💼
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-primary">Salesforce Developer</h4>
+                                    <p class="text-xs text-text-gray">Reliant Vision Group • Hyderabad</p>
+                                </div>
+                            </div>
+
+                            <ul class="space-y-2.5 text-xs text-text-gray mb-4">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2 mt-0.5">▸</span>
+                                    <span>Started Salesforce development journey</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2 mt-0.5">▸</span>
+                                    <span>Developed custom <strong class="text-white">Apex solutions</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2 mt-0.5">▸</span>
+                                    <span>Built <strong class="text-white">Lightning components</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2 mt-0.5">▸</span>
+                                    <span>Gained foundational Salesforce expertise</span>
+                                </li>
+                            </ul>
+
+                            <div class="flex flex-wrap gap-1.5">
+                                <span
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-medium">Salesforce</span>
+                                <span
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-medium">Apex</span>
+                                <span
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-medium">Lightning</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Milestone 2: Career Growth -->
+                    <div class="group relative flex flex-col items-center w-full md:w-auto">
+                        <!-- Progress Ring -->
+                        <div class="relative w-40 h-40">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="#2A2A2A" stroke-width="8" />
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="url(#gradient2)" stroke-width="8"
+                                    stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round"
+                                    class="animate-fill-circle" />
+                                <defs>
+                                    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#FFB84D;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#FFA726;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div
+                                    class="w-32 h-32 rounded-full bg-dark-card border-2 border-orange-400/20 flex items-center justify-center transition-all duration-300 group-hover:border-orange-400 group-hover:scale-105">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-orange-400">2021</div>
+                                        <div class="text-xs text-text-gray mt-1">Growth</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <h3 class="text-lg font-bold text-white mb-1">Prodapt Solutions</h3>
+                            <p class="text-sm text-text-light-gray">Software Engineer</p>
+                            <p class="text-xs text-orange-400 mt-2">Oct 2021 - Sep 2024</p>
+                        </div>
+
+                        <!-- Hover Card -->
+                        <div
+                            class="absolute top-48 left-1/2 -translate-x-1/2 w-[300px] bg-dark-card p-6 rounded-[20px] border border-orange-400/30 shadow-[0_20px_60px_rgba(255,184,77,0.3)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div
+                                class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-dark-card border-l border-t border-orange-400/30 rotate-45">
+                            </div>
+
+                            <div class="flex items-center gap-3 mb-4">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400/20 to-orange-400/10 flex items-center justify-center text-2xl">
+                                    💼
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-orange-400">Software Engineer</h4>
+                                    <p class="text-xs text-text-gray">Prodapt Solutions • Hyderabad</p>
+                                </div>
+                            </div>
+
+                            <ul class="space-y-2.5 text-xs text-text-gray mb-4">
+                                <li class="flex items-start">
+                                    <span class="text-orange-400 mr-2 mt-0.5">▸</span>
+                                    <span>Contributed to <strong class="text-white">60% of development</strong> across
+                                        5+ projects</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-400 mr-2 mt-0.5">▸</span>
+                                    <span>Built <strong class="text-white">50+ Apex classes</strong> with 95%+ code
+                                        coverage</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-400 mr-2 mt-0.5">▸</span>
+                                    <span>Reduced onboarding from <strong class="text-orange-400">2 days to 2
+                                            hours</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-orange-400 mr-2 mt-0.5">▸</span>
+                                    <span>Improved productivity by <strong class="text-orange-400">35%</strong></span>
+                                </li>
+                            </ul>
+
+                            <div class="flex flex-wrap gap-1.5">
+                                <span
+                                    class="px-2.5 py-1 bg-orange-400/10 text-orange-400 rounded-full text-[10px] font-medium">Sales
+                                    Cloud</span>
+                                <span
+                                    class="px-2.5 py-1 bg-orange-400/10 text-orange-400 rounded-full text-[10px] font-medium">Service
+                                    Cloud</span>
+                                <span
+                                    class="px-2.5 py-1 bg-orange-400/10 text-orange-400 rounded-full text-[10px] font-medium">Apex</span>
+                                <span
+                                    class="px-2.5 py-1 bg-orange-400/10 text-orange-400 rounded-full text-[10px] font-medium">LWC</span>
+                                <span
+                                    class="px-2.5 py-1 bg-orange-400/10 text-orange-400 rounded-full text-[10px] font-medium">OmniStudio</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Milestone 3: K Square Group (Current) -->
+                    <div class="group relative flex flex-col items-center w-full md:w-auto">
+                        <!-- Progress Ring with Filling Animation -->
+                        <div class="relative w-40 h-40">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="#2A2A2A" stroke-width="8" />
+                                <!-- Complete circle with filling animation -->
+                                <circle cx="80" cy="80" r="70" fill="none" stroke="url(#gradient3)" stroke-width="8"
+                                    stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round"
+                                    class="animate-fill-circle" />
+                                <defs>
+                                    <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#4169E1;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#6495ED;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div
+                                    class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-600/20 to-blue-500/10 border-2 border-blue-500 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(65,105,225,0.4)]">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-blue-400">2024</div>
+                                        <div class="text-xs text-white/80 mt-1">Current</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <h3 class="text-lg font-bold text-white mb-1">K Square Solutions</h3>
+                            <p class="text-sm text-text-light-gray">Salesforce Developer</p>
+                            <p class="text-xs text-blue-400 mt-2">Sep 2024 - Present</p>
+                        </div>
+
+                        <!-- Hover Card -->
+                        <div
+                            class="absolute top-48 left-1/2 -translate-x-1/2 w-[360px] bg-dark-card p-6 rounded-[20px] border border-blue-500/30 shadow-[0_20px_60px_rgba(65,105,225,0.4)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div
+                                class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-dark-card border-l border-t border-blue-500/30 rotate-45">
+                            </div>
+
+                            <div class="flex items-center gap-3 mb-4">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-500/10 flex items-center justify-center text-2xl">
+                                    🚀
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-blue-400">Salesforce Developer</h4>
+                                    <p class="text-xs text-text-gray">K Square Solutions • Hyderabad</p>
+                                </div>
+                            </div>
+
+                            <ul class="space-y-2.5 text-xs text-text-gray mb-4">
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-2 mt-0.5">▸</span>
+                                    <span>Led <strong class="text-white">3 FSC implementations</strong> with <strong
+                                            class="text-blue-400">100% adoption</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-2 mt-0.5">▸</span>
+                                    <span>Achieved <strong class="text-blue-400">60% revenue growth</strong> and <strong
+                                            class="text-blue-400">90% CSAT</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-2 mt-0.5">▸</span>
+                                    <span>Architected workflows using <strong class="text-white">Apex, LWC,
+                                            OmniStudio</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-2 mt-0.5">▸</span>
+                                    <span>Technical SME improving code quality by <strong
+                                            class="text-blue-400">40%</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-400 mr-2 mt-0.5">▸</span>
+                                    <span>Implemented <strong class="text-white">AI solutions</strong> with
+                                        Agentforce</span>
+                                </li>
+                            </ul>
+
+                            <div class="flex flex-wrap gap-1.5">
+                                <span
+                                    class="px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-medium">FSC</span>
+                                <span
+                                    class="px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-medium">Apex</span>
+                                <span
+                                    class="px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-medium">LWC</span>
+                                <span
+                                    class="px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-medium">OmniStudio</span>
+                                <span
+                                    class="px-2.5 py-1 bg-blue-500/10 text-blue-400 rounded-full text-[10px] font-medium">Agentforce</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- amCharts Timeline Container -->
+        <div id="amchartsTimeline" class="timeline-view hidden">
+            <div id="chartdiv" class="w-full h-[600px] max-w-7xl mx-auto"></div>
+        </div>
+    </section>
+
+    <!-- amCharts Scripts -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/timeline.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+    <!-- Timeline Toggle & amCharts Initialization -->
+    <script>
+        let chartInitialized = false;
+
+        function showCircularView() {
+            document.getElementById('circularTimeline').classList.remove('hidden');
+            document.getElementById('amchartsTimeline').classList.add('hidden');
+            document.getElementById('circularBtn').classList.add('bg-primary', 'text-white');
+            document.getElementById('circularBtn').classList.remove('bg-dark-card', 'text-text-gray', 'border', 'border-primary/30');
+            document.getElementById('timelineBtn').classList.remove('bg-primary', 'text-white');
+            document.getElementById('timelineBtn').classList.add('bg-dark-card', 'text-text-gray', 'border', 'border-primary/30');
+        }
+
+        function showTimelineView() {
+            document.getElementById('circularTimeline').classList.add('hidden');
+            document.getElementById('amchartsTimeline').classList.remove('hidden');
+            document.getElementById('timelineBtn').classList.add('bg-primary', 'text-white');
+            document.getElementById('timelineBtn').classList.remove('bg-dark-card', 'text-text-gray', 'border', 'border-primary/30');
+            document.getElementById('circularBtn').classList.remove('bg-primary', 'text-white');
+            document.getElementById('circularBtn').classList.add('bg-dark-card', 'text-text-gray', 'border', 'border-primary/30');
+
+            if (!chartInitialized) {
+                initializeChart();
+                chartInitialized = true;
+            }
+        }
+
+        function initializeChart() {
+            am5.ready(function () {
+                var root = am5.Root.new("chartdiv");
+                root.setThemes([am5themes_Animated.new(root)]);
+                root.interfaceColors.set("background", am5.color(0x0D0D0D));
+
+                var chart = root.container.children.push(am5timeline.SerpentineChart.new(root, {
+                    levelCount: 2,
+                    startLocation: 0.1,
+                    endLocation: 0.9,
+                    wheelY: "zoomX"
+                }));
+
+                chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                    orientation: "horizontal"
+                }));
+
+                var yRenderer = am5timeline.AxisRendererCurveY.new(root, {});
+                yRenderer.labels.template.setAll({
+                    centerY: am5.p50,
+                    centerX: am5.p100,
+                    fontSize: 14,
+                    fill: am5.color(0xFFFFFF),
+                    fontWeight: "600"
+                });
+                yRenderer.grid.template.set("forceHidden", true);
+
+                var xRenderer = am5timeline.AxisRendererCurveX.new(root, {
+                    yRenderer: yRenderer,
+                    strokeDasharray: [3, 3],
+                    strokeOpacity: 0.4,
+                    stroke: am5.color(0xFF6B35)
+                });
+
+                xRenderer.labels.template.setAll({
+                    centerY: am5.p50,
+                    fontSize: 11,
+                    fill: am5.color(0xA0A0A0),
+                    minPosition: 0.01
+                });
+
+                xRenderer.labels.template.setup = function (target) {
+                    target.set("layer", 30);
+                    target.set("background", am5.Rectangle.new(root, {
+                        fill: am5.color(0x1A1A1A),
+                        fillOpacity: 1
+                    }));
+                }
+
+                var yAxis = chart.yAxes.push(am5xy.CategoryAxis.new(root, {
+                    maxDeviation: 0,
+                    categoryField: "category",
+                    renderer: yRenderer
+                }));
+
+                var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+                    baseInterval: { timeUnit: "month", count: 1 },
+                    renderer: xRenderer,
+                    tooltip: am5.Tooltip.new(root, {})
+                }));
+
+                var data = [
+                    // Administrator
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2022-01-01").getTime(),
+                        "end": new Date("2022-03-31").getTime(),
+                        "color": am5.color(0xFF6B35),
+                        "task": "Administrator",
+                        "description": "Salesforce Administrator Certification"
+                    },
+                    // Platform Developer I
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2022-05-01").getTime(),
+                        "end": new Date("2022-07-31").getTime(),
+                        "color": am5.color(0xFFB84D),
+                        "task": "Platform Developer I",
+                        "description": "Platform Developer I Certification"
+                    },
+                    // JavaScript
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2022-09-01").getTime(),
+                        "end": new Date("2022-11-30").getTime(),
+                        "color": am5.color(0xFFA726),
+                        "task": "JavaScript",
+                        "description": "JavaScript Developer I Certification"
+                    },
+                    // Service Cloud Consultant
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2023-01-01").getTime(),
+                        "end": new Date("2023-03-31").getTime(),
+                        "color": am5.color(0xFF9800),
+                        "task": "Service Cloud Consultant",
+                        "description": "Service Cloud Consultant Certification"
+                    },
+                    // OmniStudio Developer
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2023-05-01").getTime(),
+                        "end": new Date("2023-07-31").getTime(),
+                        "color": am5.color(0xFF8C61),
+                        "task": "OmniStudio Developer",
+                        "description": "OmniStudio Developer Certification"
+                    },
+                    // Platform Developer II
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2023-09-01").getTime(),
+                        "end": new Date("2023-11-30").getTime(),
+                        "color": am5.color(0xFFAA33),
+                        "task": "Platform Developer II",
+                        "description": "Platform Developer II Certification"
+                    },
+                    // Data Cloud Consultant
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2024-01-01").getTime(),
+                        "end": new Date("2024-03-31").getTime(),
+                        "color": am5.color(0xFF7F50),
+                        "task": "Data Cloud Consultant",
+                        "description": "Data Cloud Consultant Certification"
+                    },
+                    // Agentforce Specialist
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2024-04-01").getTime(),
+                        "end": new Date("2024-06-30").getTime(),
+                        "color": am5.color(0xFFB366),
+                        "task": "Agentforce Specialist",
+                        "description": "Agentforce Specialist Certification"
+                    },
+                    // AI Associate
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2024-07-01").getTime(),
+                        "end": new Date("2024-09-30").getTime(),
+                        "color": am5.color(0xFF9966),
+                        "task": "AI Associate",
+                        "description": "AI Associate Certification"
+                    },
+                    // FSC Accredited
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2024-10-01").getTime(),
+                        "end": new Date("2024-12-31").getTime(),
+                        "color": am5.color(0xFFCC80),
+                        "task": "FSC Accredited",
+                        "description": "Financial Services Cloud Accredited Professional"
+                    },
+                    // Platform Foundations
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2025-01-01").getTime(),
+                        "end": new Date("2025-03-31").getTime(),
+                        "color": am5.color(0xFFBB66),
+                        "task": "Platform Foundations",
+                        "description": "Salesforce Platform Foundations"
+                    },
+                    // Development Lifecycle and Deployment Architect
+                    {
+                        "category": "Certifications",
+                        "start": new Date("2025-04-01").getTime(),
+                        "end": new Date("2025-06-30").getTime(),
+                        "color": am5.color(0xFFDD99),
+                        "task": "Development Lifecycle Architect",
+                        "description": "Development Lifecycle and Deployment Architect"
+                    }
+                ];
+
+                var series = chart.series.push(am5timeline.CurveColumnSeries.new(root, {
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    baseAxis: yAxis,
+                    valueXField: "end",
+                    openValueXField: "start",
+                    categoryYField: "category",
+                    layer: 30
+                }));
+
+                series.columns.template.setAll({
+                    height: am5.percent(18),
+                    strokeOpacity: 0,
+                    cornerRadiusTL: 6,
+                    cornerRadiusTR: 6,
+                    cornerRadiusBL: 6,
+                    cornerRadiusBR: 6,
+                    cursorOverStyle: "pointer"
+                });
+
+                series.columns.template.set("tooltip", am5.Tooltip.new(root, {
+                    getFillFromSprite: false,
+                    autoTextColor: false,
+                    labelText: "[bold fontSize:15px]{task}[/]\\n[fontSize:12px]{description}[/]"
+                }));
+
+                series.columns.template.get("tooltip").get("background").setAll({
+                    fill: am5.color(0x1A1A1A),
+                    fillOpacity: 0.98,
+                    stroke: am5.color(0xFF6B35),
+                    strokeWidth: 2
+                });
+
+                series.columns.template.get("tooltip").label.setAll({
+                    fill: am5.color(0xFFFFFF),
+                    maxWidth: 350,
+                    oversizedBehavior: "wrap"
+                });
+
+                series.bullets.push(function (root, series, dataItem) {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Circle.new(root, {
+                            radius: 7,
+                            fill: dataItem.dataContext.color,
+                            strokeWidth: 3,
+                            stroke: am5.color(0x0D0D0D),
+                            layer: 30
+                        }),
+                        locationX: 0,
+                        locationY: 0.5
+                    });
+                });
+
+                series.bullets.push(function (root, series, dataItem) {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Circle.new(root, {
+                            radius: 7,
+                            fill: dataItem.dataContext.color,
+                            strokeWidth: 3,
+                            stroke: am5.color(0x0D0D0D),
+                            layer: 30
+                        }),
+                        locationX: 1,
+                        locationY: 0.5
+                    });
+                });
+
+                series.columns.template.adapters.add("fill", function (fill, target) {
+                    return target.dataItem ? target.dataItem.dataContext.color : fill;
+                });
+
+                var cursor = chart.set("cursor", am5timeline.CurveCursor.new(root, {
+                    behavior: "zoomX",
+                    xAxis: xAxis,
+                    yAxis: yAxis
+                }));
+
+                cursor.lineX.setAll({
+                    stroke: am5.color(0xFF6B35),
+                    strokeWidth: 2,
+                    strokeDasharray: [4, 4]
+                });
+
+                cursor.lineY.setAll({
+                    stroke: am5.color(0xFF6B35),
+                    strokeWidth: 2,
+                    strokeDasharray: [4, 4]
+                });
+
+                series.data.setAll(data);
+                yAxis.data.setAll([
+                    { category: "Certifications" }
+                ]);
+
+                series.appear(1000);
+                chart.appear(1000, 100);
+            });
+        }
+    </script>
 
     <!-- About Section -->
-    <section id="about" class="py-24 bg-white">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-            <div class="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
-                <div class="relative">
-                    <img class="w-full rounded-lg shadow-xl" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="About Image">
-                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-blue-100 rounded-full -z-10"></div>
-                    <div class="absolute -top-6 -left-6 w-32 h-32 bg-indigo-100 rounded-full -z-10"></div>
-                </div>
-                <div>
-                    <h2 class="mb-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">About Me</h2>
-                    <p class="mb-6 font-light text-gray-500 md:text-lg">
-                        I am a dedicated web developer with a keen eye for detail and a love for creating seamless digital experiences. With a strong foundation in HTML, CSS, and JavaScript, I enjoy turning complex problems into simple, beautiful, and intuitive designs.
-                    </p>
-                    <p class="mb-6 font-light text-gray-500 md:text-lg">
-                        When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying a good cup of coffee.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium hover:underline">Download Resume &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="py-24 bg-gray-50">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
-            <div class="mx-auto max-w-screen-sm mb-8 lg:mb-16">
-                <h2 class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">My Skills</h2>
-                <p class="font-light text-gray-500 lg:mb-16 sm:text-xl">Here are some of the technologies and tools I work with.</p>
-            </div> 
-            <div class="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-                <!-- Skill Item -->
-                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-orange-100 lg:h-16 lg:w-16">
-                        <svg class="w-6 h-6 text-orange-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                           <path d="M12 24l-10-2v-18l10-2 10 2v18l-10 2zm-1.5-5l6.5-1.5 1-9h-12.5l.5 5 8.5.5-.5 3.5-5.5.5 -.5-2.5h-3.5l1 5.5z"/> <!-- Simplified HTML5 icon representation -->
-                        </svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold text-gray-900">HTML5</h3>
-                </div>
-                
-                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-blue-100 lg:h-16 lg:w-16">
-                         <svg class="w-6 h-6 text-blue-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 24l-10-2v-18l10-2 10 2v18l-10 2zm-1.5-5l6.5-1.5 1-9h-10.5l.5 4.5h6l-.5 3.5-3.5.5-3.5-.5-.25-1.5h-2.25l.5 4 5.5 1 5.5-1 1.5-8.5h-9l-.25-2h9.5l-.5 4.5z"/> <!-- Simplified CSS3 icon -->
-                         </svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold text-gray-900">CSS3</h3>
-                </div>
-
-                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-yellow-100 lg:h-16 lg:w-16">
-                        <svg class="w-6 h-6 text-yellow-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                           <path d="M0 0h24v24h-24z" fill="none"/>
-                           <path d="M3 3h18v18h-18z" opacity=".1"/> <!-- Placeholder -->
-                           <text x="5" y="18" font-size="14" font-family="Arial" font-weight="bold">JS</text>
-                        </svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold text-gray-900">JavaScript</h3>
-                </div>
-
-                <div class="flex flex-col items-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                    <div class="flex justify-center items-center mb-4 w-12 h-12 rounded-full bg-teal-100 lg:h-16 lg:w-16">
-                         <svg class="w-6 h-6 text-teal-600 lg:w-8 lg:h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                            <!-- Tailwind Icon placeholder -->
-                            <path d="M12 6c3.313 0 6 2.686 6 6s-2.687 6-6 6-6-2.687-6-6 2.687-6 6-6z"/>
-                         </svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold text-gray-900">Tailwind CSS</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-24 bg-white">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-            <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
-                <h2 class="mb-4 text-3xl lg:text-4xl tracking-tight font-bold text-gray-900">My Projects</h2>
-                <p class="font-light text-gray-500 sm:text-xl">Check out some of my recent work.</p>
-            </div>
-            <div class="grid gap-8 lg:grid-cols-2">
-                <!-- Project Card 1 -->
-                <article class="p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
-                    <div class="flex justify-between items-center mb-5 text-gray-500">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                            <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
-                            Web Design
-                        </span>
-                        <span class="text-sm">14 days ago</span>
-                    </div>
-                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900"><a href="#">E-Commerce Dashboard</a></h2>
-                    <p class="mb-5 font-light text-gray-500">A responsive dashboard layout for managing orders, products as well as tracking sales analytics. Built with simple HTML and CSS Grid.</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-4">
-                             <!-- Tech Stack Icons would go here -->
+    <section id="about" class="bg-dark-card py-16 px-[5%] relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_1.5fr] gap-12 items-center">
+            <!-- TV Frame for About Photo -->
+            <div class="relative w-full max-w-[420px] mx-auto lg:mx-0 group">
+                <!-- TV Case -->
+                <div
+                    class="relative aspect-[4/3] bg-[#1A1A1A] rounded-[35px] border-[8px] border-[#2A2A2A] shadow-[0_30px_60px_-12px_rgba(0,0,0,0.8),inset_0_2px_10px_rgba(255,255,255,0.05)] overflow-hidden transition-transform duration-500 group-hover:scale-[1.03]">
+                    <!-- TV Screen -->
+                    <div
+                        class="absolute inset-[8px] bg-[#0A0A0A] rounded-[22px] overflow-hidden border border-white/5 shadow-inner">
+                        <!-- Portrait Image inside TV -->
+                        <div class="absolute inset-0 bg-cover bg-center opacity-90 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100"
+                            style="background-image: url('./src/images/yusufphoto.png'); filter: contrast(1.1) brightness(0.9);">
                         </div>
-                        <a href="#" class="inline-flex items-center font-medium text-blue-600 hover:underline">
-                            View Project
-                            <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a>
+
+                        <!-- CRT/Scanline Overlays -->
+                        <div
+                            class="absolute inset-0 pointer-events-none opacity-[0.08] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.4)_50%)] bg-[length:100%_3px]">
+                        </div>
+                        <div
+                            class="absolute inset-0 pointer-events-none opacity-[0.05] bg-[radial-gradient(rgba(18,16,16,0),rgba(0,0,0,1))]">
+                        </div>
+
+                        <!-- Screen Glow -->
+                        <div
+                            class="absolute inset-0 pointer-events-none opacity-20 bg-gradient-to-tr from-primary/10 to-transparent">
+                        </div>
                     </div>
-                </article> 
-                <!-- Project Card 2 -->
-                <article class="p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
-                    <div class="flex justify-between items-center mb-5 text-gray-500">
-                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                            <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V5a1 1 0 00-1-1H5zm-1 1a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M9.293 8.293a1 1 0 011.414 0l2 2a1 1 0 01-1.414 1.414L10 10.414l-1.293 1.293a1 1 0 01-1.414-1.414l2-2z" clip-rule="evenodd"></path></svg>
-                            Application
-                        </span>
-                        <span class="text-sm">1 month ago</span>
+
+                    <!-- TV Buttons/Knobs -->
+                    <div class="absolute bottom-5 right-6 flex gap-2 opacity-40">
+                        <div class="w-2.5 h-2.5 rounded-full bg-[#333] shadow-inner"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-[#333] shadow-inner"></div>
+                        <div class="w-6 h-1.5 rounded-full bg-[#333] shadow-inner"></div>
                     </div>
-                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900"><a href="#">Task Management App</a></h2>
-                    <p class="mb-5 font-light text-gray-500">A clean and intuitive task management tool designed to help users organize their daily activities effectively using local storage.</p>
-                    <div class="flex justify-between items-center">
-                         <!-- -->
-                        <a href="#" class="inline-flex items-center font-medium text-blue-600 hover:underline">
-                            View Project
-                            <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a>
-                    </div>
-                </article>
+                </div>
+
+                <!-- TV Antennas -->
+                <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-16 pointer-events-none opacity-20">
+                    <div class="absolute bottom-0 left-1/4 w-0.5 h-20 bg-[#333] origin-bottom -rotate-[35deg]"></div>
+                    <div class="absolute bottom-0 right-1/4 w-0.5 h-20 bg-[#333] origin-bottom rotate-[35deg]"></div>
+                </div>
             </div>
+
+            <div class="text-left">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 font-serif uppercase tracking-tight">About Me</h2>
+                <p class="text-text-gray mb-6 leading-relaxed text-base md:text-lg">
+                    I'm an <strong class="text-white">AI-First Salesforce Developer</strong> with over 6 years of
+                    experience building scalable, optimized, and user-centric solutions for enterprise clients. Based in
+                    Hyderabad, India, I specialize in <strong class="text-primary">Financial Services Cloud</strong>,
+                    helping financial institutions transform their digital operations.
+                </p>
+
+                <p class="text-text-gray mb-6 leading-relaxed text-base md:text-lg">
+                    My expertise spans the full Salesforce ecosystem—from declarative tools like <strong
+                        class="text-white">Flows and OmniStudio</strong> to programmatic development with <strong
+                        class="text-white">Apex and Lightning Web Components</strong>. I'm passionate about leveraging
+                    AI technologies like <strong class="text-primary">Agentforce and Prompt Builder</strong> to create
+                    intelligent, automated solutions that drive measurable business outcomes.
+                </p>
+
+                <p class="text-text-gray mb-6 leading-relaxed text-base md:text-lg">
+                    As a <strong class="text-primary">Platform Developer II</strong> certified professional and <strong
+                        class="text-primary">Five Star Ranger</strong> on Trailhead (291,950 points), I'm committed to
+                    continuous learning and staying at the forefront of Salesforce innovation. I thrive in Agile
+                    environments and enjoy mentoring junior developers to help them grow their skills.
+                </p>
+
+                <div class="flex gap-4 mt-6">
+                    <a href="#contact" class="btn-primary">Get In Touch</a>
+                    <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
+                        class="btn-secondary">Download CV</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certifications & Skills -->
+        <div class="mt-12">
+            <h3 class="text-2xl font-bold text-center mb-8 font-serif">Salesforce Certifications</h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
+                <!-- 1. Administrator -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-03_Platform-Admin_500x490.png" alt="Administrator"
+                            class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Administrator</h4>
+                    <p class="text-xs text-text-gray">Salesforce Admin</p>
+                </div>
+
+                <!-- 2. Platform Developer I -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-04_Badge_SF-Certified_Plat-Dev_500x490px.png"
+                            alt="Platform Developer I" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Platform Developer I</h4>
+                    <p class="text-xs text-text-gray">Apex & Development</p>
+                </div>
+
+                <!-- 3. JavaScript Developer I -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-03_JavaScript-Dev_500x490.png" alt="JavaScript Developer I"
+                            class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">JavaScript Developer I</h4>
+                    <p class="text-xs text-text-gray">JavaScript & LWC</p>
+                </div>
+
+                <!-- 4. Service Cloud Consultant -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2021-03_Badge_SF-Certified_Service-Cloud-Consultant_500x490px.png"
+                            alt="Service Cloud Consultant" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Service Cloud Consultant</h4>
+                    <p class="text-xs text-text-gray">Customer Service</p>
+                </div>
+
+                <!-- 5. OmniStudio Developer -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-04_Badge_SF-Certified_Omnistudio-Dev_500x490px.png"
+                            alt="OmniStudio Developer" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">OmniStudio Developer</h4>
+                    <p class="text-xs text-text-gray">Industry Cloud</p>
+                </div>
+
+                <!-- 6. Platform Developer II -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2021-03_Badge_SF-Certified_Platform-Developer-II_500x490px.png"
+                            alt="Platform Developer II" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Platform Developer II</h4>
+                    <p class="text-xs text-text-gray">Advanced Development</p>
+                </div>
+
+                <!-- 7. Data Cloud Consultant -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2023-08_Badge_SF-Certified_Data-Cloud-Con_500x490px.png"
+                            alt="Data Cloud Consultant" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Data Cloud Consultant</h4>
+                    <p class="text-xs text-text-gray">Data Management</p>
+                </div>
+
+                <!-- 8. Agentforce Specialist -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-02_Badge_SF-Certified_Agentforce-Specialist_Low-Res.png"
+                            alt="Agentforce Specialist" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Agentforce Specialist</h4>
+                    <p class="text-xs text-text-gray">AI Agents</p>
+                </div>
+
+                <!-- 9. AI Associate -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2023-07_Badge_SF-Certified_AI-Associate_500x490px.png" alt="AI Associate"
+                            class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">AI Associate</h4>
+                    <p class="text-xs text-text-gray">Artificial Intelligence</p>
+                </div>
+
+                <!-- 10. FSC Accredited -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2021-04_PLC-AP-Badge_Financial_Services_Cloud_500x490px.png"
+                            alt="FSC Accredited" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">FSC Accredited</h4>
+                    <p class="text-xs text-text-gray">Financial Services</p>
+                </div>
+
+                <!-- 11. Platform Foundations -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-03_Badge_SF-Certified_Platform-Foundations_500x490px.png"
+                            alt="Platform Foundations" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Platform Foundations</h4>
+                    <p class="text-xs text-text-gray">Platform Basics</p>
+                </div>
+
+                <!-- 12. Development Lifecycle Architect -->
+                <div
+                    class="bg-dark-bg p-3 rounded-[15px] border border-primary/20 text-center group hover:border-primary hover:shadow-[0_10px_30px_rgba(255,107,53,0.2)] transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-16 h-16 mx-auto mb-2">
+                        <img src="./src/images/2025-04_Badge_SF-Certified_Plat-Dev-LC-Dep-Arch_500x490px.png"
+                            alt="Development Lifecycle Architect" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="text-sm font-bold text-white mb-1">Development Lifecycle Architect</h4>
+                    <p class="text-xs text-text-gray">DevOps & Deployment</p>
+                </div>
+            </div>
+
+            <!-- Technical Skills -->
+            <div class="mt-16">
+                <h4 class="text-xl font-bold text-center mb-6 font-serif">Technical Skills</h4>
+                <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Apex</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Lightning
+                        Web Components</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Salesforce
+                        Flows</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">OmniStudio</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Financial
+                        Services Cloud</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Sales
+                        Cloud</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Service
+                        Cloud</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Agentforce</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Prompt
+                        Builder</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">REST
+                        API</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">JavaScript</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">HTML5/CSS3</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">CI/CD</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Salesforce
+                        DX</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Git/GitHub</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Agile/Scrum</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">Data
+                        Modeling</span>
+                    <span
+                        class="px-4 py-2 bg-dark-bg border border-primary/30 text-text-light-gray rounded-full text-sm font-medium hover:bg-primary/10 hover:text-primary transition-all duration-300">SOQL/SOSL</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Feed Section -->
+    <section id="social-feed" class="bg-dark-bg py-16 px-0">
+        <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-3 font-serif">Social Feed</h2>
+        <div class="px-[5%]">
+            <p class="text-center text-text-gray mb-12 text-base max-w-2xl mx-auto">
+                Stay updated with my latest professional insights, project updates, and Salesforce tips from LinkedIn.
+            </p>
+        </div>
+        <div class="w-full overflow-hidden bg-dark-card border-y border-white/5 p-4 md:p-8">
+            <div class="sk-ww-linkedin-profile-post" data-embed-id="25652180"></div>
+            <script src="https://widgets.sociablekit.com/linkedin-profile-posts/widget.js" defer></script>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="bg-blue-50 py-24">
-        <div class="py-8 px-4 mx-auto max-w-screen-md lg:py-16">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact Me</h2>
-            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Got a technical issue? Want to send feedback related to a beta feature? Need details about our Business plan? Let us know.</p>
-            <form action="#" class="space-y-8">
-                <div>
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                    <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@flowbite.com" required>
+    <section id="contact" class="bg-dark-card py-16 px-[5%]">
+        <h2 class="text-center text-3xl md:text-4xl font-extrabold mb-3 font-serif">Get In Touch</h2>
+        <p class="text-center text-text-gray mb-12 text-base max-w-2xl mx-auto">
+            Have a project in mind or want to discuss Salesforce solutions? I'd love to hear from you. Let's build
+            something amazing together!
+        </p>
+
+        <div class="max-w-[800px] mx-auto">
+            <!-- Salesforce Web-to-Lead Form -->
+            <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DgK00000AXqoT"
+                method="POST" target="submission_frame" class="grid gap-6" id="leadForm">
+
+                <!-- Hidden Fields -->
+                <input type="hidden" name="oid" value="00DgK00000AXqoT">
+                <input type="hidden" name="retURL" value="https://yusufkhan.dev/?submitted=true">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid gap-2">
+                        <label for="first_name" class="text-text-light-gray font-medium text-sm">First Name</label>
+                        <input type="text" id="first_name" name="first_name" placeholder="First Name" required
+                            class="bg-dark-bg border-2 border-white/10 rounded-[10px] p-4 text-white font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(255,107,53,0.1)]">
+                    </div>
+
+                    <div class="grid gap-2">
+                        <label for="last_name" class="text-text-light-gray font-medium text-sm">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" placeholder="Last Name" required
+                            class="bg-dark-bg border-2 border-white/10 rounded-[10px] p-4 text-white font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(255,107,53,0.1)]">
+                    </div>
                 </div>
-                <div>
-                    <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">Subject</label>
-                    <input type="text" id="subject" class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Let us know how we can help" required>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid gap-2">
+                        <label for="email" class="text-text-light-gray font-medium text-sm">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Your email" required
+                            class="bg-dark-bg border-2 border-white/10 rounded-[10px] p-4 text-white font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(255,107,53,0.1)]">
+                    </div>
+
+                    <div class="grid gap-2">
+                        <label for="mobile" class="text-text-light-gray font-medium text-sm">Mobile Number</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="Your phone" required
+                            class="bg-dark-bg border-2 border-white/10 rounded-[10px] p-4 text-white font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(255,107,53,0.1)]">
+                    </div>
                 </div>
-                <div class="sm:col-span-2">
-                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Your message</label>
-                    <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+
+                <div class="grid gap-2">
+                    <label for="company" class="text-text-light-gray font-medium text-sm">Company</label>
+                    <input type="text" id="company" name="company" placeholder="Your company"
+                        class="bg-dark-bg border-2 border-white/10 rounded-[10px] p-4 text-white font-sans transition-all duration-300 focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(255,107,53,0.1)]">
                 </div>
-                <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Send message</button>
+
+                <div class="justify-self-center mt-4 w-full md:w-auto">
+                    <button type="submit" class="btn-primary w-full md:w-auto text-sm py-3 px-12">Submit
+                        Requirement</button>
+                </div>
             </form>
+
+            <!-- Success Message Overlay (Hidden by Default) -->
+            <div id="successMessage" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6">
+                <div class="absolute inset-0 bg-dark-bg/90 backdrop-blur-md"></div>
+                <div class="relative glass-card-primary p-10 rounded-[30px] max-w-md w-full text-center animate-reveal">
+                    <div class="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-check text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-3xl font-serif font-bold mb-4">Message Sent!</h3>
+                    <p class="text-text-gray mb-8">Thank you for reaching out. Your requirement has been logged in my
+                        Salesforce CRM. I'll get back to you shortly.</p>
+                    <button onclick="document.getElementById('successMessage').classList.add('hidden')"
+                        class="btn-primary py-3 px-8 text-sm">Close</button>
+                </div>
+            </div>
+
+            <!-- Invisible Iframe for Submission -->
+            <iframe name="submission_frame" id="submission_frame" class="hidden"
+                onload="handleSubmissionResponse()"></iframe>
+
+            <script>
+                function handleSubmissionResponse() {
+                    // This triggers after the iframe loads
+                    // We only want to show the message if the form was actually submitted
+                    const form = document.getElementById('leadForm');
+                    if (form.getAttribute('data-submitted') === 'true') {
+                        document.getElementById('successMessage').classList.remove('hidden');
+                        form.reset();
+                        form.setAttribute('data-submitted', 'false');
+                    }
+                }
+
+                document.getElementById('leadForm').addEventListener('submit', function () {
+                    this.setAttribute('data-submitted', 'true');
+                });
+            </script>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="p-4 bg-white md:p-8 lg:p-10 border-t border-gray-200">
-        <div class="mx-auto max-w-screen-xl text-center">
-            <a href="#" class="flex justify-center items-center text-2xl font-semibold text-gray-900">
-                DevPortfolio
-            </a>
-            <p class="my-6 text-gray-500">A clean, responsive portfolio template built with Tailwind CSS.</p>
-            <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900">
-                <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6">Premium</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Campaigns</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6">Blog</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4 hover:underline md:mr-6">Affiliate Program</a>
-                </li>
-                <li>
-                    <a href="#" class="hover:underline">FAQs</a>
-                </li>
-            </ul>
-            <span class="text-sm text-gray-500 sm:text-center">© 2026-2027 <a href="#" class="hover:underline">DevPortfolio™</a>. All Rights Reserved.</span>
+    <footer class="bg-dark-bg py-8 px-[5%] border-t border-white/5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-6">
+            <div>
+                <img src="./src/images/logo.png" alt="YAK Logo" class="h-16 mb-4 logo-fill">
+                <p class="text-text-gray mt-4">AI-First Salesforce Developer building scalable enterprise solutions</p>
+                <p class="text-text-gray mt-2 text-sm">Hyderabad, India</p>
+            </div>
+
+            <div>
+                <h3 class="text-[1.3rem] text-primary mb-6">Expertise</h3>
+                <ul class="list-none">
+                    <li class="mb-3"><a href="#experience"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">Financial
+                            Services Cloud</a></li>
+                    <li class="mb-3"><a href="#about"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">Apex &
+                            LWC Development</a></li>
+                    <li class="mb-3"><a href="#about"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">OmniStudio
+                            Solutions</a></li>
+                    <li class="mb-3"><a href="#about"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">AI &
+                            Automation</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-[1.3rem] text-primary mb-6">Quick Links</h3>
+                <ul class="list-none">
+                    <li class="mb-3"><a href="#social-feed"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">Social
+                            Feed</a>
+                    </li>
+                    <li class="mb-3"><a href="#experience"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">Experience</a>
+                    </li>
+                    <li class="mb-3"><a href="#about"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">Certifications</a>
+                    </li>
+                    <li class="mb-3"><a href="#contact"
+                            class="text-text-gray no-underline transition-colors duration-300 hover:text-primary">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-[1.3rem] text-primary mb-6">Connect</h3>
+                <div class="flex gap-4">
+                    <a href="https://www.linkedin.com/in/yusufkhan2546" target="_blank"
+                        class="w-9 h-9 border-2 border-text-gray rounded-lg flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1"
+                        title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/yusufkhan2546" target="_blank"
+                        class="w-9 h-9 border-2 border-text-gray rounded-lg flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1"
+                        title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.salesforce.com/trailblazer/yusufkhan2546" target="_blank"
+                        class="w-9 h-9 border-2 border-text-gray rounded-lg flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1"
+                        title="Trailhead">
+                        <i class="fas fa-cloud"></i>
+                    </a>
+                    <a href="mailto:yusufkhan2546@gmail.com"
+                        class="w-9 h-9 border-2 border-text-gray rounded-lg flex items-center justify-center text-text-gray transition-all duration-300 hover:border-primary hover:text-primary hover:-translate-y-1"
+                        title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center pt-8 border-t border-white/5 text-text-gray">
+            <p>&copy; 2026 Yusuf Ali Khan. All rights reserved. | Salesforce Developer | Hyderabad, India</p>
         </div>
     </footer>
 
-    <!-- Simple Script for Navbar Toggle -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleButton = document.querySelector('[data-collapse-toggle="navbar-sticky"]');
-            const navbarMenu = document.getElementById('navbar-sticky');
-
-            if (toggleButton && navbarMenu) {
-                toggleButton.addEventListener('click', () => {
-                    navbarMenu.classList.toggle('hidden');
-                    const expanded = toggleButton.getAttribute('aria-expanded') === 'true';
-                    toggleButton.setAttribute('aria-expanded', !expanded);
-                });
-            }
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
+
+        // Scroll animation observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-[30px]');
+                }
+            });
+        }, observerOptions);
+
+        // We can add classes 'opacity-0 translate-y-[30px] transition-all duration-600' to items we want to animate
+        // For now, the keyframe animations in CSS handle the hero section.
     </script>
 </body>
+
 </html>
