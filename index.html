@@ -51,7 +51,7 @@
                     class="text-text-light-gray font-medium text-[0.95rem] transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">Contact</a>
             </li>
             <li><a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
-                    class="bg-gradient-to-br from-primary to-primary-dark py-3 px-7 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300 block">Download
+                    class="bg-gradient-to-br from-primary to-primary-dark py-2 md:py-3 px-5 md:px-7 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300 block text-xs md:text-sm">Download
                     CV</a>
             </li>
         </ul>
@@ -61,19 +61,6 @@
             <i class="fas fa-bars"></i>
         </button>
 
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu"
-            class="fixed inset-0 bg-dark-bg/98 z-50 flex flex-col items-center justify-center gap-8 transition-transform duration-500 translate-x-full md:hidden">
-            <a href="#home" class="text-2xl font-bold text-white hover:text-primary transition-colors">Home</a>
-            <a href="#experience"
-                class="text-2xl font-bold text-white hover:text-primary transition-colors">Experience</a>
-            <a href="#about" class="text-2xl font-bold text-white hover:text-primary transition-colors">About</a>
-            <a href="#social-feed" class="text-2xl font-bold text-white hover:text-primary transition-colors">Social
-                Feed</a>
-            <a href="#contact" class="text-2xl font-bold text-white hover:text-primary transition-colors">Contact</a>
-            <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
-                class="btn-primary py-3 px-8 text-lg">Download CV</a>
-        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -117,7 +104,7 @@
                 </div>
                 <div class="h-8 w-px bg-white/10"></div>
                 <div class="flex gap-4">
-                    <a href="#contact" class="btn-primary py-3 px-8 text-sm">Hire Me</a>
+                    <a href="#contact" class="btn-primary py-2.5 px-6 md:py-3 md:px-8 text-xs md:text-sm">Hire Me</a>
                 </div>
 
             </div>
@@ -525,10 +512,12 @@
                 yRenderer.labels.template.setAll({
                     centerY: am5.p50,
                     centerX: am5.p100,
-                    fontSize: 12,
+                    fontSize: 10,
                     fill: am5.color(0xFFFFFF),
                     fontWeight: "600",
-                    paddingRight: 15
+                    paddingRight: 10,
+                    maxWidth: 80,
+                    oversizedBehavior: "wrap"
                 });
                 yRenderer.grid.template.set("forceHidden", true);
 
@@ -847,10 +836,10 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                    <a href="#contact" class="btn-primary text-sm sm:text-base px-8 sm:px-10 py-3 sm:py-4">Get In
+                    <a href="#contact" class="btn-primary text-xs sm:text-base px-6 sm:px-10 py-2.5 sm:py-4">Get In
                         Touch</a>
                     <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
-                        class="btn-secondary text-sm sm:text-base px-8 sm:px-10 py-3 sm:py-4">Download CV</a>
+                        class="btn-secondary text-xs sm:text-base px-6 sm:px-10 py-2.5 sm:py-4">Download CV</a>
                 </div>
             </div>
         </div>
@@ -1269,34 +1258,56 @@
         // We can add classes 'opacity-0 translate-y-[30px] transition-all duration-600' to items we want to animate
         // For now, the keyframe animations in CSS handle the hero section.
 
-        // Mobile Menu Logic
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const menuIcon = menuToggle.querySelector('i');
+    </script>
 
-        menuToggle.addEventListener('click', () => {
-            const isOpen = mobileMenu.classList.contains('translate-x-0');
-            if (isOpen) {
-                mobileMenu.classList.remove('translate-x-0');
-                mobileMenu.classList.add('translate-x-full');
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            } else {
-                mobileMenu.classList.remove('translate-x-full');
-                mobileMenu.classList.add('translate-x-0');
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
-            }
-        });
+    <!-- Mobile Menu Overlay (Moved to Body Root) -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-[#0D0D0D] z-[100] flex flex-col items-center justify-center gap-8 transition-transform duration-500 translate-x-full md:hidden">
+        <!-- Close button inside menu -->
+        <button id="menu-close" class="absolute top-8 right-[5%] text-white text-3xl focus:outline-none">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <img src="./src/images/logo.png" alt="YAK" class="h-10 mb-4 logo-fill">
+        <a href="#home" class="text-3xl font-bold text-white hover:text-primary transition-colors">Home</a>
+        <a href="#experience" class="text-3xl font-bold text-white hover:text-primary transition-colors">Experience</a>
+        <a href="#about" class="text-3xl font-bold text-white hover:text-primary transition-colors">About</a>
+        <a href="#social-feed" class="text-3xl font-bold text-white hover:text-primary transition-colors">Social
+            Feed</a>
+        <a href="#contact" class="text-3xl font-bold text-white hover:text-primary transition-colors">Contact</a>
+        <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf"
+            class="btn-primary py-3 px-10 text-lg mt-4 shadow-[0_5px_20px_rgba(255,107,53,0.3)]">Download CV</a>
+    </div>
+
+    <script>
+        // Updated Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function openMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenu.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('translate-x-full');
+            document.body.style.overflow = '';
+        }
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', openMenu);
+        }
+
+        if (menuClose) {
+            menuClose.addEventListener('click', closeMenu);
+        }
 
         // Close menu when clicking items
         document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('translate-x-0');
-                mobileMenu.classList.add('translate-x-full');
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            });
+            link.addEventListener('click', closeMenu);
         });
     </script>
 </body>
