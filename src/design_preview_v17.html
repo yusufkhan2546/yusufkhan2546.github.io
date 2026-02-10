@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v17 (SLDS Classic)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <!-- SLDS-like colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'slds-blue': '#0176D3',
+                        'slds-cloud-blue': '#1589ee',
+                        'slds-gray-bg': '#F3F2F2',
+                        'slds-text-default': '#181818',
+                        'slds-border': '#DDDBDA'
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'slds-card': '0 2px 2px 0 rgba(0,0,0,0.16)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slds-gray-bg text-slds-text-default text-[13px] font-sans antialiased">
+
+    <!-- Global Header -->
+    <header class="bg-white h-[50px] border-b border-slds-border flex items-center px-4 sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <div class="w-8 h-8 pointer-cursor">
+                <i class="fab fa-salesforce text-3xl text-slds-blue"></i>
+            </div>
+            <span class="text-lg font-semibold text-slds-text-default">Lightning Folio</span>
+        </div>
+        
+        <nav class="ml-8 hidden md:flex h-full">
+            <a href="#" class="px-4 h-full flex items-center border-b-[3px] border-slds-blue font-bold text-slds-blue">Home</a>
+            <a href="#" class="px-4 h-full flex items-center border-b-[3px] border-transparent hover:text-slds-blue font-medium">Experience</a>
+            <a href="#" class="px-4 h-full flex items-center border-b-[3px] border-transparent hover:text-slds-blue font-medium">Projects</a>
+            <a href="#" class="px-4 h-full flex items-center border-b-[3px] border-transparent hover:text-slds-blue font-medium">Contact</a>
+        </nav>
+
+        <div class="ml-auto flex items-center gap-4">
+            <div class="w-8 h-8 rounded-full bg-slds-blue text-white flex items-center justify-center font-bold">YK</div>
+        </div>
+    </header>
+
+    <div class="p-6 max-w-[1440px] mx-auto">
+        <!-- Page Header -->
+        <div class="bg-white p-6 rounded-lg shadow-slds-card mb-6 border border-slds-border flex items-start gap-4">
+            <div class="p-3 bg-slds-blue rounded-lg text-white">
+                <i class="fas fa-user-astronaut text-2xl"></i>
+            </div>
+            <div>
+                <p class="uppercase text-xs font-bold text-gray-500 mb-1">Portfolio Record</p>
+                <h1 class="text-2xl font-bold leading-none mb-1">Yusuf Ali Khan</h1>
+                <p class="text-sm text-gray-600">Salesforce Architect • 6+ Years Experience • 12 Certifications</p>
+            </div>
+            <div class="ml-auto flex gap-2">
+                <button class="px-4 py-2 border border-slds-border rounded-[4px] bg-white font-medium text-slds-blue hover:bg-gray-50">Download CV</button>
+                <button class="px-4 py-2 bg-slds-blue text-white rounded-[4px] font-medium hover:bg-[#005fb2]">Contact Me</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Main Details -->
+            <div class="md:col-span-2 space-y-6">
+                
+                <!-- Summary Card -->
+                <div class="bg-white rounded-lg shadow-slds-card border border-slds-border overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 border-b border-slds-border font-bold flex justify-between">
+                        <span><i class="fas fa-file-alt mr-2 text-gray-400"></i> Professional Summary</span>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-sm leading-6 mb-4">
+                            Highly skilled Salesforce Architect transforming enterprise challenges into seamless digital experiences. Specializing in Apex, LWC, and Cloud Architecture with a proven track record of delivering scalable solutions.
+                        </p>
+                        <div class="flex gap-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Apex</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">LWC</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Integration</span>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Flow</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Related List -->
+                <div class="bg-white rounded-lg shadow-slds-card border border-slds-border overflow-hidden">
+                    <div class="bg-gray-50 px-4 py-3 border-b border-slds-border font-bold flex justify-between items-center">
+                        <span><i class="fas fa-briefcase mr-2 text-gray-400"></i> Experience (3)</span>
+                        <button class="text-slds-blue text-xs border border-slds-border bg-white px-2 py-1 rounded">View All</button>
+                    </div>
+                    <table class="w-full text-left border-collapse">
+                        <thead class="text-xs text-gray-500 uppercase border-b border-slds-border">
+                            <tr>
+                                <th class="px-4 py-2 font-medium">Role</th>
+                                <th class="px-4 py-2 font-medium">Company</th>
+                                <th class="px-4 py-2 font-medium">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-slds-blue font-medium"><a href="#">Salesforce Developer</a></td>
+                                <td class="px-4 py-3">K Square Solutions</td>
+                                <td class="px-4 py-3">Sep 2024 - Present</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-slds-blue font-medium"><a href="#">Software Engineer</a></td>
+                                <td class="px-4 py-3">Prodapt Solutions</td>
+                                <td class="px-4 py-3">Oct 2021 - Sep 2024</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 text-slds-blue font-medium"><a href="#">Salesforce Developer</a></td>
+                                <td class="px-4 py-3">Reliant Vision Group</td>
+                                <td class="px-4 py-3">Oct 2019 - Oct 2020</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="md:col-span-1 space-y-6">
+                <!-- Certifications -->
+                <div class="bg-white rounded-lg shadow-slds-card border border-slds-border">
+                    <div class="bg-gray-50 px-4 py-3 border-b border-slds-border font-bold">
+                        <i class="fas fa-certificate mr-2 text-gray-400"></i> Certifications (12)
+                    </div>
+                    <div class="p-4 grid grid-cols-2 gap-4">
+                        <img src="https://trailhead.salesforce.com/assets/certification-badges/en/salesforce-certified-administrator.png" class="w-16 h-16 mx-auto opacity-80 hover:opacity-100 transition" alt="Cert">
+                         <img src="https://trailhead.salesforce.com/assets/certification-badges/en/salesforce-certified-platform-developer-i.png" class="w-16 h-16 mx-auto opacity-80 hover:opacity-100 transition" alt="Cert">
+                         <img src="https://trailhead.salesforce.com/assets/certification-badges/en/salesforce-certified-service-cloud-consultant.png" class="w-16 h-16 mx-auto opacity-80 hover:opacity-100 transition" alt="Cert">
+                         <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 text-gray-500 font-bold text-xs border border-gray-200 mx-auto">
+                            +9 More
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Trailhead Stats -->
+                <div class="bg-white rounded-lg shadow-slds-card border border-slds-border">
+                    <div class="bg-gray-50 px-4 py-3 border-b border-slds-border font-bold text-green-700">
+                        <i class="fas fa-mountain mr-2"></i> Ranger Rank
+                    </div>
+                    <div class="p-6 text-center">
+                         <div class="text-4xl font-bold text-gray-800">290,000+</div>
+                         <div class="text-xs uppercase text-gray-500 mt-1">Total Points</div>
+                         <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                            <div class="bg-green-600 h-2.5 rounded-full" style="width: 95%"></div>
+                          </div>
+                          <p class="text-xs text-left mt-2 text-gray-500">Next Rank: All Star Ranger</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

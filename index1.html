@@ -67,9 +67,9 @@
     <section id="home"
         class="min-h-screen grid grid-cols-1 lg:grid-cols-2 items-center gap-8 px-[5%] pt-24 pb-12 relative overflow-hidden">
         <!-- Background Pulse Effect -->
-        <!-- <div
+         <div
             class="absolute -top-[50%] -right-[20%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.15),transparent_70%)] animate-pulse-custom pointer-events-none">
-        </div> -->
+        </div> 
 
         <!-- Content Left -->
         <div class="relative z-10">
@@ -144,6 +144,65 @@
 
             </div>
         </div>
+    </section>
+    <section>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#202060;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b3b98;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+       <stop offset="0%" style="stop-color:#FFB74D;stop-opacity:0.8" />
+       <stop offset="100%" style="stop-color:#FFCC80;stop-opacity:0.8" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#skyGradient)"/>
+
+  <path d="M550,80 Q570,50 600,60 Q630,40 660,60 Q690,50 710,80 Z" fill="#404080" opacity="0.3"/>
+
+  <circle cx="900" cy="650" r="500" fill="#FF9800"/>
+  
+  <path d="M600,380 Q630,350 660,360 Q690,340 720,360 V450 H600 Z" fill="#FFCC80" opacity="0.5"/>
+  <path d="M550,420 Q570,400 590,410 Q610,390 630,410 V450 H550 Z" fill="#FFCC80" opacity="0.5"/>
+
+  <path d="M150,50 Q152,40 155,35 Q158,40 160,50 Q158,60 155,65 Q152,60 150,50" fill="white" transform="translate(40,20) scale(0.8)"/>
+  <path d="M750,60 Q752,50 755,45 Q758,50 760,60 Q758,70 755,75 Q752,70 750,60" fill="white" transform="scale(0.6) translate(100,0)"/>
+  
+  <circle cx="100" cy="120" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="350" cy="40" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="600" cy="100" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="620" cy="40" r="1" fill="white" opacity="0.6"/>
+  <circle cx="780" cy="30" r="1" fill="white" opacity="0.6"/>
+  
+  <g fill="none" stroke="#00B0FF" stroke-width="2" stroke-linecap="round">
+    <path d="M850,90 Q870,70 890,90" transform="translate(-100, 10)"/> <path d="M50,150 Q70,130 90,150 Q110,130 130,150"/> </g>
+
+  <g transform="translate(620, 240)">
+    <path d="M30,0 L60,80 H0 Z" fill="#283593"/>
+    <path d="M30,50 L70,140 H-10 Z" fill="#283593"/>
+    <path d="M30,110 L80,210 H-20 Z" fill="#283593"/>
+  </g>
+
+  <g transform="translate(730, 320)">
+    <path d="M20,0 L40,50 H0 Z" fill="#1A237E"/>
+    <path d="M20,30 L50,90 H-10 Z" fill="#1A237E"/>
+  </g>
+
+  <g transform="translate(560, 320)">
+     <path d="M20,0 L40,50 H0 Z" fill="none" stroke="#00B0FF" stroke-width="2"/>
+    <path d="M20,30 L50,100 H-10 Z" fill="none" stroke="#00B0FF" stroke-width="2"/>
+    <line x1="20" y1="100" x2="20" y2="130" stroke="#00B0FF" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(650, 410)">
+     <path d="M0,40 Q0,20 20,20 Q30,5 50,20 Q60,10 80,20 Q90,15 110,25 Q130,15 150,40 Z" fill="#689F38"/>
+     <path d="M20,20 Q30,15 40,25" fill="none" stroke="#8BC34A" stroke-width="2"/>
+     <path d="M60,20 Q70,15 80,25" fill="none" stroke="#8BC34A" stroke-width="2"/>
+  </g>
+</svg>
     </section>
 
     <!-- Professional Experience Section - Journey Timeline -->

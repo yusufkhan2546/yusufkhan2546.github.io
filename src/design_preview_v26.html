@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v26 (MuleSoft)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: 'Open Sans', sans-serif; background-color: #fcfcfc; }
+        .font-mono { font-family: 'Roboto Mono', monospace; }
+        
+        .api-node {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 2px solid #00a1df;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .connector-line {
+            position: absolute;
+            background-color: #00a1df;
+            height: 2px;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-10 px-4 flex flex-col items-center">
+
+    <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">Anypoint Platform<sup class="text-sm">TM</sup> Portfolio</h1>
+        <p class="text-gray-500 max-w-xl mx-auto">API-led connectivity unlocking assets and composing enterprise capabilities.</p>
+    </div>
+
+    <!-- API Led Connectivity Diagram -->
+    <div class="relative w-full max-w-5xl h-[600px] border border-dashed border-gray-300 rounded-xl p-10 bg-gray-50">
+        
+        <!-- Experience Layer -->
+        <div class="absolute top-10 w-full text-center">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-[#00a1df] mb-8 bg-gray-100 inline-block px-4 py-1 rounded">Experience Layer</h3>
+            <div class="flex justify-center gap-32">
+                <div class="flex flex-col items-center">
+                    <div class="api-node text-[#00a1df] hover:scale-110 transition cursor-pointer">
+                        <i class="fas fa-mobile-alt text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-bold mt-2">Web App</span>
+                </div>
+                 <div class="flex flex-col items-center">
+                    <div class="api-node text-[#00a1df] hover:scale-110 transition cursor-pointer">
+                        <i class="fas fa-desktop text-2xl"></i>
+                    </div>
+                    <span class="text-xs font-bold mt-2">Salesforce</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Layer -->
+        <div class="absolute top-[250px] w-full text-center">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-[#00a1df] mb-8 bg-gray-100 inline-block px-4 py-1 rounded">Process Layer</h3>
+             <div class="flex justify-center gap-20">
+                <div class="flex flex-col items-center">
+                    <div class="api-node border-purple-500 text-purple-500 hover:scale-110 transition cursor-pointer">
+                        <i class="fas fa-cogs text-xl"></i>
+                    </div>
+                    <span class="text-xs font-bold mt-2">Customer Orchestration</span>
+                </div>
+                 <div class="flex flex-col items-center">
+                    <div class="api-node border-purple-500 text-purple-500 hover:scale-110 transition cursor-pointer">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                    </div>
+                    <span class="text-xs font-bold mt-2">Order Mgmt</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Layer -->
+        <div class="absolute bottom-10 w-full text-center">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-[#00a1df] mb-8 bg-gray-100 inline-block px-4 py-1 rounded">System Layer</h3>
+            <div class="flex justify-center gap-32">
+                <div class="flex flex-col items-center">
+                    <div class="api-node border-gray-400 text-gray-500 hover:scale-110 transition cursor-pointer">
+                        <i class="fas fa-database text-xl"></i>
+                    </div>
+                    <span class="text-xs font-bold mt-2">Mainframe</span>
+                </div>
+                 <div class="flex flex-col items-center">
+                    <div class="api-node border-gray-400 text-gray-500 hover:scale-110 transition cursor-pointer">
+                        <i class="fab fa-aws text-xl"></i>
+                    </div>
+                    <span class="text-xs font-bold mt-2">AWS S3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connectors (Simulated with absolute divs for simplicity) -->
+        <!-- Exp -> Proc -->
+        <div class="connector-line w-[1px] h-[100px] left-[38%] top-[80px] origin-top -rotate-12 opacity-30"></div>
+        <div class="connector-line w-[1px] h-[100px] left-[62%] top-[80px] origin-top rotate-12 opacity-30"></div>
+
+        <!-- Proc -> Sys -->
+         <div class="connector-line w-[1px] h-[100px] left-[45%] top-[330px] origin-top -rotate-6 opacity-30"></div>
+        <div class="connector-line w-[1px] h-[100px] left-[55%] top-[330px] origin-top rotate-6 opacity-30"></div>
+
+    </div>
+
+     <!-- Code Snippet -->
+    <div class="mt-10 bg-[#2b2b2b] text-white p-6 rounded-lg w-full max-w-3xl font-mono text-sm relative border-l-4 border-[#00a1df]">
+        <div class="absolute top-2 right-4 text-xs text-gray-400">details.xml</div>
+        <p><span class="text-purple-400">&lt;flow</span> <span class="text-yellow-400">name</span>=<span class="text-green-400">"get-portfolio-data"</span><span class="text-purple-400">&gt;</span></p>
+        <p class="pl-4"><span class="text-purple-400">&lt;http:listener</span> <span class="text-yellow-400">config-ref</span>=<span class="text-green-400">"HTTP_Listener_config"</span> <span class="text-yellow-400">path</span>=<span class="text-green-400">"/api/v1/skills"</span><span class="text-purple-400">/&gt;</span></p>
+        <p class="pl-4"><span class="text-purple-400">&lt;set-payload</span> <span class="text-yellow-400">value</span>=<span class="text-green-400">"#[payload]"</span><span class="text-purple-400">/&gt;</span></p>
+        <p class="pl-4 text-gray-500">&lt;!-- Integrating Legacy Systems with Modern UI --&gt;</p>
+         <p><span class="text-purple-400">&lt;/flow&gt;</span></p>
+    </div>
+
+</body>
+</html>

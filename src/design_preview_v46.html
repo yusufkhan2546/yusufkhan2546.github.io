@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v46 (The Ultimate)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; color: white; font-family: 'Montserrat', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+        
+        .hero-text {
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex flex-col justify-center px-8 md:px-24">
+        
+        <div class="glass-panel p-12 max-w-3xl rounded-3xl border-l-[6px] border-l-blue-500 animate-fade-in-up">
+            <h2 class="text-blue-400 font-bold tracking-[0.2em] mb-4 text-sm uppercase">Salesforce Architect Portfolio</h2>
+            <h1 class="text-6xl md:text-8xl font-black leading-none mb-6 hero-text">
+                MASTER<br>OF CLOUDS
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-lg mb-10">
+                I fuse technical precision with creative design to build extraordinary Salesforce experiences.
+            </p>
+            
+            <div class="flex flex-wrap gap-6 pointer-events-auto">
+                <button class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-xl font-bold transition transform hover:-translate-y-1 shadow-lg shadow-blue-500/30">
+                    View Case Studies
+                </button>
+                <div class="flex items-center gap-4 text-sm font-bold text-gray-500">
+                    <span>• LWC</span>
+                    <span>• APEX</span>
+                    <span>• INTEGRATION</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        // Dynamic Skybox
+        scene.fog = new THREE.FogExp2(0x000000, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Particle Galaxy / Cloud
+        const geometry = new THREE.BufferGeometry();
+        const count = 3000;
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+
+        for(let i=0; i<count; i++) {
+            const i3 = i*3;
+            // Spread
+            positions[i3] = (Math.random() - 0.5) * 50;
+            positions[i3+1] = (Math.random() - 0.5) * 30;
+            positions[i3+2] = (Math.random() - 0.5) * 30;
+            
+            // Colors: Blue, Purple, Cyan mix
+            const r = Math.random();
+            if(r > 0.6) { // Blue
+                colors[i3] = 0.2; colors[i3+1] = 0.5; colors[i3+2] = 1;
+            } else if (r > 0.3) { // Purple
+                colors[i3] = 0.6; colors[i3+1] = 0.2; colors[i3+2] = 1;
+            } else { // Cyan
+                colors[i3] = 0; colors[i3+1] = 0.8; colors[i3+2] = 0.9;
+            }
+        }
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.15,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // Floating geometric shapes in background
+        const shapes = [];
+        const geoType = [new THREE.IcosahedronGeometry(1, 0), new THREE.OctahedronGeometry(1, 0)];
+        const matType = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.05 });
+
+        for(let i=0; i<10; i++) {
+            const mesh = new THREE.Mesh(geoType[Math.floor(Math.random()*2)], matType);
+            mesh.position.set(
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 20,
+                (Math.random() - 0.5) * 20 - 5
+            );
+            mesh.scale.setScalar(Math.random() * 5 + 2);
+            scene.add(mesh);
+            shapes.push(mesh);
+        }
+
+        camera.position.z = 10;
+        camera.position.x = 5;
+
+        let mouseX = 0;
+        let mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+             mouseX = (e.clientX - window.innerWidth/2) * 0.0005;
+             mouseY = (e.clientY - window.innerHeight/2) * 0.0005;
+        });
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            particles.rotation.y += 0.001;
+            particles.rotation.x += 0.0005;
+            
+            shapes.forEach((s, idx) => {
+                s.rotation.x += 0.002 * (idx % 2 === 0 ? 1 : -1);
+                s.rotation.y += 0.003;
+                s.position.y += Math.sin(Date.now()*0.001 + idx) * 0.01;
+            });
+            
+            camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 5 - camera.position.y) * 0.05;
+            camera.lookAt(0,0,0);
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

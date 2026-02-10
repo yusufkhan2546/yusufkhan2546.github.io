@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v72 (Blob Morphing)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 10s ease-in-out infinite, rotate 20s linear infinite;
+            filter: blur(60px);
+            opacity: 0.5;
+        }
+        @keyframes morph {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+            50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+            75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .gradient-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: transform 0.3s ease;
+        }
+        .gradient-card:hover {
+            transform: translateY(-10px);
+        }
+    </style>
+</head>
+<body class="relative">
+    
+    <!-- Morphing Blobs -->
+    <div class="blob w-96 h-96 bg-purple-400 top-[-100px] left-[-100px]"></div>
+    <div class="blob w-80 h-80 bg-pink-400 top-[30%] right-[-80px]" style="animation-delay: -3s;"></div>
+    <div class="blob w-72 h-72 bg-blue-400 bottom-[20%] left-[15%]" style="animation-delay: -6s;"></div>
+    <div class="blob w-64 h-64 bg-yellow-300 bottom-[-50px] right-[25%]" style="animation-delay: -9s;"></div>
+
+    <div class="relative z-10 container mx-auto px-6 py-20 min-h-screen">
+        
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h1 class="text-7xl md:text-9xl font-black mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+                    Yusuf Khan
+                </h1>
+                <p class="text-3xl font-bold text-gray-700 mb-8">
+                    Fluid Salesforce Solutions
+                </p>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Transforming rigid business processes into dynamic, adaptive systems on the Salesforce platform.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="gradient-card rounded-3xl p-8 text-white">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold mb-3">Rapid Development</h3>
+                    <p class="text-white/90">Agile methodologies for quick iterations and deployments.</p>
+                </div>
+
+                <div class="gradient-card rounded-3xl p-8 text-white" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="text-5xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold mb-3">Beautiful Design</h3>
+                    <p class="text-white/90">User interfaces that users actually want to use.</p>
+                </div>
+
+                <div class="gradient-card rounded-3xl p-8 text-white" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="text-5xl mb-4">⚙️</div>
+                    <h3 class="text-2xl font-bold mb-3">Automation</h3>
+                    <p class="text-white/90">Smart workflows that save time and reduce errors.</p>
+                </div>
+
+                <div class="gradient-card rounded-3xl p-8 text-white" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-2xl font-bold mb-3">Data Insights</h3>
+                    <p class="text-white/90">Transform raw data into actionable business intelligence.</p>
+                </div>
+
+                <div class="gradient-card rounded-3xl p-8 text-white" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="text-5xl mb-4">🔒</div>
+                    <h3 class="text-2xl font-bold mb-3">Security First</h3>
+                    <p class="text-white/90">Enterprise-grade security in every line of code.</p>
+                </div>
+
+                <div class="gradient-card rounded-3xl p-8 text-white" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <div class="text-5xl mb-4">📱</div>
+                    <h3 class="text-2xl font-bold mb-3">Mobile Ready</h3>
+                    <p class="text-white/90">Responsive designs that work on any device.</p>
+                </div>
+
+            </div>
+
+            <div class="mt-16 text-center">
+                <button class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-12 py-4 rounded-full font-bold text-xl hover:scale-105 transition shadow-2xl">
+                    Start Your Project
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

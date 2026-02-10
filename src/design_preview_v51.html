@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v51 (Split Focus)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        h1, h2, h3 { font-family: 'Libre Baskerville', serif; }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+    
+    <!-- Left: Image & Brand -->
+    <div class="w-full md:w-1/2 bg-gray-100 relative flex items-center justify-center p-8 bg-[url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center">
+        <div class="absolute inset-0 bg-blue-900/40 mix-blend-multiply"></div>
+        <div class="relative z-10 text-center text-white p-8 border-4 border-white/30 backdrop-blur-sm">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">Yusuf<br>Khan.</h1>
+            <p class="text-xl font-light italic tracking-wider">Architecting the Cloud</p>
+        </div>
+    </div>
+
+    <!-- Right: Content Scroll -->
+    <div class="w-full md:w-1/2 bg-white overflow-y-auto p-10 md:p-20">
+        
+        <div class="max-w-md mx-auto">
+            <p class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-4">Introduction</p>
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 leading-tight">
+                I translate complex business requirements into seamless Salesforce solutions.
+            </h2>
+            <p class="text-gray-600 mb-12 leading-relaxed">
+                With a focus on performance, scalability, and user experience, I help businesses get the most out of their CRM investment. Specializing in financial services and healthcare sectors.
+            </p>
+
+            <div class="border-t border-gray-200 my-10"></div>
+
+            <p class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-6">Expertise</p>
+            
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-2">Platform Development</h3>
+                    <p class="text-gray-600 text-sm">Deep expertise in Apex, SOQL, SOSL, and asynchronous processing options (Batch, Queueable, Future).</p>
+                </div>
+                <div>
+                     <h3 class="text-xl font-bold mb-2">User Interface</h3>
+                    <p class="text-gray-600 text-sm">Crafting responsive and interactive UIs using Lightning Web Components (LWC) and Aura.</p>
+                </div>
+                <div>
+                     <h3 class="text-xl font-bold mb-2">Integration</h3>
+                    <p class="text-gray-600 text-sm">Connecting Salesforce with ERPs, Marketing Automations, and legacy systems via REST/SOAP APIs and MuleSoft.</p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 my-10"></div>
+
+            <div class="mt-12">
+                <a href="#" class="inline-block bg-gray-900 text-white font-semibold py-4 px-10 rounded-none hover:bg-gray-800 transition">
+                    Download Resume
+                </a>
+            </div>
+
+            <footer class="mt-20 text-gray-400 text-xs">
+                © 2026 Yusuf Ali Khan. All rights reserved.
+            </footer>
+        </div>
+    </div>
+
+</body>
+</html>

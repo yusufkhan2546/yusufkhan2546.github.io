@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v82 (Multi-layer Parallax)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Archivo', sans-serif; 
+            background: #1a1a2e;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .layer-1 { background: linear-gradient(180deg, transparent 0%, #16213e 100%); }
+        .layer-2 { 
+            background: radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.2) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        .layer-3 {
+            background: radial-gradient(circle at 80% 20%, rgba(0, 191, 255, 0.15) 0%, transparent 40%);
+            animation: pulse 6s ease-in-out infinite reverse;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="relative">
+    
+    <div class="parallax-layer layer-1"></div>
+    <div class="parallax-layer layer-2"></div>
+    <div class="parallax-layer layer-3"></div>
+
+    <div class="content-layer container mx-auto px-6 py-20 min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto w-full">
+            
+            <div class="text-center mb-16">
+                <h1 class="text-7xl md:text-9xl font-black text-white mb-6">
+                    Yusuf Khan
+                </h1>
+                <p class="text-3xl text-purple-400 font-bold mb-12">
+                    Depth in Salesforce Development
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-gradient-to-br from-purple-900/50 to-blue-900/50 backdrop-blur-xl border border-purple-500/30 rounded-3xl p-8 hover:scale-105 transition duration-300 shadow-2xl">
+                    <h3 class="text-3xl font-bold text-white mb-6">Frontend Mastery</h3>
+                    <ul class="space-y-3 text-white/80">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                            Lightning Web Components
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                            Aura Framework
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                            Responsive Design
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-pink-900/50 to-purple-900/50 backdrop-blur-xl border border-pink-500/30 rounded-3xl p-8 hover:scale-105 transition duration-300 shadow-2xl">
+                    <h3 class="text-3xl font-bold text-white mb-6">Backend Excellence</h3>
+                    <ul class="space-y-3 text-white/80">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-pink-400 rounded-full"></span>
+                            Apex Development
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                            Trigger Optimization
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-indigo-400 rounded-full"></span>
+                            Batch Processing
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-900/50 to-cyan-900/50 backdrop-blur-xl border border-blue-500/30 rounded-3xl p-8 hover:scale-105 transition duration-300 shadow-2xl">
+                    <h3 class="text-3xl font-bold text-white mb-6">Integration</h3>
+                    <ul class="space-y-3 text-white/80">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                            REST & SOAP APIs
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-cyan-400 rounded-full"></span>
+                            MuleSoft Anypoint
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-teal-400 rounded-full"></span>
+                            Platform Events
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-900/50 to-teal-900/50 backdrop-blur-xl border border-green-500/30 rounded-3xl p-8 hover:scale-105 transition duration-300 shadow-2xl">
+                    <h3 class="text-3xl font-bold text-white mb-6">Architecture</h3>
+                    <ul class="space-y-3 text-white/80">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                            System Design
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-teal-400 rounded-full"></span>
+                            Data Modeling
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
+                            Security Best Practices
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="mt-12 text-center">
+                <button class="bg-gradient-to-r from-purple-600 to-pink-600 px-12 py-4 rounded-full text-white font-bold text-xl hover:scale-105 transition shadow-2xl">
+                    Let's Build Together
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

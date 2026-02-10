@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v54 (Simple CLI)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Courier Prime', monospace; background-color: #000000; color: #33ff33; padding: 20px; }
+        .prompt { color: #ffffff; }
+        .cursor { display: inline-block; width: 10px; height: 18px; background-color: #33ff33; animation: blink 1s step-end infinite; vertical-align: middle; }
+        @keyframes blink { 50% { opacity: 0; } }
+        a { color: #33ff33; text-decoration: underline; }
+        a:hover { background-color: #33ff33; color: #000; text-decoration: none; }
+    </style>
+</head>
+<body class="max-w-4xl mx-auto">
+
+    <div class="mb-6">
+        <p>Last login: Mon Feb 20 09:23:14 on ttys001</p>
+        <p>SalesforceOS v2.4.1 (kernel 5.15.0)</p>
+    </div>
+
+    <div class="mb-4">
+        <span class="prompt">guest@yusuf-portfolio:~$</span> whoami
+        <div class="pl-4 mt-2 mb-4">
+            <h1 class="font-bold text-xl">Yusuf Ali Khan</h1>
+            <p>Salesforce Developer | Technical Architect | Problem Solver</p>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <span class="prompt">guest@yusuf-portfolio:~$</span> cat skills.txt
+        <div class="pl-4 mt-2 mb-4">
+            <p>- Languages: Apex, JavaScript, HTML, CSS, SQL, SOQL</p>
+            <p>- Frameworks: Lightning Web Components (LWC), Aura, Visualforce</p>
+            <p>- Tools: VS Code, SFDX, Git, Jira, Copado</p>
+            <p>- Certifications: PD1, PD2, Admin, App Builder, JS Developer I</p>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <span class="prompt">guest@yusuf-portfolio:~$</span> ls ./projects
+        <div class="pl-4 mt-2 mb-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div>drwx------ <a href="#">financial-cloud-impl</a></div>
+            <div>drwx------ <a href="#">community-portal-lwr</a></div>
+            <div>drwx------ <a href="#">custom-cpq-engine</a></div>
+            <div>drwx------ <a href="#">mulesoft-erp-sync</a></div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <span class="prompt">guest@yusuf-portfolio:~$</span> ./contact.sh
+        <div class="pl-4 mt-2 mb-4">
+            <p>Initiating communication sequence...</p>
+            <p>Email: <a href="mailto:hello@yusuf.dev">hello@yusuf.dev</a></p>
+            <p>LinkedIn: <a href="#">/in/yusufalikhan</a></p>
+            <p>Status: Ready to hire.</p>
+        </div>
+    </div>
+
+    <div>
+        <span class="prompt">guest@yusuf-portfolio:~$</span> <span class="cursor"></span>
+    </div>
+
+</body>
+</html>

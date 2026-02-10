@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v89 (Holographic Foil)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #000; min-height: 100vh; }
+        .holo { background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%); background-size: 400% 400%; animation: holo-shift 5s ease infinite; }
+        @keyframes holo-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    </style>
+</head>
+<body class="flex items-center justify-center px-6">
+    <div class="max-w-5xl mx-auto text-center">
+        <div class="holo rounded-3xl p-12 mb-8">
+            <h1 class="text-8xl font-black text-white mb-6">Yusuf Khan</h1>
+            <p class="text-3xl text-white/90 font-bold">Salesforce Developer</p>
+        </div>
+        <div class="grid grid-cols-3 gap-6">
+            <div class="holo rounded-2xl p-8"><div class="text-5xl font-black text-white">5+</div><div class="text-white">Years</div></div>
+            <div class="holo rounded-2xl p-8"><div class="text-5xl font-black text-white">50+</div><div class="text-white">Projects</div></div>
+            <div class="holo rounded-2xl p-8"><div class="text-5xl font-black text-white">12</div><div class="text-white">Certs</div></div>
+        </div>
+    </div>
+</body>
+</html>

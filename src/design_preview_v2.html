@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design Concept V2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF5500', 
+                            blue: '#0A0F2C',
+                            accent: '#00D4FF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-gradient': 'radial-gradient(circle at 70% 30%, #1a237e 0%, #0A0F2C 60%, #000000 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050510;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        /* Ambient Glows */
+        .glow-spot {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            z-index: 0;
+            animation: pulse-glow 10s infinite alternate;
+        }
+        .glow-orange {
+            width: 400px;
+            height: 400px;
+            background: #FF5500;
+            top: -100px;
+            left: -100px;
+        }
+        .glow-blue {
+            width: 600px;
+            height: 600px;
+            background: #0044ff;
+            bottom: -100px;
+            right: -200px;
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        /* 3D Glass Card Container */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Typography Stacking */
+        .hero-title {
+            text-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+            background: linear-gradient(to right, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-name {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            color: transparent;
+            transition: 0.5s;
+        }
+        .hero-name:hover {
+            -webkit-text-stroke: 1px #FF5500;
+            text-shadow: 0 0 20px rgba(255, 85, 0, 0.5);
+        }
+
+        /* 3D Floating Elements */
+        .float-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        .float-delay {
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        /* Code Block Style */
+        .code-block {
+            font-family: 'Consolas', monospace;
+            background: rgba(0, 0, 0, 0.6);
+            border-left: 3px solid #FF5500;
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen relative selection:bg-brand-orange selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 px-10 py-6 flex justify-between items-center bg-transparent backdrop-blur-sm">
+        <div class="text-2xl font-bold font-display tracking-widest">YK<span class="text-brand-orange">.</span></div>
+        <div class="hidden md:flex gap-8 text-sm font-semibold tracking-wider text-gray-400">
+            <a href="#" class="hover:text-white transition">WORK</a>
+            <a href="#" class="hover:text-white transition">ABOUT</a>
+            <a href="#" class="hover:text-white transition">LAB</a>
+        </div>
+        <button class="border border-white/20 px-6 py-2 rounded-full text-xs font-bold hover:bg-white hover:text-black transition uppercase tracking-widest">
+            Let's Talk
+        </button>
+    </nav>
+
+    <!-- Main Hero -->
+    <main class="relative z-10 min-h-screen flex flex-col justify-center items-center px-[5%] pt-20">
+        
+        <!-- Ambient Background -->
+        <div class="glow-spot glow-orange"></div>
+        <div class="glow-spot glow-blue"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full max-w-7xl items-center">
+            
+            <!-- Left Content: Text -->
+            <div class="lg:col-span-7 relative z-20">
+                <h2 class="text-brand-orange font-bold tracking-[0.3em] text-sm mb-4 animate-bounce">SALESFORCE ARCHITECT</h2>
+                
+                <h1 class="text-7xl md:text-9xl font-display font-bold leading-none mb-6 relative group cursor-default">
+                    <span class="block hero-title">YUSUF</span>
+                    <span class="block hero-name opacity-80 group-hover:opacity-100 transition-opacity">KHAN</span>
+                </h1>
+
+                <p class="text-gray-400 text-lg max-w-xl leading-relaxed mb-10 border-l-2 border-brand-orange pl-6">
+                    Crafting <span class="text-white font-semibold">high-performance</span> digital ecosystems. 
+                    Merging technical precision with <span class="text-brand-accent">artistic code</span>.
+                </p>
+
+                <div class="flex gap-6">
+                    <button class="bg-brand-orange text-white px-10 py-4 rounded-full font-bold shadow-[0_10px_40px_-10px_rgba(255,85,0,0.5)] hover:scale-105 transition-transform flex items-center gap-3">
+                        View Projects <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="flex items-center gap-3 px-8 py-4 font-semibold hover:text-brand-orange transition-colors group">
+                        <span class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-brand-orange">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        <span>Résumé</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Content: 3D Visual -->
+            <div class="lg:col-span-5 relative h-[600px] flex items-center justify-center perspective-1000">
+                
+                <!-- Abstract 3D Rings (CSS) -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+                    <div class="w-[500px] h-[500px] border border-white/10 rounded-full absolute animate-spin-slow"></div>
+                    <div class="w-[400px] h-[400px] border border-brand-orange/20 rounded-full absolute animate-spin-reverse" style="animation-duration: 20s"></div>
+                </div>
+
+                <!-- Main Glass Card -->
+                <div class="glass-panel w-full h-[500px] rounded-[30px] p-6 relative transform rotate-y-12 rotate-x-6 hover:rotate-0 transition-transform duration-700 ease-out group">
+                    
+                    <!-- Inner Image -->
+                    <div class="w-full h-full bg-black rounded-[20px] overflow-hidden relative">
+                         <img src="./src/images/YusufPotrait.png" class="w-full h-full object-cover object-top opacity-80 group-hover:scale-105 transition-transform duration-700" alt="Portrait">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                         
+                         <!-- Floating Code Badge -->
+                         <div class="absolute bottom-6 left-6 code-block p-4 rounded-lg text-xs text-blue-300">
+                             <div><span class="text-purple-400">class</span> <span class="text-yellow-300">Architect</span> {</div>
+                             <div class="pl-4">mastery: <span class="text-green-400">["Apex", "LWC"]</span>;</div>
+                             <div class="pl-4">vision: <span class="text-orange-400">"Limitless"</span>;</div>
+                             <div>}</div>
+                         </div>
+                    </div>
+
+                    <!-- Decorative Floating Pill -->
+                    <div class="absolute -top-6 -right-6 glass-panel px-6 py-3 rounded-xl flex items-center gap-3 float-element">
+                        <i class="fas fa-certificate text-brand-orange text-xl"></i>
+                        <div>
+                            <div class="text-xs text-gray-400 uppercase">Certified</div>
+                            <div class="font-bold text-sm">12x Expert</div>
+                        </div>
+                    </div>
+
+                      <!-- Decorative Floating Icon -->
+                      <div class="absolute bottom-20 -left-10 glass-panel p-4 rounded-full float-element float-delay">
+                        <i class="fab fa-salesforce text-3xl text-[#00A1E0]"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Tech Stack Ticker (Bottom) -->
+    <div class="fixed bottom-0 w-full glass-panel border-t border-white/5 py-4 overflow-hidden z-40">
+        <div class="flex gap-12 justify-center items-center opacity-50 text-sm font-display tracking-widest text-brand-orange">
+            <span>SALESFORCE</span>
+            <span>•</span>
+            <span>LWC</span>
+            <span>•</span>
+            <span>APEX</span>
+            <span>•</span>
+            <span>JAVASCRIPT</span>
+            <span>•</span>
+            <span>NODE.JS</span>
+            <span>•</span>
+            <span>AI AGENTS</span>
+        </div>
+    </div>
+
+</body>
+</html>

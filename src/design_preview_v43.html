@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v43 (Abstract Data Waves)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; color: #00ffcc; font-family: 'Share Tech Mono', monospace; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex flex-col justify-center p-16">
+        <h1 class="text-6xl mb-2 mix-blend-difference">DATA</h1>
+        <h1 class="text-6xl mb-8 mix-blend-difference">INTELLIGENCE.</h1>
+        <div class="w-64 h-1 bg-current mb-8"></div>
+        <p class="max-w-md text-lg leading-relaxed mix-blend-difference">
+            Visualizing complex datasets through Salesforce Data Cloud and Tableau.
+            Turning noise into signal.
+        </p>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        const count = 50; // Points per row
+        const sep = 1.5;
+        const particles = new THREE.Group();
+        
+        const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ffcc });
+
+        const dots = [];
+
+        for(let x=0; x<count; x++) {
+            for(let z=0; z<count; z++) {
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(
+                    (x - count/2) * sep,
+                    0,
+                    (z - count/2) * sep
+                );
+                particles.add(mesh);
+                dots.push({ mesh: mesh, x: x, z: z });
+            }
+        }
+        scene.add(particles);
+
+        camera.position.set(0, 20, 40);
+        camera.lookAt(0, -10, 0);
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            const time = Date.now() * 0.002;
+            
+            dots.forEach(d => {
+                // Wave formula
+                const y = Math.sin(d.x * 0.3 + time) * 2 + Math.sin(d.z * 0.3 + time) * 2;
+                d.mesh.position.y = y;
+                
+                // Color scaling based on height
+                const scale = (y + 4) / 8; // Normalize roughly 0-1
+                d.mesh.scale.setScalar(1 + scale);
+                d.mesh.material.color.setHSL(0.45, 1, scale * 0.5 + 0.2); // Greenish-Teal range
+            });
+            
+            particles.rotation.y = time * 0.1;
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

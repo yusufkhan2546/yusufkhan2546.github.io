@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v22 (Marketing Cloud)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: 'Open Sans', sans-serif; background-color: #f7f9fa; }
+        
+        .flow-node {
+            background: white;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            padding: 10px;
+            width: 200px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .flow-node::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            width: 10px;
+            height: 2px;
+            background: #dcdcdc;
+        }
+        .flow-node::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            width: 10px;
+            height: 2px;
+            background: #dcdcdc;
+        }
+        .start-node::before { display: none; }
+        .end-node::after { display: none; }
+
+        .mc-header { background-color: white; border-bottom: 2px solid #ff9a3c; } /* MC Orange accent */
+    </style>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col">
+
+    <!-- MC Header -->
+    <header class="mc-header h-16 flex items-center px-6 shadow-sm z-50">
+        <div class="text-[#009DDC] text-2xl mr-4"><i class="fas fa-cloud"></i></div>
+        <div class="font-bold text-gray-700 text-lg mr-8">Journey Builder</div>
+        
+        <nav class="flex gap-6 text-sm font-semibold text-gray-500">
+            <a href="#" class="text-[#009DDC]">My Career Journey</a>
+            <a href="#" class="hover:text-[#009DDC]">Certifications</a>
+            <a href="#" class="hover:text-[#009DDC]">Skills</a>
+        </nav>
+        
+        <div class="ml-auto w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold">YK</div>
+    </header>
+
+    <!-- Canvas -->
+    <div class="flex-grow relative overflow-auto bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] p-10 flex items-center justify-center">
+        
+        <div class="flex items-center">
+            
+            <!-- Start -->
+            <div class="flow-node start-node border-l-4 border-l-green-500 hover:scale-105 transition cursor-pointer">
+                <div class="text-xs uppercase text-gray-400 font-bold mb-1">Entry Source</div>
+                <div class="font-bold text-gray-700"><i class="fas fa-play-circle text-green-500 mr-1"></i> Start Career</div>
+                <div class="text-xs text-gray-500 mt-1">2019 - Reliant Vision</div>
+            </div>
+
+            <!-- Connector -->
+            <div class="w-12 h-0.5 bg-gray-300"></div>
+
+            <!-- Step 1 -->
+            <div class="flow-node border-l-4 border-l-[#009DDC] hover:scale-105 transition cursor-pointer">
+                <div class="text-xs uppercase text-gray-400 font-bold mb-1">Activity</div>
+                <div class="font-bold text-gray-700"><i class="fas fa-laptop-code text-[#009DDC] mr-1"></i> Development</div>
+                <div class="text-xs text-gray-500 mt-1">Learned Apex & LWC</div>
+            </div>
+
+            <!-- Connector -->
+            <div class="w-12 h-0.5 bg-gray-300"></div>
+
+            <!-- Wait/Decision -->
+            <div class="w-10 h-10 bg-orange-100 border border-orange-300 rounded-full flex items-center justify-center text-orange-500">
+                <i class="far fa-clock"></i>
+            </div>
+             <div class="w-12 h-0.5 bg-gray-300"></div>
+
+            <!-- Step 2 -->
+             <div class="flow-node border-l-4 border-l-purple-500 hover:scale-105 transition cursor-pointer">
+                <div class="text-xs uppercase text-gray-400 font-bold mb-1">Promotion</div>
+                <div class="font-bold text-gray-700"><i class="fas fa-star text-purple-500 mr-1"></i> Tech Lead</div>
+                <div class="text-xs text-gray-500 mt-1">Prodapt Solutions</div>
+            </div>
+
+            <!-- Connector -->
+            <div class="w-12 h-0.5 bg-gray-300"></div>
+
+            <!-- Step 3 -->
+            <div class="flow-node border-l-4 border-l-orange-500 hover:scale-105 transition cursor-pointer">
+                <div class="text-xs uppercase text-gray-400 font-bold mb-1">Current</div>
+                <div class="font-bold text-gray-700"><i class="fas fa-building text-orange-500 mr-1"></i> Architect</div>
+                <div class="text-xs text-gray-500 mt-1">K Square Solutions</div>
+            </div>
+
+             <!-- Connector -->
+             <div class="w-12 h-0.5 bg-gray-300"></div>
+
+             <!-- End -->
+             <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 border border-gray-300">
+                 <i class="fas fa-flag-checkered"></i>
+             </div>
+
+        </div>
+
+        <!-- Floating Palette (Sidebar) -->
+        <div class="absolute top-10 left-10 w-64 bg-white shadow-lg border border-gray-200 rounded-lg overflow-hidden">
+            <div class="bg-gray-100 p-3 font-bold text-gray-600 border-b border-gray-200">Activities</div>
+            <div class="p-2">
+                <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-move">
+                    <i class="fas fa-envelope text-blue-500"></i> Send Email
+                </div>
+                <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-move">
+                    <i class="fas fa-mobile text-blue-500"></i> SMS
+                </div>
+                <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded cursor-move">
+                    <i class="fas fa-robot text-orange-500"></i> Einstein Split
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

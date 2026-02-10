@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v35 (Interactive Terminal)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #0d0d0d; color: #39ff14; font-family: 'Fira Code', monospace; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+        
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <div class="crt-overlay"></div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0d0d0d);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Terminal Box
+        const geometry = new THREE.BoxGeometry(8, 5, 0.5);
+        
+        // Create Dynamic Canvas Texture for terminal screen
+        const canvas = document.createElement('canvas');
+        canvas.width = 1024;
+        canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+        
+        // Text variables
+        let lines = [
+            "> Initializing Salesforce Core...",
+            "> Loading Apex Modules...",
+            "> Connecting to LWC Registry...",
+            "> User: Yusuf Ali Khan",
+            "> Role: Technical Architect",
+            "> Status: OPEN_TO_WORK",
+            "> "
+        ];
+        let currentLine = 0;
+        let charIndex = 0;
+        
+        function drawTerminal() {
+            // Background
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 1024, 512);
+            
+            // Border
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = '#333';
+            ctx.strokeRect(5, 5, 1014, 502);
+
+            // Screen glow
+            ctx.fillStyle = '#001100';
+            ctx.fillRect(20, 20, 984, 472);
+
+            // Text
+            ctx.font = '24px "Fira Code", monospace';
+            ctx.fillStyle = '#39ff14'; // Neon Green
+            ctx.textAlign = 'left';
+            
+            let y = 60;
+            for(let i=0; i<lines.length; i++) {
+                if (i === currentLine) {
+                    ctx.fillText(lines[i].substring(0, charIndex) + (Math.random() > 0.5 ? "█" : ""), 40, y);
+                } else if (i < currentLine) {
+                    ctx.fillText(lines[i], 40, y);
+                }
+                y += 40;
+            }
+        }
+
+        const texture = new THREE.CanvasTexture(canvas);
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+        // Side materials
+        const sideMat = new THREE.MeshBasicMaterial({ color: 0x333333 });
+        
+        const cube = new THREE.Mesh(geometry, [
+            sideMat, sideMat, sideMat, sideMat, material, sideMat
+        ]);
+        scene.add(cube);
+
+        // Add random floating code bits
+        const particles = new THREE.Group();
+        const codeBitGeo = new THREE.PlaneGeometry(0.5, 0.5);
+        const codeBitMat = new THREE.MeshBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.5, side: THREE.DoubleSide });
+        
+        for(let i=0; i<50; i++) {
+             const mesh = new THREE.Mesh(codeBitGeo, codeBitMat);
+             mesh.position.set(
+                 (Math.random() - 0.5) * 20,
+                 (Math.random() - 0.5) * 15,
+                 (Math.random() - 0.5) * 10 - 2
+             );
+             mesh.rotation.z = Math.random() * Math.PI;
+             particles.add(mesh);
+        }
+        scene.add(particles);
+
+        camera.position.z = 7;
+
+        let lastTime = 0;
+        const animate = function (time) {
+            requestAnimationFrame(animate);
+            
+            // Typing logic
+            if (time - lastTime > 50) {
+                lastTime = time;
+                if (currentLine < lines.length) {
+                    if (charIndex < lines[currentLine].length) {
+                        charIndex++;
+                    } else {
+                        currentLine++;
+                        charIndex = 0;
+                    }
+                    drawTerminal();
+                    texture.needsUpdate = true;
+                }
+            }
+
+            cube.rotation.x = Math.sin(time * 0.001) * 0.1;
+            cube.rotation.y = Math.cos(time * 0.001) * 0.1;
+            
+            particles.rotation.y += 0.002;
+
+            renderer.render(scene, camera);
+        };
+        animate(0);
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Interaction
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 2 - 1;
+            const y = -(e.clientY / window.innerHeight) * 2 + 1;
+            cube.lookAt(x * 2, y * 2, 8); // Look slightly at mouse
+        });
+    </script>
+</body>
+</html>

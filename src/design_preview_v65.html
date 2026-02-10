@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v65 (Editorial)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Lato', sans-serif; background-color: #faf9f6; color: #1a1a1a; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        .drop-cap:first-letter {
+            float: left;
+            font-size: 5rem;
+            line-height: 4rem;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .column-content {
+            column-count: 2;
+            column-gap: 3rem;
+        }
+        @media (max-width: 768px) { .column-content { column-count: 1; } }
+    </style>
+</head>
+<body class="p-8 md:p-16 max-w-5xl mx-auto">
+    
+    <header class="border-b-2 border-black pb-8 mb-12 text-center">
+        <p class="uppercase tracking-widest text-xs mb-4 font-bold">The Portfolio Issue • Vol. 26</p>
+        <h1 class="text-6xl md:text-8xl font-black italic mb-4">The Architect</h1>
+        <div class="flex justify-between border-t border-black pt-2 text-sm font-bold uppercase">
+            <span>Spring 2026</span>
+            <span>Yusuf Ali Khan</span>
+            <span>Dubai / Remote</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="flex flex-col md:flex-row gap-12 mb-16">
+            <div class="w-full md:w-1/3">
+                 <img src="./images/YusufPotrait.png" class="w-full grayscale hover:grayscale-0 transition duration-700 shadow-xl">
+                 <p class="text-xs text-gray-500 mt-2 italic text-right">Photo by Studio</p>
+            </div>
+            
+            <div class="w-full md:w-2/3">
+                <h2 class="text-4xl font-bold mb-6 italic">Developing the Future of CRM</h2>
+                <div class="column-content text-justify text-lg leading-relaxed text-gray-800">
+                    <p class="drop-cap">
+                        I believe that good code is like good prose: concise, expressive, and impactful. For over five years, I have been writing the success stories of major enterprises on the Salesforce platform.
+                    </p>
+                    <p class="mb-4">
+                        My approach combines the rigorous logic of a backend developer with the empathetic design thinking of a frontend specialist. Whether it's architecting a multi-cloud data strategy or refining a single Lightning Web Component pixel, the goal remains the same: excellence.
+                    </p>
+                    <p>
+                        In a world of drag-and-drop solutions, I provide the custom engineering required to solve unique, complex business challenges that standard tools cannot address.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section class="border-t border-black pt-12">
+            <h3 class="text-3xl font-bold text-center mb-12 italic">Featured Projects</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="group cursor-pointer">
+                    <div class="h-64 bg-gray-200 mb-4 overflow-hidden relative">
+                         <!-- Placeholder -->
+                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-2 group-hover:underline">Global Finance</h4>
+                    <p class="text-gray-600 text-sm">A complete overhaul of financial tracking systems for a banking giant.</p>
+                </div>
+
+                <div class="group cursor-pointer">
+                    <div class="h-64 bg-gray-200 mb-4 overflow-hidden relative">
+                         <!-- Placeholder -->
+                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-2 group-hover:underline">LWC Design System</h4>
+                    <p class="text-gray-600 text-sm">Created a reusable component library enhancing developer velocity by 40%.</p>
+                </div>
+
+                <div class="group cursor-pointer">
+                    <div class="h-64 bg-gray-200 mb-4 overflow-hidden relative">
+                         <!-- Placeholder -->
+                         <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition"></div>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-2 group-hover:underline">Automated Flows</h4>
+                    <p class="text-gray-600 text-sm">Replacing legacy Apex triggers with maintainable, high-performance Flows.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 border-t-2 border-black pt-8 text-center">
+        <p class="font-bold text-2xl mb-4 italic">Open for Commissions</p>
+        <a href="mailto:hello@yusuf.dev" class="inline-block bg-black text-white px-8 py-3 font-bold uppercase hover:bg-gray-800 transition">Contact The Studio</a>
+    </footer>
+
+</body>
+</html>

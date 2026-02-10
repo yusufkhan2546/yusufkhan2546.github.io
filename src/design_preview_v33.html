@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v33 (Liquid Metal)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; color: white; font-family: 'Syncopate', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+        .chrome-text {
+            background: linear-gradient(to bottom, #fff 0%, #aaa 50%, #555 51%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex items-center justify-center">
+        <div class="text-center mix-blend-exclusion">
+            <h1 class="text-6xl md:text-8xl font-black mb-4 chrome-text">FLUID CODE</h1>
+            <p class="text-xl tracking-widest text-gray-300">ADAPTABLE • RESILIENT • POWERFUL</p>
+        </div>
+    </div>
+
+    <!-- Simulating Liquid Metal with High Polygon Sphere + Environment Map -->
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Env Map (Just for reflection illusion, using random colors to sim lights)
+        const cubeRenderTarget = new THREE.WebGLCubeRenderTarget( 128 );
+        const cubeCamera = new THREE.CubeCamera( 1, 1000, cubeRenderTarget );
+        scene.add( cubeCamera );
+
+        // Blob
+        const geometry = new THREE.SphereGeometry(4, 128, 128);
+        const material = new THREE.MeshPhysicalMaterial({ 
+            color: 0x0099ff, 
+            metalness: 1, 
+            roughness: 0.1,
+            envMap: cubeRenderTarget.texture 
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // Lights around for reflection
+        const l1 = new THREE.PointLight(0xffffff, 2); l1.position.set(10,10,10); scene.add(l1);
+        const l2 = new THREE.PointLight(0xff00ff, 2); l2.position.set(-10,-10,10); scene.add(l2);
+        const l3 = new THREE.PointLight(0x00ffff, 2); l3.position.set(0,10,-10); scene.add(l3);
+
+        camera.position.z = 12;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            const time = Date.now() * 0.002;
+            
+            // Distort sphere vertices
+            const pos = geometry.attributes.position;
+            // Note: modifying vertices every frame is heavy, usually better with shader, but fine for simple demo
+            
+            // For performance, just rotate and use shiny material in this snippet
+            sphere.rotation.x += 0.01;
+            sphere.rotation.y += 0.005;
+            
+            cubeCamera.update( renderer, scene );
+            renderer.render(scene, camera);
+        };
+        animate();
+        
+         window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

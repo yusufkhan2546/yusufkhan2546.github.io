@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v14 (Floating Crystals)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #0f0518; color: white; font-family: 'Cinzel', serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex flex-col justify-center items-center text-center">
+        <h2 class="text-xl mb-4 text-purple-300 tracking-[0.5em]">PRECISION</h2>
+        <h1 class="text-6xl md:text-8xl font-bold mb-8 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">
+            CRYSTALLIZE <br> YOUR VISION
+        </h1>
+        <div class="flex gap-6 pointer-events-auto">
+            <button class="glass-btn px-8 py-3 rounded-sm uppercase tracking-widest text-sm">
+                Strategy
+            </button>
+             <button class="glass-btn px-8 py-3 rounded-sm uppercase tracking-widest text-sm">
+                Execution
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0f0518, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Crystals
+        const crystals = [];
+        const crystalGeo = new THREE.OctahedronGeometry(1, 0);
+        const crystalMat = new THREE.MeshPhongMaterial({ 
+            color: 0xaa00ff, 
+            shininess: 100,
+            flatShading: true,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        for(let i=0; i<50; i++) {
+            const mesh = new THREE.Mesh(crystalGeo, crystalMat);
+            mesh.position.set(
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 20
+            );
+            mesh.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
+            mesh.scale.setScalar(Math.random() * 2 + 0.5);
+            scene.add(mesh);
+            crystals.push({
+                mesh: mesh,
+                rotSpeed: (Math.random() - 0.5) * 0.02
+            });
+        }
+
+        // Lights
+        const light1 = new THREE.PointLight(0xff00ff, 2, 50);
+        light1.position.set(10, 10, 10);
+        scene.add(light1);
+        
+        const light2 = new THREE.PointLight(0x00ffff, 2, 50);
+        light2.position.set(-10, -10, 10);
+        scene.add(light2);
+
+        const ambient = new THREE.AmbientLight(0x404040);
+        scene.add(ambient);
+
+        camera.position.z = 15;
+
+        // Mouse interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.01;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.01;
+        });
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            crystals.forEach(c => {
+                c.mesh.rotation.x += c.rotSpeed;
+                c.mesh.rotation.y += c.rotSpeed;
+            });
+            
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

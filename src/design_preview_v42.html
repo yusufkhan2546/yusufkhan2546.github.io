@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v42 (Cosmic Trailhead)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #0b1a26; color: white; font-family: 'Fredoka One', cursive; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex flex-col items-center justify-center text-center p-4">
+        <h1 class="text-6xl md:text-8xl text-white mb-4 drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)]">
+            TRAILBLAZER
+        </h1>
+        <p class="text-xl md:text-2xl text-blue-200 mb-8 bg-black/30 p-2 rounded-xl backdrop-blur-sm">
+            Journey to the highest ranks of the Salesforce Ecosystem
+        </p>
+        <div class="pointer-events-auto flex gap-4">
+            <button class="bg-green-500 hover:bg-green-400 text-white text-xl px-8 py-3 rounded-full shadow-[0_0_15px_rgba(34,197,94,0.6)] transition transform hover:scale-105">
+                Start Adventure
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0b1a26);
+        scene.fog = new THREE.FogExp2(0x0b1a26, 0.03);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Sun (The Goal/Platform)
+        const sunGeo = new THREE.IcosahedronGeometry(2, 1);
+        const sunMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, wireframe: true });
+        const sun = new THREE.Mesh(sunGeo, sunMat);
+        scene.add(sun);
+        
+        // Inner glow
+        const sunGlowAndLight = new THREE.PointLight(0xffaa00, 2, 50);
+        scene.add(sunGlowAndLight);
+
+        // Planets (Badges/Ranks)
+        const planets = [];
+        const colors = [0x00a1e0, 0x4bca81, 0xe119ad, 0xef5023]; // Salesforce-ish colors
+        
+        for(let i=0; i<4; i++) {
+            const size = Math.random() * 0.5 + 0.3;
+            const geo = new THREE.SphereGeometry(size, 16, 16);
+            const mat = new THREE.MeshPhongMaterial({ 
+                color: colors[i], 
+                shininess: 100,
+                emissive: colors[i],
+                emissiveIntensity: 0.2
+            });
+            const mesh = new THREE.Mesh(geo, mat);
+            
+            const orbitRadius = 5 + (i * 2);
+            const angle = Math.random() * Math.PI * 2;
+            
+            mesh.position.set(
+                Math.cos(angle) * orbitRadius,
+                (Math.random()-0.5) * 2,
+                Math.sin(angle) * orbitRadius
+            );
+
+            scene.add(mesh);
+            planets.push({ mesh: mesh, radius: orbitRadius, speed: 0.01 + Math.random()*0.02, angle: angle });
+            
+            // Orbit trail
+            const trailGeo = new THREE.RingGeometry(orbitRadius-0.05, orbitRadius+0.05, 64);
+            const trailMat = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.1, transparent: true, side: THREE.DoubleSide });
+            const trail = new THREE.Mesh(trailGeo, trailMat);
+            trail.rotation.x = Math.PI / 2;
+            scene.add(trail);
+        }
+
+        // Stars
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 1000;
+        const starPos = new Float32Array(starCount * 3);
+        for(let i=0; i<starCount*3; i++) {
+            starPos[i] = (Math.random() - 0.5) * 60;
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        const starMat = new THREE.PointsMaterial({ size: 0.1, color: 0xffffff });
+        scene.add(new THREE.Points(starGeo, starMat));
+
+        camera.position.z = 15;
+        camera.position.y = 5;
+        camera.lookAt(0,0,0);
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            sun.rotation.y += 0.005;
+            sun.rotation.x += 0.002;
+
+            planets.forEach(p => {
+                p.angle += p.speed;
+                p.mesh.position.x = Math.cos(p.angle) * p.radius;
+                p.mesh.position.z = Math.sin(p.angle) * p.radius;
+                p.mesh.rotation.y += 0.05;
+            });
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

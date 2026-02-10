@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v10 (Solar System)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #101010; color: white; font-family: 'Montserrat', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer min-h-screen flex items-center p-8 md:p-16">
+        <div class="max-w-xl">
+            <h2 class="text-xl text-yellow-500 font-bold mb-2 tracking-widest">ECOSYSTEM EXPERT</h2>
+            <h1 class="text-6xl font-bold mb-6">Orchestrating <br> Success.</h1>
+            <p class="text-gray-400 mb-8 leading-relaxed">
+                Like a solar system, a Salesforce org requires balance, gravity, and orbit. I ensure every component revolves perfectly around your business goals.
+            </p>
+            <div class="flex gap-4">
+                <div class="glass-card p-4 rounded-xl text-center w-24">
+                    <div class="text-2xl font-bold text-yellow-500">Sales</div>
+                    <div class="text-[10px] uppercase">Cloud</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center w-24">
+                    <div class="text-2xl font-bold text-blue-500">Service</div>
+                    <div class="text-[10px] uppercase">Cloud</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl text-center w-24">
+                    <div class="text-2xl font-bold text-purple-500">Exp</div>
+                    <div class="text-[10px] uppercase">Cloud</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Sun (Representation of Core CRM)
+        const sunGeo = new THREE.SphereGeometry(5, 32, 32);
+        const sunMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+        const sun = new THREE.Mesh(sunGeo, sunMat);
+        sun.position.set(10, 0, -10); // Offset to right
+        scene.add(sun);
+        
+        // Sun Glow
+        const glowGeo = new THREE.SphereGeometry(5.5, 32, 32);
+        const glowMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.3 });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        sun.add(glow);
+
+        // Orbit Rings
+        function createOrbit(radius) {
+            const orbitGeo = new THREE.RingGeometry(radius, radius + 0.1, 64);
+            const orbitMat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.1 });
+            const orbit = new THREE.Mesh(orbitGeo, orbitMat);
+            orbit.rotation.x = Math.PI / 2;
+            sun.add(orbit);
+        }
+
+        createOrbit(8);
+        createOrbit(12);
+        createOrbit(16);
+
+        // Planets
+        function createPlanet(size, color, distance, speed) {
+            const planetGeo = new THREE.SphereGeometry(size, 16, 16);
+            const planetMat = new THREE.MeshPhongMaterial({ color: color });
+            const planet = new THREE.Mesh(planetGeo, planetMat);
+            
+            // Pivot for rotation
+            const pivot = new THREE.Object3D();
+            pivot.add(planet);
+            sun.add(pivot);
+            planet.position.x = distance;
+            
+            return { pivot, speed };
+        }
+
+        const planets = [
+            createPlanet(1, 0x00aaff, 8, 0.01),  // Blue
+            createPlanet(1.5, 0xff5555, 12, 0.007), // Red
+            createPlanet(1.2, 0x55ff55, 16, 0.005) // Green
+        ];
+
+        // Stars
+        const starsGeo = new THREE.BufferGeometry();
+        const starsCount = 1000;
+        const posArray = new Float32Array(starsCount * 3);
+        for(let i=0; i<starsCount*3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 100;
+        }
+        starsGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const starsMat = new THREE.PointsMaterial({size: 0.1, color: 0xffffff});
+        const stars = new THREE.Points(starsGeo, starsMat);
+        scene.add(stars);
+
+        // Lights
+        const light = new THREE.PointLight(0xffffff, 2, 100);
+        light.position.set(10, 0, -10);
+        scene.add(light);
+        
+        const ambient = new THREE.AmbientLight(0x404040);
+        scene.add(ambient);
+
+        camera.position.z = 20;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            sun.rotation.y += 0.001;
+            
+            planets.forEach(p => {
+                p.pivot.rotation.y += p.speed;
+            });
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

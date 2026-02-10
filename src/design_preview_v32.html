@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v32 (Cyber-Organic)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #111; color: #eee; font-family: 'Lato', sans-serif; }
+        h1 { font-family: 'Playfair Display', serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer min-h-screen flex items-center p-16">
+        <div class="max-w-2xl">
+            <h1 class="text-7xl mb-6 text-emerald-400 mix-blend-screen leading-tight">
+                Organic Growth <br>
+                Digital Roots.
+            </h1>
+            <p class="text-xl mb-8 border-l-2 border-emerald-500 pl-6 text-gray-300">
+                Cultivating sustainable Salesforce ecosystems that thrive on automation and clean code.
+            </p>
+            <button class="pointer-events-auto bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-full transition shadow-lg">
+                View Garden
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x111111, 10, 50);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Ground (Digital Soil)
+        const planeGeo = new THREE.PlaneGeometry(100, 100, 20, 20);
+        const planeMat = new THREE.MeshBasicMaterial({ color: 0x059669, wireframe: true, transparent: true, opacity: 0.3 });
+        const plane = new THREE.Mesh(planeGeo, planeMat);
+        plane.rotation.x = -Math.PI / 2;
+        plane.position.y = -5;
+        scene.add(plane);
+
+        // Trees (Data Structures)
+        function createTree(x, z) {
+            const group = new THREE.Group();
+            
+            // Trunk
+            const trunkGeo = new THREE.CylinderGeometry(0.2, 0.5, 5, 8);
+            const trunkMat = new THREE.MeshPhongMaterial({ color: 0x4b5563 });
+            const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+            trunk.position.y = 2.5;
+            group.add(trunk);
+
+            // Foliage (Cubes)
+            const leavesGeo = new THREE.IcosahedronGeometry(1.5, 0);
+            const leavesMat = new THREE.MeshPhongMaterial({ color: 0x10b981, flatShading: true });
+            const leaves = new THREE.Mesh(leavesGeo, leavesMat);
+            leaves.position.y = 5;
+            group.add(leaves);
+
+            group.position.set(x, -5, z);
+            scene.add(group);
+            return group;
+        }
+
+        // Forest
+        for(let i=0; i<30; i++) {
+             createTree(
+                 (Math.random() - 0.5) * 50,
+                 (Math.random() - 0.5) * 50 - 10
+             );
+        }
+
+        // Lights
+        const light = new THREE.PointLight(0x10b981, 2, 50);
+        light.position.set(5, 10, 5);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
+
+        camera.position.z = 20;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            camera.position.x = Math.sin(Date.now() * 0.0005) * 10;
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

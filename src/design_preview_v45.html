@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v45 (Neural Architect)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lato for clean UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #050510; color: white; font-family: 'Lato', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex items-center p-20">
+        <div class="max-w-xl">
+            <h1 class="text-6xl font-bold mb-6 text-indigo-400">Agentforce <br> Ready.</h1>
+            <p class="text-gray-300 text-xl leading-relaxed mb-8">
+                Building intelligent, autonomous agents on the Salesforce platform.
+                Connecting data, logic, and actions.
+            </p>
+            <div class="flex gap-4 pointer-events-auto">
+                <button class="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-3 rounded shadow-lg transition">
+                    Deploy Agent
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Neural Network
+        const particleCount = 100;
+        const group = new THREE.Group();
+        const particlesData = [];
+        
+        // Geometry for nodes
+        const pGeo = new THREE.SphereGeometry(0.1, 8, 8);
+        const pMat = new THREE.MeshBasicMaterial({ color: 0x818cf8 }); // Indigo-400
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = new THREE.Mesh(pGeo, pMat);
+            const x = Math.random() * 20 - 10;
+            const y = Math.random() * 20 - 10;
+            const z = Math.random() * 20 - 10;
+            
+            particle.position.set(x, y, z);
+            
+            // Random velocity
+            const v = new THREE.Vector3(
+                (Math.random() - 0.5) * 0.02,
+                (Math.random() - 0.5) * 0.02,
+                (Math.random() - 0.5) * 0.02
+            );
+            
+            particlesData.push({ mesh: particle, velocity: v });
+            group.add(particle);
+        }
+        scene.add(group);
+
+        // Lines geometry container
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x818cf8, transparent: true, opacity: 0.3 });
+        const lineGeometry = new THREE.BufferGeometry();
+        const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+        group.add(linesMesh);
+
+        camera.position.z = 15;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            // Update particles
+            particlesData.forEach(p => {
+                p.mesh.position.add(p.velocity);
+                
+                // Bounce off bounds
+                if(Math.abs(p.mesh.position.x) > 10) p.velocity.x *= -1;
+                if(Math.abs(p.mesh.position.y) > 10) p.velocity.y *= -1;
+                if(Math.abs(p.mesh.position.z) > 10) p.velocity.z *= -1;
+            });
+            
+            // Update lines
+            const positions = [];
+            
+            // Brute force distance check (fine for 100 particles)
+            for(let i=0; i<particleCount; i++) {
+                for(let j=i+1; j<particleCount; j++) {
+                    const dist = particlesData[i].mesh.position.distanceTo(particlesData[j].mesh.position);
+                    if(dist < 3) { // Connection threshold
+                        positions.push(
+                            particlesData[i].mesh.position.x, particlesData[i].mesh.position.y, particlesData[i].mesh.position.z,
+                            particlesData[j].mesh.position.x, particlesData[j].mesh.position.y, particlesData[j].mesh.position.z
+                        );
+                    }
+                }
+            }
+            
+            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            
+            group.rotation.y += 0.002;
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

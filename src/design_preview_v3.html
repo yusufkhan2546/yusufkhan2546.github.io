@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v3 (Swiss)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'swiss-blue': '#0033A0',
+                        'swiss-orange': '#FF4F00',
+                        'off-white': '#F0F0F0'
+                    },
+                    fontFamily: {
+                        sans: ['Archivo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F0F0F0;
+            color: #0033A0;
+            overflow-x: hidden;
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(0, 51, 160, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 51, 160, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .big-text {
+            font-size: clamp(4rem, 15vw, 12rem);
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+        }
+        .image-mask {
+            clip-path: circle(40% at 50% 50%);
+            transition: clip-path 0.5s ease-in-out;
+        }
+        .image-mask:hover {
+            clip-path: circle(48% at 50% 50%);
+        }
+    </style>
+</head>
+<body class="grid-bg min-h-screen flex flex-col justify-between p-8 md:p-12 relative">
+
+    <!-- Header -->
+    <header class="flex justify-between items-start z-50">
+        <div>
+            <h2 class="text-xl font-bold tracking-tighter">YAK.Design</h2>
+            <p class="text-sm mt-1 text-swiss-orange font-mono">EST. 2019</p>
+        </div>
+        <nav class="hidden md:flex flex-col text-right text-sm font-bold gap-1 uppercase tracking-widest">
+            <a href="#" class="hover:text-swiss-orange transition">Work</a>
+            <a href="#" class="hover:text-swiss-orange transition">Profile</a>
+            <a href="#" class="hover:text-swiss-orange transition">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-grow py-12">
+        
+        <!-- Typography Layer -->
+        <div class="md:col-span-8 relative z-20">
+            <div class="w-24 h-4 bg-swiss-orange mb-8"></div>
+            <h1 class="big-text font-black text-swiss-blue mix-blend-multiply">
+                ARCHI<br>TECT.
+            </h1>
+            <div class="flex items-center gap-6 mt-8">
+                <p class="max-w-md text-xl md:text-2xl font-light leading-snug">
+                    Salesforce Specialist specializing in <span class="font-bold underline decoration-swiss-orange decoration-4">high-scale</span> digital infrastructures.
+                </p>
+            </div>
+            <button class="mt-12 border-2 border-swiss-blue text-swiss-blue px-12 py-4 text-lg font-bold hover:bg-swiss-blue hover:text-white transition-colors uppercase tracking-wider">
+                Explore Portfolio
+            </button>
+        </div>
+
+        <!-- Image Layer -->
+        <div class="md:col-span-4 relative h-[600px] flex items-center justify-center">
+             <!-- Orange Circle Behind -->
+            <div class="absolute w-[400px] h-[400px] bg-swiss-orange rounded-full mix-blend-multiply opacity-80 animate-pulse"></div>
+            
+            <!-- Blue Circle Offset -->
+            <div class="absolute w-[380px] h-[380px] bg-swiss-blue rounded-full mix-blend-multiply opacity-20 -top-10 -right-10"></div>
+
+            <!-- Image -->
+            <img src="./src/images/YusufPotrait.png" class="w-full h-full object-cover grayscale contrast-125 image-mask relative z-10" alt="Yusuf Portrait">
+        </div>
+
+    </main>
+
+    <!-- Stats Footer -->
+    <footer class="grid grid-cols-2 md:grid-cols-4 border-t-2 border-swiss-blue pt-6 text-swiss-blue">
+        <div>
+            <span class="block text-4xl font-black">06+</span>
+            <span class="text-xs font-mono uppercase">Years Exp</span>
+        </div>
+        <div>
+            <span class="block text-4xl font-black">12</span>
+            <span class="text-xs font-mono uppercase">Certifications</span>
+        </div>
+        <div>
+            <span class="block text-4xl font-black">290k</span>
+            <span class="text-xs font-mono uppercase">Trailhead Pts</span>
+        </div>
+        <div class="flex justify-end items-end">
+            <i class="fas fa-arrow-down text-4xl animate-bounce"></i>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v21 (Service Console)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #F3F2F2; font-size: 13px; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+        .console-tab {
+            background-color: #f3f2f2;
+            border-right: 1px solid #d8d8d8;
+            border-bottom: 2px solid transparent;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .console-tab.active {
+            background-color: white;
+            border-bottom: 2px solid #0176D3;
+            font-weight: 500;
+        }
+        .region-header {
+            background-color: #f3f3f3;
+            border-bottom: 1px solid #dddbda;
+            padding: 10px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- App Header -->
+    <header class="bg-[#0176D3] text-white h-[44px] flex items-center px-4 flex-shrink-0">
+        <div class="w-8 h-8 flex items-center justify-center mr-4">
+            <i class="fas fa-th text-lg opacity-70 hover:opacity-100"></i>
+        </div>
+        <span class="font-bold text-base mr-6">Service Console</span>
+        <div class="flex gap-1 h-full items-end pb-1">
+             <div class="bg-white/10 px-3 py-1 rounded-t text-sm font-medium flex items-center gap-2">
+                 <i class="fas fa-user-circle"></i> Yusuf Ali Khan
+                 <i class="fas fa-times opacity-50 ml-2 text-xs"></i>
+             </div>
+        </div>
+        <div class="ml-auto flex gap-4 text-white opacity-80">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
+            <i class="fas fa-cog"></i>
+            <i class="fas fa-question-circle"></i>
+        </div>
+    </header>
+
+    <!-- Navigation / Sub-tabs -->
+    <div class="bg-white border-b border-gray-300 flex items-center flex-shrink-0 h-[40px] px-2">
+        <div class="console-tab active">
+            <i class="fas fa-passport text-purple-600"></i>
+            Profile Overview
+        </div>
+        <div class="console-tab">
+            <i class="fas fa-briefcase text-orange-600"></i>
+            Experience
+        </div>
+        <div class="console-tab">
+            <i class="fas fa-folder text-blue-600"></i>
+            Projects
+        </div>
+    </div>
+
+    <!-- Main Workspace (3 Column Layout) -->
+    <div class="flex flex-grow overflow-hidden p-2 gap-2">
+        
+        <!-- Left Sidebar (Highlights) -->
+        <div class="w-1/4 bg-white border border-gray-300 rounded flex flex-col">
+            <div class="region-header">Highlights Panel</div>
+            <div class="p-4 flex-grow overflow-y-auto">
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="./images/YusufPotrait.png" class="w-16 h-16 rounded object-cover" alt="Profile">
+                    <div>
+                        <h2 class="text-lg font-bold">Yusuf Ali Khan</h2>
+                        <p class="text-gray-500">Salesforce Architect</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <span class="text-gray-500 block">Phone</span>
+                        <a href="#" class="text-blue-600">+91 000 000 0000</a>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Email</span>
+                        <a href="#" class="text-blue-600">yusuf@example.com</a>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Title</span>
+                        <span>Senior Architect</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">Location</span>
+                        <span>Hyderabad, India</span>
+                    </div>
+                </div>
+
+                <hr class="my-4 border-gray-200">
+
+                <div class="text-xs">
+                    <span class="text-gray-500 block mb-2">Technical Skills</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="bg-blue-100 text-blue-800 px-1 rounded">Apex</span>
+                        <span class="bg-blue-100 text-blue-800 px-1 rounded">LWC</span>
+                        <span class="bg-blue-100 text-blue-800 px-1 rounded">FSC</span>
+                        <span class="bg-blue-100 text-blue-800 px-1 rounded">OmniStudio</span>
+                        <span class="bg-blue-100 text-blue-800 px-1 rounded">Node.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center (Activity Feed) -->
+        <div class="w-1/2 bg-white border border-gray-300 rounded flex flex-col">
+            <div class="bg-gray-50 border-b border-gray-200 px-4 py-2 flex gap-4">
+                <a href="#" class="font-bold text-blue-600 border-b-2 border-blue-600 pb-2 -mb-2.5">Feed</a>
+                <a href="#" class="font-bold text-gray-500 hover:text-blue-600 pb-2">Related List</a>
+            </div>
+            
+            <div class="p-4 flex-grow overflow-y-auto bg-[#FAF9F8]">
+                
+                <!-- Post 1 -->
+                <div class="bg-white border border-gray-200 rounded p-4 mb-4">
+                    <div class="flex gap-3 mb-2">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs">YK</div>
+                        <div>
+                            <p class="text-xs"><span class="font-bold text-blue-600">Yusuf Ali Khan</span> created a new project.</p>
+                            <p class="text-[10px] text-gray-400">Today at 10:00 AM</p>
+                        </div>
+                    </div>
+                    <p class="text-sm mb-2">Deployed a complex Financial Services Cloud implementation for a banking client, improving user adoption by 40%.</p>
+                    <div class="bg-gray-50 p-2 border border-gray-200 rounded text-xs flex items-center gap-2 cursor-pointer hover:bg-gray-100">
+                        <i class="fas fa-file-code text-gray-400"></i>
+                        <span>FSC_Implementation_Case_Study.pdf</span>
+                    </div>
+                </div>
+
+                <!-- Post 2 -->
+                 <div class="bg-white border border-gray-200 rounded p-4 mb-4">
+                    <div class="flex gap-3 mb-2">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs">SF</div>
+                        <div>
+                            <p class="text-xs"><span class="font-bold text-blue-600">Salesforce</span> issued a certification.</p>
+                            <p class="text-[10px] text-gray-400">Yesterday</p>
+                        </div>
+                    </div>
+                    <p class="text-sm mb-2">Congratulations on earning the <strong>Salesforce Certified Application Architect</strong> credential!</p>
+                </div>
+
+            </div>
+            
+            <!-- Publisher (Bottom) -->
+            <div class="p-3 border-t border-gray-200 bg-white">
+                <input type="text" placeholder="Write a post..." class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 outline-none">
+            </div>
+        </div>
+
+        <!-- Right Sidebar (Knowledge/Utility) -->
+        <div class="w-1/4 bg-white border border-gray-300 rounded flex flex-col">
+            <div class="region-header flex justify-between">
+                Knowledge
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <div class="p-0 flex-grow overflow-y-auto">
+                <div class="p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                    <h4 class="text-blue-600 font-medium text-xs mb-1">How to optimize LWC performance?</h4>
+                    <p class="text-gray-500 text-[11px] line-clamp-2">Best practices include using @wire adapters, minimizing DOM manipulation...</p>
+                </div>
+                 <div class="p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                    <h4 class="text-blue-600 font-medium text-xs mb-1">Apex Trigger Frameworks</h4>
+                    <p class="text-gray-500 text-[11px] line-clamp-2">Implementing a single trigger per object pattern ensures order of execution...</p>
+                </div>
+            </div>
+            
+            <!-- Utility Bar at bottom of sidebar -->
+            <div class="bg-[#333] text-white p-2 text-xs font-bold flex justify-around">
+                <div class="cursor-pointer hover:text-gray-300"><i class="fas fa-phone mr-1"></i> Phone</div>
+                <div class="cursor-pointer hover:text-gray-300"><i class="fas fa-sticky-note mr-1"></i> Notes</div>
+                <div class="cursor-pointer hover:text-gray-300"><i class="fas fa-history mr-1"></i> History</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

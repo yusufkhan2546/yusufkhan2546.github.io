@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v61 (One Page)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 2rem; }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <!-- Fixed Nav -->
+    <nav class="fixed top-0 left-0 w-full p-6 flex justify-between items-center z-50 bg-black/80 backdrop-blur-md">
+        <a href="#home" class="font-bold text-xl">YAK.</a>
+        <div class="space-x-6 text-sm text-gray-400">
+            <a href="#about" class="hover:text-white transition">About</a>
+            <a href="#work" class="hover:text-white transition">Work</a>
+            <a href="#skills" class="hover:text-white transition">Skills</a>
+            <a href="#contact" class="hover:text-white transition">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Home -->
+    <section id="home" class="items-center text-center">
+        <h1 class="text-5xl md:text-8xl font-black mb-6 tracking-tighter">
+            Architect.<br>Developer.<br>Solved.
+        </h1>
+        <p class="text-gray-400 text-xl max-w-xl mx-auto mb-10">
+            Premium Salesforce development for the modern enterprise.
+        </p>
+        <a href="#about" class="animate-bounce mx-auto">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </a>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="bg-gray-900 border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold mb-8">About Me</h2>
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="w-full md:w-1/2">
+                    <img src="./images/YusufPotrait.png" class="rounded-lg shadow-2xl filter grayscale hover:grayscale-0 transition duration-500">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <p class="text-xl leading-relaxed text-gray-300">
+                        I am Yusuf Ali Khan, a Salesforce Technical Architect with a passion for clean code and scalable design. 
+                        With over 5 years of experience, I specialize in transforming complex business problems into elegant technical solutions on the Force.com platform.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="bg-black border-t border-gray-800">
+        <div class="max-w-6xl mx-auto w-full">
+            <h2 class="text-4xl font-bold mb-12">Selected Work</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-gray-900 p-8 rounded-2xl hover:bg-gray-800 transition cursor-pointer group">
+                    <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition">Sales Cloud Transformation</h3>
+                    <p class="text-gray-400 mb-4">Enterprise rollout for 5,000+ users.</p>
+                    <div class="flex gap-2">
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">Apex</span>
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">Flow</span>
+                    </div>
+                </div>
+                 <!-- Project 2 -->
+                <div class="bg-gray-900 p-8 rounded-2xl hover:bg-gray-800 transition cursor-pointer group">
+                    <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition">Customer Portal</h3>
+                    <p class="text-gray-400 mb-4">Experience Cloud site with custom branding.</p>
+                     <div class="flex gap-2">
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">LWC</span>
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">LWR</span>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="bg-gray-900 p-8 rounded-2xl hover:bg-gray-800 transition cursor-pointer group">
+                    <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition">ERP Integration</h3>
+                    <p class="text-gray-400 mb-4">Real-time sync between SAP and Salesforce.</p>
+                     <div class="flex gap-2">
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">Rest API</span>
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">MuleSoft</span>
+                    </div>
+                </div>
+                <!-- Project 4 -->
+                <div class="bg-gray-900 p-8 rounded-2xl hover:bg-gray-800 transition cursor-pointer group">
+                    <h3 class="text-2xl font-bold mb-2 group-hover:text-blue-400 transition">Custom CPQ</h3>
+                    <p class="text-gray-400 mb-4">Complex pricing engine built from scratch.</p>
+                     <div class="flex gap-2">
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">Apex</span>
+                        <span class="text-xs bg-black px-2 py-1 rounded border border-gray-700">Visualforce</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="bg-gray-900 border-t border-gray-800">
+        <div class="max-w-4xl mx-auto w-full">
+            <h2 class="text-4xl font-bold mb-12">Proficiency</h2>
+            <div class="space-y-6">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-bold">Apex & Backend Logic</span>
+                        <span class="text-blue-400">95%</span>
+                    </div>
+                    <div class="w-full bg-black h-4 rounded-full overflow-hidden">
+                        <div class="bg-blue-600 h-full w-[95%]"></div>
+                    </div>
+                </div>
+                 <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-bold">LWC & Frontend</span>
+                        <span class="text-blue-400">90%</span>
+                    </div>
+                    <div class="w-full bg-black h-4 rounded-full overflow-hidden">
+                        <div class="bg-blue-600 h-full w-[90%]"></div>
+                    </div>
+                </div>
+                 <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="font-bold">System Architecture</span>
+                        <span class="text-blue-400">85%</span>
+                    </div>
+                    <div class="w-full bg-black h-4 rounded-full overflow-hidden">
+                        <div class="bg-blue-600 h-full w-[85%]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="bg-black border-t border-gray-800 text-center">
+        <h2 class="text-5xl font-bold mb-6">Ready to Scale?</h2>
+        <p class="text-gray-400 mb-8">Currently accepting new projects for Q3.</p>
+        <a href="mailto:hello@yusuf.dev" class="bg-white text-black font-bold px-10 py-4 rounded-full hover:bg-gray-200 transition">
+            Start a Conversation
+        </a>
+    </section>
+
+</body>
+</html>

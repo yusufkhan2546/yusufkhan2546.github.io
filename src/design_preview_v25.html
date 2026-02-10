@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v25 (Tableau)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Benton+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #F5F5F5; }
+        .tableau-header { background-color: #FAF9F8; border-bottom: 1px solid #E5E5E5; }
+        .viz-card { background: white; border: 1px solid #E5E5E5; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .bar-chart-bar { transition: height 1s ease-out; }
+        .bg-tableau-blue { background-color: #4E79A7; }
+        .bg-tableau-orange { background-color: #F28E2B; }
+        .bg-tableau-red { background-color: #E15759; }
+        .bg-tableau-teal { background-color: #76B7B2; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="tableau-header h-16 flex items-center px-4 justify-between">
+        <div class="flex items-center gap-2">
+            <span class="text-blue-500 text-2xl font-bold"><i class="fas fa-asterisk"></i></span>
+            <span class="font-bold text-gray-700 text-lg">Tableau Public | Yusuf's Career Stats</span>
+        </div>
+        <div class="text-sm text-gray-500">Last updated: Today</div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="p-6 grid grid-cols-12 gap-6 max-w-[1600px] mx-auto">
+        
+        <!-- Filter Pane (Sidebar) -->
+        <div class="col-span-2 bg-white border border-gray-200 p-4 h-fit">
+            <h3 class="font-bold text-gray-600 mb-4 border-b pb-2">Filters</h3>
+            
+            <div class="mb-4">
+                <label class="block text-xs font-bold text-gray-500 mb-1">Year</label>
+                <div class="space-y-1">
+                    <label class="flex items-center text-sm"><input type="checkbox" checked class="mr-2"> 2024</label>
+                    <label class="flex items-center text-sm"><input type="checkbox" checked class="mr-2"> 2023</label>
+                    <label class="flex items-center text-sm"><input type="checkbox" checked class="mr-2"> 2022</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-xs font-bold text-gray-500 mb-1">Skill Category</label>
+                <div class="space-y-1">
+                    <label class="flex items-center text-sm"><input type="checkbox" checked class="mr-2"> Development</label>
+                    <label class="flex items-center text-sm"><input type="checkbox" checked class="mr-2"> Architecture</label>
+                    <label class="flex items-center text-sm"><input type="checkbox" checked class="mr-2"> Consulting</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Viz Area -->
+        <div class="col-span-10 grid grid-cols-2 gap-6">
+            
+            <!-- KPI Cards -->
+            <div class="col-span-2 grid grid-cols-4 gap-4">
+                <div class="viz-card flex flex-col items-center justify-center">
+                    <span class="text-4xl font-bold text-gray-700">6+</span>
+                    <span class="text-xs uppercase text-gray-500">Years Experience</span>
+                </div>
+                <div class="viz-card flex flex-col items-center justify-center">
+                    <span class="text-4xl font-bold text-gray-700">12</span>
+                    <span class="text-xs uppercase text-gray-500">Certifications</span>
+                </div>
+                <div class="viz-card flex flex-col items-center justify-center">
+                    <span class="text-4xl font-bold text-gray-700">290K</span>
+                    <span class="text-xs uppercase text-gray-500">Trailhead Points</span>
+                </div>
+                 <div class="viz-card flex flex-col items-center justify-center">
+                    <span class="text-4xl font-bold text-gray-700">100%</span>
+                    <span class="text-xs uppercase text-gray-500">Client Satisfaction</span>
+                </div>
+            </div>
+
+            <!-- Expertise Bar Chart -->
+            <div class="viz-card h-80">
+                <h4 class="text-center font-bold text-gray-600 mb-6">Technical Proficiency Scorce</h4>
+                <div class="h-full flex items-end justify-around px-4 pb-6 border-b border-l border-gray-300">
+                    
+                    <div class="w-12 flex flex-col items-center group relative">
+                        <div class="w-full bg-tableau-blue h-[90%] relative bar-chart-bar hover:opacity-80 cursor-pointer" title="Apex: 90%"></div>
+                        <span class="text-xs mt-2 -rotate-45 origin-left translate-y-2">Apex</span>
+                    </div>
+
+                    <div class="w-12 flex flex-col items-center group relative">
+                        <div class="w-full bg-tableau-orange h-[85%] bar-chart-bar hover:opacity-80 cursor-pointer" title="LWC: 85%"></div>
+                        <span class="text-xs mt-2 -rotate-45 origin-left translate-y-2">LWC</span>
+                    </div>
+
+                    <div class="w-12 flex flex-col items-center group relative">
+                        <div class="w-full bg-tableau-red h-[75%] bar-chart-bar hover:opacity-80 cursor-pointer" title="Integration: 75%"></div>
+                        <span class="text-xs mt-2 -rotate-45 origin-left translate-y-2">MuleSoft</span>
+                    </div>
+
+                     <div class="w-12 flex flex-col items-center group relative">
+                        <div class="w-full bg-tableau-teal h-[95%] bar-chart-bar hover:opacity-80 cursor-pointer" title="Flows: 95%"></div>
+                        <span class="text-xs mt-2 -rotate-45 origin-left translate-y-2">Flows</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tree Map -->
+            <div class="viz-card h-80 relative overflow-hidden">
+                <h4 class="text-center font-bold text-gray-600 mb-2">Project Distribution</h4>
+                <div class="w-full h-full flex flex-wrap content-start">
+                    <div class="w-[60%] h-[60%] bg-tableau-blue p-2 border border-white text-white font-bold flex items-center justify-center">
+                        Financial Services Cloud (40%)
+                    </div>
+                    <div class="w-[40%] h-[50%] bg-tableau-orange p-2 border border-white text-white font-bold flex items-center justify-center text-sm">
+                        Service Cloud (25%)
+                    </div>
+                    <div class="w-[40%] h-[50%] bg-tableau-teal p-2 border border-white text-white font-bold flex items-center justify-center text-sm -mt-[10%]">
+                        Sales Cloud (20%)
+                    </div>
+                     <div class="w-[60%] h-[40%] bg-tableau-red p-2 border border-white text-white font-bold flex items-center justify-center text-sm">
+                        Experience Cloud (15%)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

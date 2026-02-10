@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v20 (Trailblazer)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #EBF8FF; }
+        .font-display { font-family: 'Fredoka', sans-serif; }
+        
+        .nature-bg {
+            background-color: #88D3CE;
+            background-image: url('https://raw.githubusercontent.com/salesforce/design-system/master/assets/images/themes/oneSalesforce/banner-brand-default.png'); 
+            /* Fallback or specific trailhead art would go here, simulating with colors */
+            background-size: cover;
+            background-position: center bottom;
+        }
+        
+        .badge-polygon {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Fun Header -->
+    <header class="bg-white py-4 px-6 shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-hiking text-3xl text-green-600"></i>
+                <span class="font-display text-2xl font-bold text-gray-800">TrailProfile</span>
+            </div>
+            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition">
+                Hire Me
+            </button>
+        </div>
+    </header>
+
+    <!-- Illustrative Hero -->
+    <div class="bg-[#022D41] text-white pt-16 pb-32 relative overflow-hidden">
+        
+        <!-- Decorative Circles simulating 'Astro' environment -->
+        <div class="absolute top-10 right-10 w-32 h-32 bg-yellow-400 rounded-full opacity-20"></div>
+        <div class="absolute bottom-10 left-10 w-64 h-64 bg-green-500 rounded-full opacity-10"></div>
+
+        <div class="max-w-4xl mx-auto text-center relative z-10 px-4">
+            <div class="w-32 h-32 mx-auto bg-white p-2 rounded-full mb-6">
+                <img src="./images/YusufPotrait.png" class="w-full h-full object-cover rounded-full" alt="Yusuf">
+            </div>
+            
+            <h1 class="font-display text-5xl font-bold mb-4">Yusuf Ali Khan</h1>
+            <h2 class="text-2xl text-blue-200 mb-8 font-bold">Ranger • Architect • Mentor</h2>
+            
+            <div class="inline-flex gap-4 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
+                <div class="text-center px-4 border-r border-white/20">
+                    <div class="text-2xl font-bold">290K+</div>
+                    <div class="text-xs uppercase opacity-70">Points</div>
+                </div>
+                <div class="text-center px-4 border-r border-white/20">
+                    <div class="text-2xl font-bold">300+</div>
+                    <div class="text-xs uppercase opacity-70">Badges</div>
+                </div>
+                 <div class="text-center px-4">
+                    <div class="text-2xl font-bold">12</div>
+                    <div class="text-xs uppercase opacity-70">Certs</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Curvy divider -->
+        <div class="absolute bottom-0 w-full">
+            <svg viewBox="0 0 1440 320" class="w-full h-auto block text-[#EBF8FF] fill-current">
+                <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Skills 'Badges' Grid -->
+    <div class="max-w-5xl mx-auto px-4 py-12 -mt-10 relative z-20">
+        <h3 class="text-center font-display text-3xl font-bold text-[#022D41] mb-12">My Skill Badges</h3>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <!-- Badge 1 -->
+            <div class="flex flex-col items-center group">
+                <div class="w-24 h-24 badge-polygon bg-blue-500 shadow-lg flex items-center justify-center text-white text-3xl mb-4 group-hover:scale-110 transition">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h4 class="font-bold text-gray-700">Apex Specialist</h4>
+            </div>
+
+            <!-- Badge 2 -->
+             <div class="flex flex-col items-center group">
+                <div class="w-24 h-24 badge-polygon bg-orange-500 shadow-lg flex items-center justify-center text-white text-3xl mb-4 group-hover:scale-110 transition">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h4 class="font-bold text-gray-700">LWC Master</h4>
+            </div>
+
+            <!-- Badge 3 -->
+             <div class="flex flex-col items-center group">
+                <div class="w-24 h-24 badge-polygon bg-purple-500 shadow-lg flex items-center justify-center text-white text-3xl mb-4 group-hover:scale-110 transition">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h4 class="font-bold text-gray-700">AI Enthusiast</h4>
+            </div>
+
+            <!-- Badge 4 -->
+             <div class="flex flex-col items-center group">
+                <div class="w-24 h-24 badge-polygon bg-green-500 shadow-lg flex items-center justify-center text-white text-3xl mb-4 group-hover:scale-110 transition">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h4 class="font-bold text-gray-700">Cloud Architect</h4>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

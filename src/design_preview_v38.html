@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v38 (Low Poly Dreamscape)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background: linear-gradient(to bottom, #dbeafe, #f3e8ff); color: #475569; font-family: 'Nunito', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen flex items-center justify-center text-center">
+        <div>
+            <h1 class="text-6xl font-black text-indigo-600 drop-shadow-sm mb-4">Imagine. Build. Launch.</h1>
+            <p class="text-xl text-slate-500 max-w-lg mx-auto mb-8">
+                Crafting delightful user experiences on the Salesforce platform.
+            </p>
+            <button class="pointer-events-auto bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition transform hover:-translate-y-1">
+                Explore My World
+            </button>
+        </div>
+    </div>
+
+    <!-- Simplex Noise for terrain would be ideal, but using random height for simplicity -->
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xdbeafe);
+        scene.fog = new THREE.Fog(0xdbeafe, 10, 50);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lighting
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+        scene.add(hemiLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffccaa, 1);
+        dirLight.position.set(10, 20, 10);
+        dirLight.castShadow = true;
+        scene.add(dirLight);
+
+        // Low Poly Terrain
+        const geometry = new THREE.PlaneGeometry(100, 100, 30, 30);
+        const pos = geometry.attributes.position;
+        
+        for (let i = 0; i < pos.count; i++) {
+            const z = pos.getZ(i);
+            const x = pos.getX(i);
+            const y = pos.getY(i);
+            // Simple random terrain
+            pos.setZ(i, z + Math.random() * 2);
+        }
+        
+        geometry.computeVertexNormals();
+        
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x60a5fa, // Blue-400
+            flatShading: true,
+            shininess: 0
+        });
+        
+        const terrain = new THREE.Mesh(geometry, material);
+        terrain.rotation.x = -Math.PI / 2;
+        terrain.position.y = -5;
+        terrain.receiveShadow = true;
+        scene.add(terrain);
+
+        // Floating Clouds (Low Poly)
+        const cloudGeo = new THREE.DodecahedronGeometry(1, 0);
+        const cloudMat = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
+        
+        for(let i=0; i<10; i++) {
+            const mesh = new THREE.Mesh(cloudGeo, cloudMat);
+            mesh.position.set(
+                (Math.random() - 0.5) * 40,
+                (Math.random() * 10) + 5,
+                (Math.random() - 0.5) * 30 - 10
+            );
+            mesh.scale.setScalar(Math.random() * 2 + 1);
+            scene.add(mesh);
+        }
+
+        camera.position.z = 20;
+        camera.position.y = 5;
+
+        // Interaction
+        let mouseX = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth/2) * 0.001;
+        });
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            terrain.rotation.z += 0.001;
+            camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+            camera.lookAt(0, 5, 0);
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

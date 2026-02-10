@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v4 (Cyber)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cyber-dark': '#010203',
+                        'neon-blue': '#00F0FF',
+                        'neon-orange': '#FF3D00',
+                        'grid-color': '#0a1a2f'
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Rajdhani', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px #FF3D00, 0 0 20px #FF3D00',
+                        'neon-blue': '0 0 10px #00F0FF, 0 0 20px #00F0FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #010203;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        .cyber-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            perspective: 500px;
+        }
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #00F0FF;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #FF3D00;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            0% { clip: rect(12px, 9999px, 86px, 0); }
+            5% { clip: rect(86px, 9999px, 16px, 0); }
+            10% { clip: rect(32px, 9999px, 4px, 0); }
+            15% { clip: rect(65px, 9999px, 98px, 0); }
+            20% { clip: rect(2px, 9999px, 76px, 0); }
+            100% { clip: rect(54px, 9999px, 12px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(12px, 9999px, 86px, 0); }
+            5% { clip: rect(86px, 9999px, 16px, 0); }
+            10% { clip: rect(32px, 9999px, 4px, 0); }
+            15% { clip: rect(65px, 9999px, 98px, 0); }
+            20% { clip: rect(2px, 9999px, 76px, 0); }
+            100% { clip: rect(54px, 9999px, 12px, 0); }
+        }
+    </style>
+</head>
+<body class="cyber-grid min-h-screen p-6 md:p-10 font-mono">
+    
+    <div class="scanline"></div>
+
+    <!-- Top Bar -->
+    <div class="flex justify-between items-center border-b border-neon-blue/30 pb-4 mb-20">
+        <div class="text-neon-orange font-bold text-xl tracking-widest">[SYSTEM_ACTIVE]</div>
+        <div class="flex gap-4 text-xs text-neon-blue/70">
+            <span>CPU: 45%</span>
+            <span>MEM: 2.4TB</span>
+            <span>NET: ONLINE</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Code/Text Column -->
+        <div class="relative z-10">
+            <div class="text-neon-blue text-sm mb-2">&lt;identity&gt;</div>
+            <h1 class="text-7xl font-display font-bold uppercase mb-4 glitch-text leading-none text-white" data-text="YUSUF.KHAN">
+                YUSUF.KHAN
+            </h1>
+            <div class="text-neon-blue text-sm mb-10">&lt;/identity&gt;</div>
+
+            <div class="border-l-2 border-neon-orange pl-6 mb-12">
+                <p class="text-xl text-gray-400 font-light mb-4 text-justify">
+                    /* ARCHITECTING DIGITAL REALITIES */ <br><br>
+                    Salesforce Specialist with <span class="text-neon-orange">Node.js</span> and <span class="text-neon-blue">Apex</span> core integration.
+                    Optimizing enterprise systems for maximum throughput.
+                </p>
+                <div class="flex gap-2 text-xs text-neon-blue">
+                    <span>['Apex', 'LWC', 'OmniStudio', 'Integration']</span>
+                </div>
+            </div>
+
+            <a href="#" class="inline-block bg-neon-orange/10 border border-neon-orange text-neon-orange px-8 py-3 font-bold hover:bg-neon-orange hover:text-black transition uppercase tracking-widest shadow-neon">
+                Initialize_Contact( )
+            </a>
+        </div>
+
+        <!-- Visual/Holo Column -->
+        <div class="relative flex justify-center items-center">
+            
+            <!-- HUD Elements -->
+            <div class="absolute inset-0 border border-neon-blue/20 rounded-lg p-4">
+                <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-neon-blue"></div>
+                <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-neon-blue"></div>
+            </div>
+
+            <!-- Central Hexagon Image Frame -->
+            <div class="relative w-[400px] h-[450px] bg-gray-900 border border-neon-blue overflow-hidden clip-path-hex group">
+                 <div class="absolute inset-0 bg-gradient-to-t from-neon-blue/20 to-transparent z-20"></div>
+                 <img src="./src/images/YusufPotrait.png" class="w-full h-full object-cover filter grayscale sepia brightness-50 contrast-125 group-hover:filter-none transition-all duration-500" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);" alt="Cyber Portrait">
+                 
+                 <!-- Scanning Line -->
+                 <div class="absolute top-0 left-0 w-full h-1 bg-neon-orange shadow-neon animate-[scan_3s_linear_infinite]"></div>
+            </div>
+
+            <!-- Floating Data Widgets -->
+            <div class="absolute -right-4 top-10 bg-black border border-neon-blue p-2 text-[10px] text-neon-blue w-32">
+                > EXP_LEVEL: 06<br>
+                > CERTIFICATES: 12<br>
+                > STATUS: ELITE
+            </div>
+
+        </div>
+
+    </div>
+
+    <style>
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+    </style>
+</body>
+</html>

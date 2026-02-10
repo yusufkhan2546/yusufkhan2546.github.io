@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Salesforce Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { 
+            font-family: 'Sora', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .liquid-blob {
+            position: absolute;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite, float 6s ease-in-out infinite;
+            filter: blur(40px);
+            opacity: 0.7;
+        }
+        @keyframes morph {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="relative">
+    
+    <!-- Liquid Blobs Background -->
+    <div class="liquid-blob w-96 h-96 bg-pink-400 top-[-100px] left-[-100px]"></div>
+    <div class="liquid-blob w-80 h-80 bg-blue-400 top-[20%] right-[-50px]"></div>
+    <div class="liquid-blob w-72 h-72 bg-purple-400 bottom-[10%] left-[10%]"></div>
+    <div class="liquid-blob w-64 h-64 bg-yellow-300 bottom-[-50px] right-[20%]"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-black text-white">YAK</a>
+            <ul class="hidden md:flex gap-8 items-center">
+                <li><a href="#home" class="text-white/80 hover:text-white transition font-semibold">Home</a></li>
+                <li><a href="#experience" class="text-white/80 hover:text-white transition font-semibold">Experience</a></li>
+                <li><a href="#skills" class="text-white/80 hover:text-white transition font-semibold">Skills</a></li>
+                <li><a href="#contact" class="text-white/80 hover:text-white transition font-semibold">Contact</a></li>
+                <li><a href="./resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download class="bg-white/20 backdrop-blur-lg border border-white/30 text-white px-6 py-2 rounded-full font-bold hover:bg-white/30 transition">Download CV</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative z-10 container mx-auto px-6 py-32 min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <div>
+                <p class="text-pink-200 font-bold tracking-widest uppercase text-sm mb-4">Salesforce Architect & Developer</p>
+                <h1 class="text-6xl md:text-8xl font-black mb-6 gradient-text">
+                    Yusuf Ali Khan
+                </h1>
+                <p class="text-xl text-white/90 mb-8 leading-relaxed">
+                    Transforming enterprise challenges into seamless digital experiences. Specializing in <span class="font-bold">Apex</span>, <span class="font-bold">LWC</span>, and <span class="font-bold">Cloud Architecture</span>.
+                </p>
+                
+                <!-- Social Links -->
+                <div class="flex gap-4 mb-8">
+                    <a href="https://www.linkedin.com/in/yusufkhan2546" target="_blank" class="glass w-12 h-12 rounded-xl flex items-center justify-center text-white hover:scale-110 transition">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://github.com/yusufkhan2546" target="_blank" class="glass w-12 h-12 rounded-xl flex items-center justify-center text-white hover:scale-110 transition">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="mailto:yusufkhantrailblazer@gmail.com" class="glass w-12 h-12 rounded-xl flex items-center justify-center text-white hover:scale-110 transition">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="glass rounded-2xl p-4 hover:bg-white/20 transition">
+                        <div class="text-3xl font-black text-pink-300 mb-1">6+</div>
+                        <div class="text-xs text-white/80 uppercase tracking-wider font-bold">Years of Impact</div>
+                    </div>
+                    <div class="glass rounded-2xl p-4 hover:bg-white/20 transition">
+                        <div class="text-3xl font-black text-white mb-1">12</div>
+                        <div class="text-xs text-white/80 uppercase tracking-wider font-bold">Salesforce Certs</div>
+                    </div>
+                    <div class="glass rounded-2xl p-4 hover:bg-white/20 transition">
+                        <div class="text-3xl font-black text-yellow-300 mb-1">290k+</div>
+                        <div class="text-xs text-white/80 uppercase tracking-wider font-bold">Trailhead Pts</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Image -->
+            <div class="flex justify-center lg:justify-end">
+                <div class="relative">
+                    <div class="w-80 h-80 rounded-full glass overflow-hidden border-4 border-white/30">
+                        <img src="./images/YusufPotrait.png" alt="Yusuf Ali Khan" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="relative z-10 container mx-auto px-6 py-20">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-black text-white text-center mb-4">Professional Journey</h2>
+            <p class="text-center text-white/80 mb-16 max-w-2xl mx-auto">
+                6+ years of delivering enterprise Salesforce solutions across Financial Services, Telecom, and Technology sectors
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Job 1 -->
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition group">
+                    <div class="text-5xl mb-4">💼</div>
+                    <div class="text-pink-300 font-bold text-sm mb-2">Oct 2019 - Oct 2020</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Salesforce Developer</h3>
+                    <p class="text-white/80 mb-4">Reliant Vision Group</p>
+                    <ul class="space-y-2 text-sm text-white/70">
+                        <li class="flex items-start"><span class="text-pink-300 mr-2">▸</span>Started Salesforce development journey</li>
+                        <li class="flex items-start"><span class="text-pink-300 mr-2">▸</span>Developed custom Apex solutions</li>
+                        <li class="flex items-start"><span class="text-pink-300 mr-2">▸</span>Built Lightning components</li>
+                    </ul>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">Salesforce</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">Apex</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">Lightning</span>
+                    </div>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition group">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <div class="text-blue-300 font-bold text-sm mb-2">Oct 2021 - Sep 2024</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Software Engineer</h3>
+                    <p class="text-white/80 mb-4">Prodapt Solutions</p>
+                    <ul class="space-y-2 text-sm text-white/70">
+                        <li class="flex items-start"><span class="text-blue-300 mr-2">▸</span>60% of development across 5+ projects</li>
+                        <li class="flex items-start"><span class="text-blue-300 mr-2">▸</span>Built 50+ Apex classes with 95%+ coverage</li>
+                        <li class="flex items-start"><span class="text-blue-300 mr-2">▸</span>Reduced onboarding from 2 days to 2 hours</li>
+                    </ul>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">Sales Cloud</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">LWC</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">OmniStudio</span>
+                    </div>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition group border-2 border-white/40">
+                    <div class="text-5xl mb-4">⭐</div>
+                    <div class="text-yellow-300 font-bold text-sm mb-2">Sep 2024 - Present</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Salesforce Developer</h3>
+                    <p class="text-white/80 mb-4">K Square Solutions</p>
+                    <ul class="space-y-2 text-sm text-white/70">
+                        <li class="flex items-start"><span class="text-yellow-300 mr-2">▸</span>Led 3 FSC implementations with 100% adoption</li>
+                        <li class="flex items-start"><span class="text-yellow-300 mr-2">▸</span>Achieved 60% revenue growth and 90% CSAT</li>
+                        <li class="flex items-start"><span class="text-yellow-300 mr-2">▸</span>Implemented AI solutions with Agentforce</li>
+                    </ul>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">FSC</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">Apex</span>
+                        <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">Agentforce</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="relative z-10 container mx-auto px-6 py-20">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-black text-white text-center mb-16">Core Expertise</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Lightning Fast</h3>
+                    <p class="text-white/80">Optimized Apex and LWC for peak performance.</p>
+                </div>
+                
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition">
+                    <div class="text-5xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Beautiful UIs</h3>
+                    <p class="text-white/80">Pixel-perfect Lightning Web Components.</p>
+                </div>
+
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition">
+                    <div class="text-5xl mb-4">🔗</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Integrations</h3>
+                    <p class="text-white/80">Seamless API connections and data sync.</p>
+                </div>
+
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition">
+                    <div class="text-5xl mb-4">🏗️</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Architecture</h3>
+                    <p class="text-white/80">Scalable system design and data modeling.</p>
+                </div>
+
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition">
+                    <div class="text-5xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">AI Solutions</h3>
+                    <p class="text-white/80">Agentforce and intelligent automation.</p>
+                </div>
+
+                <div class="glass rounded-3xl p-8 hover:bg-white/20 transition">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-2xl font-bold text-white mb-3">FSC Expert</h3>
+                    <p class="text-white/80">Financial Services Cloud implementations.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative z-10 container mx-auto px-6 py-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-black text-white mb-6">Let's Build Something Amazing</h2>
+            <p class="text-xl text-white/80 mb-12">
+                Ready to transform your Salesforce implementation? Let's connect and discuss your next project.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="mailto:yusufkhantrailblazer@gmail.com" class="bg-white text-purple-900 px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition shadow-2xl">
+                    Get In Touch
+                </a>
+                <a href="https://www.linkedin.com/in/yusufkhan2546" target="_blank" class="glass border border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition">
+                    Connect on LinkedIn
+                </a>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-16 pt-8 border-t border-white/20">
+                <p class="text-white/60 text-sm">
+                    © 2026 Yusuf Ali Khan. Crafted with passion for Salesforce excellence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

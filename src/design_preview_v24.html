@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v24 (Slack)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <style>
+        body { font-family: 'Lato', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+        .slack-purple { background-color: #3F0E40; }
+        .slack-hover:hover { background-color: #350d36; }
+        .channel-hover:hover { background-color: #350d36; }
+        .active-channel { background-color: #1164A3; color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="w-[260px] slack-purple text-[#cfc3cf] flex flex-col flex-shrink-0">
+        <!-- Workspace Header -->
+        <div class="h-[49px] border-b border-[#5d2c5d] flex items-center px-4 font-bold text-white hover:bg-[#350d36] cursor-pointer">
+            Yusuf's Workspace <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            <div class="ml-auto bg-white text-black w-8 h-8 rounded-full flex items-center justify-center text-xs">YK</div>
+        </div>
+
+        <!-- Scrollable Area -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar py-2">
+            
+            <div class="px-4 py-1 flex items-center text-[#cfc3cf] hover:text-white cursor-pointer group">
+                <i class="far fa-comment-dots mr-2"></i> Threads
+            </div>
+            <div class="px-4 py-1 flex items-center text-[#cfc3cf] hover:text-white cursor-pointer mb-4">
+                <i class="fas fa-at mr-2"></i> Mentions & Reactions
+            </div>
+
+            <!-- Channels -->
+            <div class="px-4 flex items-center justify-between group cursor-pointer mb-1">
+                <span class="group-hover:text-white text-sm font-bold">Channels</span>
+                <i class="fas fa-plus text-xs group-hover:text-white"></i>
+            </div>
+
+            <div class="px-4 py-1 channel-hover cursor-pointer active-channel"># general-portfolio</div>
+            <div class="px-4 py-1 channel-hover cursor-pointer"># projects-showcase</div>
+            <div class="px-4 py-1 channel-hover cursor-pointer"># certifications</div>
+            <div class="px-4 py-1 channel-hover cursor-pointer text-gray-400"># random</div>
+
+            <!-- DMs -->
+             <div class="px-4 flex items-center justify-between group cursor-pointer mt-6 mb-1">
+                <span class="group-hover:text-white text-sm font-bold">Direct Messages</span>
+                <i class="fas fa-plus text-xs group-hover:text-white"></i>
+            </div>
+            
+            <div class="px-4 py-1 channel-hover cursor-pointer flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green-500"></div> Salesforce Recruiter
+            </div>
+            <div class="px-4 py-1 channel-hover cursor-pointer flex items-center gap-2">
+                 <div class="w-2 h-2 rounded-full bg-green-500"></div> Tech Lead
+            </div>
+            <div class="px-4 py-1 channel-hover cursor-pointer flex items-center gap-2 opacity-70">
+                 <div class="w-2 h-2 rounded-full border border-gray-400"></div> Client A
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col bg-white min-w-0">
+        
+        <!-- Header -->
+        <div class="h-[49px] border-b border-gray-200 flex items-center px-5 justify-between flex-shrink-0">
+            <div>
+                <div class="font-bold text-gray-900"># general-portfolio</div>
+                <div class="text-xs text-gray-500">Discussion about Yusuf's architecture skills and availability.</div>
+            </div>
+            <div class="flex items-center text-gray-500 gap-4">
+                <div class="flex -space-x-2">
+                    <div class="w-6 h-6 rounded-full bg-blue-500 border-2 border-white"></div>
+                    <div class="w-6 h-6 rounded-full bg-green-500 border-2 border-white"></div>
+                    <div class="w-6 h-6 rounded-full bg-gray-200 border-2 border-white text-[10px] flex items-center justify-center font-bold">24</div>
+                </div>
+                <i class="fas fa-info-circle"></i>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="flex-1 overflow-y-auto p-5">
+            
+            <!-- Message 1 -->
+            <div class="flex gap-4 mb-6 hover:bg-gray-50 -mx-5 px-5 py-2">
+                <div class="w-9 h-9 rounded bg-[#1164A3] flex items-center justify-center text-white font-bold flex-shrink-0">YK</div>
+                <div class="min-w-0">
+                    <div class="flex items-baseline gap-2">
+                        <span class="font-bold">Yusuf Ali Khan</span>
+                        <span class="text-xs text-gray-500">10:42 AM</span>
+                    </div>
+                    <div class="text-gray-900 mt-1">
+                        Here is the summary of my architectural experience including <span class="bg-blue-100 text-blue-800 px-1 rounded">@Salesforce</span> Core and <span class="bg-blue-100 text-blue-800 px-1 rounded">@DataCloud</span> integrations.
+                        <br><br>
+                        Check out the attached resume for details on the complex flows I've built! 🚀
+                    </div>
+                    
+                    <!-- Attachment -->
+                    <div class="mt-3 border border-gray-300 rounded-lg max-w-sm p-3 flex items-center gap-3 bg-white hover:border-gray-400 cursor-pointer transition">
+                        <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center text-lg">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-sm text-blue-600 truncate">Yusuf_Ali_Khan_Architect_CV.pdf</div>
+                            <div class="text-xs text-gray-500">PDF • 2 MB</div>
+                        </div>
+                    </div>
+
+                    <!-- Reactions -->
+                    <div class="flex gap-2 mt-2">
+                        <div class="bg-gray-100 rounded-full px-2 py-0.5 text-xs border border-transparent hover:border-gray-300 cursor-pointer text-gray-700">
+                             🔥 3
+                        </div>
+                        <div class="bg-gray-100 rounded-full px-2 py-0.5 text-xs border border-transparent hover:border-gray-300 cursor-pointer text-gray-700">
+                             👀 1
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message 2 -->
+             <div class="flex gap-4 mb-2 hover:bg-gray-50 -mx-5 px-5 py-2">
+                <div class="w-9 h-9 rounded bg-green-600 flex items-center justify-center text-white font-bold flex-shrink-0">R</div>
+                <div class="min-w-0">
+                    <div class="flex items-baseline gap-2">
+                        <span class="font-bold">Recruiter Bot</span>
+                        <span class="text-xs text-gray-500 text-gray-400">APP</span>
+                        <span class="text-xs text-gray-500">10:45 AM</span>
+                    </div>
+                    <div class="text-gray-900 mt-1">
+                        Wow, that's impressive! Do you have experience with <strong>LWC</strong> and <strong>Lightning Web Security</strong>?
+                    </div>
+                </div>
+            </div>
+
+             <!-- Message 3 -->
+             <div class="flex gap-4 mb-6 hover:bg-gray-50 -mx-5 px-5 py-2">
+                <div class="w-9 h-9 rounded bg-[#1164A3] flex items-center justify-center text-white font-bold flex-shrink-0">YK</div>
+                <div class="min-w-0">
+                    <div class="flex items-baseline gap-2">
+                        <span class="font-bold">Yusuf Ali Khan</span>
+                        <span class="text-xs text-gray-500">10:46 AM</span>
+                    </div>
+                    <div class="text-gray-900 mt-1">
+                        Absolutely! I've refactored multiple legacy Aura components to LWC and ensured compliance with LWS standards.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Input Box -->
+        <div class="p-5 pt-0">
+            <div class="border border-gray-400 rounded-lg overflow-hidden focus-within:ring-1 focus-within:ring-gray-500 focus-within:border-gray-500">
+                <div class="bg-gray-50 p-2 border-b border-gray-200 flex gap-2 text-gray-500">
+                    <i class="fas fa-bold hover:text-gray-800 cursor-pointer"></i>
+                    <i class="fas fa-italic hover:text-gray-800 cursor-pointer"></i>
+                    <i class="fas fa-strikethrough hover:text-gray-800 cursor-pointer"></i>
+                    <div class="w-px h-4 bg-gray-300 mx-1"></div>
+                    <i class="fas fa-link hover:text-gray-800 cursor-pointer"></i>
+                    <i class="fas fa-list-ul hover:text-gray-800 cursor-pointer"></i>
+                </div>
+                <textarea class="w-full p-3 h-20 outline-none resize-none" placeholder="Message #general-portfolio"></textarea>
+                <div class="flex justify-between items-center p-2">
+                    <div class="flex gap-3 text-gray-500">
+                        <i class="fas fa-plus hover:text-gray-800 cursor-pointer"></i>
+                        <i class="far fa-smile hover:text-gray-800 cursor-pointer"></i>
+                        <i class="fas fa-at hover:text-gray-800 cursor-pointer"></i>
+                    </div>
+                    <button class="bg-[#007a5a] text-white w-8 h-8 rounded flex items-center justify-center hover:bg-[#148567]">
+                        <i class="fas fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

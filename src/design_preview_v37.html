@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v37 (Warp Portal)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; color: white; font-family: 'Orbitron', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 10; mix-blend-mode: screen; }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-center">
+        <h1 class="text-6xl md:text-9xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-t from-blue-500 to-white animate-pulse">
+            VELOCITY
+        </h1>
+        <p class="text-xl md:text-2xl mt-4 text-blue-200 uppercase tracking-[0.5em]">
+            Accelerating Digital Transformation
+        </p>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.05);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Tunnel
+        const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(0, 0, -200),
+            new THREE.Vector3(0, 0, -400),
+            new THREE.Vector3(0, 0, -600),
+        ]);
+        
+        const geometry = new THREE.TubeGeometry(curve, 100, 10, 8, false);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x00aaff, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const tube = new THREE.Mesh(geometry, material);
+        scene.add(tube);
+        
+        // Particles flying past
+        const particlesGeo = new THREE.BufferGeometry();
+        const particlesCount = 2000;
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i=0; i<particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 100;
+        }
+        
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMat = new THREE.PointsMaterial({ size: 0.2, color: 0xffffff });
+        const particleMesh = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particleMesh);
+
+        camera.position.z = 10;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            // Move through tunnel illusion
+            particleMesh.position.z += 1;
+            if(particleMesh.position.z > 50) particleMesh.position.z = -50;
+            
+            tube.rotation.z += 0.005;
+            
+            // Warp shake
+            camera.position.x = (Math.random() - 0.5) * 0.1;
+            camera.position.y = (Math.random() - 0.5) * 0.1;
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

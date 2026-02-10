@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v7 (Three.js 3D)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8a41496b29.js" crossorigin="anonymous"></script>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-orange': '#FF6B00',
+                        'deep-space': '#05070a',
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #05070a; color: white; }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through to 3D scene where possible */
+        }
+        .pointer-events-auto {
+            pointer-events: auto;
+        }
+        .glass-hud {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay -->
+    <div class="content-layer min-h-screen flex flex-col justify-between p-8 md:p-12">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-start">
+            <div class="glass-hud px-6 py-3 rounded-lg pointer-events-auto">
+                <span class="font-bold tracking-widest text-neon-orange">YAK</span> / DEV
+            </div>
+            
+            <nav class="hidden md:flex gap-4 pointer-events-auto">
+                <a href="#" class="glass-hud px-6 py-3 rounded-lg hover:bg-white/10 transition text-sm font-bold uppercase">Work</a>
+                <a href="#" class="glass-hud px-6 py-3 rounded-lg hover:bg-white/10 transition text-sm font-bold uppercase">About</a>
+                <a href="#" class="glass-hud w-12 h-12 flex items-center justify-center rounded-lg hover:bg-neon-orange transition text-white">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </nav>
+        </header>
+
+        <!-- Main Center -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-grow pointer-events-none">
+            <div class="lg:col-span-7 pl-4 lg:pl-16">
+                <!-- Decorative Lines -->
+                <div class="w-20 h-1 bg-neon-orange mb-8"></div>
+                
+                <h1 class="text-6xl md:text-8xl font-bold leading-tight mb-6 mix-blend-screen">
+                    IMPACT <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-orange to-red-500">DRIVEN.</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-300 max-w-lg mb-10 font-light">
+                    Salesforce Architect building the future of enterprise cloud solutions.
+                </p>
+
+                <div class="flex gap-4 pointer-events-auto">
+                    <button class="bg-neon-orange text-white px-8 py-4 font-bold text-lg hover:bg-orange-600 transition shadow-[0_0_20px_rgba(255,107,0,0.4)]">
+                        VIEW WORKS
+                    </button>
+                    <button class="border border-white/30 px-8 py-4 font-bold text-lg hover:bg-white/10 transition backdrop-blur-md">
+                        CONTACT
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="flex justify-between items-end text-xs text-gray-500 font-mono">
+            <div class="glass-hud p-4 rounded-lg pointer-events-auto">
+                <div class="text-white font-bold text-lg">06+</div>
+                <div>YEARS EXP</div>
+            </div>
+            
+            <div class="flex flex-col items-end gap-2">
+                <span>SCROLL TO EXPLORE</span>
+                <div class="w-px h-12 bg-gradient-to-b from-neon-orange to-transparent"></div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Three.js Script -->
+    <script>
+        // Basic Scene Setup
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x05070a, 0.002);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040, 2);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xff6b00, 2, 100);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
+        const blueLight = new THREE.PointLight(0x0044ff, 2, 100);
+        blueLight.position.set(-10, -10, 10);
+        scene.add(blueLight);
+
+        // Particles System
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 2000;
+        
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50; // Spread particles
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        
+        // Material
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.15,
+            color: 0xff6b00,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+        
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Main 3D Shape (Icosahedron)
+        const geometry = new THREE.IcosahedronGeometry(10, 1);
+        const material = new THREE.MeshPhongMaterial({ 
+            color: 0x1a1a1a, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3,
+            side: THREE.DoubleSide
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // Inner solid shape
+        const innerGeo = new THREE.IcosahedronGeometry(8, 0);
+        const innerMat = new THREE.MeshPhongMaterial({
+            color: 0x0044ff,
+            flatShading: true,
+            shininess: 100
+        });
+        const innerSphere = new THREE.Mesh(innerGeo, innerMat);
+        scene.add(innerSphere);
+
+
+        camera.position.z = 20;
+
+        // Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        // Animation Loop
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Rotate objects
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
+            
+            innerSphere.rotation.y -= 0.005;
+            innerSphere.rotation.x -= 0.005;
+
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+            particlesMesh.rotation.x = mouseY * 0.0001;
+
+            // Smooth camera movement based on mouse
+            sphere.rotation.y += 0.05 * (targetX - sphere.rotation.y);
+            sphere.rotation.x += 0.05 * (targetY - sphere.rotation.x);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsive
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+</body>
+</html>

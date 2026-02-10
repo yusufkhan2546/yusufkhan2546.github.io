@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v36 (Floating Certs)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .ui-layer { position: relative; z-index: 10; pointer-events: none; }
+        .pointer-events-auto { pointer-events: auto; }
+        
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="ui-layer h-screen p-8 flex flex-col items-center justify-center pointer-events-none">
+        <h1 class="text-5xl font-bold mb-4 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]">CERTIFIED EXPERT</h1>
+        <p class="text-lg text-blue-200 mb-8 max-w-xl text-center">
+            Validating deep expertise across the Salesforce ecosystem.
+            Click on a card to inspect.
+        </p>
+        <button class="pointer-events-auto glass-btn px-8 py-3 rounded-full font-bold">
+            Verify on Trailhead
+        </button>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0f172a);
+        scene.fog = new THREE.FogExp2(0x0f172a, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Helper to create card textures
+        function createCardTexture(text, subtext) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 320;
+            const ctx = canvas.getContext('2d');
+            
+            // Card Gradient Background
+            const grd = ctx.createLinearGradient(0, 0, 512, 320);
+            grd.addColorStop(0, '#1e293b');
+            grd.addColorStop(1, '#334155');
+            ctx.fillStyle = grd;
+            ctx.fillRect(0,0,512,320);
+
+            // Border
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(10, 10, 492, 300);
+
+            // Text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 50px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(text, 256, 120);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '30px Arial';
+            ctx.fillText(subtext, 256, 180);
+            
+            // Logo placeholder
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.arc(256, 250, 40, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const cards = [];
+        const cardData = [
+            { title: "Application", sub: "Architect" },
+            { title: "System", sub: "Architect" },
+            { title: "JavaScript", sub: "Developer I" },
+            { title: "Platform", sub: "Developer II" },
+            { title: "Data", sub: "Architect" },
+            { title: "Sharing", sub: "and Visibility" }
+        ];
+
+        const geometry = new THREE.PlaneGeometry(3, 2);
+
+        cardData.forEach((data, i) => {
+            const material = new THREE.MeshBasicMaterial({ 
+                map: createCardTexture(data.title, data.sub),
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.9
+            });
+            const card = new THREE.Mesh(geometry, material);
+            
+            // Spiral distribution
+            const angle = i * 1.0;
+            const radius = 5;
+            card.position.set(
+                Math.cos(angle) * radius,
+                (i - 3) * 1.5,
+                Math.sin(angle) * radius
+            );
+            
+            card.lookAt(0,0,0);
+            scene.add(card);
+            cards.push({ mesh: card, speed: Math.random() * 0.02 + 0.01 });
+        });
+
+        // Background Particles
+        const pGeo = new THREE.BufferGeometry();
+        const pCount = 1000;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) {
+            pPos[i] = (Math.random() - 0.5) * 50;
+        }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ size: 0.05, color: 0x3b82f6 });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+
+        camera.position.z = 10;
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            cards.forEach(c => {
+                c.mesh.rotation.y += 0.005; // Gentle spin
+                c.mesh.position.y += Math.sin(Date.now() * 0.001 * c.speed) * 0.01;
+            });
+            
+            particles.rotation.y += 0.001;
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+             camera.aspect = window.innerWidth / window.innerHeight;
+             camera.updateProjectionMatrix();
+             renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

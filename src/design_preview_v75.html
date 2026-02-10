@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v75 (Neon Neumorphism)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Exo 2', sans-serif; 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+        .neon-neu {
+            background: linear-gradient(145deg, #1e1e3f, #181835);
+            box-shadow:  
+                20px 20px 60px #0d0d1a,
+                -20px -20px 60px #252550,
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        .neon-neu:hover {
+            box-shadow:  
+                20px 20px 60px #0d0d1a,
+                -20px -20px 60px #252550,
+                inset 0 0 30px rgba(0, 255, 255, 0.3),
+                0 0 40px rgba(255, 0, 255, 0.4);
+        }
+        .neon-glow {
+            text-shadow: 
+                0 0 10px #0ff,
+                0 0 20px #0ff,
+                0 0 30px #f0f;
+        }
+    </style>
+</head>
+<body class="px-6 py-20">
+    
+    <div class="max-w-5xl mx-auto">
+        
+        <div class="text-center mb-16">
+            <div class="inline-block neon-neu rounded-full p-2 mb-8">
+                <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-cyan-500/30">
+                    <img src="./images/YusufPotrait.png" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <h1 class="text-7xl md:text-9xl font-black text-cyan-400 neon-glow mb-6">
+                YUSUF KHAN
+            </h1>
+            <p class="text-2xl text-pink-400 font-bold neon-glow">
+                Salesforce Developer
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            
+            <div class="neon-neu rounded-3xl p-8 transition duration-300">
+                <h3 class="text-2xl font-bold text-cyan-400 mb-6">Core Skills</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span>Apex Development</span>
+                            <span className="text-cyan-400">95%</span>
+                        </div>
+                        <div class="h-3 bg-gray-900 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-cyan-500 to-blue-500 w-[95%] shadow-lg shadow-cyan-500/50"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span>LWC</span>
+                            <span className="text-pink-400">90%</span>
+                        </div>
+                        <div class="h-3 bg-gray-900 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-pink-500 to-purple-500 w-[90%] shadow-lg shadow-pink-500/50"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span>Integration</span>
+                            <span className="text-green-400">85%</span>
+                        </div>
+                        <div class="h-3 bg-gray-900 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-green-500 to-teal-500 w-[85%] shadow-lg shadow-green-500/50"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="neon-neu rounded-3xl p-8 transition duration-300">
+                <h3 class="text-2xl font-bold text-pink-400 mb-6">Stats</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="neon-neu rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-black text-cyan-400 mb-2">5+</div>
+                        <div class="text-white text-sm">Years</div>
+                    </div>
+                    <div class="neon-neu rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-black text-pink-400 mb-2">50+</div>
+                        <div class="text-white text-sm">Projects</div>
+                    </div>
+                    <div class="neon-neu rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-black text-green-400 mb-2">12</div>
+                        <div class="text-white text-sm">Certs</div>
+                    </div>
+                    <div class="neon-neu rounded-2xl p-6 text-center">
+                        <div class="text-4xl font-black text-yellow-400 mb-2">100%</div>
+                        <div class="text-white text-sm">Success</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center">
+            <button class="neon-neu px-12 py-4 rounded-full text-cyan-400 font-bold text-xl transition duration-300 hover:text-pink-400">
+                CONTACT ME
+            </button>
+        </div>
+
+    </div>
+
+</body>
+</html>

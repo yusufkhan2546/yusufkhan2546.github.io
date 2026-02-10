@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v27 (Neon Glass Clouds)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #0f172a; color: white; font-family: 'Outfit', sans-serif; }
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 20px rgba(14, 165, 233, 0.6);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-btn {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 198, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <!-- UI Overlay -->
+    <div class="relative z-10 min-h-screen flex flex-col p-8 md:p-16 pointer-events-none">
+        
+        <nav class="flex justify-between items-center pointer-events-auto mb-20">
+            <div class="text-2xl font-bold tracking-tight">YAK<span class="text-sky-400">.DEV</span></div>
+            <div class="flex gap-6 text-sm font-medium opacity-80">
+                <a href="#" class="hover:text-sky-400 transition">Works</a>
+                <a href="#" class="hover:text-sky-400 transition">About</a>
+                <a href="#" class="hover:text-sky-400 transition">Contact</a>
+            </div>
+        </nav>
+
+        <div class="max-w-4xl">
+            <div class="inline-block px-4 py-2 rounded-full glass-card mb-6 text-sm font-bold tracking-wider text-sky-300 pointer-events-auto">
+                ✨ SALESFORCE ARCHITECT & DEVELOPER
+            </div>
+            
+            <h1 class="text-7xl md:text-9xl font-extrabold leading-none mb-8">
+                Building the <br> 
+                <span class="gradient-text">Future Cloud.</span>
+            </h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pointer-events-auto">
+                <div class="glass-card p-8 rounded-3xl hover:bg-white/10 transition group cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 mb-6 flex items-center justify-center text-2xl">
+                        ☁️
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Scalable Solutions</h3>
+                    <p class="text-gray-400 leading-relaxed group-hover:text-gray-200 transition">
+                        Architecting enterprise-grade Salesforce implementations that grow with your business logic.
+                    </p>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl hover:bg-white/10 transition group cursor-pointer">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-pink-500 mb-6 flex items-center justify-center text-2xl">
+                        ⚡
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Lightning Fast</h3>
+                    <p class="text-gray-400 leading-relaxed group-hover:text-gray-200 transition">
+                        Developing high-performance LWC interfaces with modern web standards and precise code.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 flex items-center gap-6 pointer-events-auto">
+                <button class="cta-btn text-white px-10 py-4 rounded-full font-bold tracking-wide">
+                    HIRE ME FOR SPONSORSHIP
+                </button>
+                <div class="glass-card w-14 h-14 rounded-full flex items-center justify-center cursor-pointer hover:bg-white/20 transition">
+                    ⬇️
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        // Vibrant background gradient simulation via fog
+        scene.fog = new THREE.FogExp2(0x0f172a, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Abstract Cloud Shapes
+        const geometry = new THREE.IcosahedronGeometry(1, 0);
+        const clouds = [];
+
+        // Bright Lights
+        const light1 = new THREE.PointLight(0x00c6ff, 2, 50);
+        light1.position.set(0, 5, 5);
+        scene.add(light1);
+        
+        const light2 = new THREE.PointLight(0xff00ff, 2, 50);
+        light2.position.set(10, -5, 5);
+        scene.add(light2);
+
+        const ambient = new THREE.AmbientLight(0x404040);
+        scene.add(ambient);
+
+        for(let i=0; i<30; i++) {
+            const material = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.1 + Math.random() * 0.3,
+                shininess: 100,
+                flatShading: true
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(
+                (Math.random() - 0.5) * 30,
+                (Math.random() - 0.5) * 20,
+                (Math.random() - 0.5) * 20 - 5
+            );
+            mesh.rotation.z = Math.random() * Math.PI;
+            mesh.originalY = mesh.position.y;
+            mesh.speed = 0.005 + Math.random() * 0.01;
+            
+            scene.add(mesh);
+            clouds.push(mesh);
+        }
+
+        camera.position.z = 10;
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth/2) * 0.001;
+            mouseY = (e.clientY - window.innerHeight/2) * 0.001;
+        });
+
+        const animate = function () {
+            requestAnimationFrame(animate);
+            
+            const time = Date.now() * 0.001;
+            
+            clouds.forEach((cloud, i) => {
+                cloud.rotation.x += 0.002;
+                cloud.rotation.y += 0.003;
+                // Float animation
+                cloud.position.y = cloud.originalY + Math.sin(time + i) * 1;
+            });
+            
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(0,0,0);
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

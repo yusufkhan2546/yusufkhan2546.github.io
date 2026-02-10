@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v76 (Liquid Metal Waves)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Audiowide', cursive; 
+            background: #0a0a0a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(138, 43, 226, 0.3) 25%, 
+                rgba(0, 191, 255, 0.3) 50%, 
+                rgba(138, 43, 226, 0.3) 75%, 
+                transparent 100%);
+            animation: wave-move 15s linear infinite;
+        }
+        .wave:nth-child(2) {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 20, 147, 0.2) 25%, 
+                rgba(50, 205, 50, 0.2) 50%, 
+                rgba(255, 20, 147, 0.2) 75%, 
+                transparent 100%);
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+        @keyframes wave-move {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        }
+        .metallic {
+            background: linear-gradient(135deg, #434343 0%, #000000 100%);
+            border: 1px solid #666;
+            box-shadow: 
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 10px 30px rgba(0,0,0,0.5);
+        }
+        .metallic-text {
+            background: linear-gradient(180deg, #fff 0%, #999 50%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="relative">
+    
+    <div class="wave"></div>
+    <div class="wave"></div>
+
+    <div class="relative z-10 container mx-auto px-6 py-20 min-h-screen flex items-center">
+        <div class="max-w-6xl mx-auto w-full">
+            
+            <div class="text-center mb-16">
+                <h1 class="text-7xl md:text-9xl font-black metallic-text mb-6">
+                    YUSUF KHAN
+                </h1>
+                <p class="text-2xl text-purple-400 font-bold mb-8">
+                    SALESFORCE ARCHITECT
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="metallic rounded-2xl p-8 hover:scale-105 transition duration-300">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">⚙️</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Backend</h3>
+                        <p class="text-gray-400 text-sm">Apex, Triggers, Batch Processing</p>
+                    </div>
+                </div>
+
+                <div class="metallic rounded-2xl p-8 hover:scale-105 transition duration-300">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">🎨</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Frontend</h3>
+                        <p class="text-gray-400 text-sm">LWC, Aura, Visualforce</p>
+                    </div>
+                </div>
+
+                <div class="metallic rounded-2xl p-8 hover:scale-105 transition duration-300">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">🔗</div>
+                        <h3 class="text-xl font-bold text-white mb-3">Integration</h3>
+                        <p class="text-gray-400 text-sm">REST, SOAP, MuleSoft</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-12 metallic rounded-3xl p-12">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">5+</div>
+                        <div class="text-gray-400 text-sm uppercase">Years</div>
+                    </div>
+                    <div>
+                        <div class="text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">50+</div>
+                        <div class="text-gray-400 text-sm uppercase">Projects</div>
+                    </div>
+                    <div>
+                        <div class="text-5xl font-black bg-gradient-to-r from-green-400 to-teal-400 bg-clip-text text-transparent mb-2">12</div>
+                        <div class="text-gray-400 text-sm uppercase">Certifications</div>
+                    </div>
+                    <div>
+                        <div class="text-5xl font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">100%</div>
+                        <div class="text-gray-400 text-sm uppercase">Success</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button class="metallic px-12 py-4 rounded-full text-white font-bold text-xl hover:shadow-2xl hover:shadow-purple-500/50 transition">
+                    HIRE ME
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

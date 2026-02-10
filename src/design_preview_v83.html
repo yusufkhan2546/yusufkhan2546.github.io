@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v83 (Glassmorphic Dashboard)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="p-6">
+    
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <div class="glass rounded-2xl p-6 mb-6 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-black text-white">Yusuf Khan</h1>
+                <p class="text-white/80">Salesforce Developer Dashboard</p>
+            </div>
+            <button class="glass-strong px-6 py-3 rounded-full text-white font-bold hover:bg-white/20 transition">
+                Contact
+            </button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div class="glass rounded-2xl p-6">
+                <div class="text-white/60 text-sm font-semibold mb-2">EXPERIENCE</div>
+                <div class="text-4xl font-black text-white mb-1">5+</div>
+                <div class="text-white/80 text-sm">Years</div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <div class="text-white/60 text-sm font-semibold mb-2">PROJECTS</div>
+                <div class="text-4xl font-black text-white mb-1">50+</div>
+                <div class="text-white/80 text-sm">Completed</div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <div class="text-white/60 text-sm font-semibold mb-2">CERTIFICATIONS</div>
+                <div class="text-4xl font-black text-white mb-1">12</div>
+                <div class="text-white/80 text-sm">Active</div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <div class="text-white/60 text-sm font-semibold mb-2">SUCCESS RATE</div>
+                <div class="text-4xl font-black text-white mb-1">100%</div>
+                <div class="text-white/80 text-sm">Client Satisfaction</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Skills -->
+            <div class="lg:col-span-2 glass rounded-2xl p-8">
+                <h2 class="text-2xl font-bold text-white mb-6">Technical Skills</h2>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span class="font-semibold">Apex Development</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="h-3 glass-strong rounded-full overflow-hidden">
+                            <div class="h-full bg-white/50 w-[95%]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span class="font-semibold">Lightning Web Components</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="h-3 glass-strong rounded-full overflow-hidden">
+                            <div class="h-full bg-white/50 w-[90%]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span class="font-semibold">System Architecture</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="h-3 glass-strong rounded-full overflow-hidden">
+                            <div class="h-full bg-white/50 w-[85%]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-white mb-2">
+                            <span class="font-semibold">API Integration</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="h-3 glass-strong rounded-full overflow-hidden">
+                            <div class="h-full bg-white/50 w-[88%]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="glass rounded-2xl p-8">
+                <h2 class="text-2xl font-bold text-white mb-6">Expertise</h2>
+                <div class="space-y-3">
+                    <div class="glass-strong rounded-lg p-3">
+                        <div class="font-bold text-white text-sm">Apex</div>
+                        <div class="text-white/60 text-xs">Backend Logic</div>
+                    </div>
+                    <div class="glass-strong rounded-lg p-3">
+                        <div class="font-bold text-white text-sm">LWC</div>
+                        <div class="text-white/60 text-xs">Frontend Components</div>
+                    </div>
+                    <div class="glass-strong rounded-lg p-3">
+                        <div class="font-bold text-white text-sm">Flow</div>
+                        <div class="text-white/60 text-xs">Automation</div>
+                    </div>
+                    <div class="glass-strong rounded-lg p-3">
+                        <div class="font-bold text-white text-sm">Integration</div>
+                        <div class="text-white/60 text-xs">APIs & Services</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

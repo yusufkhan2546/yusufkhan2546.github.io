@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v62 (Light Brutalism)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Space Mono', monospace; background-color: #fff4e6; color: #000; }
+        .brutal-border { border: 3px solid #000; box-shadow: 6px 6px 0px #000; transition: all 0.2s; }
+        .brutal-border:hover {  box-shadow: 2px 2px 0px #000; transform: translate(4px, 4px); }
+        .marquee { animation: scroll 20s linear infinite; white-space: nowrap; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    </style>
+</head>
+<body class="p-8">
+
+    <div class="fixed top-0 left-0 w-full bg-black text-white overflow-hidden py-3 border-b-4 border-black z-50">
+        <div class="marquee font-bold uppercase text-lg">
+            Salesforce Developer • Architect • LWC Expert • Apex Master • Available for Hire • Salesforce Developer • Architect • LWC Expert • Apex Master • Available for Hire •
+        </div>
+    </div>
+
+    <div class="mt-16 max-w-5xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="brutal-border bg-white p-8">
+                <h1 class="text-6xl font-bold mb-4 uppercase">Yusuf<br>Khan</h1>
+                <p class="text-xl font-bold mb-8">No-nonsense code delivery.</p>
+                <div class="w-full h-64 bg-gray-200 border-2 border-black mb-6 grayscale hover:grayscale-0 transition duration-300">
+                    <img src="./images/YusufPotrait.png" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-8">
+                <div class="brutal-border bg-[#ff99cc] p-8">
+                    <h2 class="text-2xl font-bold uppercase mb-4 border-b-2 border-black pb-2">Stats</h2>
+                    <ul class="font-bold space-y-2">
+                        <li class="flex justify-between"><span>XP:</span> <span>LVL 5</span></li>
+                        <li class="flex justify-between"><span>PROJECTS:</span> <span>42</span></li>
+                        <li class="flex justify-between"><span>BUGS:</span> <span>0</span></li>
+                        <li class="flex justify-between"><span>COFFEE:</span> <span>∞</span></li>
+                    </ul>
+                </div>
+
+                <div class="brutal-border bg-[#99ccff] p-8 flex-grow">
+                    <h2 class="text-2xl font-bold uppercase mb-4 border-b-2 border-black pb-2">Skills</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="border-2 border-black px-2 py-1 bg-white font-bold text-sm">HTML</span>
+                        <span class="border-2 border-black px-2 py-1 bg-white font-bold text-sm">CSS</span>
+                        <span class="border-2 border-black px-2 py-1 bg-white font-bold text-sm">JS</span>
+                        <span class="border-2 border-black px-2 py-1 bg-white font-bold text-sm">APEX</span>
+                        <span class="border-2 border-black px-2 py-1 bg-white font-bold text-sm">SOQL</span>
+                        <span class="border-2 border-black px-2 py-1 bg-white font-bold text-sm">GIT</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-8 brutal-border bg-[#ccff99] p-8 text-center">
+            <h2 class="text-4xl font-bold uppercase mb-6">Want to build something cool?</h2>
+            <a href="mailto:hello@yusuf.dev" class="inline-block bg-black text-white font-bold text-xl px-12 py-4 border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition">
+                CONTACT_ME_NOW.EXE
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

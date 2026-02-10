@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yusuf Ali Khan - Design v50 (Bento Grid)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f3f3f3; color: #111; }
+        .bento-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen flex items-center justify-center">
+
+    <div class="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-6 auto-rows-[minmax(180px,auto)]">
+        
+        <!-- Profile Card (Large) -->
+        <div class="bento-card md:col-span-2 md:row-span-2 flex flex-col justify-between bg-black text-white p-8">
+            <div class="flex justify-between items-start">
+                <img src="./images/YusufPotrait.png" class="w-20 h-20 rounded-full border-4 border-gray-800 object-cover">
+                <div class="text-right">
+                    <div class="text-green-400 font-bold mb-1 flex items-center justify-end gap-2">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Available
+                    </div>
+                    <div class="text-gray-400 text-sm">Dubai / Remote</div>
+                </div>
+            </div>
+            <div>
+                <h1 class="text-4xl font-extrabold mb-2">Yusuf Ali Khan</h1>
+                <p class="text-gray-400 text-lg">Salesforce Architect crafting robust digital ecosystems.</p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="bento-card md:col-span-1 md:row-span-1 flex flex-col justify-center items-center text-center bg-blue-50 text-blue-900">
+            <span class="text-5xl font-black mb-1">5+</span>
+            <span class="font-bold text-sm uppercase opacity-60">Years Exp</span>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="bento-card md:col-span-1 md:row-span-2 bg-white flex flex-col justify-between">
+            <h3 class="font-bold text-gray-400 text-sm uppercase">Stack</h3>
+            <div class="flex flex-col gap-3 mt-4">
+                <div class="flex items-center gap-3 p-2 rounded hover:bg-gray-50">
+                    <div class="w-8 h-8 rounded bg-blue-100 flex items-center justify-center text-blue-600 font-bold">A</div>
+                    <span class="font-bold">Apex</span>
+                </div>
+                <div class="flex items-center gap-3 p-2 rounded hover:bg-gray-50">
+                     <div class="w-8 h-8 rounded bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold">L</div>
+                    <span class="font-bold">LWC</span>
+                </div>
+                <div class="flex items-center gap-3 p-2 rounded hover:bg-gray-50">
+                     <div class="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-600 font-bold">F</div>
+                    <span class="font-bold">Flow</span>
+                </div>
+                 <div class="flex items-center gap-3 p-2 rounded hover:bg-gray-50">
+                     <div class="w-8 h-8 rounded bg-green-100 flex items-center justify-center text-green-600 font-bold">N</div>
+                    <span class="font-bold">Node.js</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Socials -->
+        <div class="bento-card md:col-span-1 md:row-span-1 flex items-center justify-around bg-gray-900 text-white">
+            <a href="#" class="text-2xl hover:text-blue-400 hover:scale-110 transition">Li</a>
+            <a href="#" class="text-2xl hover:text-black hover:bg-white rounded-full p-1 hover:scale-110 transition">Gh</a>
+            <a href="#" class="text-2xl hover:text-blue-300 hover:scale-110 transition">Tw</a>
+        </div>
+
+        <!-- Project Highlight -->
+        <div class="bento-card md:col-span-2 md:row-span-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex flex-col justify-center relative overflow-hidden group hover:cursor-pointer">
+            <div class="relative z-10">
+                <h3 class="font-bold opacity-60 text-sm uppercase mb-1">Featured Work</h3>
+                <h2 class="text-2xl font-bold">Financial Services Cloud Integration</h2>
+            </div>
+            <div class="absolute right-[-20px] bottom-[-40px] opacity-20 text-9xl font-black group-hover:scale-110 transition transform">
+                $
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="bento-card md:col-span-2 md:row-span-1 bg-yellow-400 text-black flex items-center justify-between hover:bg-yellow-300 cursor-pointer">
+            <div>
+                 <h2 class="text-3xl font-bold">Let's Talk?</h2>
+                 <p class="font-medium opacity-80">Scheduling for Q3 2026</p>
+            </div>
+            <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center text-xl">
+                ↗
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
