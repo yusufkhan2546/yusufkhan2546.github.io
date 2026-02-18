@@ -1439,7 +1439,7 @@
             }
         }
 
-        function sendMessage() {
+        function sendChatMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
             
@@ -1454,12 +1454,12 @@
             }, 800);
         }
 
-        sendButton.addEventListener('click', sendMessage);
+        sendButton.addEventListener('click', sendChatMessage);
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
+    if (e.key === 'Enter') {
+        sendChatMessage();
+    }
+});
 
         // ===== TYPING ANIMATION =====
         const typingText = document.getElementById('typing-text');
@@ -1663,4 +1663,5 @@
 </script>
 </body>
 </html>
+
 
