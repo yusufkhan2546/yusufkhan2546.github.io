@@ -311,7 +311,7 @@
             <li><a href="#lab" class="text-text-gray hover:text-primary transition duration-300">LAB</a></li>
             <li><a href="#skills" class="text-text-gray hover:text-primary transition duration-300">SKILLS</a></li>
             <li><a href="#contact" class="px-6 py-2 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-white transition duration-300 shadow-[0_0_15px_rgba(255,107,53,0.3)]">CONTACT</a></li>
-            <li><a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" target="_blank" download="YusufKhan_Resume.pdf" class="bg-gradient-to-br from-primary to-primary-dark py-2 px-6 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300">Download CV</a></li>
+            <li><a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf" class="bg-gradient-to-br from-primary to-primary-dark py-2 px-6 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300">Download CV</a></li>
         </ul>
         
         <!-- Theme Toggle Button -->
@@ -320,9 +320,9 @@
         </button>
         
         <!-- Mobile Menu Button -->
-        <button id="menu-toggle" class="md:hidden text-white text-2xl focus:outline-none z-[60]">
-            <i class="fas fa-bars"></i>
-        </button>
+        <button id="menu-toggle" class="md:hidden text-white text-2xl focus:outline-none z-[110] relative" style="touch-action: manipulation;">
+        <i class="fas fa-bars"></i>
+    </button>
     </nav>
 
     <!-- Hero Section -->
@@ -979,7 +979,7 @@
                     <button onclick="openAgentModal()" class="bg-primary text-white px-10 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(255,107,53,0.4)] hover:shadow-[0_15px_40px_rgba(255,107,53,0.6)] transition transform hover:-translate-y-1 cursor-pointer">
                         Get In Touch
                     </button>
-                    <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" target="_blank" download="YusufKhan_Resume.pdf" class="glass-card border border-white/20 text-white px-10 py-4 rounded-full font-bold hover:border-primary/50 transition">
+                    <a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download class="glass-card border border-white/20 text-white px-10 py-4 rounded-full font-bold hover:border-primary/50 transition">
                         Download CV
                     </a>
                 </div>
@@ -1439,7 +1439,7 @@
             }
         }
 
-        function sendMessage() {
+        function sendChatMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
             
@@ -1454,12 +1454,12 @@
             }, 800);
         }
 
-        sendButton.addEventListener('click', sendMessage);
+        sendButton.addEventListener('click', sendChatMessage);
         chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
+    if (e.key === 'Enter') {
+        sendChatMessage();
+    }
+});
 
         // ===== TYPING ANIMATION =====
         const typingText = document.getElementById('typing-text');
@@ -1678,3 +1678,6 @@
 </script>
 </body>
 </html>
+
+
+
