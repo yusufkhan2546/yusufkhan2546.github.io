@@ -252,6 +252,7 @@
             backdrop-filter: blur(12px);
             z-index: 1000;
             opacity: 0;
+            pointer-events: none;
             transform: scale(0.8) translateY(20px);
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
@@ -259,6 +260,7 @@
         .ai-chat-container.show {
             opacity: 1;
             transform: scale(1) translateY(0);
+            pointer-events: auto;
         }
 
         .ai-chat-header {
@@ -311,7 +313,7 @@
             <li><a href="#lab" class="text-text-gray hover:text-primary transition duration-300">LAB</a></li>
             <li><a href="#skills" class="text-text-gray hover:text-primary transition duration-300">SKILLS</a></li>
             <li><a href="#contact" class="px-6 py-2 rounded-full border border-primary/50 text-primary hover:bg-primary hover:text-white transition duration-300 shadow-[0_0_15px_rgba(255,107,53,0.3)]">CONTACT</a></li>
-            <li><a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" download="YusufKhan_Resume.pdf" class="bg-gradient-to-br from-primary to-primary-dark py-2 px-6 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300">Download CV</a></li>
+            <li><a href="./src/resume/YusufKhan_SalesforceDeveloeper_Resume.pdf" target="_blank" download="YusufKhan_Resume.pdf" class="bg-gradient-to-br from-primary to-primary-dark py-2 px-6 rounded-full text-white font-semibold shadow-[0_4px_15px_rgba(255,107,53,0.3)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(255,107,53,0.4)] transition-all duration-300">Download CV</a></li>
         </ul>
         
         <!-- Theme Toggle Button -->
@@ -1654,15 +1656,25 @@
                 if (href && href.startsWith('#')) {
                     e.preventDefault();
                     closeMenu();
+                    
+                    // Wait for the menu transition (~500ms) to mostly finish before scrolling
                     setTimeout(() => {
                         const target = document.querySelector(href);
                         if (target) {
-                            target.scrollIntoView({ behavior: 'smooth' });
+                            // Calculate position considering a small header offset to ensure visibility
+                            const elementPosition = target.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - 80;
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
                         }
-                    }, 50); // Small delay to allow CSS transition and overflow reset
+                    }, 500);
                 } else {
                     // It's a normal link like the resume download
-                    setTimeout(closeMenu, 500);
+                    // Do not prevent default so the browser naturally handles the download/target
+                    setTimeout(closeMenu, 1500);
                 }
             });
         });
