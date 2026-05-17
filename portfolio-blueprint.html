@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Yusuf Khan — Salesforce Architect (Blueprint)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #F0EDE3;          /* cream blueprint paper */
+    --paper-2: #E5E1D2;
+    --ink: #0E2138;            /* deep navy ink */
+    --ink-2: #4F6079;
+    --line: rgba(14,33,56,.18);
+    --line-strong: rgba(14,33,56,.5);
+    --blue: #1B58C5;
+    --cyan: #00A1E0;
+    --accent: #C16B2E;          /* burnt orange spec stamp */
+    --good: #2E844A;
+    --shadow: 0 24px 60px -28px rgba(14,33,56,.45);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    background-image:
+      linear-gradient(rgba(14,33,56,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,33,56,.06) 1px, transparent 1px),
+      linear-gradient(rgba(14,33,56,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,33,56,.025) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+  /* corner registration marks */
+  .corner { position: fixed; width: 32px; height: 32px; z-index: 2; pointer-events: none; }
+  .corner svg { stroke: var(--line-strong); fill: none; stroke-width: 1.4; }
+  .c-tl { top: 12px; left: 12px; }
+  .c-tr { top: 12px; right: 12px; transform: scaleX(-1); }
+  .c-bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+  .c-br { bottom: 12px; right: 12px; transform: scale(-1,-1); }
+
+  /* Title block / nav */
+  .titleblock {
+    border: 1.5px solid var(--ink);
+    background: var(--paper-2);
+    padding: 20px 28px;
+    display: flex; align-items: center; gap: 28px;
+    margin: 24px 0 0;
+  }
+  .tb-cell { padding: 0 18px; border-left: 1px solid var(--line-strong); }
+  .tb-cell:first-child { border-left: none; padding-left: 0; }
+  .tb-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .tb-value { font-size: 14px; font-weight: 700; margin-top: 2px; }
+  .nav-links { margin-left: auto; display: flex; gap: 4px; font-family: 'JetBrains Mono', monospace; }
+  .nav-link { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 10px; border: 1px solid transparent; }
+  .nav-link:hover { border-color: var(--ink); }
+
+  /* Sections */
+  .section { padding: 64px 0; border-top: 1.5px solid var(--ink); margin-top: 24px; }
+  .section-head { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+  .sec-num { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .18em; color: var(--accent); font-weight: 700; }
+  .sec-title { font-family: 'DM Serif Display', serif; font-size: 38px; letter-spacing: -.01em; line-height: 1; }
+  .sec-rule { flex: 1; height: 1px; background: var(--line-strong); margin: 0 12px; }
+
+  .hero-name { font-family: 'DM Serif Display', serif; font-size: clamp(80px, 13vw, 200px); line-height: .85; letter-spacing: -.03em; margin: 0; }
+  .hero-name em { font-style: italic; color: var(--accent); }
+
+  /* spec stamp */
+  .stamp {
+    display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 140px; height: 140px; border-radius: 999px;
+    border: 1.5px dashed var(--accent); color: var(--accent);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    transform: rotate(-12deg);
+  }
+  .stamp strong { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 28px; margin-bottom: 0; letter-spacing: 0; text-transform: none; }
+
+  /* Card */
+  .blueprint-card { border: 1.5px solid var(--ink); background: var(--paper-2); padding: 20px; position: relative; }
+  .blueprint-card .ticks { position: absolute; top: -1px; left: -1px; right: -1px; height: 8px; background: repeating-linear-gradient(90deg, var(--ink), var(--ink) 1px, transparent 1px, transparent 8px); }
+
+  /* ERD-style schema */
+  .schema-wrap { position: relative; min-height: 540px; }
+  .entity { position: absolute; background: var(--paper-2); border: 1.5px solid var(--ink); min-width: 200px; }
+  .entity-head { background: var(--ink); color: var(--paper); padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; display: flex; justify-content: space-between; }
+  .entity-row { padding: 6px 12px; border-top: 1px dashed var(--line); font-size: 12.5px; display: flex; justify-content: space-between; gap: 12px; }
+  .entity-row .pk { color: var(--accent); font-weight: 700; }
+  .entity-row .type { color: var(--ink-2); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* Floating label */
+  .field-label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .14em; color: var(--ink-2); text-transform: uppercase; margin-bottom: 6px; font-weight: 700; }
+
+  /* hover effect */
+  .blueprint-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); transition: transform .2s, box-shadow .2s; }
+  .blueprint-card { transition: transform .2s, box-shadow .2s; }
+
+  /* dimension markers */
+  .dim { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; color: var(--ink-2); text-transform: uppercase; }
+  .dim::before, .dim::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
+  .dim::before { background: linear-gradient(90deg, transparent, var(--line-strong)); }
+  .dim::after { background: linear-gradient(90deg, var(--line-strong), transparent); }
+
+  /* radar/ring chart */
+  .radar { width: 100%; max-width: 460px; }
+
+  /* arrows */
+  .draw-arrow { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+</style>
+</head>
+<body>
+<div class="corner c-tl"><svg viewBox="0 0 32 32"><path d="M0 12 L0 0 L12 0"/></svg></div>
+<div class="corner c-tr"><svg viewBox="0 0 32 32"><path d="M0 12 L0 0 L12 0"/></svg></div>
+<div class="corner c-bl"><svg viewBox="0 0 32 32"><path d="M0 12 L0 0 L12 0"/></svg></div>
+<div class="corner c-br"><svg viewBox="0 0 32 32"><path d="M0 12 L0 0 L12 0"/></svg></div>
+
+<div class="container">
+
+  <!-- TITLE BLOCK -->
+  <div class="titleblock">
+    <div class="tb-cell">
+      <div class="tb-label">Project</div>
+      <div class="tb-value">YK · Portfolio</div>
+    </div>
+    <div class="tb-cell">
+      <div class="tb-label">Drawing</div>
+      <div class="tb-value">SF-01 · Master Sheet</div>
+    </div>
+    <div class="tb-cell">
+      <div class="tb-label">Author</div>
+      <div class="tb-value">Yusuf Khan</div>
+    </div>
+    <div class="tb-cell">
+      <div class="tb-label">Revision</div>
+      <div class="tb-value">v1.0 · 05/2026</div>
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" href="#hero">00 cover</a>
+      <a class="nav-link" href="#schema">01 schema</a>
+      <a class="nav-link" href="#certs">02 certs</a>
+      <a class="nav-link" href="#projects">03 projects</a>
+      <a class="nav-link" href="#contact">04 contact</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero" style="padding: 80px 0 40px; position: relative;">
+    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end;">
+      <div>
+        <div class="mono" style="font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 24px;">A construction document for · one cloud · twelve certifications</div>
+        <h1 class="hero-name">Yusuf<br/>Khan<em>.</em></h1>
+        <div style="margin-top: 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+          <div class="mono" style="font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); font-weight: 700;">Salesforce — Lead Developer</div>
+          <span style="width: 4px; height: 4px; background: var(--ink); border-radius: 99px;"></span>
+          <div class="mono" style="font-size: 13px; color: var(--ink-2);">est. 2018 · 8 yrs on platform</div>
+        </div>
+      </div>
+      <div style="position: relative; height: 280px;">
+        <!-- spec stamp -->
+        <div style="position: absolute; top: 0; right: 60px;">
+          <div class="stamp">
+            <strong>12×</strong>
+            certified<br/>trailblazer
+          </div>
+        </div>
+        <!-- ruler -->
+        <svg viewBox="0 0 400 240" style="position: absolute; bottom: 0; right: 0; width: 100%;">
+          <g stroke="var(--ink)" stroke-width="1" fill="none">
+            <line x1="0" y1="200" x2="400" y2="200"/>
+            <g>
+              <!-- major ticks -->
+              <line x1="40" y1="190" x2="40" y2="200"/>
+              <line x1="120" y1="190" x2="120" y2="200"/>
+              <line x1="200" y1="180" x2="200" y2="200"/>
+              <line x1="280" y1="190" x2="280" y2="200"/>
+              <line x1="360" y1="190" x2="360" y2="200"/>
+            </g>
+            <g stroke="var(--line)">
+              <line x1="60" y1="195" x2="60" y2="200"/>
+              <line x1="80" y1="195" x2="80" y2="200"/>
+              <line x1="100" y1="195" x2="100" y2="200"/>
+              <line x1="140" y1="195" x2="140" y2="200"/>
+              <line x1="160" y1="195" x2="160" y2="200"/>
+              <line x1="180" y1="195" x2="180" y2="200"/>
+              <line x1="220" y1="195" x2="220" y2="200"/>
+              <line x1="240" y1="195" x2="240" y2="200"/>
+              <line x1="260" y1="195" x2="260" y2="200"/>
+              <line x1="300" y1="195" x2="300" y2="200"/>
+              <line x1="320" y1="195" x2="320" y2="200"/>
+              <line x1="340" y1="195" x2="340" y2="200"/>
+            </g>
+          </g>
+          <g font-family="JetBrains Mono" font-size="10" fill="var(--ink-2)" text-anchor="middle">
+            <text x="40" y="220">2018</text>
+            <text x="120" y="220">2020</text>
+            <text x="200" y="218" font-weight="700" fill="var(--accent)">2022 · PD1</text>
+            <text x="280" y="220">2024</text>
+            <text x="360" y="220">'26</text>
+          </g>
+          <!-- callout arrow -->
+          <path class="draw-arrow" d="M 200 180 Q 220 130, 260 110" />
+          <text x="266" y="108" font-family="DM Serif Display" font-style="italic" font-size="20" fill="var(--accent)">first cert</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- intro paragraph block -->
+    <div style="display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 32px; margin-top: 56px; padding-top: 28px; border-top: 1px dashed var(--line-strong);">
+      <div>
+        <div class="field-label">// brief</div>
+        <p style="font-size: 16px; line-height: 1.55; margin: 0;">A Salesforce Lead Developer who treats every org as a building — load-bearing classes, well-marked interfaces, and clean drawings the next architect can read.</p>
+      </div>
+      <div>
+        <div class="field-label">// disciplines</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 13px;">
+          <div>· Apex & LWC</div><div>· OmniStudio</div>
+          <div>· Data Cloud</div><div>· Agentforce</div>
+          <div>· FSC / Banking</div><div>· Experience Cloud</div>
+          <div>· MuleSoft & APIs</div><div>· DevOps (SFDX)</div>
+        </div>
+      </div>
+      <div>
+        <div class="field-label">// schedule</div>
+        <div class="mono" style="font-size: 13px;">
+          Open for new engagements<br/>
+          Reply window — 24h<br/>
+          Engagement length — 3–12 months
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 01: SCHEMA -->
+  <section id="schema" class="section">
+    <div class="section-head">
+      <span class="sec-num">SHEET 01</span>
+      <h2 class="sec-title">The org, as schema.</h2>
+      <span class="sec-rule"></span>
+      <span class="mono" style="font-size: 11px; color: var(--ink-2);">scale 1:1 · drawn to spec</span>
+    </div>
+
+    <div class="schema-wrap blueprint-card" style="background: var(--paper); padding: 32px;">
+      <div class="ticks"></div>
+      <svg viewBox="0 0 1240 540" style="width: 100%; height: 540px;">
+        <defs>
+          <pattern id="schemaGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(14,33,56,.05)" stroke-width="1"/>
+          </pattern>
+          <marker id="diamond" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+            <polygon points="0 5, 5 0, 10 5, 5 10" fill="var(--paper-2)" stroke="var(--ink)" stroke-width="1"/>
+          </marker>
+          <marker id="crow" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto">
+            <path d="M 0 0 L 11 6 M 0 6 L 11 6 M 0 12 L 11 6" stroke="var(--ink)" stroke-width="1" fill="none"/>
+          </marker>
+        </defs>
+        <rect width="1240" height="540" fill="url(#schemaGrid)"/>
+
+        <!-- relation lines -->
+        <g stroke="var(--ink)" stroke-width="1.2" fill="none">
+          <path d="M 280 130 H 360 V 110 H 460" marker-end="url(#crow)" marker-start="url(#diamond)"/>
+          <path d="M 280 220 H 340 V 330 H 460" marker-end="url(#crow)" marker-start="url(#diamond)"/>
+          <path d="M 720 110 H 800 V 220 H 880" marker-end="url(#crow)" marker-start="url(#diamond)"/>
+          <path d="M 720 360 H 800 V 240 H 880" marker-end="url(#crow)" marker-start="url(#diamond)"/>
+          <path d="M 720 460 H 800 V 280 H 880" marker-end="url(#crow)" marker-start="url(#diamond)"/>
+        </g>
+
+        <!-- relationship labels -->
+        <g font-family="JetBrains Mono" font-size="10" fill="var(--accent)" letter-spacing="1">
+          <text x="370" y="100">1 : ∞ owns</text>
+          <text x="350" y="320">1 : ∞ delivers</text>
+          <text x="810" y="200">1 : ∞ ships</text>
+          <text x="810" y="245">M : N stacks</text>
+        </g>
+      </svg>
+
+      <!-- entities -->
+      <div class="entity" style="top: 56px; left: 32px; min-width: 220px;">
+        <div class="entity-head"><span>Yusuf__c</span><span style="opacity: .6">PROFILE</span></div>
+        <div class="entity-row"><span class="pk">id</span><span class="type">Id (PK)</span></div>
+        <div class="entity-row"><span>name</span><span class="type">String</span></div>
+        <div class="entity-row"><span>title</span><span class="type">Lead Dev</span></div>
+        <div class="entity-row"><span>years_on_platform</span><span class="type">8</span></div>
+        <div class="entity-row"><span>available_from</span><span class="type">Immediate</span></div>
+      </div>
+
+      <div class="entity" style="top: 56px; left: 472px; min-width: 240px;">
+        <div class="entity-head"><span>Certification__c</span><span style="opacity: .6">12 records</span></div>
+        <div class="entity-row"><span>admin</span><span class="type">2022</span></div>
+        <div class="entity-row"><span>pd_i / pd_ii</span><span class="type">2022, '23</span></div>
+        <div class="entity-row"><span>js_developer_i</span><span class="type">2023</span></div>
+        <div class="entity-row"><span>service_cloud</span><span class="type">2023</span></div>
+        <div class="entity-row"><span>omnistudio_dev</span><span class="type">2024</span></div>
+        <div class="entity-row"><span>fsc_consultant</span><span class="type">2024</span></div>
+        <div class="entity-row"><span>data_cloud</span><span class="type">2025</span></div>
+        <div class="entity-row"><span>agentforce_ai</span><span class="type">2025</span></div>
+      </div>
+
+      <div class="entity" style="top: 296px; left: 472px; min-width: 240px;">
+        <div class="entity-head"><span>Project__c</span><span style="opacity: .6">3 highlights</span></div>
+        <div class="entity-row"><span class="pk">banking_portal</span><span class="type">FSC</span></div>
+        <div class="entity-row"><span class="pk">retail_store_app</span><span class="type">Service</span></div>
+        <div class="entity-row"><span class="pk">loan_origination</span><span class="type">FSC + OS</span></div>
+      </div>
+
+      <div class="entity" style="top: 56px; left: 880px;">
+        <div class="entity-head"><span>Cloud__c</span><span style="opacity: .6">7</span></div>
+        <div class="entity-row"><span>Sales</span><span class="type">★★★★</span></div>
+        <div class="entity-row"><span>Service</span><span class="type">★★★★★</span></div>
+        <div class="entity-row"><span>Experience</span><span class="type">★★★★</span></div>
+        <div class="entity-row"><span>Data Cloud</span><span class="type">★★★★</span></div>
+        <div class="entity-row"><span>FSC</span><span class="type">★★★★★</span></div>
+        <div class="entity-row"><span>Agentforce</span><span class="type">★★★★</span></div>
+        <div class="entity-row"><span>Industries (Vlocity)</span><span class="type">★★★★</span></div>
+      </div>
+
+      <div class="entity" style="top: 380px; left: 880px;">
+        <div class="entity-head"><span>Skill__c</span><span style="opacity: .6">core</span></div>
+        <div class="entity-row"><span>Apex</span><span class="type">95</span></div>
+        <div class="entity-row"><span>LWC</span><span class="type">92</span></div>
+        <div class="entity-row"><span>OmniStudio</span><span class="type">90</span></div>
+        <div class="entity-row"><span>Flow Builder</span><span class="type">95</span></div>
+        <div class="entity-row"><span>Data Cloud</span><span class="type">86</span></div>
+        <div class="entity-row"><span>Agentforce</span><span class="type">84</span></div>
+      </div>
+    </div>
+
+    <div class="dim" style="margin-top: 12px;"><span>schema · 5 entities · 5 relationships · drawn 16-on-16 grid</span></div>
+  </section>
+
+  <!-- SECTION 02: CERTS -->
+  <section id="certs" class="section">
+    <div class="section-head">
+      <span class="sec-num">SHEET 02</span>
+      <h2 class="sec-title">Certification cabinet.</h2>
+      <span class="sec-rule"></span>
+      <span class="mono" style="font-size: 11px; color: var(--ink-2);">elevation view · 12 of 12</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+      <!-- 12 cert cards -->
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 01</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Administrator</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2022 · foundational</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 02</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Platform Dev I</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2022 · developer</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 03</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Platform Dev II</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2023 · developer</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 04</div><div class="serif" style="font-size: 22px; margin-top: 4px;">JS Developer I</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2023 · developer</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 05</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Service Cloud</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2023 · consultant</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 06</div><div class="serif" style="font-size: 22px; margin-top: 4px;">OmniStudio Dev</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2024 · industries</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 07</div><div class="serif" style="font-size: 22px; margin-top: 4px;">FSC Consultant</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2024 · industries</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 08</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Salesforce Assoc.</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2022 · foundational</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 09</div><div class="serif" style="font-size: 22px; margin-top: 4px;">AI Associate</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2024 · ai</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 10</div><div class="serif" style="font-size: 22px; margin-top: 4px;">AI Specialist</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2025 · ai</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 11</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Agentforce Spec.</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2025 · ai</div></div>
+      <div class="blueprint-card"><div class="ticks"></div><div class="field-label">CERT · 12</div><div class="serif" style="font-size: 22px; margin-top: 4px;">Data Cloud</div><div class="mono" style="font-size: 11px; color: var(--ink-2);">2025 · data + ai</div></div>
+    </div>
+  </section>
+
+  <!-- SECTION 03: PROJECTS -->
+  <section id="projects" class="section">
+    <div class="section-head">
+      <span class="sec-num">SHEET 03</span>
+      <h2 class="sec-title">Three buildings I drew.</h2>
+      <span class="sec-rule"></span>
+      <span class="mono" style="font-size: 11px; color: var(--ink-2);">plans · sections · key metrics</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
+      <!-- Banking Portal -->
+      <article class="blueprint-card" style="padding: 24px;">
+        <div class="ticks"></div>
+        <div class="field-label">A · BANKING PUBLIC PORTAL</div>
+        <h3 class="serif" style="font-size: 30px; margin: 6px 0 12px; line-height: 1;">Bank of the trail.</h3>
+        <svg viewBox="0 0 320 180" style="width: 100%; height: 140px; border: 1px dashed var(--line-strong); margin: 8px 0 14px; background: var(--paper);">
+          <g stroke="var(--ink)" stroke-width="1" fill="none">
+            <rect x="20" y="30" width="40" height="120"/>
+            <rect x="64" y="60" width="40" height="90"/>
+            <rect x="108" y="20" width="40" height="130"/>
+            <rect x="152" y="50" width="40" height="100"/>
+            <rect x="196" y="80" width="40" height="70"/>
+            <rect x="240" y="40" width="60" height="110"/>
+            <line x1="10" y1="150" x2="310" y2="150" stroke-width="1.5"/>
+          </g>
+          <g font-family="JetBrains Mono" font-size="8" fill="var(--ink-2)">
+            <text x="40" y="170" text-anchor="middle">A1</text>
+            <text x="84" y="170" text-anchor="middle">A2</text>
+            <text x="128" y="170" text-anchor="middle">A3</text>
+            <text x="172" y="170" text-anchor="middle">A4</text>
+            <text x="216" y="170" text-anchor="middle">A5</text>
+            <text x="270" y="170" text-anchor="middle">LWCs · 40+</text>
+          </g>
+          <text x="280" y="38" font-family="DM Serif Display" font-style="italic" fill="var(--accent)" font-size="14">v2</text>
+        </svg>
+        <p style="font-size: 13px; line-height: 1.5; margin: 0 0 12px;">Unified portal across 6 legacy systems. Experience Cloud + MuleSoft + 40 LWCs. Customer self-service rose 4.2×.</p>
+        <div class="mono" style="font-size: 10.5px; color: var(--ink-2); display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 8px;">
+          <span>62% ↓ calls</span><span>$1.8M / yr saved</span>
+        </div>
+      </article>
+
+      <!-- Retail Store -->
+      <article class="blueprint-card" style="padding: 24px;">
+        <div class="ticks"></div>
+        <div class="field-label">B · RETAIL STORE APPLICATION</div>
+        <h3 class="serif" style="font-size: 30px; margin: 6px 0 12px; line-height: 1;">Floor to checkout.</h3>
+        <svg viewBox="0 0 320 180" style="width: 100%; height: 140px; border: 1px dashed var(--line-strong); margin: 8px 0 14px; background: var(--paper);">
+          <g stroke="var(--ink)" stroke-width="1" fill="none">
+            <!-- store floor plan -->
+            <rect x="20" y="20" width="280" height="130"/>
+            <line x1="20" y1="90" x2="180" y2="90"/>
+            <line x1="180" y1="20" x2="180" y2="150"/>
+            <line x1="220" y1="90" x2="300" y2="90"/>
+            <rect x="220" y="30" width="40" height="40" stroke-dasharray="3 3"/>
+            <rect x="220" y="100" width="40" height="40" stroke-dasharray="3 3"/>
+            <circle cx="80" cy="50" r="3" fill="var(--accent)" stroke="none"/>
+            <circle cx="130" cy="120" r="3" fill="var(--accent)" stroke="none"/>
+            <circle cx="240" cy="50" r="3" fill="var(--accent)" stroke="none"/>
+          </g>
+          <g font-family="JetBrains Mono" font-size="8" fill="var(--ink-2)">
+            <text x="98" y="50">FITTING</text>
+            <text x="40" y="120">FLOOR</text>
+            <text x="225" y="55">POS</text>
+            <text x="220" y="125">STOCK</text>
+          </g>
+        </svg>
+        <p style="font-size: 13px; line-height: 1.5; margin: 0 0 12px;">Single LWC tablet app on Service Cloud with Agentforce assist and Data Cloud profile. Checkout 38% faster, NPS 92.</p>
+        <div class="mono" style="font-size: 10.5px; color: var(--ink-2); display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 8px;">
+          <span>21% ↑ attach</span><span>NPS 92</span>
+        </div>
+      </article>
+
+      <!-- Loan Origination -->
+      <article class="blueprint-card" style="padding: 24px;">
+        <div class="ticks"></div>
+        <div class="field-label">C · LOAN ORIGINATION SYSTEM</div>
+        <h3 class="serif" style="font-size: 30px; margin: 6px 0 12px; line-height: 1;">Decisions, audited.</h3>
+        <svg viewBox="0 0 320 180" style="width: 100%; height: 140px; border: 1px dashed var(--line-strong); margin: 8px 0 14px; background: var(--paper);">
+          <g stroke="var(--ink)" stroke-width="1" fill="none">
+            <!-- state machine -->
+            <circle cx="50" cy="90" r="20"/>
+            <circle cx="120" cy="50" r="20"/>
+            <circle cx="120" cy="130" r="20"/>
+            <circle cx="200" cy="90" r="20"/>
+            <circle cx="280" cy="90" r="20"/>
+            <line x1="70" y1="90" x2="100" y2="60"/>
+            <line x1="70" y1="90" x2="100" y2="120"/>
+            <line x1="140" y1="50" x2="180" y2="80"/>
+            <line x1="140" y1="130" x2="180" y2="100"/>
+            <line x1="220" y1="90" x2="260" y2="90"/>
+          </g>
+          <g font-family="JetBrains Mono" font-size="9" fill="var(--ink)" text-anchor="middle">
+            <text x="50" y="93">APPLY</text>
+            <text x="120" y="53">UW</text>
+            <text x="120" y="133">DOCS</text>
+            <text x="200" y="93">REV</text>
+            <text x="280" y="93">FUND</text>
+          </g>
+        </svg>
+        <p style="font-size: 13px; line-height: 1.5; margin: 0 0 12px;">FSC + OmniStudio + Apex-orchestrated state machine. Shipped 9 weeks early. Zero P1s in first half.</p>
+        <div class="mono" style="font-size: 10.5px; color: var(--ink-2); display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 8px;">
+          <span>48% faster TTD</span><span>0 P1 incidents</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="section-head">
+      <span class="sec-num">SHEET 04</span>
+      <h2 class="sec-title">Specifications &amp; contact.</h2>
+      <span class="sec-rule"></span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px;">
+      <div class="blueprint-card" style="padding: 32px;">
+        <div class="ticks"></div>
+        <div class="field-label">// general notes</div>
+        <p class="serif" style="font-size: 36px; line-height: 1.05; margin: 8px 0 24px;">Available for new engagements.<br/>Open to lead developer, architect-in-residence, and AI strategy.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <div class="field-label">email</div>
+            <div class="mono" style="font-size: 14px;">yusuf@example.com</div>
+          </div>
+          <div>
+            <div class="field-label">linkedin</div>
+            <div class="mono" style="font-size: 14px;">/in/yusuf-khan</div>
+          </div>
+          <div>
+            <div class="field-label">trailblazer</div>
+            <div class="mono" style="font-size: 14px;">trailblazer.me/yusufkhan</div>
+          </div>
+          <div>
+            <div class="field-label">based</div>
+            <div class="mono" style="font-size: 14px;">Remote · hybrid</div>
+          </div>
+        </div>
+      </div>
+      <div class="blueprint-card" style="padding: 32px; background: var(--ink); color: var(--paper);">
+        <div class="ticks" style="background: repeating-linear-gradient(90deg, var(--paper), var(--paper) 1px, transparent 1px, transparent 8px);"></div>
+        <div class="field-label" style="color: rgba(240,237,227,.55);">// approval block</div>
+        <p class="serif" style="font-size: 28px; line-height: 1.1; margin: 8px 0 18px;">Resume<br/><em style="color: var(--accent);">— signed &amp; sealed.</em></p>
+        <div style="border-top: 1px dashed rgba(240,237,227,.3); padding-top: 18px; display: flex; flex-direction: column; gap: 10px;">
+          <a class="mono" href="#" style="font-size: 13px; display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed rgba(240,237,227,.2);">YK_RESUME_2026.PDF <span>↓</span></a>
+          <a class="mono" href="#" style="font-size: 13px; display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed rgba(240,237,227,.2);">YK_CASESTUDIES.PDF <span>↓</span></a>
+          <a class="mono" href="#" style="font-size: 13px; display: flex; justify-content: space-between; padding: 10px 0;">YK_REFERENCES.PDF <span>↓</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding: 40px 0 60px; display: flex; justify-content: space-between; align-items: center; color: var(--ink-2); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;">
+    <span>© 2026 Yusuf Khan · drawn by hand, shipped on Salesforce</span>
+    <span>SHEET 4 / 4 · v1.0</span>
+  </footer>
+</div>
+</body>
+</html>

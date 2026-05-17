@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>~/yusuf-khan · salesforce.zsh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-0: #0A0B12;
+    --bg-1: #11131D;
+    --bg-2: #161924;
+    --line: #232739;
+    --line-2: #2C3145;
+    --ink: #E6E9F4;
+    --ink-2: #8A94B6;
+    --ink-3: #5E6886;
+    --green: #5BD96B;
+    --blue: #6BB7FF;
+    --pink: #FF77B0;
+    --yellow: #F8C53D;
+    --orange: #FF8A4C;
+    --purple: #B57BFF;
+    --red: #FF6B6B;
+    --sf: #00D4FF; /* electric sf accent */
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    background: var(--bg-0);
+    color: var(--ink);
+    font-size: 13.5px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background:
+      radial-gradient(circle at 80% -10%, rgba(0,212,255,.10), transparent 40%),
+      radial-gradient(circle at -10% 110%, rgba(181,123,255,.08), transparent 40%);
+  }
+  /* CRT scanlines */
+  body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, transparent 1px, transparent 3px);
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { color: var(--sf); text-decoration: underline; }
+
+  .layout {
+    position: relative; z-index: 2;
+    display: grid;
+    grid-template-columns: 230px 1fr 280px;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar { background: var(--bg-1); border-right: 1px solid var(--line); padding: 16px 0; position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  .sidebar-head { padding: 0 18px 14px; border-bottom: 1px solid var(--line); }
+  .sb-title { display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; }
+  .traffic { display: flex; gap: 5px; }
+  .traffic span { width: 9px; height: 9px; border-radius: 50%; }
+  .traffic .r { background: #FF5F57; }
+  .traffic .y { background: #FEBC2E; }
+  .traffic .g { background: #28C840; }
+
+  .sb-section { padding: 14px 0; }
+  .sb-section-title { padding: 4px 16px; font-size: 10.5px; color: var(--ink-3); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
+  .sb-item { display: flex; align-items: center; gap: 8px; padding: 5px 16px; color: var(--ink-2); cursor: pointer; font-size: 12.5px; }
+  .sb-item:hover { background: var(--bg-2); color: var(--ink); }
+  .sb-item.active { background: rgba(0,212,255,.08); color: var(--sf); border-left: 2px solid var(--sf); padding-left: 14px; }
+  .sb-item .ico { width: 14px; opacity: .8; }
+  .sb-item .count { margin-left: auto; font-size: 10.5px; color: var(--ink-3); }
+
+  .sb-foot { margin-top: auto; padding: 14px 16px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-3); }
+
+  /* MAIN */
+  .main { background: var(--bg-0); }
+  .tabs { display: flex; background: var(--bg-1); border-bottom: 1px solid var(--line); }
+  .tab { padding: 9px 16px; font-size: 12px; color: var(--ink-2); border-right: 1px solid var(--line); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .tab.active { background: var(--bg-0); color: var(--ink); border-bottom: 1px solid var(--bg-0); margin-bottom: -1px; }
+  .tab .dot { width: 7px; height: 7px; border-radius: 99px; background: var(--orange); }
+  .tab.active .dot { background: var(--green); }
+
+  .breadcrumb { padding: 8px 18px; font-size: 11.5px; color: var(--ink-3); border-bottom: 1px solid var(--line); background: var(--bg-1); }
+  .breadcrumb b { color: var(--sf); }
+
+  .content { padding: 28px 32px 80px; max-width: 1100px; }
+
+  /* Code-style headings */
+  .prompt::before { content: "❯ "; color: var(--sf); }
+  .cmd { color: var(--green); }
+  .arg { color: var(--yellow); }
+  .opt { color: var(--purple); }
+  .str { color: var(--orange); }
+  .com { color: var(--ink-3); font-style: italic; }
+
+  /* Section title block */
+  .h-block { margin: 28px 0 20px; }
+  .h-eyebrow { font-size: 11px; color: var(--ink-3); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
+  .h-title { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; letter-spacing: -.02em; line-height: .98; color: var(--ink); }
+
+  /* Repo card */
+  .repo {
+    background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px;
+    padding: 18px 20px; transition: border-color .2s, background .2s;
+  }
+  .repo:hover { border-color: var(--sf); background: var(--bg-2); }
+  .repo h3 { margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+  .repo .meta { display: flex; gap: 18px; margin-top: 12px; font-size: 11px; color: var(--ink-3); }
+  .repo .meta span { display: flex; align-items: center; gap: 6px; }
+  .lang { width: 9px; height: 9px; border-radius: 99px; }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 600; letter-spacing: .04em; }
+  .b-blue { background: rgba(107,183,255,.12); color: var(--blue); }
+  .b-green { background: rgba(91,217,107,.12); color: var(--green); }
+  .b-pink { background: rgba(255,119,176,.12); color: var(--pink); }
+  .b-orange { background: rgba(255,138,76,.12); color: var(--orange); }
+  .b-purple { background: rgba(181,123,255,.12); color: var(--purple); }
+  .b-sf { background: rgba(0,212,255,.12); color: var(--sf); }
+
+  /* Stats panel */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .stat { background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .stat-label { font-size: 10.5px; color: var(--ink-3); letter-spacing: .12em; text-transform: uppercase; }
+  .stat-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 36px; font-weight: 800; color: var(--ink); margin-top: 6px; line-height: 1; }
+  .stat-sub { font-size: 11px; color: var(--green); margin-top: 4px; }
+
+  /* contribution graph */
+  .grid-cells { display: grid; grid-template-columns: repeat(52, 1fr); grid-template-rows: repeat(7, 1fr); gap: 3px; }
+  .grid-cells span { aspect-ratio: 1; border-radius: 2px; background: var(--bg-2); }
+  .lv1 { background: rgba(0,212,255,.18) !important; }
+  .lv2 { background: rgba(0,212,255,.35) !important; }
+  .lv3 { background: rgba(0,212,255,.6) !important; }
+  .lv4 { background: var(--sf) !important; box-shadow: 0 0 6px rgba(0,212,255,.6); }
+
+  /* RIGHT PANEL */
+  .right { background: var(--bg-1); border-left: 1px solid var(--line); padding: 18px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .right h4 { font-size: 10.5px; color: var(--ink-3); letter-spacing: .14em; text-transform: uppercase; font-weight: 700; margin: 0 0 10px; }
+
+  .terminal-panel { background: #06070C; border: 1px solid var(--line); border-radius: 8px; padding: 14px; height: 280px; overflow: hidden; position: relative; }
+  .term-line { white-space: pre; font-size: 11.5px; }
+
+  /* certification chip grid */
+  .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .cert-chip { background: var(--bg-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 8px; text-align: center; }
+  .cert-chip .pill { font-size: 9.5px; padding: 2px 6px; border-radius: 99px; background: rgba(0,212,255,.1); color: var(--sf); display: inline-block; margin-bottom: 6px; }
+  .cert-chip .nm { font-size: 11px; color: var(--ink); font-weight: 600; }
+
+  .file-link { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; font-size: 12px; color: var(--ink-2); }
+  .file-link:hover { background: var(--bg-2); color: var(--ink); }
+  .file-link .ext { color: var(--ink-3); font-size: 10.5px; margin-left: auto; }
+
+  /* command palette toggle */
+  .palette {
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 12px; display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--ink-2); cursor: pointer; transition: border-color .15s;
+  }
+  .palette:hover { border-color: var(--sf); }
+  .palette kbd { background: var(--bg-1); border: 1px solid var(--line-2); border-radius: 4px; padding: 1px 6px; font-size: 10.5px; }
+
+  /* skill bars in mono */
+  .skill-row { display: grid; grid-template-columns: 110px 1fr 30px; gap: 10px; align-items: center; margin-bottom: 8px; font-size: 11.5px; }
+  .skill-bar { height: 8px; background: var(--bg-2); border: 1px solid var(--line); position: relative; overflow: hidden; }
+  .skill-bar div { height: 100%; background: repeating-linear-gradient(45deg, var(--sf), var(--sf) 3px, rgba(0,212,255,.5) 3px, rgba(0,212,255,.5) 6px); }
+
+  /* table */
+  .commit-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .commit-table th { text-align: left; padding: 8px 12px; font-size: 10.5px; letter-spacing: .12em; color: var(--ink-3); text-transform: uppercase; background: var(--bg-1); border-bottom: 1px solid var(--line); font-weight: 600; }
+  .commit-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--ink-2); }
+  .commit-table td:first-child { color: var(--ink); font-weight: 600; }
+  .hash { color: var(--orange); }
+  .commit-table tr:hover td { background: rgba(0,212,255,.04); }
+
+  /* hero blinking cursor */
+  .blink { display: inline-block; width: 12px; height: 22px; background: var(--sf); animation: blink 1s steps(1) infinite; vertical-align: middle; margin-left: 4px; box-shadow: 0 0 8px var(--sf); }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* responsive */
+  @media (max-width: 1100px) {
+    .layout { grid-template-columns: 230px 1fr; }
+    .right { display: none; }
+  }
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-head">
+      <div class="sb-title">
+        <span class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></span>
+        ~/yusuf-khan
+      </div>
+      <div style="margin-top: 10px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 700; color: var(--ink);">Yusuf Khan</div>
+      <div style="font-size: 11px; color: var(--ink-2);">salesforce-lead-dev · v8.0</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-title">Workspace</div>
+      <div class="sb-item active"><span class="ico">▾</span> README.md <span class="count">1</span></div>
+      <div class="sb-item"><span class="ico">▸</span> certifications/ <span class="count">12</span></div>
+      <div class="sb-item"><span class="ico">▸</span> projects/ <span class="count">3</span></div>
+      <div class="sb-item"><span class="ico">▸</span> experience/ <span class="count">4</span></div>
+      <div class="sb-item"><span class="ico">▸</span> skills/ <span class="count">∞</span></div>
+      <div class="sb-item"><span class="ico">▸</span> contact/ <span class="count">5</span></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-title">Branches</div>
+      <div class="sb-item"><span class="ico">⎇</span> main <span class="count">●</span></div>
+      <div class="sb-item"><span class="ico">⎇</span> feature/agentforce</div>
+      <div class="sb-item"><span class="ico">⎇</span> feature/data-cloud-rag</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-title">Status</div>
+      <div style="padding: 0 16px; font-size: 11.5px;">
+        <div style="display: flex; align-items: center; gap: 8px; color: var(--green); margin-bottom: 4px;">
+          <span style="width: 8px; height: 8px; border-radius: 99px; background: var(--green); box-shadow: 0 0 8px var(--green);"></span> available · Q3 2026
+        </div>
+        <div style="color: var(--ink-3);">Last commit · 6h ago</div>
+      </div>
+    </div>
+
+    <div class="sb-foot">main · clean · ↓0 ↑0 · zsh</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="tabs">
+      <div class="tab active"><span class="dot"></span> README.md</div>
+      <div class="tab"><span class="dot"></span> portfolio.apex</div>
+      <div class="tab"><span class="dot"></span> certs.json</div>
+      <div class="tab"><span class="dot"></span> .env</div>
+    </div>
+    <div class="breadcrumb">~/yusuf-khan/<b>README.md</b> · main · 642 lines · UTF-8 · LF</div>
+
+    <div class="content">
+
+      <!-- COMMAND PALETTE -->
+      <div style="margin-bottom: 28px;" class="palette">
+        <span style="color: var(--sf);">⌘</span> Press <kbd>⌘K</kbd> to summon · or just keep scrolling
+      </div>
+
+      <!-- HERO / README -->
+      <div class="h-block">
+        <div class="h-eyebrow">// portfolio.readme · 2026</div>
+        <h1 class="h-title" style="font-size: clamp(56px, 9vw, 120px);">
+          <span style="color: var(--green);">$</span> whoami<br/>
+          <span style="color: var(--sf);">yusuf-khan</span><span class="blink"></span>
+        </h1>
+        <p style="font-size: 16px; color: var(--ink-2); margin-top: 22px; max-width: 720px; font-family: 'JetBrains Mono', monospace;">
+          <span class="com">// Salesforce Lead Developer · 12× certified · 8 yrs on platform</span><br/>
+          Builds enterprise platforms in <span class="b-sf badge">Apex</span> <span class="b-blue badge">LWC</span> <span class="b-purple badge">OmniStudio</span> <span class="b-pink badge">Agentforce</span> <span class="b-green badge">Data Cloud</span> for banking, retail and lending.
+        </p>
+      </div>
+
+      <!-- COMMAND BLOCK -->
+      <div style="background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; margin-top: 22px;">
+        <div class="prompt"><span class="cmd">cat</span> <span class="arg">./about.md</span></div>
+        <div style="color: var(--ink-2); margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+I lead Salesforce engineering teams that turn complex requirements into clean Apex, fast LWCs, and<br/>
+automations that scale. Currently deep in Agentforce and Data Cloud for an FSC platform serving<br/>
+1.2M customers. Always shipping. Always learning the next trail.
+        </div>
+        <div class="prompt" style="margin-top: 16px;"><span class="cmd">ls</span> <span class="opt">-la</span> ./currently/</div>
+        <div style="color: var(--ink-2); margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">
+drwxr-xr-x  <span class="str">agentforce-2.0/</span>      <span class="com"># prompt builder, custom actions, agent eval</span><br/>
+drwxr-xr-x  <span class="str">data-cloud-vectors/</span>  <span class="com"># RAG on customer 360 + Einstein Studio</span><br/>
+drwxr-xr-x  <span class="str">mcp-for-salesforce/</span>  <span class="com"># bridging tools to the org</span><br/>
+-rw-r--r--  <span class="str">app-architect.cer</span>   <span class="com"># 62% complete · target Q3 '26</span>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="h-block" style="margin-top: 56px;">
+        <div class="h-eyebrow">// org_health.live · refreshing every 1.5s</div>
+        <h2 class="h-title" style="font-size: 40px;">Numbers behind the name.</h2>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Certifications</div><div class="stat-value">12</div><div class="stat-sub">↑ 3 this year</div></div>
+        <div class="stat"><div class="stat-label">Years on platform</div><div class="stat-value">8+</div><div class="stat-sub">↑ since 2018</div></div>
+        <div class="stat"><div class="stat-label">Apex shipped (kLOC)</div><div class="stat-value">52</div><div class="stat-sub">↑ test coverage 91%</div></div>
+        <div class="stat"><div class="stat-label">P1 incidents '25</div><div class="stat-value">0</div><div class="stat-sub" style="color: var(--sf);">↗ stable</div></div>
+      </div>
+
+      <!-- CONTRIBUTION GRAPH -->
+      <div style="background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin-top: 22px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <div style="font-size: 12px; color: var(--ink-2);"><b style="color: var(--ink);">1,284 commits</b> in the last 52 weeks</div>
+          <div style="font-size: 10.5px; color: var(--ink-3); display: flex; gap: 6px; align-items: center;">
+            less <span style="width:10px; height: 10px; background: var(--bg-2); border-radius: 2px;"></span>
+            <span style="width:10px; height: 10px; background: rgba(0,212,255,.18); border-radius: 2px;"></span>
+            <span style="width:10px; height: 10px; background: rgba(0,212,255,.35); border-radius: 2px;"></span>
+            <span style="width:10px; height: 10px; background: rgba(0,212,255,.6); border-radius: 2px;"></span>
+            <span style="width:10px; height: 10px; background: var(--sf); border-radius: 2px;"></span> more
+          </div>
+        </div>
+        <div class="grid-cells" id="contrib"></div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="h-block" style="margin-top: 56px;">
+        <div class="h-eyebrow">// ls projects/ · 3 entries</div>
+        <h2 class="h-title" style="font-size: 40px;">$ git log --oneline</h2>
+      </div>
+
+      <div style="display: grid; gap: 14px;">
+        <div class="repo">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span style="color: var(--ink-3);">📂</span>
+            <h3>banking-public-portal/</h3>
+            <span class="badge b-sf">Experience Cloud</span>
+            <span class="badge b-green">production</span>
+          </div>
+          <p style="color: var(--ink-2); margin: 6px 0 12px; font-size: 13px;">Unified retail-banking portal across 6 legacy systems · LWC + OmniStudio + MuleSoft.</p>
+          <div class="meta">
+            <span><span class="lang" style="background: #00D4FF;"></span> Apex</span>
+            <span><span class="lang" style="background: var(--yellow);"></span> LWC</span>
+            <span>⭐ 62% ↓ call-center volume</span>
+            <span>💰 $1.8M / yr savings</span>
+            <span>👥 team of 12</span>
+          </div>
+        </div>
+        <div class="repo">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span style="color: var(--ink-3);">📂</span>
+            <h3>retail-store-application/</h3>
+            <span class="badge b-pink">Service Cloud</span>
+            <span class="badge b-purple">Agentforce</span>
+            <span class="badge b-green">production</span>
+          </div>
+          <p style="color: var(--ink-2); margin: 6px 0 12px; font-size: 13px;">LWC-native tablet app for store associates · Agentforce assistant + Data Cloud profile.</p>
+          <div class="meta">
+            <span><span class="lang" style="background: var(--pink);"></span> LWC</span>
+            <span><span class="lang" style="background: var(--purple);"></span> Agentforce</span>
+            <span>⭐ 38% faster checkout</span>
+            <span>📈 NPS 92 from associates</span>
+            <span>👥 team of 9</span>
+          </div>
+        </div>
+        <div class="repo">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <span style="color: var(--ink-3);">📂</span>
+            <h3>loan-origination-system/</h3>
+            <span class="badge b-orange">FSC</span>
+            <span class="badge b-blue">OmniStudio</span>
+            <span class="badge b-green">production</span>
+          </div>
+          <p style="color: var(--ink-2); margin: 6px 0 12px; font-size: 13px;">Re-platformed underwriting · auditable state machine via Apex orchestration · DocuSign close.</p>
+          <div class="meta">
+            <span><span class="lang" style="background: var(--orange);"></span> Apex</span>
+            <span><span class="lang" style="background: var(--blue);"></span> OmniScript</span>
+            <span>⭐ 9 wks ahead of plan</span>
+            <span>⚡ 48% faster TTD</span>
+            <span>🛡 0 P1 incidents</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMIT LOG (EXPERIENCE) -->
+      <div class="h-block" style="margin-top: 56px;">
+        <div class="h-eyebrow">// git log --since "2018-01-01"</div>
+        <h2 class="h-title" style="font-size: 40px;">The career changelog.</h2>
+      </div>
+
+      <table class="commit-table">
+        <thead><tr><th>Hash</th><th>When</th><th>Subject</th><th>Tag</th></tr></thead>
+        <tbody>
+          <tr><td><span class="hash">a8f3c12</span></td><td>2024 · now</td><td>feat(lead): own banking + lending platforms, mentor 8 devs</td><td><span class="badge b-sf">LEAD</span></td></tr>
+          <tr><td><span class="hash">d92e5b8</span></td><td>2022 · 2024</td><td>feat(senior): FSC + OmniStudio + reusable LWC library (-55% time)</td><td><span class="badge b-blue">SENIOR</span></td></tr>
+          <tr><td><span class="hash">7c4af90</span></td><td>2020 · 2022</td><td>feat(dev): retail / CPG · MuleSoft to SAP integrations · award</td><td><span class="badge b-green">DEV</span></td></tr>
+          <tr><td><span class="hash">3e1b0a4</span></td><td>2018 · 2020</td><td>init: Apex · Visualforce · Aura → LWC · Admin + PD1 earned</td><td><span class="badge b-pink">INIT</span></td></tr>
+        </tbody>
+      </table>
+
+      <!-- SKILLS -->
+      <div class="h-block" style="margin-top: 56px;">
+        <div class="h-eyebrow">// cat ./skills.yml</div>
+        <h2 class="h-title" style="font-size: 40px;">Stack — by depth.</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px; background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px; padding: 24px;">
+        <div>
+          <div class="h-eyebrow" style="color: var(--sf);">// core platform</div>
+          <div style="margin-top: 14px;">
+            <div class="skill-row"><span>Apex</span><div class="skill-bar"><div style="width: 95%;"></div></div><span>95</span></div>
+            <div class="skill-row"><span>LWC</span><div class="skill-bar"><div style="width: 92%;"></div></div><span>92</span></div>
+            <div class="skill-row"><span>OmniStudio</span><div class="skill-bar"><div style="width: 90%;"></div></div><span>90</span></div>
+            <div class="skill-row"><span>Flow Builder</span><div class="skill-bar"><div style="width: 95%;"></div></div><span>95</span></div>
+            <div class="skill-row"><span>Aura</span><div class="skill-bar"><div style="width: 78%;"></div></div><span>78</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="h-eyebrow" style="color: var(--purple);">// data + ai + ops</div>
+          <div style="margin-top: 14px;">
+            <div class="skill-row"><span>Data Cloud</span><div class="skill-bar"><div style="width: 86%;"></div></div><span>86</span></div>
+            <div class="skill-row"><span>Agentforce</span><div class="skill-bar"><div style="width: 84%;"></div></div><span>84</span></div>
+            <div class="skill-row"><span>Einstein</span><div class="skill-bar"><div style="width: 80%;"></div></div><span>80</span></div>
+            <div class="skill-row"><span>MuleSoft</span><div class="skill-bar"><div style="width: 82%;"></div></div><span>82</span></div>
+            <div class="skill-row"><span>SFDX / CI</span><div class="skill-bar"><div style="width: 92%;"></div></div><span>92</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT FOOTER -->
+      <div class="h-block" style="margin-top: 56px;">
+        <div class="h-eyebrow">// echo "let's build something"</div>
+        <h2 class="h-title" style="font-size: 40px;">Reach out.</h2>
+      </div>
+
+      <div style="background: var(--bg-1); border: 1px solid var(--line); border-radius: 10px; padding: 24px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px;">
+        <div>
+          <div class="prompt"><span class="cmd">curl</span> <span class="opt">-X POST</span> <span class="str">"https://yusufkhan.dev/inquire"</span> \\</div>
+          <div style="margin-left: 16px; color: var(--ink-2);">  <span class="opt">-H</span> <span class="str">"X-Engagement: lead-dev | architect | ai-roadmap"</span> \\</div>
+          <div style="margin-left: 16px; color: var(--ink-2);">  <span class="opt">-d</span> <span class="str">'{"problem":"&lt;the harder, the better&gt;"}'</span></div>
+          <div style="margin-top: 12px; color: var(--green);">→ 200 OK · reply in 24h</div>
+          <p style="color: var(--ink-2); margin-top: 18px; font-size: 13px; max-width: 480px;">
+            Open to lead developer engagements, architecture reviews, and Salesforce AI / Agentforce roadmaps. I read every inquiry myself.
+          </p>
+        </div>
+        <div>
+          <a class="file-link" href="#"><span style="color: var(--sf);">▸</span> yusuf@example.com <span class="ext">mail</span></a>
+          <a class="file-link" href="#"><span style="color: var(--sf);">▸</span> /in/yusuf-khan <span class="ext">linkedin</span></a>
+          <a class="file-link" href="#"><span style="color: var(--sf);">▸</span> trailblazer.me/yusufkhan <span class="ext">trailhead</span></a>
+          <a class="file-link" href="#"><span style="color: var(--sf);">▸</span> @yusufkhan <span class="ext">github</span></a>
+          <div style="margin-top: 12px; border-top: 1px solid var(--line); padding-top: 12px;">
+            <a class="file-link" href="#" style="color: var(--sf);"><span>↓</span> YK_resume_2026.pdf <span class="ext">42 KB</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 60px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-3); display: flex; justify-content: space-between;">
+        <span>© 2026 Yusuf Khan · built with Apex, LWC, and a lot of coffee</span>
+        <span>portfolio.terminal · v1.0 · 642 / 642 lines</span>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right">
+    <h4>Live terminal</h4>
+    <div class="terminal-panel" id="terminal">
+      <div class="term-line" style="color: var(--ink-3);">$ tail -f apex.log</div>
+      <div id="log-feed" style="margin-top: 8px;"></div>
+    </div>
+
+    <h4 style="margin-top: 24px;">Certification cabinet · 12</h4>
+    <div class="certs-grid">
+      <div class="cert-chip"><span class="pill">ADMIN</span><div class="nm">Administrator</div></div>
+      <div class="cert-chip"><span class="pill">PD1</span><div class="nm">Platform Dev I</div></div>
+      <div class="cert-chip"><span class="pill">PD2</span><div class="nm">Platform Dev II</div></div>
+      <div class="cert-chip"><span class="pill">JSDEV</span><div class="nm">JS Developer I</div></div>
+      <div class="cert-chip"><span class="pill">SVC</span><div class="nm">Service Cloud</div></div>
+      <div class="cert-chip"><span class="pill">OMNI</span><div class="nm">OmniStudio Dev</div></div>
+      <div class="cert-chip"><span class="pill">FSC</span><div class="nm">FSC Consultant</div></div>
+      <div class="cert-chip"><span class="pill">ASSOC</span><div class="nm">SF Associate</div></div>
+      <div class="cert-chip"><span class="pill">AIASS</span><div class="nm">AI Associate</div></div>
+      <div class="cert-chip"><span class="pill">AISPC</span><div class="nm">AI Specialist</div></div>
+      <div class="cert-chip"><span class="pill">AGENT</span><div class="nm">Agentforce</div></div>
+      <div class="cert-chip"><span class="pill">DATA</span><div class="nm">Data Cloud</div></div>
+    </div>
+
+    <h4 style="margin-top: 24px;">Resume</h4>
+    <a class="file-link" href="#"><span style="color: var(--sf);">▸</span> YK_resume_2026.pdf<span class="ext">42 KB</span></a>
+    <a class="file-link" href="#"><span style="color: var(--sf);">▸</span> case-studies.pdf<span class="ext">1.1 MB</span></a>
+  </aside>
+</div>
+
+<script>
+  // Contribution graph
+  (function () {
+    const wrap = document.getElementById('contrib');
+    const cells = 52 * 7;
+    let html = '';
+    // weight commits — denser in last 6 months
+    for (let i = 0; i < cells; i++) {
+      const week = Math.floor(i / 7);
+      const recent = week / 52;
+      const r = Math.random();
+      let lv = '';
+      const intensity = r * (.5 + recent * .8);
+      if (intensity > .85) lv = 'lv4';
+      else if (intensity > .65) lv = 'lv3';
+      else if (intensity > .42) lv = 'lv2';
+      else if (intensity > .22) lv = 'lv1';
+      html += `<span class="${lv}"></span>`;
+    }
+    wrap.innerHTML = html;
+  })();
+
+  // Live terminal log feed
+  (function () {
+    const feed = document.getElementById('log-feed');
+    const lines = [
+      ['INFO', 'DEPLOY: package@1.42.0 → org · 42 components'],
+      ['DEBUG', 'AGENTFORCE: agent response generated in 312ms'],
+      ['INFO', 'DATA CLOUD: ingested 24,182 customer events'],
+      ['DEBUG', 'APEX: ApplicationService.assess(11) → APPROVED'],
+      ['INFO', 'FLOW: Loan_Origination.flow v9 · run #4,201 ok'],
+      ['WARN', 'GOVERNOR: 84% CPU, 19% heap, within limits'],
+      ['INFO', 'OMNI: Onboarding_Flow → step 4/7'],
+      ['DEBUG', 'EINSTEIN: scored prospect 0.87 (high-fit)'],
+      ['INFO', 'DEPLOY: jest test 218/218 passed'],
+      ['DEBUG', 'LWC: c-portal-shell rendered in 11ms'],
+      ['INFO', 'MULESOFT: API /balance · p95 142ms'],
+      ['INFO', 'AGENTFORCE: tool_call (refund) approved'],
+    ];
+    const colorFor = (lvl) => lvl === 'WARN' ? '#F8C53D' : lvl === 'DEBUG' ? '#8A94B6' : '#5BD96B';
+    let i = 0;
+    function add() {
+      const [lvl, msg] = lines[i % lines.length];
+      const ts = new Date().toISOString().split('T')[1].slice(0, 8);
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      div.style.color = '#8A94B6';
+      div.innerHTML = `<span style="color:${colorFor(lvl)}">[${lvl}]</span> <span style="color:#5E6886">${ts}</span> ${msg}`;
+      feed.appendChild(div);
+      while (feed.children.length > 16) feed.removeChild(feed.firstChild);
+      i++;
+    }
+    for (let k = 0; k < 8; k++) add();
+    setInterval(add, 1500);
+  })();
+
+  // Cmd+K command palette (simple alert)
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      alert('Command palette — coming soon (this is the alt-direction preview).');
+    }
+  });
+</script>
+</body>
+</html>
