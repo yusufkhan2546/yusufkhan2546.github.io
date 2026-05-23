@@ -813,10 +813,14 @@
   <!-- React production builds (no dev warnings overhead) -->
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <!-- Three.js — desktop only (heavy 600KB library, skipped on mobile) -->
+  <!-- Three.js + Lottie — desktop only (heavy libraries, skipped on mobile) -->
   <script>
     if (!window.__IS_MOBILE) {
       document.write('<scr'+'ipt src="https://unpkg.com/three@0.160.0/build/three.min.js"><\/scr'+'ipt>');
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
+      document.head.appendChild(s);
     }
   </script>
 
