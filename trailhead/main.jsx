@@ -177,9 +177,9 @@ function App() {
     document.documentElement.style.setProperty("--accent-deep", t.accentDeep);
   }, [t.accent, t.accentDeep]);
 
-  // density
+  // Toggle custom cursor — class controls cursor:none on all interactive elements
   useEffect(() => {
-    document.body.style.cursor = t.showCursor ? "none" : "auto";
+    document.body.classList.toggle("custom-cursor", !!t.showCursor);
   }, [t.showCursor]);
 
   let Page = null;

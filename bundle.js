@@ -3797,7 +3797,7 @@ function App() {
     document.documentElement.style.setProperty("--accent-deep", t.accentDeep);
   }, [t.accent, t.accentDeep]);
   useEffect(() => {
-    document.body.style.cursor = t.showCursor ? "none" : "auto";
+    document.body.classList.toggle("custom-cursor", !!t.showCursor);
   }, [t.showCursor]);
   let Page = null;
   if (route === "home") Page = /* @__PURE__ */ React.createElement(PageHome, { go });

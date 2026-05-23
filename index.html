@@ -75,7 +75,6 @@
       background-attachment: fixed;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      cursor: none;
       position: relative;
     }
 
@@ -125,7 +124,6 @@
 
     button {
       font-family: inherit;
-      cursor: none;
     }
 
     ::selection {
@@ -204,7 +202,7 @@
       background: var(--ink);
       color: white;
       transition: transform .15s ease, background .2s, color .2s, border-color .2s, box-shadow .2s;
-      cursor: none;
+      cursor: pointer;
     }
 
     .btn:hover {
@@ -604,6 +602,13 @@
       /* Simpler base on mobile — page-shell gradient provides depth */
       body { background: #050818 !important; }
     }
+
+    /* Custom cursor — only hide default cursor when badge cursor is enabled */
+    body.custom-cursor,
+    body.custom-cursor button,
+    body.custom-cursor a,
+    body.custom-cursor .btn,
+    body.custom-cursor .hoverable { cursor: none !important; }
 
     /* ─── Section background blending ────────────────────── */
     /* A single continuous gradient that all home sections sit on,
