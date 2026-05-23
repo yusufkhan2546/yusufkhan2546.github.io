@@ -671,11 +671,13 @@
       .nav-cta-group { display: none !important; }
       .nav-hamburger { display: flex !important; }
 
-      /* Footer: brand full-width, sitemap+domains side-by-side, currently full-width */
-      .footer-grid     { grid-template-columns: 1fr 1fr !important; gap: 20px !important; }
-      .footer-brand    { grid-column: 1 / -1; }
-      .footer-currently { grid-column: 1 / -1; }
-      .footer-bottom   { flex-direction: column !important; gap: 8px !important; text-align: center; }
+      /* Footer mobile: flex-wrap so brand and currently take full row,
+         sitemap + domains sit side-by-side in the same row */
+      .footer-grid        { display: flex !important; flex-wrap: wrap !important; gap: 20px !important; }
+      .footer-brand       { width: 100% !important; }
+      .footer-grid > div:not(.footer-brand):not(.footer-currently) { flex: 1 1 40% !important; min-width: 120px; }
+      .footer-currently   { width: 100% !important; }
+      .footer-bottom      { flex-direction: column !important; gap: 8px !important; text-align: center; }
 
       /* Experience timeline: stack */
       .timeline-card     { grid-template-columns: 1fr !important; padding-left: 36px !important; gap: 8px !important; }
