@@ -155,8 +155,7 @@ function PageContact({ go }) {
               method="POST"
               target="sf-submit-target"
               onSubmit={handleSubmit}
-              className="card"
-              className="form-card" style={{ padding: 36, borderRadius: 22 }}
+              className="card form-card" style={{ padding: 36, borderRadius: 22 }}
             >
               {/* Hidden Salesforce fields */}
               <input type="hidden" name="oid" value="00DgK00000AXqoT" />

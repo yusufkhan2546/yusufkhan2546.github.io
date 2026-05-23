@@ -3598,8 +3598,7 @@ function PageContact({ go }) {
       method: "POST",
       target: "sf-submit-target",
       onSubmit: handleSubmit,
-      className: "card",
-      className: "form-card",
+      className: "card form-card",
       style: { padding: 36, borderRadius: 22 }
     },
     /* @__PURE__ */ React.createElement("input", { type: "hidden", name: "oid", value: "00DgK00000AXqoT" }),
