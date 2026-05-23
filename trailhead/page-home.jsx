@@ -229,9 +229,10 @@ function HeroSection({ go }) {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      background: "radial-gradient(120% 100% at 50% 0%, #0a1b3c 0%, #060B22 45%, transparent 100%)",
+      /* Atmospheric overlay — sits on top of the page-shell gradient */
+      background: "radial-gradient(120% 90% at 50% 0%, rgba(10,27,60,0.85) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
       color: "white",
-      marginTop: -56, // pull up under page-shell padding-top
+      marginTop: -56,
       paddingTop: 56,
     }}>
       {/* starfield + nebula */}
@@ -239,17 +240,17 @@ function HeroSection({ go }) {
       <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1 }}>
         <div style={{
           position: "absolute", width: 800, height: 800, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,161,224,.35), transparent 65%)",
+          background: "radial-gradient(circle, rgba(0,161,224,.3), transparent 65%)",
           top: "-15%", left: "-10%", filter: "blur(50px)", animation: "blob1 22s ease-in-out infinite"
         }} />
         <div style={{
           position: "absolute", width: 900, height: 900, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(127,0,255,.34), transparent 65%)",
+          background: "radial-gradient(circle, rgba(127,0,255,.28), transparent 65%)",
           bottom: "-25%", right: "-15%", filter: "blur(60px)", animation: "blob2 28s ease-in-out infinite"
         }} />
         <div style={{
           position: "absolute", width: 500, height: 500, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255,119,176,.20), transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,119,176,.16), transparent 70%)",
           top: "30%", left: "55%", filter: "blur(60px)", animation: "blob3 32s ease-in-out infinite"
         }} />
         <style>{`
@@ -271,6 +272,13 @@ function HeroSection({ go }) {
           }
         `}</style>
       </div>
+
+      {/* Bottom fade — smoothly dissolves hero into the next section */}
+      <div aria-hidden="true" style={{
+        position: "absolute", bottom: 0, left: 0, right: 0,
+        height: 180, zIndex: 5, pointerEvents: "none",
+        background: "linear-gradient(to bottom, transparent 0%, rgba(5,8,24,0.6) 50%, #050818 100%)",
+      }} />
 
       {/* 3D orb behind type */}
       <div style={{
@@ -700,7 +708,8 @@ function SkillsTrail() {
   }, "");
 
   return (
-    <section style={{ padding: isMobile ? "24px 0 16px" : "50px 0", background: "linear-gradient(180deg, var(--sf-cloud), var(--bg))" }}>
+    <section style={{ padding: isMobile ? "24px 0 16px" : "50px 0",
+      background: "linear-gradient(180deg, rgba(10,27,60,0.18) 0%, transparent 60%)" }}>
       <div className="container">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: isMobile ? 20 : 40, flexWrap: "wrap", gap: 12 }}>
           <div>
@@ -966,7 +975,8 @@ function StarField() {
 
 function CTAStrip({ go }) {
   return (
-    <section style={{ padding: "80px 0" }}>
+    <section style={{ padding: "80px 0",
+      background: "linear-gradient(180deg, transparent 0%, rgba(26,10,60,0.15) 40%, rgba(10,27,60,0.12) 100%)" }}>
       <div className="container">
         <div className="card hoverable cta-card" style={{
           borderRadius: 28, padding: "72px 56px",
@@ -1108,7 +1118,8 @@ function CommunityEvents() {
   ];
 
   return (
-    <section style={{ padding: "0px 0" }}>
+    <section style={{ padding: "0px 0",
+      background: "linear-gradient(180deg, transparent 0%, rgba(7,16,31,0.25) 50%, transparent 100%)" }}>
       <div className="container">
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <span className="eyebrow"><span className="dot"></span> Community</span>

@@ -1722,17 +1722,17 @@ function HeroSection({ go }) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: "radial-gradient(120% 100% at 50% 0%, #0a1b3c 0%, #060B22 45%, transparent 100%)",
+    /* Atmospheric overlay — sits on top of the page-shell gradient */
+    background: "radial-gradient(120% 90% at 50% 0%, rgba(10,27,60,0.85) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
     color: "white",
     marginTop: -56,
-    // pull up under page-shell padding-top
     paddingTop: 56
   } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { "aria-hidden": "true", style: { position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: {
     position: "absolute",
     width: 800,
     height: 800,
     borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(0,161,224,.35), transparent 65%)",
+    background: "radial-gradient(circle, rgba(0,161,224,.3), transparent 65%)",
     top: "-15%",
     left: "-10%",
     filter: "blur(50px)",
@@ -1742,7 +1742,7 @@ function HeroSection({ go }) {
     width: 900,
     height: 900,
     borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(127,0,255,.34), transparent 65%)",
+    background: "radial-gradient(circle, rgba(127,0,255,.28), transparent 65%)",
     bottom: "-25%",
     right: "-15%",
     filter: "blur(60px)",
@@ -1752,7 +1752,7 @@ function HeroSection({ go }) {
     width: 500,
     height: 500,
     borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(255,119,176,.20), transparent 70%)",
+    background: "radial-gradient(circle, rgba(255,119,176,.16), transparent 70%)",
     top: "30%",
     left: "55%",
     filter: "blur(60px)",
@@ -1774,7 +1774,16 @@ function HeroSection({ go }) {
             0%,100% { box-shadow: 0 0 0 0 rgba(46,132,74,.55), 0 0 12px rgba(46,132,74,1); }
             70% { box-shadow: 0 0 0 12px rgba(46,132,74,0), 0 0 12px rgba(46,132,74,1); }
           }
-        `)), /* @__PURE__ */ React.createElement("div", { style: {
+        `)), /* @__PURE__ */ React.createElement("div", { "aria-hidden": "true", style: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 180,
+    zIndex: 5,
+    pointerEvents: "none",
+    background: "linear-gradient(to bottom, transparent 0%, rgba(5,8,24,0.6) 50%, #050818 100%)"
+  } }), /* @__PURE__ */ React.createElement("div", { style: {
     position: "absolute",
     top: "-55%",
     right: 0,
@@ -2017,7 +2026,10 @@ function SkillsTrail() {
     const cx1 = (prev.x + p.x) / 2;
     return `${acc} C ${cx1} ${prev.y}, ${cx1} ${p.y}, ${p.x} ${p.y}`;
   }, "");
-  return /* @__PURE__ */ React.createElement("section", { style: { padding: isMobile ? "24px 0 16px" : "50px 0", background: "linear-gradient(180deg, var(--sf-cloud), var(--bg))" } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: isMobile ? 20 : 40, flexWrap: "wrap", gap: 12 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " The Trail"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { margin: "12px 0 0" } }, "Skills, mapped as a trail.")), !isMobile && /* @__PURE__ */ React.createElement("p", { style: { maxWidth: 360, color: "var(--ink-2)" } }, "Every stop is a domain I've shipped production work in \u2014 hover the markers to inspect.")), /* @__PURE__ */ React.createElement("div", { className: "skills-svg-wrap", style: { padding: isMobile ? "8px 4px" : 32, borderRadius: 18, position: "relative", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dot-bg", style: { position: "absolute", inset: 0, opacity: 0.25 } }), /* @__PURE__ */ React.createElement("svg", { viewBox: `0 0 ${vbW} ${vbH}`, style: { width: "100%", height: svgH, position: "relative", display: "block" } }, /* @__PURE__ */ React.createElement("defs", null, /* @__PURE__ */ React.createElement("linearGradient", { id: "trail-stroke", x1: "0", x2: "1" }, /* @__PURE__ */ React.createElement("stop", { offset: "0%", stopColor: "var(--sf-blue)" }), /* @__PURE__ */ React.createElement("stop", { offset: "100%", stopColor: "var(--sf-trail)" })), /* @__PURE__ */ React.createElement("filter", { id: "trail-glow" }, /* @__PURE__ */ React.createElement("feGaussianBlur", { stdDeviation: "5" })), /* @__PURE__ */ React.createElement("filter", { id: "liquid", x: "-20%", y: "-50%", width: "140%", height: "200%" }, /* @__PURE__ */ React.createElement("feTurbulence", { type: "fractalNoise", baseFrequency: "0.025 0.06", numOctaves: "2", seed: "3", result: "noise" }, /* @__PURE__ */ React.createElement("animate", { attributeName: "baseFrequency", values: "0.025 0.06; 0.04 0.08; 0.025 0.06", dur: "6s", repeatCount: "indefinite" })), /* @__PURE__ */ React.createElement("feDisplacementMap", { in: "SourceGraphic", in2: "noise", scale: "6" }), /* @__PURE__ */ React.createElement("feGaussianBlur", { stdDeviation: "0.6" })), /* @__PURE__ */ React.createElement("filter", { id: "goo", x: "-30%", y: "-30%", width: "160%", height: "160%" }, /* @__PURE__ */ React.createElement("feGaussianBlur", { in: "SourceGraphic", stdDeviation: "4", result: "blur" }), /* @__PURE__ */ React.createElement("feColorMatrix", { in: "blur", mode: "matrix", values: "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9", result: "goo" }), /* @__PURE__ */ React.createElement("feComposite", { in: "SourceGraphic", in2: "goo", operator: "atop" }))), /* @__PURE__ */ React.createElement("path", { d, stroke: "rgba(8,30,69,.16)", strokeWidth: "3", fill: "none", strokeDasharray: "2 8", strokeLinecap: "round" }), /* @__PURE__ */ React.createElement("g", { filter: "url(#liquid)", opacity: ".5" }, /* @__PURE__ */ React.createElement("path", { d, stroke: "url(#trail-stroke)", strokeWidth: isMobile ? 16 : 22, fill: "none", strokeLinecap: "round", filter: "url(#trail-glow)" })), /* @__PURE__ */ React.createElement("path", { id: "liquid-trail", d, stroke: "url(#trail-stroke)", strokeWidth: isMobile ? 4 : 6, fill: "none", strokeLinecap: "round", filter: "url(#liquid)", opacity: ".95" }), /* @__PURE__ */ React.createElement("path", { d, stroke: "#FFFFFF", strokeWidth: "2", fill: "none", strokeLinecap: "round", strokeDasharray: "6 28", opacity: ".8" }, /* @__PURE__ */ React.createElement("animate", { attributeName: "stroke-dashoffset", from: "0", to: "-340", dur: "3.2s", repeatCount: "indefinite" })), /* @__PURE__ */ React.createElement("path", { d, stroke: "url(#trail-stroke)", strokeWidth: "1.6", fill: "none", strokeLinecap: "round", opacity: ".85" }), /* @__PURE__ */ React.createElement("g", { filter: "url(#goo)" }, /* @__PURE__ */ React.createElement("circle", { r: isMobile ? 6 : 8, fill: "#FFB75D" }, /* @__PURE__ */ React.createElement("animateMotion", { dur: "6s", repeatCount: "indefinite", rotate: "auto" }, /* @__PURE__ */ React.createElement("mpath", { href: "#liquid-trail" }))), /* @__PURE__ */ React.createElement("circle", { r: isMobile ? 4 : 5, fill: "#FFFFFF" }, /* @__PURE__ */ React.createElement("animateMotion", { dur: "6s", repeatCount: "indefinite", rotate: "auto", begin: "-.08s" }, /* @__PURE__ */ React.createElement("mpath", { href: "#liquid-trail" }))), /* @__PURE__ */ React.createElement("circle", { r: "3", fill: "#00A1E0", opacity: ".9" }, /* @__PURE__ */ React.createElement("animateMotion", { dur: "6s", repeatCount: "indefinite", begin: "-.25s" }, /* @__PURE__ */ React.createElement("mpath", { href: "#liquid-trail" })))), pathPoints.map((p, i) => {
+  return /* @__PURE__ */ React.createElement("section", { style: {
+    padding: isMobile ? "24px 0 16px" : "50px 0",
+    background: "linear-gradient(180deg, rgba(10,27,60,0.18) 0%, transparent 60%)"
+  } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: isMobile ? 20 : 40, flexWrap: "wrap", gap: 12 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " The Trail"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { margin: "12px 0 0" } }, "Skills, mapped as a trail.")), !isMobile && /* @__PURE__ */ React.createElement("p", { style: { maxWidth: 360, color: "var(--ink-2)" } }, "Every stop is a domain I've shipped production work in \u2014 hover the markers to inspect.")), /* @__PURE__ */ React.createElement("div", { className: "skills-svg-wrap", style: { padding: isMobile ? "8px 4px" : 32, borderRadius: 18, position: "relative", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dot-bg", style: { position: "absolute", inset: 0, opacity: 0.25 } }), /* @__PURE__ */ React.createElement("svg", { viewBox: `0 0 ${vbW} ${vbH}`, style: { width: "100%", height: svgH, position: "relative", display: "block" } }, /* @__PURE__ */ React.createElement("defs", null, /* @__PURE__ */ React.createElement("linearGradient", { id: "trail-stroke", x1: "0", x2: "1" }, /* @__PURE__ */ React.createElement("stop", { offset: "0%", stopColor: "var(--sf-blue)" }), /* @__PURE__ */ React.createElement("stop", { offset: "100%", stopColor: "var(--sf-trail)" })), /* @__PURE__ */ React.createElement("filter", { id: "trail-glow" }, /* @__PURE__ */ React.createElement("feGaussianBlur", { stdDeviation: "5" })), /* @__PURE__ */ React.createElement("filter", { id: "liquid", x: "-20%", y: "-50%", width: "140%", height: "200%" }, /* @__PURE__ */ React.createElement("feTurbulence", { type: "fractalNoise", baseFrequency: "0.025 0.06", numOctaves: "2", seed: "3", result: "noise" }, /* @__PURE__ */ React.createElement("animate", { attributeName: "baseFrequency", values: "0.025 0.06; 0.04 0.08; 0.025 0.06", dur: "6s", repeatCount: "indefinite" })), /* @__PURE__ */ React.createElement("feDisplacementMap", { in: "SourceGraphic", in2: "noise", scale: "6" }), /* @__PURE__ */ React.createElement("feGaussianBlur", { stdDeviation: "0.6" })), /* @__PURE__ */ React.createElement("filter", { id: "goo", x: "-30%", y: "-30%", width: "160%", height: "160%" }, /* @__PURE__ */ React.createElement("feGaussianBlur", { in: "SourceGraphic", stdDeviation: "4", result: "blur" }), /* @__PURE__ */ React.createElement("feColorMatrix", { in: "blur", mode: "matrix", values: "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9", result: "goo" }), /* @__PURE__ */ React.createElement("feComposite", { in: "SourceGraphic", in2: "goo", operator: "atop" }))), /* @__PURE__ */ React.createElement("path", { d, stroke: "rgba(8,30,69,.16)", strokeWidth: "3", fill: "none", strokeDasharray: "2 8", strokeLinecap: "round" }), /* @__PURE__ */ React.createElement("g", { filter: "url(#liquid)", opacity: ".5" }, /* @__PURE__ */ React.createElement("path", { d, stroke: "url(#trail-stroke)", strokeWidth: isMobile ? 16 : 22, fill: "none", strokeLinecap: "round", filter: "url(#trail-glow)" })), /* @__PURE__ */ React.createElement("path", { id: "liquid-trail", d, stroke: "url(#trail-stroke)", strokeWidth: isMobile ? 4 : 6, fill: "none", strokeLinecap: "round", filter: "url(#liquid)", opacity: ".95" }), /* @__PURE__ */ React.createElement("path", { d, stroke: "#FFFFFF", strokeWidth: "2", fill: "none", strokeLinecap: "round", strokeDasharray: "6 28", opacity: ".8" }, /* @__PURE__ */ React.createElement("animate", { attributeName: "stroke-dashoffset", from: "0", to: "-340", dur: "3.2s", repeatCount: "indefinite" })), /* @__PURE__ */ React.createElement("path", { d, stroke: "url(#trail-stroke)", strokeWidth: "1.6", fill: "none", strokeLinecap: "round", opacity: ".85" }), /* @__PURE__ */ React.createElement("g", { filter: "url(#goo)" }, /* @__PURE__ */ React.createElement("circle", { r: isMobile ? 6 : 8, fill: "#FFB75D" }, /* @__PURE__ */ React.createElement("animateMotion", { dur: "6s", repeatCount: "indefinite", rotate: "auto" }, /* @__PURE__ */ React.createElement("mpath", { href: "#liquid-trail" }))), /* @__PURE__ */ React.createElement("circle", { r: isMobile ? 4 : 5, fill: "#FFFFFF" }, /* @__PURE__ */ React.createElement("animateMotion", { dur: "6s", repeatCount: "indefinite", rotate: "auto", begin: "-.08s" }, /* @__PURE__ */ React.createElement("mpath", { href: "#liquid-trail" }))), /* @__PURE__ */ React.createElement("circle", { r: "3", fill: "#00A1E0", opacity: ".9" }, /* @__PURE__ */ React.createElement("animateMotion", { dur: "6s", repeatCount: "indefinite", begin: "-.25s" }, /* @__PURE__ */ React.createElement("mpath", { href: "#liquid-trail" })))), pathPoints.map((p, i) => {
     const above = isMobile ? true : i % 2 === 0;
     const labelY = p.y + (above ? -(isMobile ? 32 : 40) : isMobile ? 32 : 36);
     const halfW = labelW / 2;
@@ -2168,7 +2180,10 @@ function StarField() {
   return /* @__PURE__ */ React.createElement("canvas", { ref: canvasRef, style: { position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" } });
 }
 function CTAStrip({ go }) {
-  return /* @__PURE__ */ React.createElement("section", { style: { padding: "80px 0" } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { className: "card hoverable cta-card", style: {
+  return /* @__PURE__ */ React.createElement("section", { style: {
+    padding: "80px 0",
+    background: "linear-gradient(180deg, transparent 0%, rgba(26,10,60,0.15) 40%, rgba(10,27,60,0.12) 100%)"
+  } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { className: "card hoverable cta-card", style: {
     borderRadius: 28,
     padding: "72px 56px",
     background: "radial-gradient(ellipse at 30% 20%, #1A0A3C 0%, #0A1B3C 40%, #060B22 100%)",
@@ -2265,7 +2280,10 @@ function CommunityEvents() {
       link: "https://drive.google.com/drive/folders/1Y2T-MGjFyblqV6VXxIvv7o5fjszCbEzj?usp=sharing"
     }
   ];
-  return /* @__PURE__ */ React.createElement("section", { style: { padding: "0px 0" } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: 56 } }, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Community"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { margin: "16px auto 0", maxWidth: 740 } }, "Off the clock, on the trail."), /* @__PURE__ */ React.createElement("div", { style: {
+  return /* @__PURE__ */ React.createElement("section", { style: {
+    padding: "0px 0",
+    background: "linear-gradient(180deg, transparent 0%, rgba(7,16,31,0.25) 50%, transparent 100%)"
+  } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: 56 } }, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Community"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { margin: "16px auto 0", maxWidth: 740 } }, "Off the clock, on the trail."), /* @__PURE__ */ React.createElement("div", { style: {
     maxWidth: 680,
     margin: "24px auto 0",
     padding: "24px",

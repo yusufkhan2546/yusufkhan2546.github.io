@@ -601,11 +601,29 @@
       /* No box-shadow blur on mobile */
       .card { box-shadow: 0 2px 8px rgba(0,0,0,.4) !important; }
 
-      /* Simpler background — no radial gradients recalculating */
-      body {
-        background: #050818 !important;
-        background-image: none !important;
-      }
+      /* Simpler base on mobile — page-shell gradient provides depth */
+      body { background: #050818 !important; }
+    }
+
+    /* ─── Section background blending ────────────────────── */
+    /* A single continuous gradient that all home sections sit on,
+       flowing from hero navy → cosmic dark → deep midnight */
+    .page-shell {
+      background: linear-gradient(
+        180deg,
+        #0a1b3c  0%,
+        #060e28  8%,
+        #050818  20%,
+        #07101f  38%,
+        #050818  55%,
+        #04091a  75%,
+        #020508  100%
+      );
+    }
+
+    /* Let sections show through the page-shell gradient */
+    main > section {
+      background: transparent !important;
     }
 
     /* ─── Responsive ──────────────────────────────────────── */
