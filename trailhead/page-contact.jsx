@@ -326,10 +326,9 @@ function PageContact({ go }) {
 
           {/* Availability strip */}
           <div className="card availability-strip" style={{ marginTop: 40, padding: 28, borderRadius: 22, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center" }}>
-            <div style={{ position: "relative", width: 28, height: 28, flexShrink: 0, overflow: "hidden", borderRadius: 99 }}>
-              <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 14, height: 14, borderRadius: 99, background: "var(--sf-success)", boxShadow: "0 0 14px var(--sf-success)" }}></div>
-              <div style={{ position: "absolute", top: "50%", left: "50%", width: 14, height: 14, marginTop: -7, marginLeft: -7, borderRadius: 99, border: "2px solid var(--sf-success)", animation: "ping 1.8s ease-out infinite", opacity: .3 }}></div>
-              <style>{`@keyframes ping { 0%{transform:scale(1); opacity:.6} 100%{transform:scale(2); opacity:0} }`}</style>
+            <div style={{ position: "relative", width: 14, height: 14, flexShrink: 0 }}>
+              <div style={{ width: 14, height: 14, borderRadius: 99, background: "var(--sf-success)", animation: "bleep 1.8s ease-in-out infinite" }}></div>
+              <style>{`@keyframes bleep { 0%,100%{opacity:1; box-shadow:0 0 6px var(--sf-success);} 50%{opacity:0.4; box-shadow:0 0 14px var(--sf-success);} }`}</style>
             </div>
             <div>
               <strong style={{ fontFamily: "var(--font-display)", fontSize: 20 }}>Available for new engagements</strong>
