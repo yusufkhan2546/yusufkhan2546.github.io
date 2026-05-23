@@ -120,7 +120,7 @@ function Footer({ go }) {
   return (
     <footer style={{ borderTop: "1px solid var(--line-2)", padding: "48px 0", background: "var(--card)" }}>
       <div className="container footer-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1fr", gap: 32 }}>
-        <div>
+        <div className="footer-brand">
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span className="brand-mark" style={{ width: 36, height: 36, overflow: "hidden" }}>
               <img src="uploads/YK.png" alt="YK" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
@@ -150,7 +150,7 @@ function Footer({ go }) {
             <div key={s} style={{ marginBottom: 8, color: "var(--ink-2)", fontSize: 14, fontWeight: 500 }}>{s}</div>
           ))}
         </div>
-        <div>
+        <div className="footer-currently">
           <div style={{ textTransform: "uppercase", letterSpacing: ".14em", fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 12 }}>Currently</div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
             <span style={{ width: 8, height: 8, borderRadius: 99, background: "var(--sf-success)", boxShadow: "0 0 8px var(--sf-success)" }}></span>
