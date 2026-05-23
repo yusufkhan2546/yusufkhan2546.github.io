@@ -75,24 +75,22 @@ function PageContact({ go }) {
 
   const commTypes = ["Engagement", "Architecture Review", "Hiring", "Just Curious"];
 
-  // Render reCAPTCHA widget by ID — more reliable than ref in Babel-React
+  // Render reCAPTCHA — uses global queue so timing doesn't matter
   React.useEffect(() => {
-    function tryRender() {
-      const container = document.getElementById("rc-contact");
-      if (!container) return;
-      if (container.hasChildNodes()) return; // already rendered
-      if (window.grecaptcha && window.grecaptcha.enterprise) {
-        window.grecaptcha.enterprise.ready(() => {
-          widgetIdRef.current = window.grecaptcha.enterprise.render("rc-contact", {
-            sitekey: "6Lf__vgsAAAAAH5xBnfx3uMrQ-MhXuV4PXcnl1Nj",
-            action: "CONTACT",
-          });
-        });
-      } else {
-        setTimeout(tryRender, 400);
-      }
+    function doRender() {
+      const el = document.getElementById("rc-contact");
+      if (!el || el.childElementCount > 0) return;
+      widgetIdRef.current = window.grecaptcha.enterprise.render(el, {
+        sitekey: "6Lf__vgsAAAAAH5xBnfx3uMrQ-MhXuV4PXcnl1Nj",
+        action: "CONTACT",
+      });
     }
-    tryRender();
+    if (window._rcReady) {
+      doRender();
+    } else {
+      window._rcQueue = window._rcQueue || [];
+      window._rcQueue.push(doRender);
+    }
   }, []);
 
   const handleSubmit = (e) => {

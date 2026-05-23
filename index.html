@@ -7,7 +7,16 @@
   <title>Yusuf Khan — Salesforce Lead Developer</title>
   <link rel="icon" type="image/png" href="uploads/YK.png" />
   <!-- Google reCAPTCHA Enterprise -->
-  <script src="https://www.google.com/recaptcha/enterprise.js?render=explicit" async defer></script>
+  <script>
+    window._rcQueue = [];
+    window._rcReady = false;
+    window.onReCaptchaReady = function () {
+      window._rcReady = true;
+      window._rcQueue.forEach(function (fn) { fn(); });
+      window._rcQueue = [];
+    };
+  </script>
+  <script src="https://www.google.com/recaptcha/enterprise.js?onload=onReCaptchaReady&render=explicit" async defer></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-F12CZVN8YV"></script>
   <script>
