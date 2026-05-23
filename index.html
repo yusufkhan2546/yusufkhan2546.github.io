@@ -543,6 +543,22 @@
       width: 100%;
     }
 
+    /* ─── Performance ─────────────────────────────────────── */
+    /* GPU-composite the nav (prevents repaints on scroll) */
+    .nav { will-change: transform; }
+
+    /* Defer rendering of below-fold sections */
+    main section + section {
+      content-visibility: auto;
+      contain-intrinsic-size: 0 600px;
+    }
+
+    /* Reduce backdrop-filter cost on mobile */
+    @media (max-width: 900px) {
+      .nav { backdrop-filter: blur(8px) !important; }
+      .glass-card, .card { backdrop-filter: none !important; }
+    }
+
     /* ─── Responsive ──────────────────────────────────────── */
 
     /* Tablet + Desktop nav-links hide */
@@ -687,13 +703,16 @@
   </style>
 
   <script>
+    // Detect low-power / mobile devices
+    const _isMobile = window.innerWidth <= 900 || ('ontouchstart' in window);
     window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
       "accent": "#0070D2",
       "accentDeep": "#032D60",
-      "boltTrail": true,
-      "showCursor": true,
-      "mascot": true
+      "boltTrail": false,
+      "showCursor": false,
+      "mascot": false
     }/*EDITMODE-END*/;
+    window.__IS_MOBILE = _isMobile;
   </script>
 
 </head>

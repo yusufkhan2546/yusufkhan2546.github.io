@@ -556,7 +556,7 @@ function OrgHealthDashboard() {
   // Live-ish counters animation for the dashboard
   const [tick, setTick] = useState(0);
   useEffect(() => {
-    const i = setInterval(() => setTick(t => t + 1), 1500);
+    const i = setInterval(() => setTick(t => t + 1), 3000);
     return () => clearInterval(i);
   }, []);
   const cpu = 38 + (tick * 7) % 22;
@@ -609,7 +609,7 @@ function Sparkline() {
   useEffect(() => {
     const i = setInterval(() => {
       setPoints(p => [...p.slice(1), Math.random() * .8 + .15]);
-    }, 600);
+    }, 1200);
     return () => clearInterval(i);
   }, []);
   const w = 100, h = 28;
@@ -880,8 +880,9 @@ function StarField() {
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(c);
-    // build stars
-    stars = Array.from({ length: 180 }, () => ({
+    // build stars — fewer on mobile
+    const starCount = window.__IS_MOBILE ? 80 : 180;
+    stars = Array.from({ length: starCount }, () => ({
       x: Math.random(), y: Math.random(),
       r: Math.random() * 1.4 + .25,
       a: Math.random() * .6 + .3,
@@ -943,7 +944,15 @@ function StarField() {
       raf = requestAnimationFrame(tick);
     };
     tick();
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+
+    // Pause when scrolled off-screen
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { if (!raf) raf = requestAnimationFrame(tick); }
+      else { cancelAnimationFrame(raf); raf = 0; }
+    }, { threshold: 0.01 });
+    io.observe(c);
+
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
   }, []);
   return <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}></canvas>;
 }

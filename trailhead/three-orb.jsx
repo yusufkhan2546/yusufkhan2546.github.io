@@ -6,14 +6,16 @@ function ThreeOrb({ height = 440, bare = false }) {
   const stateRef = React.useRef({});
 
   React.useEffect(() => {
+    // Skip entirely on mobile — too expensive
+    if (window.__IS_MOBILE) return;
     if (!window.THREE) return;
     const THREE = window.THREE;
     const wrap = wrapRef.current;
     if (!wrap) return;
 
     const width = wrap.clientWidth;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); // cap at 1.5x
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
     wrap.appendChild(renderer.domElement);
@@ -472,9 +474,21 @@ function ThreeOrb({ height = 440, bare = false }) {
     };
     animate();
 
+    // Pause RAF when the canvas is scrolled off-screen
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        if (!raf) raf = requestAnimationFrame(animate);
+      } else {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    }, { threshold: 0.05 });
+    io.observe(wrap);
+
     stateRef.current = { renderer, scene };
 
     return () => {
+      io.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onMove);
