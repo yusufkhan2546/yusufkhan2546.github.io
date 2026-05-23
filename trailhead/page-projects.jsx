@@ -487,7 +487,7 @@ function CaseStudy({ p, idx, open, onToggle }) {
 }
 
 function PageProjects({ go }) {
-  const [openId, setOpenId] = useState(null);
+  const [openId, setOpenId] = useState("banking-portal");
 
   return (
     <main>
