@@ -7,9 +7,13 @@
   <title>Yusuf Khan — Salesforce Lead Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
-    rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  </noscript>
 
   <style>
     :root {
@@ -559,6 +563,46 @@
       .glass-card, .card { backdrop-filter: none !important; }
     }
 
+    /* ─── Mobile performance — kill expensive rendering ──── */
+    @media (max-width: 900px) {
+      /* Stop the persistent starfield CSS animation */
+      body::before { animation: none !important; opacity: 0.4; }
+
+      /* Freeze background blobs in hero — they use GPU constantly */
+      @keyframes blob1 { 0%,100% { transform: none; } }
+      @keyframes blob2 { 0%,100% { transform: none; } }
+      @keyframes blob3 { 0%,100% { transform: none; } }
+
+      /* Kill marquee scroll animation — use static display */
+      @keyframes marquee { 0%,100% { transform: none; } }
+
+      /* Remove all backdrop-filter (most expensive CSS prop on mobile) */
+      * { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+      /* Simplify nav background */
+      .nav { background: rgba(5,8,24,.97) !important; }
+
+      /* Kill the SVG trail animations */
+      svg animate { display: none; }
+      svg animateMotion { display: none; }
+
+      /* Reduce will-change surface area */
+      * { will-change: auto !important; }
+
+      /* Disable scroll-driven entrance animations — show content immediately */
+      .page-enter { animation: none !important; }
+      .anim-word, .anim-fig, .anim-marquee { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+
+      /* No box-shadow blur on mobile */
+      .card { box-shadow: 0 2px 8px rgba(0,0,0,.4) !important; }
+
+      /* Simpler background — no radial gradients recalculating */
+      body {
+        background: #050818 !important;
+        background-image: none !important;
+      }
+    }
+
     /* ─── Responsive ──────────────────────────────────────── */
 
     /* Tablet + Desktop nav-links hide */
@@ -724,11 +768,15 @@
   <!-- React production builds (no dev warnings overhead) -->
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
-  <script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
+  <!-- Three.js — desktop only (heavy 600KB library, skipped on mobile) -->
+  <script>
+    if (!window.__IS_MOBILE) {
+      document.write('<scr'+'ipt src="https://unpkg.com/three@0.160.0/build/three.min.js"><\/scr'+'ipt>');
+    }
+  </script>
 
   <!-- Pre-compiled bundle — no runtime JSX transpilation -->
-  <script src="bundle.js?v=935a19c"></script>
+  <script src="bundle.js?v=db38456"></script>
 
 </body>
 

@@ -1917,19 +1917,7 @@ function SpidermanIntro({ onComplete }) {
 }
 
 function PageHome({ go }) {
-  const [introDone, setIntroDone] = React.useState(() => {
-    return localStorage.getItem('spidermanIntroPlayed') === 'true';
-  });
-
-  const handleIntroComplete = () => {
-    localStorage.setItem('spidermanIntroPlayed', 'true');
-    setIntroDone(true);
-  };
-
-  if (!introDone) {
-    return <SpidermanIntro onComplete={handleIntroComplete} />;
-  }
-
+  // Spider-Man intro disabled
   return (
     <main style={{ animation: "letterIn 2s ease both" }}>
       <HeroSection go={go} />

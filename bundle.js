@@ -2956,16 +2956,6 @@ function SpidermanIntro({ onComplete }) {
   );
 }
 function PageHome({ go }) {
-  const [introDone, setIntroDone] = React.useState(() => {
-    return localStorage.getItem("spidermanIntroPlayed") === "true";
-  });
-  const handleIntroComplete = () => {
-    localStorage.setItem("spidermanIntroPlayed", "true");
-    setIntroDone(true);
-  };
-  if (!introDone) {
-    return /* @__PURE__ */ React.createElement(SpidermanIntro, { onComplete: handleIntroComplete });
-  }
   return /* @__PURE__ */ React.createElement("main", { style: { animation: "letterIn 2s ease both" } }, /* @__PURE__ */ React.createElement(HeroSection, { go }), /* @__PURE__ */ React.createElement(SkillsTrail, null), /* @__PURE__ */ React.createElement(CommunityEvents, null), /* @__PURE__ */ React.createElement(Testimonials, null), /* @__PURE__ */ React.createElement(CTAStrip, { go }));
 }
 Object.assign(window, { PageHome });
