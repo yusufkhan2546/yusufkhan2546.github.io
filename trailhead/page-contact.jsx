@@ -69,11 +69,47 @@ function PageContact({ go }) {
   const [commType, setCommType] = React.useState("Engagement");
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const [captchaError, setCaptchaError] = React.useState(false);
   const formRef = React.useRef(null);
+  const recaptchaRef = React.useRef(null);
+  const widgetIdRef = React.useRef(null);
 
   const commTypes = ["Engagement", "Architecture Review", "Hiring", "Just Curious"];
 
+  // Render reCAPTCHA widget once the script is ready
+  React.useEffect(() => {
+    const renderWidget = () => {
+      if (!recaptchaRef.current || widgetIdRef.current !== null) return;
+      widgetIdRef.current = window.grecaptcha.enterprise.render(recaptchaRef.current, {
+        sitekey: "6Lf__vgsAAAAAH5xBnfx3uMrQ-MhXuV4PXcnl1Nj",
+        action: "CONTACT",
+      });
+    };
+    if (window.grecaptcha && window.grecaptcha.enterprise) {
+      window.grecaptcha.enterprise.ready(renderWidget);
+    } else {
+      const interval = setInterval(() => {
+        if (window.grecaptcha && window.grecaptcha.enterprise) {
+          window.grecaptcha.enterprise.ready(renderWidget);
+          clearInterval(interval);
+        }
+      }, 300);
+      return () => clearInterval(interval);
+    }
+  }, []);
+
   const handleSubmit = (e) => {
+    // Validate reCAPTCHA first
+    const token = window.grecaptcha && widgetIdRef.current !== null
+      ? window.grecaptcha.enterprise.getResponse(widgetIdRef.current)
+      : "";
+    if (!token) {
+      e.preventDefault();
+      setCaptchaError(true);
+      return;
+    }
+    setCaptchaError(false);
+
     // Salesforce Lead requires Company — auto-fill if left blank
     const companyInput = e.target.querySelector('[name="company"]');
     if (companyInput && !companyInput.value.trim()) {
@@ -87,6 +123,10 @@ function PageContact({ go }) {
       setSubmitting(false);
       setCommType("Engagement");
       if (formRef.current) formRef.current.reset();
+      // Reset reCAPTCHA so it can be used again
+      if (window.grecaptcha && widgetIdRef.current !== null) {
+        window.grecaptcha.enterprise.reset(widgetIdRef.current);
+      }
     }, 1800);
   };
 
@@ -209,6 +249,16 @@ function PageContact({ go }) {
                   placeholder="We're moving off a 4-year-old Vlocity org and need help untangling our OmniScripts before migration to OmniStudio…"
                   required
                 />
+              </div>
+
+              {/* reCAPTCHA widget */}
+              <div style={{ marginBottom: 20 }}>
+                <div ref={recaptchaRef}></div>
+                {captchaError && (
+                  <div style={{ color: "#e74c3c", fontSize: 12, marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}>
+                    <Icon name="shield" size={13} color="#e74c3c" /> Please complete the reCAPTCHA verification before sending.
+                  </div>
+                )}
               </div>
 
               <div className="form-footer" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
