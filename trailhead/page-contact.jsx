@@ -71,36 +71,33 @@ function PageContact({ go }) {
   const [submitted, setSubmitted] = React.useState(false);
   const [captchaError, setCaptchaError] = React.useState(false);
   const formRef = React.useRef(null);
-  const recaptchaRef = React.useRef(null);
   const widgetIdRef = React.useRef(null);
 
   const commTypes = ["Engagement", "Architecture Review", "Hiring", "Just Curious"];
 
-  // Render reCAPTCHA widget once the script is ready
+  // Render reCAPTCHA widget by ID — more reliable than ref in Babel-React
   React.useEffect(() => {
-    const renderWidget = () => {
-      if (!recaptchaRef.current || widgetIdRef.current !== null) return;
-      widgetIdRef.current = window.grecaptcha.enterprise.render(recaptchaRef.current, {
-        sitekey: "6Lf__vgsAAAAAH5xBnfx3uMrQ-MhXuV4PXcnl1Nj",
-        action: "CONTACT",
-      });
-    };
-    if (window.grecaptcha && window.grecaptcha.enterprise) {
-      window.grecaptcha.enterprise.ready(renderWidget);
-    } else {
-      const interval = setInterval(() => {
-        if (window.grecaptcha && window.grecaptcha.enterprise) {
-          window.grecaptcha.enterprise.ready(renderWidget);
-          clearInterval(interval);
-        }
-      }, 300);
-      return () => clearInterval(interval);
+    function tryRender() {
+      const container = document.getElementById("rc-contact");
+      if (!container) return;
+      if (container.hasChildNodes()) return; // already rendered
+      if (window.grecaptcha && window.grecaptcha.enterprise) {
+        window.grecaptcha.enterprise.ready(() => {
+          widgetIdRef.current = window.grecaptcha.enterprise.render("rc-contact", {
+            sitekey: "6Lf__vgsAAAAAH5xBnfx3uMrQ-MhXuV4PXcnl1Nj",
+            action: "CONTACT",
+          });
+        });
+      } else {
+        setTimeout(tryRender, 400);
+      }
     }
+    tryRender();
   }, []);
 
   const handleSubmit = (e) => {
     // Validate reCAPTCHA first
-    const token = window.grecaptcha && widgetIdRef.current !== null
+    const token = (window.grecaptcha && widgetIdRef.current != null)
       ? window.grecaptcha.enterprise.getResponse(widgetIdRef.current)
       : "";
     if (!token) {
@@ -124,8 +121,9 @@ function PageContact({ go }) {
       setCommType("Engagement");
       if (formRef.current) formRef.current.reset();
       // Reset reCAPTCHA so it can be used again
-      if (window.grecaptcha && widgetIdRef.current !== null) {
+      if (window.grecaptcha && widgetIdRef.current != null) {
         window.grecaptcha.enterprise.reset(widgetIdRef.current);
+        widgetIdRef.current = null;
       }
     }, 1800);
   };
@@ -253,7 +251,7 @@ function PageContact({ go }) {
 
               {/* reCAPTCHA widget */}
               <div style={{ marginBottom: 20 }}>
-                <div ref={recaptchaRef}></div>
+                <div id="rc-contact"></div>
                 {captchaError && (
                   <div style={{ color: "#e74c3c", fontSize: 12, marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}>
                     <Icon name="shield" size={13} color="#e74c3c" /> Please complete the reCAPTCHA verification before sending.
