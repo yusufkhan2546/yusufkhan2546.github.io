@@ -3553,13 +3553,13 @@ function SFTextarea({ label, name, placeholder, required = false }) {
   ));
 }
 function PageContact({ go }) {
-  const [commType, setCommType] = React.useState("Engagement");
+  const [commType, setCommType] = React.useState("Architecture Review");
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [captchaError, setCaptchaError] = React.useState(false);
   const formRef = React.useRef(null);
   const widgetIdRef = React.useRef(null);
-  const commTypes = ["Engagement", "Architecture Review", "Hiring", "Just Curious"];
+  const commTypes = ["Architecture Review", "Hiring", "Networking & Community", "Collaboration"];
   React.useEffect(() => {
     function doRender() {
       const el = document.getElementById("rc-contact");
@@ -3592,7 +3592,7 @@ function PageContact({ go }) {
     setTimeout(() => {
       setSubmitted(true);
       setSubmitting(false);
-      setCommType("Engagement");
+      setCommType("Architecture Review");
       if (formRef.current) formRef.current.reset();
       if (window.grecaptcha && widgetIdRef.current != null) {
         window.grecaptcha.enterprise.reset(widgetIdRef.current);

@@ -66,14 +66,14 @@ function SFTextarea({ label, name, placeholder, required = false }) {
 }
 
 function PageContact({ go }) {
-  const [commType, setCommType] = React.useState("Engagement");
+  const [commType, setCommType] = React.useState("Architecture Review");
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
   const [captchaError, setCaptchaError] = React.useState(false);
   const formRef = React.useRef(null);
   const widgetIdRef = React.useRef(null);
 
-  const commTypes = ["Engagement", "Architecture Review", "Hiring", "Just Curious"];
+  const commTypes = ["Architecture Review", "Hiring", "Networking & Community", "Collaboration"];
 
   // Render reCAPTCHA — uses global queue so timing doesn't matter
   React.useEffect(() => {
@@ -116,7 +116,7 @@ function PageContact({ go }) {
     setTimeout(() => {
       setSubmitted(true);
       setSubmitting(false);
-      setCommType("Engagement");
+      setCommType("Architecture Review");
       if (formRef.current) formRef.current.reset();
       // Reset reCAPTCHA so it can be used again
       if (window.grecaptcha && widgetIdRef.current != null) {
