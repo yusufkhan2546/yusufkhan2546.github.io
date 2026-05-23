@@ -1,10 +1,12 @@
+// Build script: transpile all JSX → JS with esbuild, concatenate into bundle.js
 const { execSync } = require("child_process");
-const fs = require("fs");
+const fs   = require("fs");
 const path = require("path");
 
-const root = __dirname;
+const root    = __dirname;
 const esbuild = path.join(root, "node_modules/.bin/esbuild");
 
+// Files in dependency order
 const files = [
   "trailhead/icons.jsx",
   "trailhead/bolt-trail.jsx",
@@ -20,15 +22,34 @@ const files = [
   "trailhead/main.jsx",
 ];
 
+// Single React hooks shim — injected ONCE at the top of the bundle.
+// Using var so it's always global and can never conflict.
+const SHIM = `/* React hooks shim */
+var useState      = React.useState;
+var useEffect     = React.useEffect;
+var useRef        = React.useRef;
+var useMemo       = React.useMemo;
+var useCallback   = React.useCallback;
+var useReducer    = React.useReducer;
+var useContext    = React.useContext;
+var useLayoutEffect = React.useLayoutEffect;
+`;
+
+// Pattern that matches any const/let/var destructuring of React hooks
+// e.g. "const { useState, useEffect, useRef, useMemo } = React;"
+const HOOK_DECL = /^(const|let|var)\s*\{[^}]*\}\s*=\s*React\s*;?/gm;
+
 const parts = files.map(f => {
   const abs = path.join(root, f);
-  const result = execSync(
+  let code = execSync(
     `"${esbuild}" "${abs}" --bundle=false --jsx=transform --jsx-factory=React.createElement --jsx-fragment=React.Fragment`,
     { encoding: "utf8", cwd: root }
   );
-  return `/* ── ${f} ── */\n${result}`;
+  // Remove duplicate hook destructuring — the shim covers all of them
+  code = code.replace(HOOK_DECL, "/* hooks from shim */");
+  return `/* ── ${f} ── */\n${code}`;
 });
 
-const bundle = parts.join("\n\n");
+const bundle = SHIM + "\n" + parts.join("\n\n");
 fs.writeFileSync(path.join(root, "bundle.js"), bundle);
 console.log(`✅  bundle.js  ${(bundle.length / 1024).toFixed(1)} KB  (${files.length} files)`);

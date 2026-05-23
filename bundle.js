@@ -1,3 +1,13 @@
+/* React hooks shim */
+var useState      = React.useState;
+var useEffect     = React.useEffect;
+var useRef        = React.useRef;
+var useMemo       = React.useMemo;
+var useCallback   = React.useCallback;
+var useReducer    = React.useReducer;
+var useContext    = React.useContext;
+var useLayoutEffect = React.useLayoutEffect;
+
 /* ── trailhead/icons.jsx ── */
 const Icon = ({ name, size = 18, color = "currentColor", style, className }) => {
   const S = (p) => /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: "1.7", strokeLinecap: "round", strokeLinejoin: "round", style, className }, p);
@@ -3089,7 +3099,7 @@ Object.assign(window, { PageCerts });
 
 
 /* ── trailhead/page-projects.jsx ── */
-const { useState, useEffect, useRef } = React;
+/* hooks from shim */
 const PROJECTS = [
   {
     id: "banking-portal",
@@ -3680,7 +3690,7 @@ Object.assign(window, { PageContact });
 
 
 /* ── trailhead/main.jsx ── */
-const { useState, useEffect, useRef, useMemo } = React;
+/* hooks from shim */
 const ROUTES = [
   { id: "home", label: "Home" },
   { id: "certs", label: "Certifications" },
