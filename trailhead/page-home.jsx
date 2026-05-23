@@ -660,60 +660,67 @@ function AboutSection() {
 
 function SkillsTrail() {
   const stages = [
-    { name: "Apex & Triggers & Flow", level: "Master", x: .07 },
-    { name: "LWC & AUra", level: "Master", x: .2 },
-    { name: "OmniStudio", level: "Master", x: .33 },
-    { name: "Service & Sales Cloud", level: "Expert", x: .47 },
-    { name: "FSC & Experience Cloud", level: "Expert", x: .6 },
-    { name: "Agentforce & Data Cloud", level: "Expert", x: .73 },
-    { name: "Architecture & DevOps", level: "Senior", x: .87 }
+    { name: "Apex & Triggers & Flow", level: "Master",  x: .07 },
+    { name: "LWC & Aura",             level: "Master",  x: .2  },
+    { name: "OmniStudio",             level: "Master",  x: .33 },
+    { name: "Service & Sales Cloud",  level: "Expert",  x: .47 },
+    { name: "FSC & Experience Cloud", level: "Expert",  x: .6  },
+    { name: "Agentforce & Data Cloud",level: "Expert",  x: .73 },
+    { name: "Architecture & DevOps",  level: "Senior",  x: .87 },
   ];
 
-  // Build winding path through points
+  const isMobile = window.__IS_MOBILE;
+
+  // ── Path points ───────────────────────────────────────────
+  // Desktop: sine wave across 1200×300
+  // Mobile:  hypotenuse diagonal across 520×260 (bottom-left → top-right)
   const pathPoints = stages.map((s, i) => {
+    if (isMobile) {
+      const t   = i / (stages.length - 1);
+      const x   = 40  + t * 440;                // left→right
+      const y   = 220 - t * 180;                // bottom→top  (hypotenuse)
+      return { x, y };
+    }
     const y = .5 + Math.sin(i * 1.1) * .35;
     return { x: s.x * 1100 + 50, y: y * 240 + 30 };
   });
 
+  const vbW  = isMobile ? 520  : 1200;
+  const vbH  = isMobile ? 260  : 300;
+  const svgH = isMobile ? 260  : 300;
+  const labelW = isMobile ? 120 : 144;
+  const labelFontMain = isMobile ? 10  : 11.5;
+  const labelFontSub  = isMobile ? 7.5 : 9;
+
   const d = pathPoints.reduce((acc, p, i, arr) => {
     if (i === 0) return `M ${p.x} ${p.y}`;
     const prev = arr[i - 1];
-    const cx1 = (prev.x + p.x) / 2;
+    const cx1  = (prev.x + p.x) / 2;
     return `${acc} C ${cx1} ${prev.y}, ${cx1} ${p.y}, ${p.x} ${p.y}`;
   }, "");
 
   return (
-    <section style={{ padding: "50px 0", background: "linear-gradient(180deg, var(--sf-cloud), var(--bg))" }}>
+    <section style={{ padding: isMobile ? "24px 0 16px" : "50px 0", background: "linear-gradient(180deg, var(--sf-cloud), var(--bg))" }}>
       <div className="container">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: 40 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginBottom: isMobile ? 20 : 40, flexWrap: "wrap", gap: 12 }}>
           <div>
             <span className="eyebrow"><span className="dot"></span> The Trail</span>
-            <h2 className="h-section" style={{ margin: "16px 0 0" }}>Skills, mapped as a trail.</h2>
+            <h2 className="h-section" style={{ margin: "12px 0 0" }}>Skills, mapped as a trail.</h2>
           </div>
-          <p style={{ maxWidth: 360, color: "var(--ink-2)" }}>Every stop is a domain I've shipped production work in — hover the markers to inspect.</p>
+          {!isMobile && (
+            <p style={{ maxWidth: 360, color: "var(--ink-2)" }}>Every stop is a domain I've shipped production work in — hover the markers to inspect.</p>
+          )}
         </div>
 
-        <div className="skills-svg-wrap" style={{ padding: 32, borderRadius: 24, position: "relative", overflow: "hidden" }}>
-          <div className="dot-bg" style={{ position: "absolute", inset: 0, opacity: .35 }}></div>
-          <svg viewBox="0 0 1200 300" style={{ width: "100%", height: 300, position: "relative" }}>
+        <div className="skills-svg-wrap" style={{ padding: isMobile ? "8px 4px" : 32, borderRadius: 18, position: "relative", overflow: "hidden" }}>
+          <div className="dot-bg" style={{ position: "absolute", inset: 0, opacity: .25 }}></div>
+          <svg viewBox={`0 0 ${vbW} ${vbH}`} style={{ width: "100%", height: svgH, position: "relative", display: "block" }}>
             <defs>
               <linearGradient id="trail-stroke" x1="0" x2="1">
                 <stop offset="0%" stopColor="var(--sf-blue)" />
                 <stop offset="100%" stopColor="var(--sf-trail)" />
               </linearGradient>
-              <linearGradient id="liquid-flow" x1="0" x2="1">
-                <stop offset="0%" stopColor="#00A1E0" stopOpacity="0">
-                  <animate attributeName="offset" values="-1; 0.7" dur="3.6s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="1">
-                  <animate attributeName="offset" values="-0.9; 0.8" dur="3.6s" repeatCount="indefinite" />
-                </stop>
-                <stop offset="0%" stopColor="#FFB75D" stopOpacity="0">
-                  <animate attributeName="offset" values="-0.7; 1" dur="3.6s" repeatCount="indefinite" />
-                </stop>
-              </linearGradient>
-              <filter id="trail-glow"><feGaussianBlur stdDeviation="6" /></filter>
-              {/* Liquid filter — turbulence + displacement that morphs over time */}
+              <filter id="trail-glow"><feGaussianBlur stdDeviation="5" /></filter>
               <filter id="liquid" x="-20%" y="-50%" width="140%" height="200%">
                 <feTurbulence type="fractalNoise" baseFrequency="0.025 0.06" numOctaves="2" seed="3" result="noise">
                   <animate attributeName="baseFrequency" values="0.025 0.06; 0.04 0.08; 0.025 0.06" dur="6s" repeatCount="indefinite" />
@@ -721,7 +728,6 @@ function SkillsTrail() {
                 <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" />
                 <feGaussianBlur stdDeviation="0.6" />
               </filter>
-              {/* Goo filter for blobby head */}
               <filter id="goo" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
                 <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
@@ -732,74 +738,75 @@ function SkillsTrail() {
             {/* dashed bg path */}
             <path d={d} stroke="rgba(8,30,69,.16)" strokeWidth="3" fill="none" strokeDasharray="2 8" strokeLinecap="round" />
 
-            {/* WIDE liquid halo — turbulence-distorted, gently breathing */}
-            <g filter="url(#liquid)" opacity=".55">
-              <path d={d} stroke="url(#trail-stroke)" strokeWidth="22" fill="none" strokeLinecap="round" filter="url(#trail-glow)">
-                <animate attributeName="stroke-width" values="18; 28; 18" dur="4.5s" repeatCount="indefinite" />
-              </path>
+            {/* Glow halo */}
+            <g filter="url(#liquid)" opacity=".5">
+              <path d={d} stroke="url(#trail-stroke)" strokeWidth={isMobile ? 16 : 22} fill="none" strokeLinecap="round" filter="url(#trail-glow)" />
             </g>
 
-            {/* Liquid body — main flowing stroke with traveling dash pattern (the "current") */}
-            <path id="liquid-trail" d={d} stroke="url(#trail-stroke)" strokeWidth="6" fill="none" strokeLinecap="round"
-              filter="url(#liquid)" opacity=".95" />
+            {/* Main stroke */}
+            <path id="liquid-trail" d={d} stroke="url(#trail-stroke)" strokeWidth={isMobile ? 4 : 6} fill="none" strokeLinecap="round" filter="url(#liquid)" opacity=".95" />
 
-            {/* Flowing highlight — dashed pattern moving along path simulates fluid in motion */}
-            <path d={d} stroke="#FFFFFF" strokeWidth="2" fill="none" strokeLinecap="round"
-              strokeDasharray="6 28" opacity=".85">
+            {/* Flowing highlight */}
+            <path d={d} stroke="#FFFFFF" strokeWidth="2" fill="none" strokeLinecap="round" strokeDasharray="6 28" opacity=".8">
               <animate attributeName="stroke-dashoffset" from="0" to="-340" dur="3.2s" repeatCount="indefinite" />
             </path>
-            <path d={d} stroke="#B6E6FF" strokeWidth="1.4" fill="none" strokeLinecap="round"
-              strokeDasharray="2 38" opacity=".7">
-              <animate attributeName="stroke-dashoffset" from="0" to="-400" dur="2.6s" repeatCount="indefinite" />
-            </path>
 
-            {/* Inner thin crisp line so the path is always readable */}
+            {/* Inner crisp line */}
             <path d={d} stroke="url(#trail-stroke)" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity=".85" />
 
-            {/* Traveling droplet head — gooey blob sliding along the path */}
+            {/* Traveling droplet */}
             <g filter="url(#goo)">
-              <circle r="8" fill="#FFB75D">
+              <circle r={isMobile ? 6 : 8} fill="#FFB75D">
                 <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
                   <mpath href="#liquid-trail" />
                 </animateMotion>
-                <animate attributeName="r" values="6; 10; 6" dur="1.2s" repeatCount="indefinite" />
               </circle>
-              <circle r="5" fill="#FFFFFF">
+              <circle r={isMobile ? 4 : 5} fill="#FFFFFF">
                 <animateMotion dur="6s" repeatCount="indefinite" rotate="auto" begin="-.08s">
                   <mpath href="#liquid-trail" />
                 </animateMotion>
               </circle>
-              {/* trailing droplets break off behind */}
               <circle r="3" fill="#00A1E0" opacity=".9">
                 <animateMotion dur="6s" repeatCount="indefinite" begin="-.25s">
                   <mpath href="#liquid-trail" />
                 </animateMotion>
               </circle>
-              <circle r="2" fill="#00A1E0" opacity=".7">
-                <animateMotion dur="6s" repeatCount="indefinite" begin="-.45s">
-                  <mpath href="#liquid-trail" />
-                </animateMotion>
-              </circle>
             </g>
 
-            {pathPoints.map((p, i) => (
-              <g key={i} className="hoverable" data-cursor="hover">
-                {/* ripple ring at each station — staggered */}
-                <circle cx={p.x} cy={p.y} r="14" fill="none" stroke="var(--accent)" strokeWidth="1.5" opacity=".5">
-                  <animate attributeName="r" values="14;26;14" dur="2.6s" begin={`${i * 0.25}s`} repeatCount="indefinite" />
-                  <animate attributeName="opacity" values=".6;0;.6" dur="2.6s" begin={`${i * 0.25}s`} repeatCount="indefinite" />
-                </circle>
-                <circle cx={p.x} cy={p.y} r="14" fill="white" stroke="var(--accent)" strokeWidth="2" />
-                <circle cx={p.x} cy={p.y} r="6" fill="var(--accent)">
-                  <animate attributeName="r" values="6;7.5;6" dur="1.8s" begin={`${i * 0.3}s`} repeatCount="indefinite" />
-                </circle>
-                <g transform={`translate(${p.x}, ${p.y + (i % 2 === 0 ? -40 : 36)})`}>
-                  <rect x="-72" y="-14" width="144" height="28" rx="14" fill="white" stroke="var(--line-2)" />
-                  <text textAnchor="middle" y="-1" fontFamily="Manrope, sans-serif" fontWeight="700" fontSize="11.5" fill="black">{stages[i].name}</text>
-                  <text textAnchor="middle" y="10" fontFamily="JetBrains Mono, monospace" fontWeight="600" fontSize="9" fill="var(--accent)" letterSpacing="1">{stages[i].level.toUpperCase()}</text>
+            {/* Station markers */}
+            {pathPoints.map((p, i) => {
+              // Label alternates above/below; on mobile always above to avoid going off-screen
+              const above = isMobile ? true : i % 2 === 0;
+              const labelY = p.y + (above ? -(isMobile ? 32 : 40) : (isMobile ? 32 : 36));
+              const halfW  = labelW / 2;
+
+              // Clamp label X so it doesn't go off the SVG edge
+              const rawLX  = p.x;
+              const clampedLX = Math.max(halfW + 4, Math.min(vbW - halfW - 4, rawLX));
+
+              return (
+                <g key={i} className="hoverable">
+                  {/* ripple */}
+                  <circle cx={p.x} cy={p.y} r="12" fill="none" stroke="var(--accent)" strokeWidth="1.5" opacity=".5">
+                    <animate attributeName="r" values="12;22;12" dur="2.6s" begin={`${i * 0.25}s`} repeatCount="indefinite" />
+                    <animate attributeName="opacity" values=".6;0;.6" dur="2.6s" begin={`${i * 0.25}s`} repeatCount="indefinite" />
+                  </circle>
+                  <circle cx={p.x} cy={p.y} r="12" fill="white" stroke="var(--accent)" strokeWidth="2" />
+                  <circle cx={p.x} cy={p.y} r="5" fill="var(--accent)" />
+
+                  {/* connector line from dot to label */}
+                  <line x1={p.x} y1={p.y + (above ? -12 : 12)} x2={clampedLX} y2={labelY + (above ? 14 : -14)}
+                    stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+
+                  {/* label pill */}
+                  <g transform={`translate(${clampedLX}, ${labelY})`}>
+                    <rect x={-halfW} y="-13" width={labelW} height="26" rx="13" fill="white" stroke="rgba(0,0,0,0.08)" />
+                    <text textAnchor="middle" y="-1" fontFamily="Manrope, sans-serif" fontWeight="700" fontSize={labelFontMain} fill="#0F172A">{stages[i].name}</text>
+                    <text textAnchor="middle" y="10" fontFamily="JetBrains Mono, monospace" fontWeight="600" fontSize={labelFontSub} fill="var(--accent)" letterSpacing="1">{stages[i].level.toUpperCase()}</text>
+                  </g>
                 </g>
-              </g>
-            ))}
+              );
+            })}
           </svg>
         </div>
       </div>

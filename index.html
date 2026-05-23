@@ -658,8 +658,10 @@
       .footer-bottom { flex-direction: column !important; gap: 8px !important; text-align: center; }
 
       /* Experience timeline: stack */
-      .timeline-card     { grid-template-columns: 1fr !important; padding-left: 28px !important; }
-      .timeline-dot      { left: 0 !important; }
+      .timeline-card     { grid-template-columns: 1fr !important; padding-left: 36px !important; gap: 8px !important; }
+      .timeline-dot      { left: 0 !important; top: 6px !important; }
+      .timeline-axis     { left: 10px !important; top: 34px !important; }
+      .timeline-period   { margin-bottom: 6px; }
       .timeline-period   { margin-bottom: 8px; }
 
       /* Tech matrix: single column */
@@ -720,8 +722,14 @@
       .footer-grid { grid-template-columns: 1fr 1fr !important; }
 
       /* Experience timeline: stack */
-      .timeline-card { grid-template-columns: 1fr !important; padding-left: 28px !important; }
-      .timeline-dot  { left: 0 !important; }
+      .timeline-card {
+        grid-template-columns: 1fr !important;
+        padding-left: 36px !important;
+        gap: 8px !important;
+      }
+      .timeline-dot  { left: 0 !important; top: 6px !important; }
+      .timeline-axis { left: 10px !important; top: 34px !important; }
+      .timeline-period { margin-bottom: 6px; }
 
       /* Projects & Contact on tablet */
       .pipeline-grid    { grid-template-columns: repeat(3, 1fr) !important; }

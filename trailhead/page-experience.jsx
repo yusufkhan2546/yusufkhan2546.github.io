@@ -58,18 +58,22 @@ function TimelineCard({ item, idx, total }) {
       display: "grid", gridTemplateColumns: "180px 1fr", gap: 28, position: "relative",
       paddingLeft: 40, paddingBottom: idx === total - 1 ? 0 : 40,
     }}>
-      {/* axis */}
-      <div style={{ position: "absolute", left: 18, top: 8, bottom: 0, width: 2, background: idx === total - 1 ? "transparent" : "linear-gradient(180deg, var(--accent), transparent)" }}></div>
+      {/* vertical axis line */}
+      <div className="timeline-axis" style={{ position: "absolute", left: 18, top: 30, bottom: 0, width: 2, background: idx === total - 1 ? "transparent" : "linear-gradient(180deg, var(--accent), transparent)" }}></div>
+      {/* dot */}
       <div className="timeline-dot" style={{ position: "absolute", left: 8, top: 4, width: 22, height: 22, borderRadius: 99, background: "white", border: "2px solid var(--accent)", display: "grid", placeItems: "center" }}>
         <span style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }}></span>
       </div>
 
-      <div>
+      {/* Column 1: period + tag */}
+      <div className="timeline-period">
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--ink-2)", letterSpacing: ".06em", fontWeight: 600 }}>{item.period}</span>
         <div style={{ marginTop: 6 }}>
           <span style={{ display: "inline-block", fontSize: 10, padding: "3px 8px", background: "var(--sf-sky)", color: "#FFFFFF", fontWeight: 700, borderRadius: 4, letterSpacing: ".1em", textTransform: "uppercase" }}>{item.tag}</span>
         </div>
       </div>
+
+      {/* Column 2: card */}
       <div className="card" style={{ padding: 24, borderRadius: 16 }}>
         <h3 style={{ fontFamily: "var(--font-display)", fontSize: 22, margin: "0 0 4px" }}>{item.role}</h3>
         <div style={{ fontSize: 14, color: "var(--ink-2)", fontWeight: 600, marginBottom: 14 }}>
