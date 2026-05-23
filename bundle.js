@@ -3556,9 +3556,34 @@ function PageContact({ go }) {
   const [commType, setCommType] = React.useState("Engagement");
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
+  const [captchaError, setCaptchaError] = React.useState(false);
   const formRef = React.useRef(null);
+  const widgetIdRef = React.useRef(null);
   const commTypes = ["Engagement", "Architecture Review", "Hiring", "Just Curious"];
+  React.useEffect(() => {
+    function doRender() {
+      const el = document.getElementById("rc-contact");
+      if (!el || el.childElementCount > 0) return;
+      widgetIdRef.current = window.grecaptcha.enterprise.render(el, {
+        sitekey: "6Lf__vgsAAAAAH5xBnfx3uMrQ-MhXuV4PXcnl1Nj",
+        action: "CONTACT"
+      });
+    }
+    if (window._rcReady) {
+      doRender();
+    } else {
+      window._rcQueue = window._rcQueue || [];
+      window._rcQueue.push(doRender);
+    }
+  }, []);
   const handleSubmit = (e) => {
+    const token = window.grecaptcha && widgetIdRef.current != null ? window.grecaptcha.enterprise.getResponse(widgetIdRef.current) : "";
+    if (!token) {
+      e.preventDefault();
+      setCaptchaError(true);
+      return;
+    }
+    setCaptchaError(false);
     const companyInput = e.target.querySelector('[name="company"]');
     if (companyInput && !companyInput.value.trim()) {
       companyInput.value = "Individual";
@@ -3569,6 +3594,10 @@ function PageContact({ go }) {
       setSubmitting(false);
       setCommType("Engagement");
       if (formRef.current) formRef.current.reset();
+      if (window.grecaptcha && widgetIdRef.current != null) {
+        window.grecaptcha.enterprise.reset(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
     }, 1800);
   };
   if (submitted) {
@@ -3647,6 +3676,7 @@ function PageContact({ go }) {
         required: true
       }
     )),
+    /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 20 } }, /* @__PURE__ */ React.createElement("div", { id: "rc-contact" }), captchaError && /* @__PURE__ */ React.createElement("div", { style: { color: "#e74c3c", fontSize: 12, marginTop: 8, display: "flex", alignItems: "center", gap: 6 } }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 13, color: "#e74c3c" }), " Please complete the reCAPTCHA verification before sending.")),
     /* @__PURE__ */ React.createElement("div", { className: "form-footer", style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-2)", display: "flex", alignItems: "center", gap: 6 } }, /* @__PURE__ */ React.createElement(Icon, { name: "shield", size: 14, color: "var(--sf-success)" }), " Replies within 24h. Goes directly to my Salesforce CRM."), /* @__PURE__ */ React.createElement(
       "button",
       {
