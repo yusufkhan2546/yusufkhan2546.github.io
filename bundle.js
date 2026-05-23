@@ -3266,53 +3266,50 @@ function RetailStoreFlow() {
   } }, /* @__PURE__ */ React.createElement("div", { style: { width: 24, height: 24, borderRadius: "50%", background: `${s.color}15`, border: `1px solid ${s.color}`, display: "grid", placeItems: "center", color: s.color, fontWeight: "bold", fontSize: 11 } }, idx + 1), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("strong", { style: { color: "white", fontSize: 13 } }, s.name), /* @__PURE__ */ React.createElement("p", { style: { color: "rgba(255,255,255,0.55)", fontSize: 11.5, margin: "2px 0 0" } }, s.desc)))))));
 }
 function CaseStudy({ p, idx, open, onToggle }) {
+  const StatsStrip = () => /* @__PURE__ */ React.createElement("div", { className: "impact-strip", style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 } }, p.impact.map((m) => /* @__PURE__ */ React.createElement("div", { key: m.label, style: {
+    padding: 18,
+    background: "linear-gradient(135deg, rgba(0,161,224,0.12), rgba(127,0,255,0.04))",
+    borderRadius: 14,
+    border: "1px solid rgba(0,161,224,0.18)",
+    textAlign: "center"
+  } }, /* @__PURE__ */ React.createElement("div", { className: "h-display", style: {
+    fontSize: 34,
+    background: "linear-gradient(135deg, #42F2D1, #47C7FF)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent"
+  } }, m.metric), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "rgba(255,255,255,0.65)", marginTop: 4, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.03em" } }, m.label))));
   return /* @__PURE__ */ React.createElement("article", { className: "card hoverable", style: {
     padding: 0,
     overflow: "hidden",
     borderRadius: 22,
-    background: "rgba(10, 20, 50, 0.45)",
-    border: "1px solid rgba(255, 255, 255, 0.08)",
-    backdropFilter: "blur(16px)",
-    WebkitBackdropFilter: "blur(16px)",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-    boxShadow: open ? "0 20px 45px -15px rgba(0, 0, 0, 0.8)" : "0 10px 30px -15px rgba(0,0,0,0.5)",
-    transform: open ? "scale(1.005)" : "none"
+    background: "rgba(10,20,50,0.45)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    transition: "box-shadow 0.3s ease",
+    boxShadow: open ? "0 20px 45px -15px rgba(0,0,0,0.8)" : "0 10px 30px -15px rgba(0,0,0,0.5)"
   } }, /* @__PURE__ */ React.createElement(
     "div",
     {
       className: "project-card-header project-card-pad",
-      style: { padding: 32, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center", cursor: "none" },
+      style: { padding: 28, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 20, alignItems: "center", cursor: "pointer" },
       onClick: onToggle
     },
     /* @__PURE__ */ React.createElement("div", { style: {
-      width: 64,
-      height: 64,
-      borderRadius: 16,
+      width: 56,
+      height: 56,
+      borderRadius: 14,
+      flexShrink: 0,
       background: `linear-gradient(135deg, hsl(${200 + idx * 55} 90% 55%), hsl(${240 + idx * 55} 80% 35%))`,
       display: "grid",
       placeItems: "center",
-      color: "white",
-      boxShadow: "0 12px 30px -10px rgba(8,30,69,.4)"
-    } }, /* @__PURE__ */ React.createElement(Icon, { name: ["globe", "shield", "chart"][idx], size: 28, color: "white" })),
-    /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontWeight: 700 } }, "0", idx + 1, " \xB7 ", p.client), /* @__PURE__ */ React.createElement("span", { style: { width: 4, height: 4, borderRadius: 99, background: "rgba(255,255,255,0.15)" } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "rgba(255,255,255,0.5)" } }, p.duration, " \xB7 Team of ", p.team)), /* @__PURE__ */ React.createElement("h3", { className: "h-display", style: { fontSize: 32, lineHeight: 1.05, margin: "0 0 8px", color: "white" } }, p.title), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } }, p.stack.map((s) => /* @__PURE__ */ React.createElement("span", { key: s, style: { fontSize: 11, padding: "4px 10px", borderRadius: 99, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)", fontWeight: 600 } }, s)))),
-    /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable project-walk-btn", style: { flexShrink: 0, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", display: "flex", alignItems: "center", gap: 6 } }, open ? "Collapse" : "Walk the flow", " ", /* @__PURE__ */ React.createElement(Icon, { name: open ? "x" : "arrow", size: 14 }))
-  ), /* @__PURE__ */ React.createElement("div", { style: { maxHeight: open ? 2200 : 0, transition: "max-height .6s cubic-bezier(.2,.7,.2,1)", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "project-expand-pad", style: { padding: "0 32px 32px" } }, /* @__PURE__ */ React.createElement("div", { className: "trail-underline", style: { marginBottom: 28, height: 1, background: "rgba(255,255,255,0.08)" } }), /* @__PURE__ */ React.createElement("div", { className: "challenge-grid", style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 32 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 } }, "Challenge"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 16, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" } }, p.challenge)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 } }, "Solution"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 16, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" } }, p.solution))), /* @__PURE__ */ React.createElement("div", { style: { borderRadius: 18, overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(4, 10, 30, 0.6)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 18px", borderBottom: "1px solid rgba(255, 255, 255, 0.08)", background: "rgba(255, 255, 255, 0.02)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement(Icon, { name: "flow", size: 15, color: "var(--sf-blue)" }), /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(255,255,255,0.8)" } }, p.id, ".flow_builder")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-mono)" } }, "Bespoke Architecture Model \xB7 Interactive Visualization")), open && p.id === "banking-portal" && /* @__PURE__ */ React.createElement(BankingPortalFlow, null), open && p.id === "loan-origination" && /* @__PURE__ */ React.createElement(LoanOriginationFlow, null), open && p.id === "retail-store" && /* @__PURE__ */ React.createElement(RetailStoreFlow, null)), /* @__PURE__ */ React.createElement("div", { className: "impact-strip", style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginTop: 28 } }, p.impact.map((m) => /* @__PURE__ */ React.createElement("div", { key: m.label, style: {
-    padding: 22,
-    background: "linear-gradient(135deg, rgba(0, 161, 224, 0.12), rgba(127, 0, 255, 0.04))",
-    borderRadius: 16,
-    border: "1px solid rgba(0, 161, 224, 0.18)",
-    textAlign: "center"
-  } }, /* @__PURE__ */ React.createElement("div", { className: "h-display", style: {
-    fontSize: 40,
-    background: "linear-gradient(135deg, #42F2D1, #47C7FF)",
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    filter: "drop-shadow(0 0 10px rgba(66, 242, 209, 0.35))"
-  } }, m.metric), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.03em" } }, m.label)))))));
+      color: "white"
+    } }, /* @__PURE__ */ React.createElement(Icon, { name: ["globe", "shield", "chart"][idx], size: 24, color: "white" })),
+    /* @__PURE__ */ React.createElement("div", { style: { minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: 5, flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontWeight: 700 } }, "0", idx + 1, " \xB7 ", p.client), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "rgba(255,255,255,0.4)" } }, p.duration, " \xB7 Team of ", p.team)), /* @__PURE__ */ React.createElement("h3", { className: "h-display", style: { fontSize: "clamp(20px, 3vw, 30px)", lineHeight: 1.1, margin: "0 0 10px", color: "white" } }, p.title), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" } }, p.stack.map((s) => /* @__PURE__ */ React.createElement("span", { key: s, style: { fontSize: 11, padding: "3px 9px", borderRadius: 99, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)", fontWeight: 600 } }, s)))),
+    /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable desktop-only-btn", style: { flexShrink: 0, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", display: "flex", alignItems: "center", gap: 6 } }, open ? "Collapse" : "Walk the flow", " ", /* @__PURE__ */ React.createElement(Icon, { name: open ? "x" : "arrow", size: 14 }))
+  ), /* @__PURE__ */ React.createElement("div", { className: "mobile-stats-strip", style: { padding: "0 20px 20px" } }, /* @__PURE__ */ React.createElement(StatsStrip, null)), /* @__PURE__ */ React.createElement("div", { className: "desktop-expand-section", style: { maxHeight: open ? 2200 : 0, transition: "max-height .6s cubic-bezier(.2,.7,.2,1)", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { style: { padding: "0 28px 28px" } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 24, height: 1, background: "rgba(255,255,255,0.08)" } }), /* @__PURE__ */ React.createElement("div", { className: "challenge-grid", style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 28 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 } }, "Challenge"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 15, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" } }, p.challenge)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 } }, "Solution"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 15, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" } }, p.solution))), /* @__PURE__ */ React.createElement("div", { style: { borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(4,10,30,0.6)", marginBottom: 24 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement(Icon, { name: "flow", size: 14, color: "var(--sf-blue)" }), /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(255,255,255,0.8)" } }, p.id, ".flow_builder")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-mono)" } }, "Interactive Visualization")), open && p.id === "banking-portal" && /* @__PURE__ */ React.createElement(BankingPortalFlow, null), open && p.id === "loan-origination" && /* @__PURE__ */ React.createElement(LoanOriginationFlow, null), open && p.id === "retail-store" && /* @__PURE__ */ React.createElement(RetailStoreFlow, null)), /* @__PURE__ */ React.createElement(StatsStrip, null))));
 }
 function PageProjects({ go }) {
-  const [openId, setOpenId] = useState("banking-portal");
-  return /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement("section", { className: "page" }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { className: "page-head", style: { display: "flex", alignItems: "end", justifyContent: "space-between", gap: 40, marginBottom: 48 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Case studies \xB7 3 deep-dives"), /* @__PURE__ */ React.createElement("h1", { className: "h-display", style: { fontSize: "clamp(48px, 6vw, 80px)", margin: "16px 0 12px", color: "white" } }, "Real orgs.", /* @__PURE__ */ React.createElement("br", null), "Real numbers."), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { maxWidth: 540, color: "rgba(255,255,255,0.7)" } }, "Each engagement features a uniquely modeled automated pipeline. Click any case study to walk the integration flow.")), /* @__PURE__ */ React.createElement("div", { className: "page-head-actions", style: { display: "flex", gap: 10 } }, /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => setOpenId(null), style: { background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" } }, "Collapse all"), /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("contact"), style: { background: "linear-gradient(90deg, #00A1E0, #7F00FF)" } }, "Discuss yours ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 14 })))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 18 } }, PROJECTS.map((p, i) => /* @__PURE__ */ React.createElement(
+  const [openId, setOpenId] = useState(null);
+  return /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement("section", { className: "page" }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { className: "page-head", style: { display: "flex", alignItems: "end", justifyContent: "space-between", gap: 40, marginBottom: 48 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Case studies \xB7 3 deep-dives"), /* @__PURE__ */ React.createElement("h1", { className: "h-display", style: { fontSize: "clamp(48px, 6vw, 80px)", margin: "16px 0 12px", color: "white" } }, "Real orgs.", /* @__PURE__ */ React.createElement("br", null), "Real numbers."), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { maxWidth: 540, color: "rgba(255,255,255,0.7)" } }, "Each engagement features a uniquely modeled automated pipeline. Click any case study to walk the integration flow.")), /* @__PURE__ */ React.createElement("div", { className: "page-head-actions", style: { display: "flex", gap: 10 } }, /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable desktop-only-btn", onClick: () => setOpenId(null), style: { background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" } }, "Collapse all"), /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("contact"), style: { background: "linear-gradient(90deg, #00A1E0, #7F00FF)" } }, "Discuss yours ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 14 })))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 18 } }, PROJECTS.map((p, i) => /* @__PURE__ */ React.createElement(
     CaseStudy,
     {
       key: p.id,
@@ -3648,7 +3645,7 @@ function PageContact({ go }) {
       },
       submitting ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { style: { marginRight: 8 } }, "\u23F3"), " Sending\u2026") : /* @__PURE__ */ React.createElement(React.Fragment, null, "Send message ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 14 }))
     ))
-  ), /* @__PURE__ */ React.createElement("aside", { style: { display: "flex", flexDirection: "column", gap: 16 } }, /* @__PURE__ */ React.createElement("div", { className: "hoverable", style: {
+  ), /* @__PURE__ */ React.createElement("aside", { className: "contact-aside", style: { display: "flex", flexDirection: "column", gap: 16 } }, /* @__PURE__ */ React.createElement("div", { className: "hoverable", style: {
     borderRadius: 16,
     overflow: "hidden",
     position: "relative",

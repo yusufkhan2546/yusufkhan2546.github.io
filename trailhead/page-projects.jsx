@@ -378,98 +378,108 @@ function RetailStoreFlow() {
 }
 
 function CaseStudy({ p, idx, open, onToggle }) {
+  /* Stats strip — shared between mobile (always shown) and desktop (inside expand) */
+  const StatsStrip = () => (
+    <div className="impact-strip" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }}>
+      {p.impact.map(m => (
+        <div key={m.label} style={{
+          padding: 18,
+          background: "linear-gradient(135deg, rgba(0,161,224,0.12), rgba(127,0,255,0.04))",
+          borderRadius: 14,
+          border: "1px solid rgba(0,161,224,0.18)",
+          textAlign: "center",
+        }}>
+          <div className="h-display" style={{
+            fontSize: 34,
+            background: "linear-gradient(135deg, #42F2D1, #47C7FF)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+          }}>{m.metric}</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", marginTop: 4, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.03em" }}>{m.label}</div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <article className="card hoverable" style={{
-      padding: 0,
-      overflow: "hidden",
-      borderRadius: 22,
-      background: "rgba(10, 20, 50, 0.45)",
-      border: "1px solid rgba(255, 255, 255, 0.08)",
-      backdropFilter: "blur(16px)",
-      WebkitBackdropFilter: "blur(16px)",
-      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-      boxShadow: open ? "0 20px 45px -15px rgba(0, 0, 0, 0.8)" : "0 10px 30px -15px rgba(0,0,0,0.5)",
-      transform: open ? "scale(1.005)" : "none",
+      padding: 0, overflow: "hidden", borderRadius: 22,
+      background: "rgba(10,20,50,0.45)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      transition: "box-shadow 0.3s ease",
+      boxShadow: open ? "0 20px 45px -15px rgba(0,0,0,0.8)" : "0 10px 30px -15px rgba(0,0,0,0.5)",
     }}>
-      <div className="project-card-header project-card-pad" style={{ padding: 32, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center", cursor: "none" }}
+
+      {/* ── Header — always visible ─────────────────────── */}
+      <div className="project-card-header project-card-pad"
+        style={{ padding: 28, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 20, alignItems: "center", cursor: "pointer" }}
         onClick={onToggle}>
+
         <div style={{
-          width: 64, height: 64, borderRadius: 16,
+          width: 56, height: 56, borderRadius: 14, flexShrink: 0,
           background: `linear-gradient(135deg, hsl(${200 + idx * 55} 90% 55%), hsl(${240 + idx * 55} 80% 35%))`,
-          display: "grid", placeItems: "center",
-          color: "white",
-          boxShadow: "0 12px 30px -10px rgba(8,30,69,.4)"
+          display: "grid", placeItems: "center", color: "white",
         }}>
-          <Icon name={["globe", "shield", "chart"][idx]} size={28} color="white"/>
+          <Icon name={["globe", "shield", "chart"][idx]} size={24} color="white"/>
         </div>
-        <div>
-          <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
-            <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontWeight: 700 }}>0{idx+1} · {p.client}</span>
-            <span style={{ width: 4, height: 4, borderRadius: 99, background: "rgba(255,255,255,0.15)" }}></span>
-            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>{p.duration} · Team of {p.team}</span>
+
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 5, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", fontWeight: 700 }}>
+              0{idx+1} · {p.client}
+            </span>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{p.duration} · Team of {p.team}</span>
           </div>
-          <h3 className="h-display" style={{ fontSize: 32, lineHeight: 1.05, margin: "0 0 8px", color: "white" }}>{p.title}</h3>
+          <h3 className="h-display" style={{ fontSize: "clamp(20px, 3vw, 30px)", lineHeight: 1.1, margin: "0 0 10px", color: "white" }}>{p.title}</h3>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {p.stack.map(s => (
-              <span key={s} style={{ fontSize: 11, padding: "4px 10px", borderRadius: 99, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>{s}</span>
+              <span key={s} style={{ fontSize: 11, padding: "3px 9px", borderRadius: 99, background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>{s}</span>
             ))}
           </div>
         </div>
-        <button className="btn ghost hoverable project-walk-btn" style={{ flexShrink: 0, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", display: "flex", alignItems: "center", gap: 6 }}>
+
+        {/* Desktop-only expand button */}
+        <button className="btn ghost hoverable desktop-only-btn" style={{ flexShrink: 0, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", display: "flex", alignItems: "center", gap: 6 }}>
           {open ? "Collapse" : "Walk the flow"} <Icon name={open ? "x" : "arrow"} size={14}/>
         </button>
       </div>
 
-      <div style={{ maxHeight: open ? 2200 : 0, transition: "max-height .6s cubic-bezier(.2,.7,.2,1)", overflow: "hidden" }}>
-        <div className="project-expand-pad" style={{ padding: "0 32px 32px" }}>
-          <div className="trail-underline" style={{ marginBottom: 28, height: 1, background: "rgba(255,255,255,0.08)" }}></div>
+      {/* ── Stats — always visible on mobile, inside expand on desktop ── */}
+      <div className="mobile-stats-strip" style={{ padding: "0 20px 20px" }}>
+        <StatsStrip />
+      </div>
 
-          <div className="challenge-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 32 }}>
+      {/* ── Expandable detail — desktop only ──────────────── */}
+      <div className="desktop-expand-section" style={{ maxHeight: open ? 2200 : 0, transition: "max-height .6s cubic-bezier(.2,.7,.2,1)", overflow: "hidden" }}>
+        <div style={{ padding: "0 28px 28px" }}>
+          <div style={{ marginBottom: 24, height: 1, background: "rgba(255,255,255,0.08)" }}></div>
+
+          <div className="challenge-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 28 }}>
             <div>
               <div style={{ fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 }}>Challenge</div>
-              <p style={{ fontSize: 16, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" }}>{p.challenge}</p>
+              <p style={{ fontSize: 15, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" }}>{p.challenge}</p>
             </div>
             <div>
               <div style={{ fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 }}>Solution</div>
-              <p style={{ fontSize: 16, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" }}>{p.solution}</p>
+              <p style={{ fontSize: 15, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" }}>{p.solution}</p>
             </div>
           </div>
 
-          {/* Interactive Unique Flow Visualization */}
-          <div style={{ borderRadius: 18, overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(4, 10, 30, 0.6)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 18px", borderBottom: "1px solid rgba(255, 255, 255, 0.08)", background: "rgba(255, 255, 255, 0.02)" }}>
+          {/* Flow Visualization */}
+          <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", background: "rgba(4,10,30,0.6)", marginBottom: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <Icon name="flow" size={15} color="var(--sf-blue)"/>
-                <strong style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(255,255,255,0.8)" }}>{p.id}.flow_builder</strong>
+                <Icon name="flow" size={14} color="var(--sf-blue)"/>
+                <strong style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(255,255,255,0.8)" }}>{p.id}.flow_builder</strong>
               </div>
-              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-mono)" }}>Bespoke Architecture Model · Interactive Visualization</span>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-mono)" }}>Interactive Visualization</span>
             </div>
-            {open && p.id === "banking-portal" && <BankingPortalFlow />}
+            {open && p.id === "banking-portal"  && <BankingPortalFlow />}
             {open && p.id === "loan-origination" && <LoanOriginationFlow />}
-            {open && p.id === "retail-store" && <RetailStoreFlow />}
+            {open && p.id === "retail-store"     && <RetailStoreFlow />}
           </div>
 
-          {/* Impact Stats Strip */}
-          <div className="impact-strip" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginTop: 28 }}>
-            {p.impact.map(m => (
-              <div key={m.label} style={{
-                padding: 22,
-                background: "linear-gradient(135deg, rgba(0, 161, 224, 0.12), rgba(127, 0, 255, 0.04))",
-                borderRadius: 16,
-                border: "1px solid rgba(0, 161, 224, 0.18)",
-                textAlign: "center"
-              }}>
-                <div className="h-display" style={{
-                  fontSize: 40,
-                  background: "linear-gradient(135deg, #42F2D1, #47C7FF)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 10px rgba(66, 242, 209, 0.35))"
-                }}>{m.metric}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.03em" }}>{m.label}</div>
-              </div>
-            ))}
-          </div>
+          {/* Stats inside expand (desktop only — CSS hides on mobile) */}
+          <StatsStrip />
         </div>
       </div>
     </article>
@@ -477,7 +487,7 @@ function CaseStudy({ p, idx, open, onToggle }) {
 }
 
 function PageProjects({ go }) {
-  const [openId, setOpenId] = useState("banking-portal");
+  const [openId, setOpenId] = useState(null);
 
   return (
     <main>
@@ -494,7 +504,7 @@ function PageProjects({ go }) {
               </p>
             </div>
             <div className="page-head-actions" style={{ display: "flex", gap: 10 }}>
-              <button className="btn ghost hoverable" onClick={() => setOpenId(null)} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}>Collapse all</button>
+              <button className="btn ghost hoverable desktop-only-btn" onClick={() => setOpenId(null)} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}>Collapse all</button>
               <button className="btn primary hoverable" onClick={() => go("contact")} style={{ background: "linear-gradient(90deg, #00A1E0, #7F00FF)" }}>Discuss yours <Icon name="arrow" size={14}/></button>
             </div>
           </div>

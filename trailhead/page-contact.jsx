@@ -229,8 +229,8 @@ function PageContact({ go }) {
               </div>
             </form>
 
-            {/* Sidebar */}
-            <aside style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {/* Sidebar — on mobile, display:contents flattens it into the parent column */}
+            <aside className="contact-aside" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <div className="hoverable" style={{
                 borderRadius: 16, overflow: "hidden", position: "relative",
                 background: "linear-gradient(135deg, #0a1b3c 0%, #1a2d5c 60%, #0d1f4a 100%)",

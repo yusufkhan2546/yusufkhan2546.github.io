@@ -547,6 +547,11 @@
       width: 100%;
     }
 
+    /* ─── Desktop only — hide mobile-only elements ─────── */
+    @media (min-width: 901px) {
+      .mobile-stats-strip   { display: none !important; }
+    }
+
     /* ─── Performance ─────────────────────────────────────── */
     /* GPU-composite the nav (prevents repaints on scroll) */
     .nav { will-change: transform; }
@@ -671,7 +676,9 @@
 
       /* ── Projects page ─────────────────────── */
       .project-card-header      { grid-template-columns: auto 1fr !important; }
-      .project-walk-btn         { grid-column: 1 / -1; width: 100%; justify-content: center; margin-top: 4px; }
+      .desktop-only-btn         { display: none !important; }
+      .desktop-expand-section   { display: none !important; }
+      .mobile-stats-strip       { display: block !important; }
       .pipeline-grid            { grid-template-columns: repeat(2, 1fr) !important; }
       .diagram-2col             { grid-template-columns: 1fr !important; }
       .challenge-grid           { grid-template-columns: 1fr !important; }
@@ -682,7 +689,8 @@
       .page-head-actions        { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
 
       /* ── Contact page ──────────────────────── */
-      .contact-layout           { grid-template-columns: 1fr !important; }
+      .contact-layout           { display: flex !important; flex-direction: column !important; gap: 16px !important; }
+      .contact-aside            { display: contents !important; }
       .name-fields              { grid-template-columns: 1fr !important; }
       .availability-strip       { grid-template-columns: 1fr !important; }
       .availability-strip .avail-btn { width: 100%; justify-content: center; margin-top: 8px; }
