@@ -89,7 +89,7 @@ function BankingPortalFlow() {
 
       {/* Connection pipeline layout */}
       <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, position: "relative" }}>
+        <div className="pipeline-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, position: "relative" }}>
 
 
           {steps.map((s, i) => {
@@ -175,7 +175,7 @@ function LoanOriginationFlow() {
         </span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 20 }}>
+      <div className="diagram-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 20 }}>
         {/* Left Side: System Inputs & FSC Risk Profiler */}
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <div style={{ background: "rgba(255, 255, 255, 0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, padding: 15 }}>
@@ -314,7 +314,7 @@ function RetailStoreFlow() {
         </span>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 20, alignItems: "center" }}>
+      <div className="diagram-2col" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 20, alignItems: "center" }}>
         {/* Left Side: Interlocking Circular Vector Diagram */}
         <div style={{ position: "relative", width: "100%", height: 360, display: "grid", placeItems: "center" }}>
           <svg viewBox="0 0 520 360" style={{ width: "100%", height: "100%", overflow: "visible" }}>
@@ -391,7 +391,7 @@ function CaseStudy({ p, idx, open, onToggle }) {
       boxShadow: open ? "0 20px 45px -15px rgba(0, 0, 0, 0.8)" : "0 10px 30px -15px rgba(0,0,0,0.5)",
       transform: open ? "scale(1.005)" : "none",
     }}>
-      <div style={{ padding: 32, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center", cursor: "none" }}
+      <div className="project-card-header project-card-pad" style={{ padding: 32, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center", cursor: "none" }}
         onClick={onToggle}>
         <div style={{
           width: 64, height: 64, borderRadius: 16,
@@ -415,16 +415,16 @@ function CaseStudy({ p, idx, open, onToggle }) {
             ))}
           </div>
         </div>
-        <button className="btn ghost hoverable" style={{ flexShrink: 0, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}>
+        <button className="btn ghost hoverable project-walk-btn" style={{ flexShrink: 0, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white", display: "flex", alignItems: "center", gap: 6 }}>
           {open ? "Collapse" : "Walk the flow"} <Icon name={open ? "x" : "arrow"} size={14}/>
         </button>
       </div>
 
       <div style={{ maxHeight: open ? 2200 : 0, transition: "max-height .6s cubic-bezier(.2,.7,.2,1)", overflow: "hidden" }}>
-        <div style={{ padding: "0 32px 32px" }}>
+        <div className="project-expand-pad" style={{ padding: "0 32px 32px" }}>
           <div className="trail-underline" style={{ marginBottom: 28, height: 1, background: "rgba(255,255,255,0.08)" }}></div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 32 }}>
+          <div className="challenge-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 32 }}>
             <div>
               <div style={{ fontSize: 11, color: "var(--sf-blue)", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", marginBottom: 8 }}>Challenge</div>
               <p style={{ fontSize: 16, lineHeight: 1.55, color: "rgba(255,255,255,0.78)" }}>{p.challenge}</p>
@@ -450,7 +450,7 @@ function CaseStudy({ p, idx, open, onToggle }) {
           </div>
 
           {/* Impact Stats Strip */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginTop: 28 }}>
+          <div className="impact-strip" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14, marginTop: 28 }}>
             {p.impact.map(m => (
               <div key={m.label} style={{
                 padding: 22,
@@ -483,7 +483,7 @@ function PageProjects({ go }) {
     <main>
       <section className="page">
         <div className="container">
-          <div className="page-head">
+          <div className="page-head" style={{ display: "flex", alignItems: "end", justifyContent: "space-between", gap: 40, marginBottom: 48 }}>
             <div>
               <span className="eyebrow"><span className="dot"></span> Case studies · 3 deep-dives</span>
               <h1 className="h-display" style={{ fontSize: "clamp(48px, 6vw, 80px)", margin: "16px 0 12px", color: "white" }}>
@@ -493,7 +493,7 @@ function PageProjects({ go }) {
                 Each engagement features a uniquely modeled automated pipeline. Click any case study to walk the integration flow.
               </p>
             </div>
-            <div style={{ display: "flex", gap: 10 }}>
+            <div className="page-head-actions" style={{ display: "flex", gap: 10 }}>
               <button className="btn ghost hoverable" onClick={() => setOpenId(null)} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "white" }}>Collapse all</button>
               <button className="btn primary hoverable" onClick={() => go("contact")} style={{ background: "linear-gradient(90deg, #00A1E0, #7F00FF)" }}>Discuss yours <Icon name="arrow" size={14}/></button>
             </div>

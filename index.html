@@ -669,7 +669,29 @@
       .cert-row-meta { display: none !important; }
     }
 
-    /* ── Tablet (641px – 900px) ─────────────────────────── */
+      /* ── Projects page ─────────────────────── */
+      .project-card-header      { grid-template-columns: auto 1fr !important; }
+      .project-walk-btn         { grid-column: 1 / -1; width: 100%; justify-content: center; margin-top: 4px; }
+      .pipeline-grid            { grid-template-columns: repeat(2, 1fr) !important; }
+      .diagram-2col             { grid-template-columns: 1fr !important; }
+      .challenge-grid           { grid-template-columns: 1fr !important; }
+      .impact-strip             { grid-template-columns: 1fr !important; }
+      .project-expand-pad       { padding: 16px !important; }
+      .project-card-pad         { padding: 20px !important; }
+      .page-head                { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+      .page-head-actions        { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
+
+      /* ── Contact page ──────────────────────── */
+      .contact-layout           { grid-template-columns: 1fr !important; }
+      .name-fields              { grid-template-columns: 1fr !important; }
+      .availability-strip       { grid-template-columns: 1fr !important; }
+      .availability-strip .avail-btn { width: 100%; justify-content: center; margin-top: 8px; }
+      .form-card                { padding: 20px !important; border-radius: 16px !important; }
+      .form-footer              { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+      .form-footer .submit-btn  { width: 100%; justify-content: center; }
+      .success-card             { padding: 36px 20px !important; margin: 40px auto !important; }
+
+    /* ─── Tablet (641px – 900px) ─────────────────────────── */
     @media (min-width: 641px) and (max-width: 900px) {
       .container   { padding: 0 24px; }
       .h-section   { font-size: 36px; }
@@ -692,6 +714,13 @@
       /* Experience timeline: stack */
       .timeline-card { grid-template-columns: 1fr !important; padding-left: 28px !important; }
       .timeline-dot  { left: 0 !important; }
+
+      /* Projects & Contact on tablet */
+      .pipeline-grid    { grid-template-columns: repeat(3, 1fr) !important; }
+      .contact-layout   { grid-template-columns: 1fr !important; }
+      .challenge-grid   { grid-template-columns: 1fr !important; }
+      .page-head        { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+      .page-head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     }
 
     /* ── Hamburger / Mobile Drawer ──────────────────────── */

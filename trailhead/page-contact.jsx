@@ -95,7 +95,7 @@ function PageContact({ go }) {
       <main>
         <section className="page">
           <div className="container">
-            <div style={{
+            <div className="success-card" style={{
               maxWidth: 560, margin: "80px auto", textAlign: "center",
               padding: "60px 40px", borderRadius: 28,
               background: "rgba(0,161,224,0.05)",
@@ -134,7 +134,7 @@ function PageContact({ go }) {
 
       <section className="page">
         <div className="container">
-          <div className="page-head">
+          <div className="page-head" style={{ display: "flex", alignItems: "end", justifyContent: "space-between", gap: 40, marginBottom: 48 }}>
             <div>
               <span className="eyebrow"><span className="dot"></span> Contact · Let's build</span>
               <h1 className="h-display" style={{ fontSize: "clamp(48px, 6vw, 80px)", margin: "16px 0 12px" }}>
@@ -146,7 +146,7 @@ function PageContact({ go }) {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 40 }}>
+          <div className="contact-layout" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 40 }}>
 
             {/* Salesforce Web-to-Lead Form — submits into hidden iframe */}
             <form
@@ -156,7 +156,7 @@ function PageContact({ go }) {
               target="sf-submit-target"
               onSubmit={handleSubmit}
               className="card"
-              style={{ padding: 36, borderRadius: 22 }}
+              className="form-card" style={{ padding: 36, borderRadius: 22 }}
             >
               {/* Hidden Salesforce fields */}
               <input type="hidden" name="oid" value="00DgK00000AXqoT" />
@@ -187,7 +187,7 @@ function PageContact({ go }) {
               </div>
 
               {/* First + Last Name */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+              <div className="name-fields" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                 <SFField label="First Name" name="first_name" placeholder="Jane" required maxLength={40} />
                 <SFField label="Last Name" name="last_name" placeholder="Trailblazer" required maxLength={80} />
               </div>
@@ -212,15 +212,15 @@ function PageContact({ go }) {
                 />
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+              <div className="form-footer" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                 <div style={{ fontSize: 12, color: "var(--ink-2)", display: "flex", alignItems: "center", gap: 6 }}>
                   <Icon name="shield" size={14} color="var(--sf-success)" /> Replies within 24h. Goes directly to my Salesforce CRM.
                 </div>
                 <button
                   type="submit"
-                  className="btn primary hoverable"
+                  className="btn primary hoverable submit-btn"
                   disabled={submitting}
-                  style={{ minWidth: 160 }}
+                  style={{ minWidth: 160, justifyContent: "center" }}
                 >
                   {submitting
                     ? <><span style={{ marginRight: 8 }}>⏳</span> Sending…</>
@@ -326,7 +326,7 @@ function PageContact({ go }) {
           </div>
 
           {/* Availability strip */}
-          <div className="card" style={{ marginTop: 40, padding: 28, borderRadius: 22, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center" }}>
+          <div className="card availability-strip" style={{ marginTop: 40, padding: 28, borderRadius: 22, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center" }}>
             <div style={{ position: "relative" }}>
               <div style={{ width: 14, height: 14, borderRadius: 99, background: "var(--sf-success)", boxShadow: "0 0 14px var(--sf-success)" }}></div>
               <div style={{ position: "absolute", inset: -6, borderRadius: 99, border: "2px solid var(--sf-success)", animation: "ping 1.8s ease-out infinite", opacity: .3 }}></div>
@@ -338,7 +338,7 @@ function PageContact({ go }) {
                 Best fit: lead developer, architect-in-residence, or Salesforce AI strategy engagements.
               </div>
             </div>
-            <button className="btn dark hoverable" onClick={() => go("home")}>
+            <button className="btn dark hoverable avail-btn" onClick={() => go("home")}>
               <Icon name="arrow" size={14} /> Back to top
             </button>
           </div>
