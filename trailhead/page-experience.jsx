@@ -54,13 +54,13 @@ const TECH = [
 
 function TimelineCard({ item, idx, total }) {
   return (
-    <div className="hoverable" style={{
+    <div className="hoverable timeline-card" style={{
       display: "grid", gridTemplateColumns: "180px 1fr", gap: 28, position: "relative",
       paddingLeft: 40, paddingBottom: idx === total - 1 ? 0 : 40,
     }}>
       {/* axis */}
       <div style={{ position: "absolute", left: 18, top: 8, bottom: 0, width: 2, background: idx === total - 1 ? "transparent" : "linear-gradient(180deg, var(--accent), transparent)" }}></div>
-      <div style={{ position: "absolute", left: 8, top: 4, width: 22, height: 22, borderRadius: 99, background: "white", border: "2px solid var(--accent)", display: "grid", placeItems: "center" }}>
+      <div className="timeline-dot" style={{ position: "absolute", left: 8, top: 4, width: 22, height: 22, borderRadius: 99, background: "white", border: "2px solid var(--accent)", display: "grid", placeItems: "center" }}>
         <span style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }}></span>
       </div>
 
@@ -91,7 +91,7 @@ function TimelineCard({ item, idx, total }) {
 function TechMatrix() {
   return (
     <div className="card" style={{ padding: 32, borderRadius: 22 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+      <div className="tech-main" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
         {TECH.map(g => (
           <div key={g.group}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--accent)", fontWeight: 700, marginBottom: 14 }}>{g.group}</div>
@@ -226,13 +226,13 @@ function PageExperience({ go }) {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 40 }}>
+          <div className="tech-matrix" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 40 }}>
             <div>
               <div style={{ marginBottom: 20, fontSize: 11, fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--accent)" }}>Career trail</div>
               {TIMELINE.map((t, i) => <TimelineCard key={i} item={t} idx={i} total={TIMELINE.length} />)}
             </div>
 
-            <aside style={{ display: "flex", flexDirection: "column", gap: 20, position: "sticky", top: 100, alignSelf: "start" }}>
+            <aside className="tech-sidebar" style={{ display: "flex", flexDirection: "column", gap: 20, position: "sticky", top: 100, alignSelf: "start" }}>
               <TrailblazerStats />
               <div className="card" style={{ padding: 24, borderRadius: 18 }}>
                 <div style={{ fontSize: 11, fontFamily: "var(--font-mono)", letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", fontWeight: 700, marginBottom: 12 }}>Currently exploring</div>

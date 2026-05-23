@@ -22,56 +22,117 @@ function useHashRoute() {
 const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
 
 function Nav({ route, go }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const navigate = (id) => {
+    setDrawerOpen(false);
+    go(id);
+  };
+
+  // Close drawer on Escape key
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setDrawerOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Prevent body scroll when drawer is open
+  useEffect(() => {
+    document.body.style.overflow = drawerOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [drawerOpen]);
+
   return (
-    <nav className="nav">
-      <div className="nav-inner">
-        <a className="brand hoverable" href="#home" onClick={(e)=>{e.preventDefault(); go("home");}}>
-          <span className="brand-mark" style={{ overflow: 'hidden' }}>
-            <img src="uploads/YK.png" alt="YK" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-          </span>
-          <span>Yusuf Khan</span>
-          <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 13, fontFamily: "var(--font-body)" }}>· Salesforce Lead Dev</span>
-        </a>
-        <div className="nav-links">
+    <>
+      <nav className="nav">
+        <div className="nav-inner">
+          <a className="brand hoverable" href="#home" onClick={(e)=>{e.preventDefault(); navigate("home");}}>
+            <span className="brand-mark" style={{ overflow: "hidden" }}>
+              <img src="uploads/YK.png" alt="YK" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+            </span>
+            <span>Yusuf Khan</span>
+            <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 13, fontFamily: "var(--font-body)" }}>· Salesforce Lead Dev</span>
+          </a>
+
+          {/* Desktop nav links */}
+          <div className="nav-links">
+            {ROUTES.map(r => (
+              <a key={r.id}
+                 href={`#${r.id}`}
+                 onClick={(e)=>{ e.preventDefault(); navigate(r.id); }}
+                 className={"nav-link hoverable " + (route===r.id ? "active":"")}>
+                {r.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Desktop CTA buttons — hidden on mobile via .nav-cta-group CSS class */}
+          <div className="nav-cta-group" style={{ display: "flex", gap: 10 }}>
+            <a className="btn ghost hoverable" href="#contact" onClick={(e)=>{e.preventDefault(); navigate("contact");}}>
+              <Icon name="mail" size={15}/> Get in touch
+            </a>
+            <a className="btn primary hoverable" href="assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf" target="_blank" rel="noopener noreferrer">
+              <Icon name="download" size={15}/> Resume
+            </a>
+          </div>
+
+          {/* Hamburger — visible on mobile/tablet via CSS */}
+          <button
+            className="nav-hamburger"
+            aria-label="Open menu"
+            aria-expanded={drawerOpen}
+            onClick={() => setDrawerOpen(true)}
+          >
+            ☰
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile drawer */}
+      {drawerOpen && (
+        <div className="mobile-drawer" role="dialog" aria-label="Navigation menu">
+          <button className="drawer-close" aria-label="Close menu" onClick={() => setDrawerOpen(false)}>✕</button>
+
           {ROUTES.map(r => (
             <a key={r.id}
                href={`#${r.id}`}
-               onClick={(e)=>{ e.preventDefault(); go(r.id); }}
-               className={"nav-link hoverable " + (route===r.id ? "active":"")}>
+               className={"drawer-link" + (route===r.id ? " active" : "")}
+               onClick={(e)=>{ e.preventDefault(); navigate(r.id); }}>
               {r.label}
             </a>
           ))}
+
+          <div className="drawer-ctas">
+            <a className="btn ghost" href="#contact" onClick={(e)=>{e.preventDefault(); navigate("contact");}}>
+              <Icon name="mail" size={15}/> Get in touch
+            </a>
+            <a className="btn primary" href="assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf" target="_blank" rel="noopener noreferrer">
+              <Icon name="download" size={15}/> Resume
+            </a>
+          </div>
         </div>
-        <div style={{ display: "flex", gap: 10 }}>
-          <a className="btn ghost hoverable" href="#contact" onClick={(e)=>{e.preventDefault(); go("contact");}}>
-            <Icon name="mail" size={15}/> Get in touch
-          </a>
-          <a className="btn primary hoverable" href="assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf" target="_blank" rel="noopener noreferrer">
-            <Icon name="download" size={15}/> Resume
-          </a>
-        </div>
-      </div>
-    </nav>
+      )}
+    </>
   );
 }
 
 function Footer({ go }) {
   return (
     <footer style={{ borderTop: "1px solid var(--line-2)", padding: "48px 0", background: "var(--card)" }}>
-      <div className="container" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1fr", gap: 32 }}>
+      <div className="container footer-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1fr", gap: 32 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span className="brand-mark" style={{ width: 36, height: 36, overflow: 'hidden' }}>
-              <img src="uploads/YK.png" alt="YK" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            <span className="brand-mark" style={{ width: 36, height: 36, overflow: "hidden" }}>
+              <img src="uploads/YK.png" alt="YK" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </span>
             <strong style={{ fontFamily: "var(--font-display)", fontSize: 20 }}>Yusuf Khan</strong>
           </div>
           <p className="body-lg" style={{ marginTop: 14, maxWidth: 340 }}>
             Salesforce Lead Developer building enterprise-grade experiences across Banking, Retail and Financial Services.
           </p>
-          <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
-            <a className="btn ghost hoverable" href="https://www.linkedin.com/in/yusufkhan2546" target="_blank" rel="noopener noreferrer" data-cursor="hover"><Icon name="linkedin" size={16}/> LinkedIn</a>
-            <a className="btn ghost hoverable" href="https://www.salesforce.com/trailblazer/yusufkhan2546" target="_blank" rel="noopener noreferrer" data-cursor="hover"><Icon name="trail" size={16}/> Trailblazer</a>
+          <div style={{ display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" }}>
+            <a className="btn ghost hoverable" href="https://www.linkedin.com/in/yusufkhan2546" target="_blank" rel="noopener noreferrer"><Icon name="linkedin" size={16}/> LinkedIn</a>
+            <a className="btn ghost hoverable" href="https://www.salesforce.com/trailblazer/yusufkhan2546" target="_blank" rel="noopener noreferrer"><Icon name="trail" size={16}/> Trailblazer</a>
           </div>
         </div>
         <div>
@@ -98,7 +159,7 @@ function Footer({ go }) {
           <div style={{ color: "var(--ink-2)", fontSize: 14 }}>Replies within 24h</div>
         </div>
       </div>
-      <div className="container" style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid var(--line-2)", display: "flex", justifyContent: "space-between", color: "var(--ink-2)", fontSize: 13 }}>
+      <div className="container footer-bottom" style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid var(--line-2)", display: "flex", justifyContent: "space-between", color: "var(--ink-2)", fontSize: 13 }}>
         <span>© 2026 Yusuf Khan. Built with curiosity and a lot of Apex.</span>
         <span className="mono">v1.0 · Trailhead-inspired</span>
       </div>

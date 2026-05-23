@@ -207,6 +207,8 @@ function HeroSection({ go }) {
   const nameRef = React.useRef(null);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   useEffect(() => {
+    // Only enable parallax on non-touch (pointer: fine) devices
+    if (window.matchMedia("(hover: none)").matches) return;
     const on = (e) => {
       setParallax({
         x: (e.clientX / window.innerWidth - .5) * 30,
@@ -280,9 +282,9 @@ function HeroSection({ go }) {
         transform: `translate(${parallax.x * .4}px, ${parallax.y * .4}px)`,
       }}>
         <div style={{
-          width: "min(920px, 92vw)",
-          height: "min(920px, 92vw)",
-          opacity: .9,
+          width: "min(920px, 85vw)",
+          height: "min(920px, 85vw)",
+          opacity: .65,
         }}>
           <ThreeOrb height={920} bare={true} />
         </div>
@@ -337,8 +339,8 @@ function HeroSection({ go }) {
           </span>
         </div> */}
 
-        {/* HELLO I AM YUSUF KHAN Wordmark - exact replication of spiderman-intro style, font, and placement */}
-        <h1 className="wordmark anim-word" style={{
+        {/* HELLO I AM YUSUF KHAN Wordmark */}
+        <h1 className="wordmark anim-word hero-wordmark" style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -408,7 +410,7 @@ function HeroSection({ go }) {
         </div>
 
         {/* Stats strip */}
-        <div style={{
+        <div className="hero-stats" style={{
           marginTop: 48,
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
@@ -691,7 +693,7 @@ function SkillsTrail() {
           <p style={{ maxWidth: 360, color: "var(--ink-2)" }}>Every stop is a domain I've shipped production work in — hover the markers to inspect.</p>
         </div>
 
-        <div style={{ padding: 32, borderRadius: 24, position: "relative", overflow: "hidden" }}>
+        <div className="skills-svg-wrap" style={{ padding: 32, borderRadius: 24, position: "relative", overflow: "hidden" }}>
           <div className="dot-bg" style={{ position: "absolute", inset: 0, opacity: .35 }}></div>
           <svg viewBox="0 0 1200 300" style={{ width: "100%", height: 300, position: "relative" }}>
             <defs>
@@ -950,7 +952,7 @@ function CTAStrip({ go }) {
   return (
     <section style={{ padding: "80px 0" }}>
       <div className="container">
-        <div className="card hoverable" style={{
+        <div className="card hoverable cta-card" style={{
           borderRadius: 28, padding: "72px 56px",
           background: "radial-gradient(ellipse at 30% 20%, #1A0A3C 0%, #0A1B3C 40%, #060B22 100%)",
           color: "white", overflow: "hidden", position: "relative", border: "1px solid rgba(255,255,255,.10)",
@@ -993,7 +995,7 @@ function CTAStrip({ go }) {
                 <span style={{ width: 6, height: 6, borderRadius: 99, background: "#B57BFF", boxShadow: "0 0 10px #B57BFF" }}></span>
                 Agentforce · Einstein · Data Cloud
               </span>
-              <h3 className="h-display" style={{ fontSize: 52, lineHeight: 1.0, marginBottom: 16, fontWeight: 800 }}>
+              <h3 className="h-display cta-heading" style={{ fontSize: 52, lineHeight: 1.0, marginBottom: 16, fontWeight: 800 }}>
                 Got a hard <span style={{
                   backgroundImage: "linear-gradient(90deg, #B57BFF, #00D4FF, #FF77B0, #B57BFF)",
                   backgroundSize: "200% 100%",
@@ -1003,7 +1005,7 @@ function CTAStrip({ go }) {
                 <span style={{ color: "rgba(255,255,255,.92)" }}>Let's build it together.</span>
               </h3>
               <p className="body-lg" style={{ color: "rgba(255,255,255,.7)", maxWidth: 560 }}>Open to lead developer engagements, architecture reviews, and Agentforce / AI roadmaps. The galaxy is wide — let's pick a star.</p>
-              <div style={{ display: "flex", gap: 12, marginTop: 26 }}>
+              <div style={{ display: "flex", gap: 12, marginTop: 26, flexWrap: "wrap" }}>
                 <button className="btn primary hoverable" onClick={() => go("contact")} style={{ background: "linear-gradient(90deg, #00A1E0, #7F00FF)", boxShadow: "0 16px 40px -10px rgba(127,0,255,.5)" }}>
                   Start a project <Icon name="arrow" size={16} />
                 </button>
@@ -1014,7 +1016,7 @@ function CTAStrip({ go }) {
             </div>
 
             {/* AI core glyph — central orb with orbiting electrons */}
-            <div style={{ position: "relative", width: 220, height: 220, flexShrink: 0 }}>
+            <div className="cta-glyph" style={{ position: "relative", width: 220, height: 220, flexShrink: 0 }}>
               <div style={{
                 position: "absolute", inset: "50% auto auto 50%", transform: "translate(-50%,-50%)",
                 width: 110, height: 110, borderRadius: "50%",
