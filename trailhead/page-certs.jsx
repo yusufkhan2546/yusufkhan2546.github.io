@@ -1,19 +1,6 @@
 // Certifications page — Sleek Horizontal Ledger & Bento Box Redesign + 3D Cabinet
 
-const CERTS = [
-  { name: "Administrator", year: "2022", family: "Foundational", hue: 200, kind: "admin", sub: "ADMIN", color: "#00A1E0", credId: "SF-298374", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-03_Platform-Admin_500x490.png" },
-  { name: "Platform Developer I", year: "2022", family: "Developer", hue: 220, kind: "platform", sub: "PD1", color: "#0070D2", credId: "SF-837462", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev_500x490px.png" },
-  { name: "Platform Developer II", year: "2023", family: "Developer", hue: 215, kind: "platform", sub: "PD2", color: "#0070D2", credId: "SF-948573", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2021-03_Badge_SF-Certified_Platform-Developer-II_500x490px.png" },
-  { name: "JavaScript Developer I", year: "2023", family: "Developer", hue: 45, kind: "js", sub: "JS-D1", color: "#FFB400", credId: "SF-102938", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-03_JavaScript-Dev_500x490.png" },
-  { name: "Service Cloud Consultant", year: "2023", family: "Consultant", hue: 175, kind: "service", sub: "SVC", color: "#FF6F00", credId: "SF-564738", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2021-03_Badge_SF-Certified_Service-Cloud-Consultant_500x490px.png" },
-  { name: "OmniStudio Developer", year: "2024", family: "Industries", hue: 280, kind: "omnistudio", sub: "OMNI", color: "#7F00FF", credId: "SF-746352", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/omnistudio-developer.png" },
-  { name: "Financial Services Cloud", year: "2024", family: "Industries", hue: 145, kind: "fsc", sub: "FSC", color: "#2E844A", credId: "SF-293847", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/fsc.png" },
-  { name: "Agentforce Specialist", year: "2025", family: "AI", hue: 305, kind: "agentforce", sub: "AGENT", color: "#B14AED", credId: "SF-847562", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/agentforce-specialist.png" },
-  { name: "Data Cloud Consultant", year: "2025", family: "Data & AI", hue: 195, kind: "datacloud", sub: "DATA", color: "#00B0FF", credId: "SF-384756", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/data-cloud.png" },
-  { name: "AI Associate", year: "2024", family: "AI", hue: 320, kind: "ai", sub: "AI", color: "#FF77B0", credId: "SF-928374", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2026-01_Badge_SF-Certified_AI-Associate_500x490px_RETIRED.png" },
-  { name: "Lifecycle & Deployment Architect", year: "2025", family: "Architect", hue: 330, kind: "ai", sub: "ARCH", color: "#FF77B0", credId: "SF-475869", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev-LC-Dep-Arch_500x490px.png" },
-  { name: "Salesforce Associate", year: "2022", family: "Foundational", hue: 205, kind: "associate", sub: "ASSOC", color: "#00A1E0", credId: "SF-192837", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-03_Badge_SF-Certified_Platform-Foundations_500x490px.png" },
-];
+const CERTS = (window.__SF_DATA__ && window.__SF_DATA__.certifications) || [];
 
 const FAMILIES = ["All", "Foundational", "Developer", "Consultant", "Industries", "Data & AI", "AI", "Architect"];
 
@@ -37,24 +24,27 @@ function ProgressRing({ label, pct, hue, size = 100 }) {
 }
 
 function BentoSummary() {
+  const latest = CERTS[CERTS.length - 1] || null;
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, marginBottom: 40 }}>
       <div className="card" style={{ padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" }}>
         <div style={{ fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 }}>Total Active</div>
-        <div style={{ fontFamily: "var(--font-display)", fontSize: 48, fontWeight: 800, color: "white", marginTop: 8 }}>12</div>
+        <div style={{ fontFamily: "var(--font-display)", fontSize: 48, fontWeight: 800, color: "white", marginTop: 8 }}>{CERTS.length}</div>
         <div style={{ fontSize: 13, color: "var(--ink-2)", marginTop: 4 }}>Salesforce Credentials</div>
       </div>
-      
-      <div className="card" style={{ padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" }}>
-        <div style={{ fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 }}>Latest Achievement</div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 16 }}>
-          <CertBadge title="Lifecycle & Deployment" img="assets/badges/2025-04_Badge_SF-Certified_Plat-Dev-LC-Dep-Arch_500x490px.png" size={56} spinning={false} />
-          <div>
-            <div style={{ fontWeight: 700, fontSize: 14, color: "white" }}>Lifecycle & Deployment Architect</div>
-            <div style={{ fontSize: 12, color: "var(--sf-success)", fontWeight: 600, marginTop: 2 }}>Achieved 2025</div>
+
+      {latest && (
+        <div className="card" style={{ padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" }}>
+          <div style={{ fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 }}>Latest Achievement</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 16 }}>
+            <CertBadge title={latest.name} img={latest.img} kind={latest.kind} sub={latest.sub} hue={latest.hue} size={56} spinning={false} />
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 14, color: "white" }}>{latest.name}</div>
+              <div style={{ fontSize: 12, color: "var(--sf-success)", fontWeight: 600, marginTop: 2 }}>Achieved {latest.year}</div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="card" style={{ padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>

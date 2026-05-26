@@ -1,10 +1,20 @@
-// Build script: transpile all JSX → JS with esbuild, concatenate into bundle.js
+// Build script: fetch Salesforce data → transpile all JSX → bundle.js
 const { execSync } = require("child_process");
 const fs   = require("fs");
 const path = require("path");
 
 const root    = __dirname;
 const esbuild = path.join(root, "node_modules/.bin/esbuild");
+
+// Step 1: Fetch live data from Salesforce (no-op if env vars not set)
+console.log("── Step 1/2  Salesforce data fetch ──────────────────────────");
+try {
+  execSync(`node "${path.join(root, "sf-fetch.js")}"`, { stdio: "inherit", cwd: root });
+} catch (e) {
+  console.error("sf-fetch.js exited with an error — aborting build.");
+  process.exit(1);
+}
+console.log("── Step 2/2  esbuild bundle ─────────────────────────────────");
 
 // Files in dependency order
 const files = [

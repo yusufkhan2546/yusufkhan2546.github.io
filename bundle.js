@@ -1859,12 +1859,18 @@ function HeroSection({ go }) {
     backdropFilter: "blur(8px)",
     animation: "letterIn .8s ease .75s both",
     pointerEvents: "auto"
-  } }, [
-    ["12", "Certs"],
-    ["6+", "Years"],
-    ["8+", "Projects"],
-    ["294K+", "Trailhead Points"]
-  ].map(([n, l], i) => /* @__PURE__ */ React.createElement("div", { key: l, style: {
+  } }, (function() {
+    const sfData = window.__SF_DATA__ || {};
+    const certCount = (sfData.certifications || []).length || "\u2014";
+    const tb = sfData.trailblazerStats || {};
+    const pointsDisp = tb.pointsK ? tb.pointsK + "K+" : "\u2014";
+    return [
+      [String(certCount), "Certs"],
+      ["6+", "Years"],
+      ["8+", "Projects"],
+      [pointsDisp, "Trailhead Points"]
+    ];
+  })().map(([n, l], i) => /* @__PURE__ */ React.createElement("div", { key: l, style: {
     padding: "16px 12px",
     borderLeft: i > 0 ? "1px solid rgba(255,255,255,.10)" : "none"
   } }, /* @__PURE__ */ React.createElement("div", { className: "h-display", style: { fontSize: 30, fontWeight: 800, color: "white" } }, n), /* @__PURE__ */ React.createElement("div", { style: { color: "rgba(255,255,255,.55)", fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", marginTop: 2 } }, l))))), /* @__PURE__ */ React.createElement("div", { style: {
@@ -2049,32 +2055,7 @@ function SkillsTrail() {
   })))));
 }
 function Testimonials() {
-  const items = [
-    {
-      q: "Over the time we've worked together, Yusuf has consistently demonstrated a deep understanding of Salesforce and a remarkable ability to turn complex requirements into efficient, scalable solutions. Yusuf excels in coding, technical design, and translating business needs into practical Salesforce applications. His proactive approach to problem-solving, attention to detail, and ability to stay up-to-date with Salesforce\u2019s latest features make him an invaluable asset to any team.",
-      who: "Suresh Kaliamoorthi",
-      title: "Salesforce Architect",
-      initials: "SK"
-    },
-    {
-      q: "Having worked closely with Yusuf at Prodapt for more than a year, I have seen firsthand the exceptional qualities that make him a valuable asset to any team. Yusuf is a highly skilled professional with a deep knowledge of OmniStudio and Communications cloud. He consistently demonstrated excellent problem-solving abilities, technical expertise, initiative and strong work ethic in our time working together. He has always been a reliable and proactive member of the team.",
-      who: "Milena Garro",
-      title: "Salesforce & Vlocity Developer",
-      initials: "MG"
-    },
-    {
-      q: "I had the pleasure of working with Yusuf on a crucial, highly complex project with a tight deadline. His exceptional organizational skills, quick problem-solving abilities, eagerness to embrace new technologies, and strong leadership qualities were truly impressive.",
-      who: "Nikunj Vadi",
-      title: "Salesforce Technical Lead/Architect",
-      initials: "NV"
-    },
-    {
-      q: "Yusuf always wears a techy cap for solutioning problems. Very innovative in suggesting solutions. A good technical expert in the making. All the very best Yusuf for all your endeavours.",
-      who: "Muthu Kumar Sundaram",
-      title: "Solution Architect",
-      initials: "MS"
-    }
-  ];
+  const items = window.__SF_DATA__ && window.__SF_DATA__.testimonials || [];
   return /* @__PURE__ */ React.createElement("section", { style: { padding: "50px 0" } }, /* @__PURE__ */ React.createElement("div", { className: "container" }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: 48 } }, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Kind words"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { margin: "16px auto 0", maxWidth: 740 } }, "Feedback from those I've built clouds with")), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 18 } }, items.map((t, i) => /* @__PURE__ */ React.createElement("blockquote", { key: i, className: "card hoverable", style: { padding: 24, margin: 0, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "rgba(10, 20, 50, 0.45)", border: "1px solid rgba(255, 255, 255, 0.08)", backdropFilter: "blur(16px)" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(Icon, { name: "star", size: 16, color: "var(--sf-trail)" }), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 13.5, lineHeight: 1.55, margin: "14px 0 22px", color: "rgba(255, 255, 255, 0.8)", fontStyle: "italic", fontWeight: 400 } }, '"', t.q, '"')), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { width: 36, height: 36, borderRadius: 99, background: "linear-gradient(135deg, #00A1E0, #7F00FF)", color: "white", display: "grid", placeItems: "center", fontWeight: 700, fontSize: 13, flexShrink: 0 } }, t.initials), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "white", fontWeight: 700 } }, t.who), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "rgba(255, 255, 255, 0.5)", marginTop: 2, fontWeight: 500 } }, t.title))))))));
 }
 function StarField() {
@@ -2974,20 +2955,7 @@ Object.assign(window, { PageHome });
 
 
 /* ── trailhead/page-certs.jsx ── */
-const CERTS = [
-  { name: "Administrator", year: "2022", family: "Foundational", hue: 200, kind: "admin", sub: "ADMIN", color: "#00A1E0", credId: "SF-298374", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-03_Platform-Admin_500x490.png" },
-  { name: "Platform Developer I", year: "2022", family: "Developer", hue: 220, kind: "platform", sub: "PD1", color: "#0070D2", credId: "SF-837462", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev_500x490px.png" },
-  { name: "Platform Developer II", year: "2023", family: "Developer", hue: 215, kind: "platform", sub: "PD2", color: "#0070D2", credId: "SF-948573", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2021-03_Badge_SF-Certified_Platform-Developer-II_500x490px.png" },
-  { name: "JavaScript Developer I", year: "2023", family: "Developer", hue: 45, kind: "js", sub: "JS-D1", color: "#FFB400", credId: "SF-102938", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-03_JavaScript-Dev_500x490.png" },
-  { name: "Service Cloud Consultant", year: "2023", family: "Consultant", hue: 175, kind: "service", sub: "SVC", color: "#FF6F00", credId: "SF-564738", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2021-03_Badge_SF-Certified_Service-Cloud-Consultant_500x490px.png" },
-  { name: "OmniStudio Developer", year: "2024", family: "Industries", hue: 280, kind: "omnistudio", sub: "OMNI", color: "#7F00FF", credId: "SF-746352", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/omnistudio-developer.png" },
-  { name: "Financial Services Cloud", year: "2024", family: "Industries", hue: 145, kind: "fsc", sub: "FSC", color: "#2E844A", credId: "SF-293847", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/fsc.png" },
-  { name: "Agentforce Specialist", year: "2025", family: "AI", hue: 305, kind: "agentforce", sub: "AGENT", color: "#B14AED", credId: "SF-847562", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/agentforce-specialist.png" },
-  { name: "Data Cloud Consultant", year: "2025", family: "Data & AI", hue: 195, kind: "datacloud", sub: "DATA", color: "#00B0FF", credId: "SF-384756", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/data-cloud.png" },
-  { name: "AI Associate", year: "2024", family: "AI", hue: 320, kind: "ai", sub: "AI", color: "#FF77B0", credId: "SF-928374", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2026-01_Badge_SF-Certified_AI-Associate_500x490px_RETIRED.png" },
-  { name: "Lifecycle & Deployment Architect", year: "2025", family: "Architect", hue: 330, kind: "ai", sub: "ARCH", color: "#FF77B0", credId: "SF-475869", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev-LC-Dep-Arch_500x490px.png" },
-  { name: "Salesforce Associate", year: "2022", family: "Foundational", hue: 205, kind: "associate", sub: "ASSOC", color: "#00A1E0", credId: "SF-192837", verifyUrl: "https://trailhead.salesforce.com/credentials/verification", img: "assets/badges/2025-03_Badge_SF-Certified_Platform-Foundations_500x490px.png" }
-];
+const CERTS = window.__SF_DATA__ && window.__SF_DATA__.certifications || [];
 const FAMILIES = ["All", "Foundational", "Developer", "Consultant", "Industries", "Data & AI", "AI", "Architect"];
 function ProgressRing({ label, pct, hue, size = 100 }) {
   const strokeWidth = size * 0.08;
@@ -3012,7 +2980,8 @@ function ProgressRing({ label, pct, hue, size = 100 }) {
   ), /* @__PURE__ */ React.createElement("text", { x: size / 2, y: size / 2 + size * 0.07, textAnchor: "middle", fontFamily: "var(--font-display)", fontSize: size * 0.25, fontWeight: "700", fill: "white" }, pct, "%")), label && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "var(--ink-2)", fontWeight: 600, marginTop: 4 } }, label));
 }
 function BentoSummary() {
-  return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, marginBottom: 40 } }, /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 } }, "Total Active"), /* @__PURE__ */ React.createElement("div", { style: { fontFamily: "var(--font-display)", fontSize: 48, fontWeight: 800, color: "white", marginTop: 8 } }, "12"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "var(--ink-2)", marginTop: 4 } }, "Salesforce Credentials")), /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 } }, "Latest Achievement"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 16 } }, /* @__PURE__ */ React.createElement(CertBadge, { title: "Lifecycle & Deployment", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev-LC-Dep-Arch_500x490px.png", size: 56, spinning: false }), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "white" } }, "Lifecycle & Deployment Architect"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--sf-success)", fontWeight: 600, marginTop: 2 } }, "Achieved 2025")))), /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 } }, "Next Milestones"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "white", marginTop: 12 } }, "Application Architect"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "white", marginTop: 8 } }, "System Architect")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12 } }, /* @__PURE__ */ React.createElement(ProgressRing, { label: "App", pct: 62, hue: 210, size: 50 }), /* @__PURE__ */ React.createElement(ProgressRing, { label: "Sys", pct: 28, hue: 280, size: 50 }))));
+  const latest = CERTS[CERTS.length - 1] || null;
+  return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, marginBottom: 40 } }, /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 } }, "Total Active"), /* @__PURE__ */ React.createElement("div", { style: { fontFamily: "var(--font-display)", fontSize: 48, fontWeight: 800, color: "white", marginTop: 8 } }, CERTS.length), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, color: "var(--ink-2)", marginTop: 4 } }, "Salesforce Credentials")), latest && /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 } }, "Latest Achievement"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 16, marginTop: 16 } }, /* @__PURE__ */ React.createElement(CertBadge, { title: latest.name, img: latest.img, kind: latest.kind, sub: latest.sub, hue: latest.hue, size: 56, spinning: false }), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: 700, fontSize: 14, color: "white" } }, latest.name), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--sf-success)", fontWeight: 600, marginTop: 2 } }, "Achieved ", latest.year)))), /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 20, background: "rgba(10,18,48,0.5)", border: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 700 } }, "Next Milestones"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "white", marginTop: 12 } }, "Application Architect"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "white", marginTop: 8 } }, "System Architect")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12 } }, /* @__PURE__ */ React.createElement(ProgressRing, { label: "App", pct: 62, hue: 210, size: 50 }), /* @__PURE__ */ React.createElement(ProgressRing, { label: "Sys", pct: 28, hue: 280, size: 50 }))));
 }
 function CertRow({ c }) {
   return /* @__PURE__ */ React.createElement(
@@ -3102,56 +3071,7 @@ Object.assign(window, { PageCerts });
 
 /* ── trailhead/page-projects.jsx ── */
 /* hooks from shim */
-const PROJECTS = [
-  {
-    id: "banking-portal",
-    title: "Banking Public Portal",
-    role: "Lead Developer & Integration Architect",
-    client: "Tier-1 Global Financial Institution",
-    stack: ["Experience Cloud", "LWC", "OmniStudio", "MuleSoft", "FSC", "OAuth 2.0"],
-    duration: "10 months",
-    team: "14",
-    impact: [
-      { metric: "99.98%", label: "automated verification accuracy" },
-      { metric: "14 min", label: "avg application to decision time" },
-      { metric: "60%", label: "reduction in operational backlog" }
-    ],
-    challenge: "Applicants suffered from disconnected loan application pathways, requiring manual verification across legacy databases and third-party credit bureaus.",
-    solution: "Designed a custom, high-security Experience Cloud public portal utilizing OmniStudio and custom LWCs. Integrated MuleSoft to run real-time 3rd-party background checks, building a 360-degree customer verification engine that securely aggregates applicant data."
-  },
-  {
-    id: "loan-origination",
-    title: "Loan Origination Systems",
-    role: "Salesforce Technical Architect",
-    client: "Enterprise Lending Group",
-    stack: ["Financial Services Cloud", "OmniStudio", "Apex Validation Engine", "DocuSign", "MuleSoft"],
-    duration: "12 months",
-    team: "18",
-    impact: [
-      { metric: "78%", label: "faster time-to-decision & funding" },
-      { metric: "0.05%", label: "minimized default loan risk" },
-      { metric: "$4.2B+", label: "total loan volume processed safely" }
-    ],
-    challenge: "High default loan ratios and slow approvals due to fragmented validation scripts, insecure legacy handoffs, and labor-intensive manual audit steps.",
-    solution: "Built a secure, enterprise-grade Loan Origination System on FSC. Implemented deep data validations, automated risk-profiling calculations, and multi-tier approval routing using Apex trigger frameworks. This optimized loan success ratios while keeping risk to an absolute minimum."
-  },
-  {
-    id: "retail-store",
-    title: "Retail Store Application",
-    role: "Lead Developer & Solutions Designer",
-    client: "Global Telecommunications Provider",
-    stack: ["Communications Cloud", "Service Cloud", "Data Cloud", "OM Order Management", "MuleSoft"],
-    duration: "8 months",
-    team: "10",
-    impact: [
-      { metric: "3.2 sec", label: "instant carrier provisioning" },
-      { metric: "94%", label: "first-contact resolution rate" },
-      { metric: "2M+", label: "legacy records migrated to prod" }
-    ],
-    challenge: "Retail associates lacked a cohesive digital 360 customer view, creating long wait times when ordering mobile lines, activating service, or updating legacy carrier contracts.",
-    solution: "Delivered a tablet-native Communications Cloud retail application. The app aggregates customer history via Data Cloud, orchestrates immediate SIM and network provisioning via Order Management, and manages updates to legacy carrier network systems in seconds."
-  }
-];
+const PROJECTS = window.__SF_DATA__ && window.__SF_DATA__.projects || [];
 function BankingPortalFlow() {
   const [activeNode, setActiveNode] = useState(0);
   useEffect(() => {
@@ -3336,73 +3256,8 @@ Object.assign(window, { PageProjects });
 
 
 /* ── trailhead/page-experience.jsx ── */
-const TIMELINE = [
-  {
-    period: "Sep 2024 \u2014 Present",
-    role: "Salesforce Developer & Technical SME",
-    company: "K Square Group",
-    location: "Hyderabad, India",
-    bullets: [
-      "Led delivery of three Salesforce implementations for financial services institutions, driving 100% user adoption, 60% revenue growth, and 90% CSAT.",
-      "Architected and implemented custom workflows, flows, and enterprise integrations, ensuring secure data models, performance optimization, and platform scalability.",
-      "Partnered with stakeholders to define solution designs, contribute to architecture decisions, and lead Agile/Scrum ceremonies from discovery to deployment.",
-      "Guided junior developers through code reviews, best practices, and delivery standards to elevate overall team capability and solution quality."
-    ],
-    tag: "SME"
-  },
-  {
-    period: "Oct 2021 \u2014 Sep 2024",
-    role: "Software Engineer (Salesforce)",
-    company: "Prodapt Solutions",
-    location: "Hyderabad, India",
-    bullets: [
-      "Collaborated closely with business stakeholders and cross-functional teams to deliver tailored, scalable solution designs aligned to objectives.",
-      "Contributed to 60% of development, building complex workflows, Apex triggers, Visualforce, LWC, OmniStudio components, and Sales/Service Cloud features.",
-      "Authored technical documentation, championing best practices, data quality, and maintainable architecture for complex business logic.",
-      "Executed integrations, glass-box testing, and prepared detailed unit test cases to deliver projects smoothly following Agile/Scrum."
-    ],
-    tag: "Engineer"
-  }
-];
-const TECH = [
-  {
-    group: "Core Platform",
-    items: [
-      ["Apex & Core Java", 96],
-      ["LWC & Aura", 94],
-      ["Salesforce Flows", 95],
-      ["OmniStudio", 90],
-      ["Visualforce & Flex", 78]
-    ]
-  },
-  {
-    group: "Clouds & Architecture",
-    items: [
-      ["Financial Services Cloud (FSC)", 92],
-      ["Sales & Service Cloud", 95],
-      ["Experience Cloud", 88],
-      ["Communications Cloud", 85],
-      ["Scalable Solution Design", 90]
-    ]
-  },
-  {
-    group: "Integrations & APIs",
-    items: [
-      ["REST / SOAP APIs", 94],
-      ["Salesforce Integrations", 92],
-      ["Platform Events & CDC", 88]
-    ]
-  },
-  {
-    group: "DevOps & AI Tooling",
-    items: [
-      ["DevOps & Copado CI/CD", 86],
-      ["Prompt Builder & AI Assist", 85],
-      ["Salesforce DX & GitHub", 90],
-      ["Vibe Coding", 95]
-    ]
-  }
-];
+const TIMELINE = window.__SF_DATA__ && window.__SF_DATA__.experience || [];
+const TECH = window.__SF_DATA__ && window.__SF_DATA__.techGroups || [];
 function TimelineCard({ item, idx, total }) {
   return /* @__PURE__ */ React.createElement("div", { className: "hoverable timeline-card", style: {
     display: "grid",
@@ -3423,11 +3278,12 @@ function TechMatrix() {
   } })))))))), /* @__PURE__ */ React.createElement("style", null, `@keyframes barFill { from { width: 0% } }`));
 }
 function TrailblazerStats() {
+  const tb = window.__SF_DATA__ && window.__SF_DATA__.trailblazerStats || {};
   const stats = [
-    { metric: 506, label: "Badges Earned", suffix: "" },
-    { metric: 294, label: "Points (k)", suffix: "k" },
-    { metric: 60, label: "Trails Completed", suffix: "" },
-    { metric: 14, label: "Superbadges", suffix: "" }
+    { metric: tb.badges || 0, label: "Badges Earned", suffix: "" },
+    { metric: tb.pointsK || 0, label: "Points (k)", suffix: "k" },
+    { metric: tb.trails || 0, label: "Trails Completed", suffix: "" },
+    { metric: tb.superbadges || 0, label: "Superbadges", suffix: "" }
   ];
   return /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 16 } }, /* @__PURE__ */ React.createElement("div", { className: "card hoverable", style: {
     borderRadius: 18,
@@ -3468,7 +3324,7 @@ function TrailblazerStats() {
   )), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 14, marginBottom: 16 } }, stats.map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { background: "rgba(255,255,255,0.05)", borderRadius: 12, padding: "14px 16px" } }, /* @__PURE__ */ React.createElement("div", { className: "h-display", style: { fontSize: 36, lineHeight: 1, color: "white" } }, /* @__PURE__ */ React.createElement(Counter, { to: s.metric }), s.suffix), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "rgba(255,255,255,.65)", marginTop: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: ".06em" } }, s.label)))), /* @__PURE__ */ React.createElement(
     "a",
     {
-      href: "https://www.salesforce.com/trailblazer/yusufkhan2546",
+      href: tb.profileUrl || "https://trailhead.salesforce.com",
       target: "_blank",
       rel: "noopener noreferrer",
       className: "btn hoverable",

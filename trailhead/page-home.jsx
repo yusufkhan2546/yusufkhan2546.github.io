@@ -432,12 +432,18 @@ function HeroSection({ go }) {
           animation: "letterIn .8s ease .75s both",
           pointerEvents: "auto",
         }}>
-          {[
-            ["12", "Certs"],
-            ["6+", "Years"],
-            ["8+", "Projects"],
-            ["294K+", "Trailhead Points"],
-          ].map(([n, l], i) => (
+          {(function() {
+            const sfData = window.__SF_DATA__ || {};
+            const certCount  = (sfData.certifications || []).length || "—";
+            const tb         = sfData.trailblazerStats || {};
+            const pointsDisp = tb.pointsK ? tb.pointsK + "K+" : "—";
+            return [
+              [String(certCount), "Certs"],
+              ["6+",              "Years"],
+              ["8+",              "Projects"],
+              [pointsDisp,        "Trailhead Points"],
+            ];
+          })().map(([n, l], i) => (
             <div key={l} style={{
               padding: "16px 12px",
               borderLeft: i > 0 ? "1px solid rgba(255,255,255,.10)" : "none",
@@ -824,32 +830,7 @@ function SkillsTrail() {
 }
 
 function Testimonials() {
-  const items = [
-    {
-      q: "Over the time we've worked together, Yusuf has consistently demonstrated a deep understanding of Salesforce and a remarkable ability to turn complex requirements into efficient, scalable solutions. Yusuf excels in coding, technical design, and translating business needs into practical Salesforce applications. His proactive approach to problem-solving, attention to detail, and ability to stay up-to-date with Salesforce’s latest features make him an invaluable asset to any team.",
-      who: "Suresh Kaliamoorthi",
-      title: "Salesforce Architect",
-      initials: "SK",
-    },
-    {
-      q: "Having worked closely with Yusuf at Prodapt for more than a year, I have seen firsthand the exceptional qualities that make him a valuable asset to any team. Yusuf is a highly skilled professional with a deep knowledge of OmniStudio and Communications cloud. He consistently demonstrated excellent problem-solving abilities, technical expertise, initiative and strong work ethic in our time working together. He has always been a reliable and proactive member of the team.",
-      who: "Milena Garro",
-      title: "Salesforce & Vlocity Developer",
-      initials: "MG",
-    },
-    {
-      q: "I had the pleasure of working with Yusuf on a crucial, highly complex project with a tight deadline. His exceptional organizational skills, quick problem-solving abilities, eagerness to embrace new technologies, and strong leadership qualities were truly impressive.",
-      who: "Nikunj Vadi",
-      title: "Salesforce Technical Lead/Architect",
-      initials: "NV",
-    },
-    {
-      q: "Yusuf always wears a techy cap for solutioning problems. Very innovative in suggesting solutions. A good technical expert in the making. All the very best Yusuf for all your endeavours.",
-      who: "Muthu Kumar Sundaram",
-      title: "Solution Architect",
-      initials: "MS",
-    },
-  ];
+  const items = (window.__SF_DATA__ && window.__SF_DATA__.testimonials) || [];
   return (
     <section style={{ padding: "50px 0" }}>
       <div className="container">

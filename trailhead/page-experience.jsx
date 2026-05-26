@@ -1,56 +1,7 @@
 // Experience page — timeline + tech stack matrix + Trailblazer stats
 
-const TIMELINE = [
-  {
-    period: "Sep 2024 — Present",
-    role: "Salesforce Developer & Technical SME",
-    company: "K Square Group",
-    location: "Hyderabad, India",
-    bullets: [
-      "Led delivery of three Salesforce implementations for financial services institutions, driving 100% user adoption, 60% revenue growth, and 90% CSAT.",
-      "Architected and implemented custom workflows, flows, and enterprise integrations, ensuring secure data models, performance optimization, and platform scalability.",
-      "Partnered with stakeholders to define solution designs, contribute to architecture decisions, and lead Agile/Scrum ceremonies from discovery to deployment.",
-      "Guided junior developers through code reviews, best practices, and delivery standards to elevate overall team capability and solution quality."
-    ],
-    tag: "SME",
-  },
-  {
-    period: "Oct 2021 — Sep 2024",
-    role: "Software Engineer (Salesforce)",
-    company: "Prodapt Solutions",
-    location: "Hyderabad, India",
-    bullets: [
-      "Collaborated closely with business stakeholders and cross-functional teams to deliver tailored, scalable solution designs aligned to objectives.",
-      "Contributed to 60% of development, building complex workflows, Apex triggers, Visualforce, LWC, OmniStudio components, and Sales/Service Cloud features.",
-      "Authored technical documentation, championing best practices, data quality, and maintainable architecture for complex business logic.",
-      "Executed integrations, glass-box testing, and prepared detailed unit test cases to deliver projects smoothly following Agile/Scrum."
-    ],
-    tag: "Engineer",
-  }
-];
-
-const TECH = [
-  {
-    group: "Core Platform", items: [
-      ["Apex & Core Java", 96], ["LWC & Aura", 94], ["Salesforce Flows", 95], ["OmniStudio", 90], ["Visualforce & Flex", 78]
-    ]
-  },
-  {
-    group: "Clouds & Architecture", items: [
-      ["Financial Services Cloud (FSC)", 92], ["Sales & Service Cloud", 95], ["Experience Cloud", 88], ["Communications Cloud", 85], ["Scalable Solution Design", 90]
-    ]
-  },
-  {
-    group: "Integrations & APIs", items: [
-      ["REST / SOAP APIs", 94], ["Salesforce Integrations", 92], ["Platform Events & CDC", 88]
-    ]
-  },
-  {
-    group: "DevOps & AI Tooling", items: [
-      ["DevOps & Copado CI/CD", 86], ["Prompt Builder & AI Assist", 85], ["Salesforce DX & GitHub", 90], ["Vibe Coding", 95]
-    ]
-  },
-];
+const TIMELINE = (window.__SF_DATA__ && window.__SF_DATA__.experience)  || [];
+const TECH     = (window.__SF_DATA__ && window.__SF_DATA__.techGroups)   || [];
 
 function TimelineCard({ item, idx, total }) {
   return (
@@ -126,11 +77,12 @@ function TechMatrix() {
 }
 
 function TrailblazerStats() {
+  const tb = (window.__SF_DATA__ && window.__SF_DATA__.trailblazerStats) || {};
   const stats = [
-    { metric: 506, label: "Badges Earned", suffix: "" },
-    { metric: 294, label: "Points (k)", suffix: "k" },
-    { metric: 60, label: "Trails Completed", suffix: "" },
-    { metric: 14, label: "Superbadges", suffix: "" },
+    { metric: tb.badges     || 0, label: "Badges Earned",    suffix: "" },
+    { metric: tb.pointsK    || 0, label: "Points (k)",       suffix: "k" },
+    { metric: tb.trails     || 0, label: "Trails Completed", suffix: "" },
+    { metric: tb.superbadges|| 0, label: "Superbadges",      suffix: "" },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -199,7 +151,7 @@ function TrailblazerStats() {
           </div>
 
           <a
-            href="https://www.salesforce.com/trailblazer/yusufkhan2546"
+            href={tb.profileUrl || "https://trailhead.salesforce.com"}
             target="_blank"
             rel="noopener noreferrer"
             className="btn hoverable"

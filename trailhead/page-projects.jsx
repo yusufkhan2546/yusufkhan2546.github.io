@@ -1,56 +1,7 @@
-// Projects page — 3 case studies, each with a completely unique, custom-designed interactive technical diagram
+// Projects page — case studies, each with a completely unique, custom-designed interactive technical diagram
 const { useState, useEffect, useRef } = React;
 
-const PROJECTS = [
-  {
-    id: "banking-portal",
-    title: "Banking Public Portal",
-    role: "Lead Developer & Integration Architect",
-    client: "Tier-1 Global Financial Institution",
-    stack: ["Experience Cloud", "LWC", "OmniStudio", "MuleSoft", "FSC", "OAuth 2.0"],
-    duration: "10 months",
-    team: "14",
-    impact: [
-      { metric: "99.98%", label: "automated verification accuracy" },
-      { metric: "14 min", label: "avg application to decision time" },
-      { metric: "60%", label: "reduction in operational backlog" },
-    ],
-    challenge: "Applicants suffered from disconnected loan application pathways, requiring manual verification across legacy databases and third-party credit bureaus.",
-    solution: "Designed a custom, high-security Experience Cloud public portal utilizing OmniStudio and custom LWCs. Integrated MuleSoft to run real-time 3rd-party background checks, building a 360-degree customer verification engine that securely aggregates applicant data."
-  },
-  {
-    id: "loan-origination",
-    title: "Loan Origination Systems",
-    role: "Salesforce Technical Architect",
-    client: "Enterprise Lending Group",
-    stack: ["Financial Services Cloud", "OmniStudio", "Apex Validation Engine", "DocuSign", "MuleSoft"],
-    duration: "12 months",
-    team: "18",
-    impact: [
-      { metric: "78%", label: "faster time-to-decision & funding" },
-      { metric: "0.05%", label: "minimized default loan risk" },
-      { metric: "$4.2B+", label: "total loan volume processed safely" },
-    ],
-    challenge: "High default loan ratios and slow approvals due to fragmented validation scripts, insecure legacy handoffs, and labor-intensive manual audit steps.",
-    solution: "Built a secure, enterprise-grade Loan Origination System on FSC. Implemented deep data validations, automated risk-profiling calculations, and multi-tier approval routing using Apex trigger frameworks. This optimized loan success ratios while keeping risk to an absolute minimum."
-  },
-  {
-    id: "retail-store",
-    title: "Retail Store Application",
-    role: "Lead Developer & Solutions Designer",
-    client: "Global Telecommunications Provider",
-    stack: ["Communications Cloud", "Service Cloud", "Data Cloud", "OM Order Management", "MuleSoft"],
-    duration: "8 months",
-    team: "10",
-    impact: [
-      { metric: "3.2 sec", label: "instant carrier provisioning" },
-      { metric: "94%", label: "first-contact resolution rate" },
-      { metric: "2M+", label: "legacy records migrated to prod" },
-    ],
-    challenge: "Retail associates lacked a cohesive digital 360 customer view, creating long wait times when ordering mobile lines, activating service, or updating legacy carrier contracts.",
-    solution: "Delivered a tablet-native Communications Cloud retail application. The app aggregates customer history via Data Cloud, orchestrates immediate SIM and network provisioning via Order Management, and manages updates to legacy carrier network systems in seconds."
-  },
-];
+const PROJECTS = (window.__SF_DATA__ && window.__SF_DATA__.projects) || [];
 
 // --- DIAGRAM 1: Banking Public Portal (Bespoke Horizontal Pipeline Grid with Glowing Integrations) ---
 function BankingPortalFlow() {
