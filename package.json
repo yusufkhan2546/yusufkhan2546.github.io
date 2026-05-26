@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/yusufkhan2546/yusufkhan2546.github.io#readme",
   "devDependencies": {
-    "esbuild": "^0.28.0"
+    "esbuild": "^0.28.0",
+    "libsodium-wrappers": "^0.8.4"
   }
 }
