@@ -364,7 +364,7 @@ window.__SF_DATA__ = {
     {
       "q": "Over the time we've worked together, Yusuf has consistently demonstrated a deep understanding of Salesforce and a remarkable ability to turn complex requirements into efficient, scalable solutions. Yusuf excels in coding, technical design, and translating business needs into practical Salesforce applications. His proactive approach to problem-solving, attention to detail, and ability to stay up-to-date with Salesforce's latest features make him an invaluable asset to any team.",
       "who": "Suresh Kaliamoorthi",
-      "title": "Salesforce Architect",
+      "title": "Senior Salesforce Architect",
       "initials": "SK"
     },
     {

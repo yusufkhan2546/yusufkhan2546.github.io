@@ -368,9 +368,10 @@ function CaseStudy({ p, idx, open, onToggle }) {
         <div style={{
           width: 56, height: 56, borderRadius: 14, flexShrink: 0,
           background: `linear-gradient(135deg, hsl(${200 + idx * 55} 90% 55%), hsl(${240 + idx * 55} 80% 35%))`,
-          display: "grid", placeItems: "center", color: "white",
+          display: "grid", placeItems: "center", overflow: "hidden",
         }}>
-          <Icon name={["globe", "shield", "chart"][idx]} size={24} color="white"/>
+          <img src={["assets/Payments.png", "assets/Security.png", "assets/E-commerce.png"][idx]}
+               alt="" style={{ width: 36, height: 36, objectFit: "contain" }} />
         </div>
 
         <div style={{ minWidth: 0 }}>
