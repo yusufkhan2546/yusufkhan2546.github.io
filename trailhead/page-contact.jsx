@@ -351,7 +351,7 @@ function PageContact({ go }) {
               <ContactCard icon="mail" label="Email" value="yusufkhantrailblazer@gmail.com" cta="Compose" href="mailto:yusufkhantrailblazer@gmail.com" />
               <ContactCard icon="linkedin" label="LinkedIn" value="/in/yusufkhan2546" cta="Connect" href="https://www.linkedin.com/in/yusufkhan2546" />
               <ContactCard icon="trail" label="Trailblazer profile" value="yusufkhan2546" cta="View badges" href="https://www.salesforce.com/trailblazer/yusufkhan2546" />
-              <ContactCard icon="pin" label="Mobile" value="+91 9100652546" cta="Call" href="tel:+919100652546" />
+              <ContactCard icon="whatsapp" label="WhatsApp" value="+91 9100652546" cta="Chat" href="https://wa.me/919100652546" />
               {/* Creative Boarding Pass Card */}
 
 
