@@ -6,25 +6,38 @@ const TECH     = (window.__SF_DATA__ && window.__SF_DATA__.techGroups)   || [];
 function TimelineCard({ item, idx, total }) {
   return (
     <div className="hoverable timeline-card" style={{
-      display: "grid", gridTemplateColumns: "180px 1fr", gap: 28, position: "relative",
-      paddingLeft: 40, paddingBottom: idx === total - 1 ? 0 : 40,
+      position: "relative",
+      paddingLeft: 48,
+      paddingBottom: idx === total - 1 ? 0 : 40,
     }}>
-      {/* vertical axis line */}
-      <div className="timeline-axis" style={{ position: "absolute", left: 18, top: 30, bottom: 0, width: 2, background: idx === total - 1 ? "transparent" : "linear-gradient(180deg, var(--accent), transparent)" }}></div>
-      {/* dot */}
-      <div className="timeline-dot" style={{ position: "absolute", left: 8, top: 4, width: 22, height: 22, borderRadius: 99, background: "white", border: "2px solid var(--accent)", display: "grid", placeItems: "center" }}>
-        <span style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }}></span>
-      </div>
+      {/* vertical axis */}
+      <div className="timeline-axis" style={{ position: "absolute", left: 18, top: 30, bottom: 0, width: 2, background: idx === total - 1 ? "transparent" : "linear-gradient(180deg, var(--accent), transparent)" }} />
 
-      {/* Column 1: period + tag */}
-      <div className="timeline-period">
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--ink-2)", letterSpacing: ".06em", fontWeight: 600 }}>{item.period}</span>
-        <div style={{ marginTop: 6 }}>
-          <span style={{ display: "inline-block", fontSize: 10, padding: "3px 8px", background: "var(--sf-sky)", color: "#FFFFFF", fontWeight: 700, borderRadius: 4, letterSpacing: ".1em", textTransform: "uppercase" }}>{item.tag}</span>
+      {/* dot + company name pill */}
+      <div className="timeline-dot" style={{ position: "absolute", left: 7, top: 6, display: "flex", alignItems: "center" }}>
+        <div style={{ width: 22, height: 22, borderRadius: 99, background: "white", border: "2px solid var(--accent)", display: "grid", placeItems: "center", flexShrink: 0, position: "relative", zIndex: 2 }}>
+          <span style={{ width: 8, height: 8, borderRadius: 99, background: "var(--accent)" }} />
         </div>
+        <span style={{
+          marginLeft: -10, paddingLeft: 14, paddingRight: 10, paddingTop: 3, paddingBottom: 3,
+          background: "color-mix(in oklab, var(--accent) 14%, transparent)",
+          border: "1px solid color-mix(in oklab, var(--accent) 30%, transparent)",
+          borderLeft: "none", borderRadius: "0 99px 99px 0",
+          fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700,
+          color: "var(--accent)", textTransform: "uppercase", letterSpacing: ".1em",
+          whiteSpace: "nowrap", zIndex: 1, lineHeight: 1.6,
+        }}>
+          {item.company}
+        </span>
       </div>
 
-      {/* Column 2: card */}
+      {/* period + tag */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10, paddingTop: 32 }}>
+        <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--ink-2)", letterSpacing: ".06em", fontWeight: 600 }}>{item.period}</span>
+        <span style={{ display: "inline-block", fontSize: 10, padding: "3px 8px", background: "var(--sf-sky)", color: "#FFFFFF", fontWeight: 700, borderRadius: 4, letterSpacing: ".1em", textTransform: "uppercase" }}>{item.tag}</span>
+      </div>
+
+      {/* card */}
       <div className="card" style={{ padding: 24, borderRadius: 16 }}>
         <h3 style={{ fontFamily: "var(--font-display)", fontSize: 22, margin: "0 0 4px" }}>{item.role}</h3>
         <div style={{ fontSize: 14, color: "var(--ink-2)", fontWeight: 600, marginBottom: 14 }}>
