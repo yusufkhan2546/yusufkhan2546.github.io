@@ -182,6 +182,30 @@ function App() {
     document.body.classList.toggle("custom-cursor", !!t.showCursor);
   }, [t.showCursor]);
 
+  // Update document title and meta description on route changes for SEO
+  useEffect(() => {
+    const titles = {
+      home: "Yusuf Khan — Salesforce Lead Developer & Architect",
+      certs: "Salesforce Certifications — Yusuf Khan",
+      projects: "Enterprise Projects — Yusuf Khan",
+      experience: "Professional Experience — Yusuf Khan",
+      contact: "Contact & Availability — Yusuf Khan"
+    };
+    document.title = titles[route] || "Yusuf Khan — Salesforce Lead Developer & Architect";
+
+    const descriptions = {
+      home: "Portfolio of Yusuf Khan, a Salesforce Lead Developer & Technical SME building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services.",
+      certs: "Explore Salesforce certifications earned by Yusuf Khan, including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant.",
+      projects: "View real-world enterprise Salesforce projects delivered by Yusuf Khan, including Experience Cloud portals and Loan Origination systems.",
+      experience: "Read about Yusuf Khan's professional experience as a Salesforce Technical SME and Software Engineer leading complex integrations.",
+      contact: "Get in touch with Yusuf Khan. Check availability for Salesforce development, consulting, and architecture roles."
+    };
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", descriptions[route] || descriptions.home);
+    }
+  }, [route]);
+
   let Page = null;
   if (route === "home") Page = <PageHome go={go} />;
   else if (route === "certs") Page = <PageCerts go={go} />;
