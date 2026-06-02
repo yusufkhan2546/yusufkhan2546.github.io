@@ -93,6 +93,21 @@ function PageContact({ go }) {
     }
   }, []);
 
+  // Handle pre-filled gig selection from Services page
+  React.useEffect(() => {
+    if (window.__GIG_SELECTION__) {
+      setCommType("Collaboration");
+      const descInput = document.querySelector('textarea[name="description"]');
+      if (descInput) {
+        descInput.value = `Hi Yusuf,\n\nI'm reaching out because I'm interested in your service: "${window.__GIG_SELECTION__}".\n\nHere are some details about our project and what we'd like to build together:\n\n`;
+        descInput.focus();
+        descInput.setSelectionRange(descInput.value.length, descInput.value.length);
+      }
+      // Clear state after reading it
+      window.__GIG_SELECTION__ = null;
+    }
+  }, []);
+
   const handleSubmit = (e) => {
     // Validate reCAPTCHA first
     const token = (window.grecaptcha && widgetIdRef.current != null)

@@ -3457,6 +3457,24 @@ function PageContact({ go }) {
       window._rcQueue.push(doRender);
     }
   }, []);
+  React.useEffect(() => {
+    if (window.__GIG_SELECTION__) {
+      setCommType("Collaboration");
+      const descInput = document.querySelector('textarea[name="description"]');
+      if (descInput) {
+        descInput.value = `Hi Yusuf,
+
+I'm reaching out because I'm interested in your service: "${window.__GIG_SELECTION__}".
+
+Here are some details about our project and what we'd like to build together:
+
+`;
+        descInput.focus();
+        descInput.setSelectionRange(descInput.value.length, descInput.value.length);
+      }
+      window.__GIG_SELECTION__ = null;
+    }
+  }, []);
   const handleSubmit = (e) => {
     const token = window.grecaptcha && widgetIdRef.current != null ? window.grecaptcha.enterprise.getResponse(widgetIdRef.current) : "";
     if (!token) {
@@ -3600,6 +3618,208 @@ function ContactCard({ icon, label, value, cta, href }) {
 Object.assign(window, { PageContact });
 
 
+/* ── trailhead/page-gigs.jsx ── */
+/* hooks from shim */
+const GIGS = [
+  {
+    id: "integration",
+    title: "Third-Party Integrations",
+    rate: "$150",
+    icon: "api",
+    description: "Connect Salesforce with external ERPs, legacy systems, payment gateways, or custom databases securely.",
+    bullets: [
+      "REST / SOAP API client & service build-outs",
+      "OAuth 2.0, API keys, and certificate authentication",
+      "MuleSoft integration orchestration",
+      "Apex Callouts, Named Credentials, and Platform Events"
+    ]
+  },
+  {
+    id: "lowcode",
+    title: "Admin & Low-Code Development",
+    rate: "$120",
+    icon: "flow",
+    description: "Scale your org with native declarative tools, reducing custom code footprint while maintaining agility.",
+    bullets: [
+      "Complex Salesforce Flows & Orchestrations",
+      "Advanced validation rules, formulas, and roll-ups",
+      "Dynamic Forms, page layouts, and Lightning App Builder pages",
+      "Profile-to-Permission Set migrations and security models"
+    ]
+  },
+  {
+    id: "apex_lwc",
+    title: "Apex & LWC Custom Development",
+    rate: "$130",
+    icon: "code",
+    description: "Build custom UI modules and transactional backend code that handles large volumes with low CPU usage.",
+    bullets: [
+      "Pixel-perfect custom Lightning Web Components (LWCs)",
+      "Bulkified Apex triggers and helper frameworks",
+      "Asynchronous Apex (Queueable, Batch, Scheduleable)",
+      "High unit test coverage (>90% target) & mock generation"
+    ]
+  },
+  {
+    id: "agentforce",
+    title: "Agentforce AI Development",
+    rate: "$170",
+    icon: "robot",
+    description: "Harness generative AI inside Salesforce using Prompt templates, Agentforce Copilot, and intelligent orchestration.",
+    bullets: [
+      "Custom Copilot Topic and Agent Action development",
+      "Prompt Builder template engineering and testing",
+      "Apex actions and flow adapters for Agentforce",
+      "Einstein Generative AI audit and configuration"
+    ]
+  },
+  {
+    id: "vlocity",
+    title: "Vlocity / Industries Org Development",
+    rate: "$160",
+    icon: "industries",
+    description: "Optimize and customize Vlocity / Salesforce Industries (FSC, Communications, Energy) applications.",
+    bullets: [
+      "Bespoke OmniScripts & interactive FlexCards",
+      "Optimized Integration Procedures & DataRaptors",
+      "FSC custom objects, lending modules, and relationship maps",
+      "OmniStudio migration and legacy refactoring"
+    ]
+  },
+  {
+    id: "customer360",
+    title: "Customer 360 Ecosystem Builds",
+    rate: "$140",
+    icon: "user",
+    description: "Unify consumer data points across Sales, Service, Commerce, and Data Cloud for a single source of truth.",
+    bullets: [
+      "Data Cloud ingestion streams & identity resolution",
+      "Experience Cloud public portals & partner networks",
+      "Cross-cloud integrations (Sales, Service, Industries)",
+      "Unified customer console views and dashboard metrics"
+    ]
+  },
+  {
+    id: "devops",
+    title: "Data Migration & DevOps Deployments",
+    rate: "$140",
+    icon: "deployment",
+    description: "Automate delivery pipelines, maintain source control hygiene, and migrate production data sets safely.",
+    bullets: [
+      "Salesforce DX (SFDX) configuration & GitHub pipelines",
+      "Deployment automation via Copado / Flosum / Gearset",
+      "Data loader mapping & large-volume record migrations",
+      "Sandbox strategy planning & package architecture"
+    ]
+  }
+];
+const FAQS = [
+  {
+    q: "How do we collaborate and track hours?",
+    a: "We can align via Slack, Microsoft Teams, or Jira. Hours are tracked transparently using industry-standard tools like Toggl or Clockify, with weekly reports delivered directly to your inbox."
+  },
+  {
+    q: "Do you sign Non-Disclosure Agreements (NDAs)?",
+    a: "Absolutely. I sign standard NDAs before discussing any proprietary architecture or accessing your Salesforce sandboxes."
+  },
+  {
+    q: "What deployment pipelines and toolsets do you support?",
+    a: "I work with standard CI/CD frameworks: GitHub Actions, Copado, Gearset, Flosum, or standard Salesforce CLI (SFDX) command scripts, matching your existing team standards."
+  },
+  {
+    q: "How do we handle sandbox access?",
+    a: "Access can be granted via standard Salesforce user creation in your Sandbox/Developer environments, or through secure VPNs if your enterprise policy requires it. I never ask for production credentials directly."
+  },
+  {
+    q: "What is your timezone availability?",
+    a: "I am based in Hyderabad, India (GMT+5:30) but regularly work overlapping schedules with clients in the US, Europe, and Australia to facilitate daily stand-ups and sprint handoffs."
+  }
+];
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      className: "card hoverable",
+      style: {
+        padding: "18px 24px",
+        borderRadius: 16,
+        background: "rgba(255,255,255,0.02)",
+        border: "1px solid rgba(180,210,255,0.12)",
+        marginBottom: 12,
+        cursor: "pointer"
+      },
+      onClick: () => setOpen(!open)
+    },
+    /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 } }, /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-display)", fontSize: 16, color: "white" } }, q), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 18, color: "var(--accent)", transition: "transform 0.2s", transform: open ? "rotate(45deg)" : "none" } }, "\uFF0B")),
+    /* @__PURE__ */ React.createElement("div", { style: {
+      maxHeight: open ? "200px" : "0",
+      overflow: "hidden",
+      transition: "max-height 0.25s ease-out, margin 0.25s",
+      marginTop: open ? 12 : 0,
+      color: "var(--ink-2)",
+      fontSize: 14.5,
+      lineHeight: 1.5
+    } }, a)
+  );
+}
+function PageGigs({ go }) {
+  const handleSelectGig = (title) => {
+    window.__GIG_SELECTION__ = title;
+    go("contact");
+  };
+  return /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement("section", { className: "page" }, /* @__PURE__ */ React.createElement("div", { className: "container", style: { maxWidth: 1200 } }, /* @__PURE__ */ React.createElement("div", { className: "page-head", style: { marginBottom: 48 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Services & Gigs"), /* @__PURE__ */ React.createElement("h1", { className: "h-display", style: { fontSize: "clamp(48px, 6vw, 80px)", margin: "16px 0 12px" } }, "Technical Offerings"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { maxWidth: 640 } }, "High-quality, specialized consulting and implementation packages for your Salesforce platform, billed on a simple day-rate model.")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("contact"), style: { padding: "14px 28px" } }, "Discuss Custom Project ", /* @__PURE__ */ React.createElement(Icon, { name: "mail", size: 15 })))), /* @__PURE__ */ React.createElement("div", { style: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+    gap: 20,
+    marginBottom: 60
+  } }, GIGS.map((g) => /* @__PURE__ */ React.createElement("div", { key: g.id, className: "card hoverable", style: {
+    padding: 28,
+    borderRadius: 22,
+    background: "rgba(10,18,48,0.45)",
+    border: "1px solid rgba(180,210,255,0.14)",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
+    boxShadow: "var(--shadow-1)",
+    transition: "all 0.2s ease"
+  } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 } }, /* @__PURE__ */ React.createElement("div", { style: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    background: "var(--sf-sky)",
+    border: "1px solid color-mix(in oklab, var(--accent) 30%, transparent)",
+    display: "grid",
+    placeItems: "center",
+    color: "var(--accent)"
+  } }, /* @__PURE__ */ React.createElement(Icon, { name: g.icon, size: 22 })), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "right" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 24, fontWeight: 800, color: "white" } }, g.rate), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: "var(--ink-3)", fontWeight: 600 } }, " / day"))), /* @__PURE__ */ React.createElement("h3", { style: { fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 700, margin: "0 0 10px", color: "white" } }, g.title), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 13.5, color: "var(--ink-2)", lineHeight: 1.5, marginBottom: 20, minHeight: 60 } }, g.description), /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid var(--line-2)", paddingTop: 16, marginBottom: 24 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: ".08em", display: "block", marginBottom: 10 } }, "What's Included:"), /* @__PURE__ */ React.createElement("ul", { style: { padding: 0, margin: 0, listStyle: "none" } }, g.bullets.map((b, i) => /* @__PURE__ */ React.createElement("li", { key: i, style: {
+    fontSize: 13,
+    color: "var(--ink-2)",
+    display: "flex",
+    alignItems: "flex-start",
+    gap: 8,
+    marginBottom: 8
+  } }, /* @__PURE__ */ React.createElement("span", { style: { color: "var(--accent)", fontSize: 14 } }, "\u2713"), /* @__PURE__ */ React.createElement("span", null, b)))))), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "btn primary hoverable",
+      onClick: () => handleSelectGig(g.title),
+      style: { width: "100%", justifyContent: "center", padding: "12px" }
+    },
+    "Inquire For Package ",
+    /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 14 })
+  )))), /* @__PURE__ */ React.createElement("div", { style: { maxWidth: 800, margin: "0 auto" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: 36 } }, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " FAQ"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 36, marginTop: 12 } }, "Engagement FAQs")), /* @__PURE__ */ React.createElement("div", null, FAQS.map((faq, i) => /* @__PURE__ */ React.createElement(FAQItem, { key: i, q: faq.q, a: faq.a })))))), /* @__PURE__ */ React.createElement("style", null, `
+        .card.hoverable:hover {
+          transform: translateY(-4px);
+          border-color: rgba(180,210,255,0.3) !important;
+          box-shadow: 0 12px 30px -10px rgba(0, 160, 255, 0.15) !important;
+        }
+      `));
+}
+Object.assign(window, { PageGigs });
+
+
 /* ── trailhead/main.jsx ── */
 /* hooks from shim */
 const ROUTES = [
@@ -3607,6 +3827,7 @@ const ROUTES = [
   { id: "certs", label: "Certifications" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "gigs", label: "Services" },
   { id: "contact", label: "Contact" }
 ];
 function useHashRoute() {
@@ -3716,6 +3937,7 @@ function App() {
       certs: "Salesforce Certifications \u2014 Yusuf Khan",
       projects: "Enterprise Projects \u2014 Yusuf Khan",
       experience: "Professional Experience \u2014 Yusuf Khan",
+      gigs: "Salesforce Consulting Services & Gigs \u2014 Yusuf Khan",
       contact: "Contact & Availability \u2014 Yusuf Khan"
     };
     document.title = titles[route] || "Yusuf Khan \u2014 Salesforce Lead Developer & Architect";
@@ -3724,6 +3946,7 @@ function App() {
       certs: "Explore Salesforce certifications earned by Yusuf Khan, including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant.",
       projects: "View real-world enterprise Salesforce projects delivered by Yusuf Khan, including Experience Cloud portals and Loan Origination systems.",
       experience: "Read about Yusuf Khan's professional experience as a Salesforce Technical SME and Software Engineer leading complex integrations.",
+      gigs: "Specialized Salesforce development & consulting packages: Integrations, LWC, Admin/Flows, Agentforce AI, Vlocity, and Data migrations.",
       contact: "Get in touch with Yusuf Khan. Check availability for Salesforce development, consulting, and architecture roles."
     };
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -3736,9 +3959,10 @@ function App() {
   else if (route === "certs") Page = /* @__PURE__ */ React.createElement(PageCerts, { go });
   else if (route === "projects") Page = /* @__PURE__ */ React.createElement(PageProjects, { go });
   else if (route === "experience") Page = /* @__PURE__ */ React.createElement(PageExperience, { go });
+  else if (route === "gigs") Page = /* @__PURE__ */ React.createElement(PageGigs, { go });
   else if (route === "contact") Page = /* @__PURE__ */ React.createElement(PageContact, { go });
   else Page = /* @__PURE__ */ React.createElement(PageHome, { go });
-  const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", contact: "05 Contact" };
+  const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", gigs: "05 Services", contact: "06 Contact" };
   return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Mascot, { route, setTweak, enabled: t.mascot }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
     TweakColor,
     {

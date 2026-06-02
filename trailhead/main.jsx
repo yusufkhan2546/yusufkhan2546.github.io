@@ -6,6 +6,7 @@ const ROUTES = [
   { id: "certs", label: "Certifications" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "gigs", label: "Services" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -189,6 +190,7 @@ function App() {
       certs: "Salesforce Certifications — Yusuf Khan",
       projects: "Enterprise Projects — Yusuf Khan",
       experience: "Professional Experience — Yusuf Khan",
+      gigs: "Salesforce Consulting Services & Gigs — Yusuf Khan",
       contact: "Contact & Availability — Yusuf Khan"
     };
     document.title = titles[route] || "Yusuf Khan — Salesforce Lead Developer & Architect";
@@ -198,6 +200,7 @@ function App() {
       certs: "Explore Salesforce certifications earned by Yusuf Khan, including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant.",
       projects: "View real-world enterprise Salesforce projects delivered by Yusuf Khan, including Experience Cloud portals and Loan Origination systems.",
       experience: "Read about Yusuf Khan's professional experience as a Salesforce Technical SME and Software Engineer leading complex integrations.",
+      gigs: "Specialized Salesforce development & consulting packages: Integrations, LWC, Admin/Flows, Agentforce AI, Vlocity, and Data migrations.",
       contact: "Get in touch with Yusuf Khan. Check availability for Salesforce development, consulting, and architecture roles."
     };
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -211,10 +214,11 @@ function App() {
   else if (route === "certs") Page = <PageCerts go={go} />;
   else if (route === "projects") Page = <PageProjects go={go} />;
   else if (route === "experience") Page = <PageExperience go={go} />;
+  else if (route === "gigs") Page = <PageGigs go={go} />;
   else if (route === "contact") Page = <PageContact go={go} />;
   else Page = <PageHome go={go} />;
 
-  const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", contact: "05 Contact" };
+  const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", gigs: "05 Services", contact: "06 Contact" };
 
   return (
     <div data-screen-label={labels[route] || route}>
