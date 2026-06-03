@@ -52,8 +52,10 @@ function Nav({ route, go }) {
             <span className="brand-mark" style={{ overflow: "hidden" }}>
               <img src="uploads/YK.png" alt="YK" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </span>
-            <span>Yusuf Khan</span>
-            <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 13, fontFamily: "var(--font-body)" }}>· Salesforce Lead Dev</span>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 }}>
+              <span style={{ lineHeight: 1.1 }}>Yusuf Khan</span>
+              <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 11.5, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>Salesforce Lead Dev</span>
+            </div>
           </a>
 
           {/* Desktop nav links */}
