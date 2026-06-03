@@ -76,6 +76,14 @@ const Icon = ({ name, size = 18, color = "currentColor", style, className }) => 
       return S(/* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M12 22s7-7 7-13a7 7 0 10-14 0c0 6 7 13 7 13z" }), /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "9", r: "2.5" })));
     case "cmd":
       return S(/* @__PURE__ */ React.createElement("path", { d: "M8 5a3 3 0 100 6h8a3 3 0 100-6 3 3 0 00-3 3v8a3 3 0 11-3 3 3 3 0 013-3h6a3 3 0 11-3 3" }));
+    case "api":
+      return S(/* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" }), /* @__PURE__ */ React.createElement("path", { d: "M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" })));
+    case "robot":
+      return S(/* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("rect", { x: "3", y: "11", width: "18", height: "10", rx: "2" }), /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "5", r: "2" }), /* @__PURE__ */ React.createElement("path", { d: "M12 7v4" }), /* @__PURE__ */ React.createElement("line", { x1: "8", y1: "16", x2: "8", y2: "16", strokeWidth: "2" }), /* @__PURE__ */ React.createElement("line", { x1: "16", y1: "16", x2: "16", y2: "16", strokeWidth: "2" }), /* @__PURE__ */ React.createElement("path", { d: "M2 14h1" }), /* @__PURE__ */ React.createElement("path", { d: "M21 14h1" })));
+    case "industries":
+      return S(/* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M22 21H2M19 21V10l-4-3v4l-4-3v4L7 8v13" })));
+    case "deployment":
+      return S(/* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("path", { d: "M16 16l-4-4-4 4" }), /* @__PURE__ */ React.createElement("path", { d: "M12 12v9" }), /* @__PURE__ */ React.createElement("path", { d: "M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3" })));
     default:
       return null;
   }
