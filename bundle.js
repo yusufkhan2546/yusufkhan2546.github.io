@@ -1445,7 +1445,7 @@ function Mascot({ route, setTweak, enabled = true }) {
     {
       onClick: () => setBubble(null),
       className: "hoverable",
-      style: { position: "absolute", top: 4, right: 6, background: "transparent", border: "none", color: "rgba(0, 0, 0, 0.45)", fontSize: 14, cursor: "none", padding: 0, width: 18, height: 18 }
+      style: { position: "absolute", top: 4, right: 6, background: "transparent", border: "none", color: "rgba(0, 0, 0, 0.45)", fontSize: 14, padding: 0, width: 18, height: 18 }
     },
     "\xD7"
   ), /* @__PURE__ */ React.createElement("span", { style: {
@@ -1484,7 +1484,6 @@ function Mascot({ route, setTweak, enabled = true }) {
         padding: 0,
         border: "none",
         background: "transparent",
-        cursor: "none",
         pointerEvents: "auto",
         filter: "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
         transformOrigin: "50% 90%",
@@ -2441,7 +2440,7 @@ function SpidermanIntro({ onComplete }) {
           position: absolute; top: 24px; right: 24px; padding: 8px 20px;
           background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.15);
           border-radius: 99px; color: rgba(255,255,255,0.85); font-size: 11.5px;
-          font-family: var(--font-mono); font-weight: 600; cursor: none; z-index: 10000;
+          font-family: var(--font-mono); font-weight: 600; cursor: pointer; z-index: 10000;
           transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
           box-shadow: 0 0 0 rgba(225, 10, 28, 0);
           letter-spacing: 0.05em;
@@ -3011,7 +3010,6 @@ function CertRow({ c }) {
         borderLeft: `3px solid ${c.color}`,
         transition: "transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease",
         marginBottom: 12,
-        cursor: "none",
         position: "relative",
         overflow: "hidden"
       }
@@ -3055,7 +3053,6 @@ function PageCerts({ go }) {
           display: "inline-flex",
           alignItems: "center",
           gap: 8,
-          cursor: "none",
           transition: "all 0.2s ease",
           whiteSpace: "nowrap"
         }
@@ -3565,7 +3562,6 @@ Here are some details about our project and what we'd like to build together:
           border: "1px solid " + (commType === t ? "var(--accent)" : "var(--line)"),
           background: commType === t ? "var(--accent)" : "transparent",
           color: commType === t ? "white" : "var(--ink)",
-          cursor: "none",
           transition: "all .15s"
         }
       },
@@ -3906,7 +3902,6 @@ function PageDemos({ go }) {
         color: activeTab === "demos" ? "white" : "var(--ink-3)",
         borderBottom: activeTab === "demos" ? "3px solid var(--accent)" : "3px solid transparent",
         padding: "8px 16px 12px",
-        cursor: "none",
         transition: "all 0.2s"
       }
     },
@@ -3924,7 +3919,6 @@ function PageDemos({ go }) {
         color: activeTab === "articles" ? "white" : "var(--ink-3)",
         borderBottom: activeTab === "articles" ? "3px solid var(--accent)" : "3px solid transparent",
         padding: "8px 16px 12px",
-        cursor: "none",
         transition: "all 0.2s"
       }
     },

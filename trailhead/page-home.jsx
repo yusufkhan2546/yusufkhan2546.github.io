@@ -1317,7 +1317,7 @@ function SpidermanIntro({ onComplete }) {
           position: absolute; top: 24px; right: 24px; padding: 8px 20px;
           background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.15);
           border-radius: 99px; color: rgba(255,255,255,0.85); font-size: 11.5px;
-          font-family: var(--font-mono); font-weight: 600; cursor: none; z-index: 10000;
+          font-family: var(--font-mono); font-weight: 600; cursor: pointer; z-index: 10000;
           transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
           box-shadow: 0 0 0 rgba(225, 10, 28, 0);
           letter-spacing: 0.05em;

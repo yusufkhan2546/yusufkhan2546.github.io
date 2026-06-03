@@ -88,7 +88,7 @@ function Mascot({ route, setTweak, enabled = true }) {
         }}>
           {bubble}
           <button onClick={() => setBubble(null)} className="hoverable"
-            style={{ position: "absolute", top: 4, right: 6, background: "transparent", border: "none", color: "rgba(0, 0, 0, 0.45)", fontSize: 14, cursor: "none", padding: 0, width: 18, height: 18 }}>×</button>
+            style={{ position: "absolute", top: 4, right: 6, background: "transparent", border: "none", color: "rgba(0, 0, 0, 0.45)", fontSize: 14, padding: 0, width: 18, height: 18 }}>×</button>
           <span style={{
             position: "absolute", bottom: -7, right: 28,
             width: 0, height: 0,
@@ -120,7 +120,6 @@ function Mascot({ route, setTweak, enabled = true }) {
         style={{
           width: 84, height: 92, padding: 0, border: "none",
           background: "transparent",
-          cursor: "none",
           pointerEvents: "auto",
           filter: "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
           transformOrigin: "50% 90%",

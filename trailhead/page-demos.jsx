@@ -106,7 +106,6 @@ function PageDemos({ go }) {
                 color: activeTab === "demos" ? "white" : "var(--ink-3)",
                 borderBottom: activeTab === "demos" ? "3px solid var(--accent)" : "3px solid transparent",
                 padding: "8px 16px 12px",
-                cursor: "none",
                 transition: "all 0.2s"
               }}
             >
@@ -123,7 +122,6 @@ function PageDemos({ go }) {
                 color: activeTab === "articles" ? "white" : "var(--ink-3)",
                 borderBottom: activeTab === "articles" ? "3px solid var(--accent)" : "3px solid transparent",
                 padding: "8px 16px 12px",
-                cursor: "none",
                 transition: "all 0.2s"
               }}
             >

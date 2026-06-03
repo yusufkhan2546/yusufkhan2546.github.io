@@ -72,7 +72,6 @@ function CertRow({ c }) {
         borderLeft: `3px solid ${c.color}`,
         transition: "transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease",
         marginBottom: 12,
-        cursor: "none",
         position: "relative",
         overflow: "hidden"
       }}>
@@ -144,7 +143,7 @@ function PageCerts({ go }) {
                       background: "transparent", border: "none",
                       borderBottom: active ? "2px solid var(--accent)" : "2px solid transparent",
                       color: active ? "white" : "var(--ink-3)",
-                      display: "inline-flex", alignItems: "center", gap: 8, cursor: "none",
+                      display: "inline-flex", alignItems: "center", gap: 8,
                       transition: "all 0.2s ease", whiteSpace: "nowrap"
                     }}>
                     {f}

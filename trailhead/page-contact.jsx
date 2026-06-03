@@ -228,7 +228,7 @@ function PageContact({ go }) {
                         padding: "8px 16px", borderRadius: 999, fontSize: 12.5, fontWeight: 600,
                         border: "1px solid " + (commType === t ? "var(--accent)" : "var(--line)"),
                         background: commType === t ? "var(--accent)" : "transparent",
-                        color: commType === t ? "white" : "var(--ink)", cursor: "none",
+                        color: commType === t ? "white" : "var(--ink)",
                         transition: "all .15s",
                       }}
                     >{t}</button>
