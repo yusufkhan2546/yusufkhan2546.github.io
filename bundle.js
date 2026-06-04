@@ -1607,7 +1607,7 @@ function Mascot({ route, setTweak, enabled = true }) {
             id: messageId,
             messageType: "StaticContentMessage",
             staticContent: {
-              formatType: "PlainText",
+              formatType: "Text",
               text
             }
           },
