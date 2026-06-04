@@ -1375,13 +1375,7 @@ function Mascot({ route, setTweak, enabled = true }) {
     });
   };
   const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: "welcome",
-      text: "Hello! Welcome to Yusuf Khan's portfolio. I'm his AI representative. How can I help you today?",
-      sender: "agent"
-    }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [connecting, setConnecting] = useState(false);
   const [sending, setSending] = useState(false);
