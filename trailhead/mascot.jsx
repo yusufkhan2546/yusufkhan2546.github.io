@@ -153,9 +153,10 @@ function Mascot({ route, setTweak, enabled = true }) {
             const jsonStr = trimmed.slice(5).trim();
             try {
               const eventData = JSON.parse(jsonStr);
-              console.log("Mascot received event:", eventData);
-              
               const entry = eventData.conversationEntry || eventData;
+              console.log("[Mascot] raw event:", JSON.stringify(eventData, null, 2));
+              console.log("[Mascot] entryType:", entry.entryType || entry.type, "| actorType:", entry.actorType, "| sender.role:", entry.sender?.role, "| abstractMessage:", entry.abstractMessage);
+
               const entryType = (entry.entryType || entry.type || '').toLowerCase();
               if (entry && entryType === 'message') {
                 const abstractMsg = entry.abstractMessage || entry.message || {};
@@ -166,6 +167,7 @@ function Mascot({ route, setTweak, enabled = true }) {
                 const entryId = entry.id || eventData.id || 'agent-' + Date.now();
                 const role = (sender.role || entry.actorType || '').toLowerCase();
 
+                console.log("[Mascot] entryType matched. role:", role, "| text:", text);
                 if (role === 'agent' || role === 'chatbot' || role === 'bot' || role === 'system') {
                   if (text) {
                     setMessages(prev => {
