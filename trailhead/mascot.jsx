@@ -149,6 +149,7 @@ function Mascot({ route, setTweak, enabled = true }) {
 
         for (const line of lines) {
           const trimmed = line.trim();
+          if (trimmed) console.log("[Mascot] SSE line:", trimmed.slice(0, 120));
           if (trimmed.startsWith('data:')) {
             const jsonStr = trimmed.slice(5).trim();
             try {
@@ -297,6 +298,8 @@ function Mascot({ route, setTweak, enabled = true }) {
         })
       });
 
+      const sendBody = await response.text();
+      console.log("[Mascot] send response", response.status, sendBody);
       if (!response.ok) throw new Error("Send failed: " + response.statusText);
       setSending(false);
       setPose("idle");
