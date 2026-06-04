@@ -1486,23 +1486,30 @@ function Mascot({ route, setTweak, enabled = true }) {
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-        buffer += decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value, { stream: true });
+        console.log("[Mascot] raw SSE chunk:", JSON.stringify(chunk));
+        buffer += chunk;
         const lines = buffer.split("\n");
         buffer = lines.pop();
         for (const line of lines) {
           const trimmed = line.trim();
+          console.log("[Mascot] SSE line:", JSON.stringify(trimmed));
           if (trimmed.startsWith("data:")) {
             const jsonStr = trimmed.slice(5).trim();
             try {
               const eventData = JSON.parse(jsonStr);
-              console.log("Mascot received event:", eventData);
               const entry = eventData.conversationEntry || eventData;
-              if (entry && (entry.entryType === "MESSAGE" || entry.type === "CONVERSATION_MESSAGE")) {
-                const msg = entry.message || {};
+              console.log("[Mascot] raw event:", JSON.stringify(eventData, null, 2));
+              console.log("[Mascot] entryType:", entry.entryType || entry.type, "| actorType:", entry.actorType, "| sender.role:", entry.sender?.role, "| abstractMessage:", entry.abstractMessage);
+              const entryType = (entry.entryType || entry.type || "").toLowerCase();
+              if (entry && entryType === "message") {
+                const abstractMsg = entry.abstractMessage || entry.message || {};
                 const sender = entry.sender || {};
-                const text = entry.messageText || msg.text || msg.staticContent && msg.staticContent.text;
+                const text = abstractMsg.messageText || abstractMsg.staticContent && abstractMsg.staticContent.text || entry.messageText;
                 const entryId = entry.id || eventData.id || "agent-" + Date.now();
-                if (sender.role === "Agent" || sender.role === "Chatbot" || sender.role === "Bot" || sender.role === "System") {
+                const role = (sender.role || entry.actorType || "").toLowerCase();
+                console.log("[Mascot] entryType matched. role:", role, "| text:", text);
+                if (role === "agent" || role === "chatbot" || role === "bot" || role === "system") {
                   if (text) {
                     setMessages((prev) => {
                       if (prev.some((m) => m.id === entryId)) return prev;

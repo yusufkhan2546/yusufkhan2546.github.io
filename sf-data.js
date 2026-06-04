@@ -389,38 +389,10 @@ window.__SF_DATA__ = {
   "trailblazerStats": {
     "badges": 506,
     "pointsK": 294,
+    "shadowK": 294,
     "trails": 60,
     "superbadges": 14,
     "profileUrl": "https://www.salesforce.com/trailblazer/yusufkhan2546"
   },
-  "articles": [
-    {
-      "title": "Bulkifying Salesforce Apex: A Patterns Guide for High-Volume Orgs",
-      "summary": "Learn how to build high-performance Apex trigger handlers using map-based query structures, avoiding the 101 SOQL limit, and optimizing database transactions.",
-      "urlName": "bulkifying-salesforce-apex",
-      "articleNumber": "000001001",
-      "publishedDate": "2026-05-15"
-    },
-    {
-      "title": "OmniStudio Performance Tuning: Optimizing FlexCards & Integration Procedures",
-      "summary": "A guide on cache strategies, limiting data payloads, and using Session Cache to speed up OmniStudio LWC rendering times in Industries clouds.",
-      "urlName": "omnistudio-performance-tuning",
-      "articleNumber": "000001002",
-      "publishedDate": "2026-05-20"
-    },
-    {
-      "title": "Implementing OAuth 2.0 Client Credentials Flow in Apex",
-      "summary": "Best practices for building secure integrations using Salesforce Named Credentials, External Credentials, and custom authentication headers.",
-      "urlName": "oauth-2-client-credentials-flow",
-      "articleNumber": "000001003",
-      "publishedDate": "2026-05-28"
-    },
-    {
-      "title": "Agentforce Copilot: Building Custom Apex Actions for Intelligent Routing",
-      "summary": "Learn how to author clean Invocable methods in Apex that Agentforce can call dynamically to trigger business automation flows.",
-      "urlName": "agentforce-copilot-custom-actions",
-      "articleNumber": "000001004",
-      "publishedDate": "2026-06-02"
-    }
-  ]
+  "articles": []
 };

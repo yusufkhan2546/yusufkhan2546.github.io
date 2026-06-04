@@ -143,12 +143,15 @@ function Mascot({ route, setTweak, enabled = true }) {
         const { value, done } = await reader.read();
         if (done) break;
 
-        buffer += decoder.decode(value, { stream: true });
+        const chunk = decoder.decode(value, { stream: true });
+        console.log("[Mascot] raw SSE chunk:", JSON.stringify(chunk));
+        buffer += chunk;
         const lines = buffer.split('\n');
         buffer = lines.pop();
 
         for (const line of lines) {
           const trimmed = line.trim();
+          console.log("[Mascot] SSE line:", JSON.stringify(trimmed));
           if (trimmed.startsWith('data:')) {
             const jsonStr = trimmed.slice(5).trim();
             try {
