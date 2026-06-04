@@ -1496,16 +1496,18 @@ function Mascot({ route, setTweak, enabled = true }) {
             try {
               const eventData = JSON.parse(jsonStr);
               console.log("Mascot received event:", eventData);
-              if (eventData.entryType === "MESSAGE" || eventData.type === "CONVERSATION_MESSAGE") {
-                const msg = eventData.message;
-                const sender = eventData.sender || {};
-                if (sender.role === "Agent" || sender.role === "Chatbot" || sender.role === "Bot") {
-                  const text = msg.text || msg.staticContent && msg.staticContent.text;
+              const entry = eventData.conversationEntry || eventData;
+              if (entry && (entry.entryType === "MESSAGE" || entry.type === "CONVERSATION_MESSAGE")) {
+                const msg = entry.message || {};
+                const sender = entry.sender || {};
+                const text = entry.messageText || msg.text || msg.staticContent && msg.staticContent.text;
+                const entryId = entry.id || eventData.id || "agent-" + Date.now();
+                if (sender.role === "Agent" || sender.role === "Chatbot" || sender.role === "Bot" || sender.role === "System") {
                   if (text) {
                     setMessages((prev) => {
-                      if (prev.some((m) => m.id === eventData.id)) return prev;
+                      if (prev.some((m) => m.id === entryId)) return prev;
                       return [...prev, {
-                        id: eventData.id || "agent-" + Date.now(),
+                        id: entryId,
                         text,
                         sender: "agent"
                       }];
