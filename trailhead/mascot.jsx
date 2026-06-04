@@ -223,7 +223,8 @@ function Mascot({ route, setTweak, enabled = true }) {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          conversationId: convId
+          conversationId: convId,
+          esDeveloperName: SF_CONFIG.esDeveloperName
         })
       });
       if (!convRes.ok) throw new Error("Failed conversation create: " + convRes.statusText);
