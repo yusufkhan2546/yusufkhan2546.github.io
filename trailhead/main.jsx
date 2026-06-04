@@ -54,7 +54,7 @@ function Nav({ route, go }) {
             </span>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 }}>
               <span style={{ lineHeight: 1.1 }}>Yusuf Khan</span>
-              <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 11.5, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>Salesforce Lead Dev</span>
+              <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 11.5, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>Salesforce Developer</span>
             </div>
           </a>
 
