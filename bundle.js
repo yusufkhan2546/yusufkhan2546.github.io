@@ -1498,17 +1498,20 @@ function Mascot({ route, setTweak, enabled = true }) {
               const eventData = JSON.parse(jsonStr);
               const entry = eventData.conversationEntry || eventData;
               const entryType = (entry.entryType || entry.type || "").toLowerCase();
+              console.log("[Mascot] parsed event \u2014 entryType:", entry.entryType, "| role:", entry.sender?.role, "| payload:", entry.entryPayload?.slice(0, 200));
               if (entry && entryType === "message") {
                 let payload = {};
                 try {
                   payload = JSON.parse(entry.entryPayload || "{}");
                 } catch (e) {
+                  console.error("[Mascot] entryPayload parse error", e);
                 }
                 const abstractMsg = payload.abstractMessage || entry.abstractMessage || {};
                 const sender = entry.sender || {};
                 const text = abstractMsg.staticContent && abstractMsg.staticContent.text || abstractMsg.messageText || entry.messageText;
                 const entryId = entry.identifier || entry.id || eventData.id || "agent-" + Date.now();
                 const role = (sender.role || entry.actorType || "").toLowerCase();
+                console.log("[Mascot] message event \u2014 role:", role, "| text:", text);
                 if (role !== "enduser") {
                   if (text) {
                     setMessages((prev) => {

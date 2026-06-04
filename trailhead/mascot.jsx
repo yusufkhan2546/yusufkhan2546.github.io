@@ -156,10 +156,11 @@ function Mascot({ route, setTweak, enabled = true }) {
               const eventData = JSON.parse(jsonStr);
               const entry = eventData.conversationEntry || eventData;
               const entryType = (entry.entryType || entry.type || '').toLowerCase();
+              console.log("[Mascot] parsed event — entryType:", entry.entryType, "| role:", entry.sender?.role, "| payload:", entry.entryPayload?.slice(0, 200));
               if (entry && entryType === 'message') {
                 // entryPayload is a JSON string — parse it to get abstractMessage
                 let payload = {};
-                try { payload = JSON.parse(entry.entryPayload || '{}'); } catch (e) {}
+                try { payload = JSON.parse(entry.entryPayload || '{}'); } catch (e) { console.error("[Mascot] entryPayload parse error", e); }
                 const abstractMsg = payload.abstractMessage || entry.abstractMessage || {};
                 const sender = entry.sender || {};
                 const text = (abstractMsg.staticContent && abstractMsg.staticContent.text)
@@ -168,6 +169,7 @@ function Mascot({ route, setTweak, enabled = true }) {
                 const entryId = entry.identifier || entry.id || eventData.id || 'agent-' + Date.now();
                 const role = (sender.role || entry.actorType || '').toLowerCase();
 
+                console.log("[Mascot] message event — role:", role, "| text:", text);
                 if (role !== 'enduser') {
                   if (text) {
                     setMessages(prev => {
