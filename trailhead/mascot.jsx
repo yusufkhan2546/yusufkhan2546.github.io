@@ -156,13 +156,17 @@ function Mascot({ route, setTweak, enabled = true }) {
               console.log("Mascot received event:", eventData);
               
               const entry = eventData.conversationEntry || eventData;
-              if (entry && (entry.entryType === 'MESSAGE' || entry.type === 'CONVERSATION_MESSAGE')) {
-                const msg = entry.message || {};
+              const entryType = (entry.entryType || entry.type || '').toLowerCase();
+              if (entry && entryType === 'message') {
+                const abstractMsg = entry.abstractMessage || entry.message || {};
                 const sender = entry.sender || {};
-                const text = entry.messageText || msg.text || (msg.staticContent && msg.staticContent.text);
+                const text = abstractMsg.messageText
+                  || (abstractMsg.staticContent && abstractMsg.staticContent.text)
+                  || entry.messageText;
                 const entryId = entry.id || eventData.id || 'agent-' + Date.now();
-                
-                if (sender.role === 'Agent' || sender.role === 'Chatbot' || sender.role === 'Bot' || sender.role === 'System') {
+                const role = (sender.role || entry.actorType || '').toLowerCase();
+
+                if (role === 'agent' || role === 'chatbot' || role === 'bot' || role === 'system') {
                   if (text) {
                     setMessages(prev => {
                       if (prev.some(m => m.id === entryId)) return prev;
