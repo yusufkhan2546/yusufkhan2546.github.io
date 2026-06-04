@@ -1365,6 +1365,52 @@ function Mascot({ route, setTweak, enabled = true }) {
   const [eyes, setEyes] = useState({ x: 0, y: 0 });
   const [exited, setExited] = useState(!enabled);
   const wrapRef = useRef(null);
+  const generateUUID = () => {
+    if (typeof crypto !== "undefined" && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0, v = c === "x" ? r : r & 3 | 8;
+      return v.toString(16);
+    });
+  };
+  const [chatOpen, setChatOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      id: "welcome",
+      text: "Hello! Welcome to Yusuf Khan's portfolio. I'm his AI representative. How can I help you today?",
+      sender: "agent"
+    }
+  ]);
+  const [inputText, setInputText] = useState("");
+  const [connecting, setConnecting] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [isNewSession, setIsNewSession] = useState(true);
+  const [sessionActive, setSessionActive] = useState(false);
+  const accessTokenRef = useRef(null);
+  const conversationIdRef = useRef(null);
+  const sseReaderRef = useRef(null);
+  const chatMessagesRef = useRef(null);
+  const SF_CONFIG = {
+    orgId: "00DgK00000AXqoT",
+    esDeveloperName: "POrtfolio_Agent_ESD",
+    url: "https://orgfarm-47cedb95ea-dev-ed.develop.my.salesforce-scrt.com"
+  };
+  useEffect(() => {
+    if (chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
+  }, [messages, sending]);
+  useEffect(() => {
+    return () => {
+      if (sseReaderRef.current) {
+        try {
+          sseReaderRef.current.cancel();
+        } catch (e) {
+        }
+      }
+    };
+  }, []);
   useEffect(() => {
     if (!enabled) return;
     const tipsByRoute = {
@@ -1372,10 +1418,12 @@ function Mascot({ route, setTweak, enabled = true }) {
       certs: "Hover any badge to read it. Hit 'Spin all' for the full cabinet show.",
       projects: "Click 'Walk the flow' \u2014 each project animates its automation diagram.",
       experience: "Scroll the Trailblazer stats \u2014 those counters are live.",
+      gigs: "Pick a service package and let's discuss details.",
+      demos: "Check out my interactive Apex limits simulator!",
       contact: "Pick an engagement type and tell me what you're building."
     };
     const tip = tipsByRoute[route];
-    if (tip) {
+    if (tip && !chatOpen) {
       setBubble(tip);
       setPose("wave");
       const t1 = setTimeout(() => setPose("idle"), 1400);
@@ -1385,7 +1433,7 @@ function Mascot({ route, setTweak, enabled = true }) {
         clearTimeout(t2);
       };
     }
-  }, [route, enabled]);
+  }, [route, enabled, chatOpen]);
   useEffect(() => {
     if (!enabled) return;
     const onMove = (e) => {
@@ -1406,11 +1454,181 @@ function Mascot({ route, setTweak, enabled = true }) {
   useEffect(() => {
     if (!enabled) return;
     const i = setInterval(() => {
-      setPose("wave");
-      setTimeout(() => setPose("idle"), 1200);
+      if (!chatOpen) {
+        setPose("wave");
+        setTimeout(() => setPose("idle"), 1200);
+      }
     }, 12e3);
     return () => clearInterval(i);
-  }, [enabled]);
+  }, [enabled, chatOpen]);
+  const startSSEStream = async (token, convId) => {
+    try {
+      if (sseReaderRef.current) {
+        try {
+          sseReaderRef.current.cancel();
+        } catch (e) {
+        }
+      }
+      const sseUrl = `${SF_CONFIG.url}/eventrouter/v1/sse`;
+      const response = await fetch(sseUrl, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "X-Org-Id": SF_CONFIG.orgId,
+          "Accept": "text/event-stream"
+        }
+      });
+      if (!response.ok) throw new Error("SSE connection failed: " + response.statusText);
+      const reader = response.body.getReader();
+      sseReaderRef.current = reader;
+      const decoder = new TextDecoder();
+      let buffer = "";
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop();
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith("data:")) {
+            const jsonStr = trimmed.slice(5).trim();
+            try {
+              const eventData = JSON.parse(jsonStr);
+              console.log("Mascot received event:", eventData);
+              if (eventData.entryType === "MESSAGE" || eventData.type === "CONVERSATION_MESSAGE") {
+                const msg = eventData.message;
+                const sender = eventData.sender || {};
+                if (sender.role === "Agent" || sender.role === "Chatbot" || sender.role === "Bot") {
+                  const text = msg.text || msg.staticContent && msg.staticContent.text;
+                  if (text) {
+                    setMessages((prev) => {
+                      if (prev.some((m) => m.id === eventData.id)) return prev;
+                      return [...prev, {
+                        id: eventData.id || "agent-" + Date.now(),
+                        text,
+                        sender: "agent"
+                      }];
+                    });
+                    setPose("wave");
+                    setTimeout(() => setPose("idle"), 1200);
+                  }
+                }
+              }
+            } catch (e) {
+              console.error("Error parsing event JSON:", e, jsonStr);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error("SSE stream ended:", err);
+      if (chatOpen && sessionActive) {
+        console.log("Attempting SSE reconnect in 5 seconds...");
+        setTimeout(() => {
+          if (chatOpen && accessTokenRef.current && conversationIdRef.current) {
+            startSSEStream(accessTokenRef.current, conversationIdRef.current);
+          }
+        }, 5e3);
+      }
+    }
+  };
+  const startSession = async () => {
+    setConnecting(true);
+    try {
+      const tokenRes = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/authorization/unauthenticated/access-token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orgId: SF_CONFIG.orgId,
+          esDeveloperName: SF_CONFIG.esDeveloperName,
+          capabilitiesVersion: "1",
+          platform: "Web"
+        })
+      });
+      if (!tokenRes.ok) throw new Error("Failed token fetch: " + tokenRes.statusText);
+      const tokenData = await tokenRes.json();
+      const token = tokenData.accessToken;
+      accessTokenRef.current = token;
+      const convId = generateUUID();
+      conversationIdRef.current = convId;
+      const convRes = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          conversationId: convId
+        })
+      });
+      if (!convRes.ok) throw new Error("Failed conversation create: " + convRes.statusText);
+      startSSEStream(token, convId);
+      setSessionActive(true);
+      setConnecting(false);
+    } catch (err) {
+      console.error("Session start failed:", err);
+      setConnecting(false);
+      setMessages((prev) => [...prev, {
+        id: "err-" + Date.now(),
+        text: "Sorry, I couldn't connect to Salesforce. Please check your browser console for details.",
+        sender: "agent"
+      }]);
+    }
+  };
+  const sendMessage = async (text) => {
+    if (!text.trim() || sending) return;
+    const userMsgId = "user-" + Date.now();
+    setMessages((prev) => [...prev, {
+      id: userMsgId,
+      text,
+      sender: "user"
+    }]);
+    setInputText("");
+    setSending(true);
+    setPose("thinking");
+    try {
+      const token = accessTokenRef.current;
+      const convId = conversationIdRef.current;
+      const messageId = generateUUID();
+      const isFirst = isNewSession;
+      if (isFirst) {
+        setIsNewSession(false);
+      }
+      const response = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation/${convId}/message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message: {
+            id: messageId,
+            messageType: "StaticContentMessage",
+            staticContent: {
+              formatType: "PlainText",
+              text
+            }
+          },
+          esDeveloperName: SF_CONFIG.esDeveloperName,
+          isNewMessagingSession: isFirst,
+          language: "en"
+        })
+      });
+      if (!response.ok) throw new Error("Send failed: " + response.statusText);
+      setSending(false);
+      setPose("idle");
+    } catch (err) {
+      console.error("Message send error:", err);
+      setSending(false);
+      setPose("idle");
+      setMessages((prev) => [...prev, {
+        id: "err-" + Date.now(),
+        text: "Failed to send message. Please try again.",
+        sender: "agent"
+      }]);
+    }
+  };
   if (!enabled) return null;
   return /* @__PURE__ */ React.createElement("div", { ref: wrapRef, style: {
     position: "fixed",
@@ -1422,7 +1640,7 @@ function Mascot({ route, setTweak, enabled = true }) {
     alignItems: "flex-end",
     gap: 10,
     pointerEvents: "none"
-  } }, bubble && /* @__PURE__ */ React.createElement("div", { className: "mascot-bubble", style: {
+  } }, bubble && !chatOpen && /* @__PURE__ */ React.createElement("div", { className: "mascot-bubble", style: {
     background: "rgba(255, 255, 255, 0.88)",
     backdropFilter: "blur(8px)",
     WebkitBackdropFilter: "blur(8px)",
@@ -1458,26 +1676,43 @@ function Mascot({ route, setTweak, enabled = true }) {
     borderRight: "8px solid transparent",
     borderTop: "8px solid rgba(255, 255, 255, 0.88)",
     filter: "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2))"
-  } })), /* @__PURE__ */ React.createElement(
+  } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar" }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement("span", { className: `cosmic-chat-status-dot ${connecting ? "connecting" : ""}` }), /* @__PURE__ */ React.createElement("span", null, connecting ? "Connecting..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => /* @__PURE__ */ React.createElement("div", { key: msg.id, className: `cosmic-chat-message ${msg.sender}` }, msg.text)), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing" }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
+    e.preventDefault();
+    sendMessage(inputText);
+  } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      className: "cosmic-chat-input",
+      placeholder: connecting ? "Connecting..." : "Ask me anything...",
+      value: inputText,
+      onChange: (e) => setInputText(e.target.value),
+      disabled: connecting
+    }
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      type: "submit",
+      className: "cosmic-chat-send",
+      disabled: connecting || !inputText.trim() || sending,
+      title: "Send message"
+    },
+    /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 24 24", width: "18", height: "18", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("line", { x1: "22", y1: "2", x2: "11", y2: "13" }), /* @__PURE__ */ React.createElement("polygon", { points: "22 2 15 22 11 13 2 9 22 2" }))
+  ))), /* @__PURE__ */ React.createElement(
     "button",
     {
       className: "hoverable",
       "data-cursor": "hover",
       onClick: () => {
         setPose("bounce");
-        const phrases = [
-          "I'm a fan of well-named methods. \u{1F4BB}",
-          "Apex test coverage 91%? Chef's kiss. \u{1F9D1}\u200D\u{1F373}\u2728",
-          "Did you know Yusuf has 12 certs? \u{1F3C6}",
-          "Try clicking 'Walk the flow' on Projects. \u{1F5FA}\uFE0F",
-          "Toggle tweaks (top-right) to recolor everything. \u{1F3A8}",
-          "Hover the trail markers on Home \u2014 they bounce. \u{1F3D4}\uFE0F",
-          "Here is the little secret \u{1F92B} Data Cloud Identity \u2601\uFE0F was not wrong before. Wait I am messed up again \u{1F635}. Dr. Strange \u{1F9D9}\u200D\u2642\uFE0F, do you have the spell ready..? \u{1FA84}\u{1F52E}"
-        ];
-        setBubble(phrases[Math.floor(Math.random() * phrases.length)]);
+        const nextState = !chatOpen;
+        setChatOpen(nextState);
+        if (nextState && !sessionActive && !connecting) {
+          startSession();
+        }
         setTimeout(() => setPose("idle"), 700);
       },
-      title: "Trail companion \xB7 click me",
+      title: "Agentforce Assistant \xB7 click me",
       style: {
         width: 84,
         height: 92,

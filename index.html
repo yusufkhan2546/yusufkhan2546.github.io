@@ -889,6 +889,213 @@
       display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
       margin-top: 8px;
     }
+
+    /* Cosmic Chat Widget Styles */
+    .cosmic-chat-window {
+      position: fixed;
+      bottom: 120px;
+      right: 24px;
+      width: 380px;
+      height: 520px;
+      max-width: calc(100vw - 48px);
+      max-height: calc(100vh - 160px);
+      background: rgba(10, 20, 50, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(180, 210, 255, 0.2);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 161, 224, 0.15);
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      overflow: hidden;
+      font-family: var(--font-body);
+      animation: chatFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes chatFadeIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .cosmic-chat-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(3, 45, 96, 0.6), rgba(127, 0, 255, 0.15));
+      border-bottom: 1px solid rgba(180, 210, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cosmic-chat-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cosmic-chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sf-blue), var(--sf-purple));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: white;
+      font-size: 14px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .cosmic-chat-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+    }
+    .cosmic-chat-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 1px;
+    }
+    .cosmic-chat-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sf-success);
+      box-shadow: 0 0 8px var(--sf-success);
+    }
+    .cosmic-chat-status-dot.connecting {
+      background: #EAB308;
+      box-shadow: 0 0 8px #EAB308;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    .cosmic-chat-close {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 20px;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .cosmic-chat-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .cosmic-chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+    .cosmic-chat-message {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.45;
+      animation: msgPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes msgPop {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .cosmic-chat-message.agent {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(180, 210, 255, 0.15);
+      color: var(--ink);
+      border-bottom-left-radius: 4px;
+    }
+    .cosmic-chat-message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--sf-blue), var(--sf-purple));
+      color: white;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 14px rgba(0, 161, 224, 0.2);
+    }
+    .cosmic-chat-input-area {
+      padding: 16px;
+      border-top: 1px solid rgba(180, 210, 255, 0.15);
+      background: rgba(5, 8, 24, 0.4);
+      display: flex;
+      gap: 10px;
+    }
+    .cosmic-chat-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(180, 210, 255, 0.15);
+      border-radius: 999px;
+      padding: 10px 18px;
+      color: white;
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cosmic-chat-input:focus {
+      border-color: var(--sf-blue);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .cosmic-chat-send {
+      background: var(--sf-blue);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .cosmic-chat-send:hover {
+      background: var(--sf-blue-deep);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px var(--sf-blue);
+    }
+    .cosmic-chat-send:disabled {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.3);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    /* Typing indicator */
+    .cosmic-chat-typing {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(180, 210, 255, 0.1);
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+      width: fit-content;
+    }
+    .cosmic-chat-typing span {
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: typing 1.4s infinite both;
+    }
+    .cosmic-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .cosmic-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
   </style>
 
   <script>
@@ -899,7 +1106,7 @@
       "accentDeep": "#032D60",
       "boltTrail": false,
       "showCursor": false,
-      "mascot": false
+      "mascot": true
     }/*EDITMODE-END*/;
     window.__IS_MOBILE = _isMobile;
   </script>
@@ -1043,7 +1250,7 @@
   <!-- Salesforce portfolio data — generated at build time by sf-fetch.js -->
   <script src="sf-data.js"></script>
   <!-- Pre-compiled bundle — no runtime JSX transpilation -->
-  <script src="bundle.js?v=1aea178"></script>
+  <script src="bundle.js?v=agentforce-chat"></script>
 
 </body>
 
