@@ -4,7 +4,7 @@ const { useState, useEffect, useRef } = React;
 const ARTICLES = (window.__SF_DATA__ && window.__SF_DATA__.articles) || [];
 
 function PageDemos({ go }) {
-  const [activeTab, setActiveTab] = useState("demos"); // "demos" or "articles"
+  const [activeTab, setActiveTab] = useState("demos"); // "demos", "lwc", or "articles"
   
   // Apex Race States
   const [raceRunning, setRaceRunning] = useState(false);
@@ -109,7 +109,23 @@ function PageDemos({ go }) {
                 transition: "all 0.2s"
               }}
             >
-              Interactive Demos
+              Apex Race Sim
+            </button>
+            <button 
+              onClick={() => setActiveTab("lwc")}
+              className="hoverable"
+              style={{
+                background: "transparent",
+                border: "none",
+                fontSize: 16,
+                fontWeight: 700,
+                color: activeTab === "lwc" ? "white" : "var(--ink-3)",
+                borderBottom: activeTab === "lwc" ? "3px solid var(--accent)" : "3px solid transparent",
+                padding: "8px 16px 12px",
+                transition: "all 0.2s"
+              }}
+            >
+              LWC Recipes
             </button>
             <button 
               onClick={() => setActiveTab("articles")}
@@ -291,6 +307,20 @@ function PageDemos({ go }) {
                 </div>
               )}
 
+            </div>
+          )}
+
+          {/* LWC Recipes Tab Content */}
+          {activeTab === "lwc" && (
+            <div>
+              <div style={{ marginBottom: 30 }}>
+                <h2 className="h-section" style={{ fontSize: 28, margin: "0 0 10px" }}>Lightning Web Component Recipes</h2>
+                <p className="body-lg" style={{ fontSize: 15, maxWidth: 800 }}>
+                  A collection of production-grade, highly-configurable Lightning Web Component recipes with interactive sandboxes and code sheets.
+                </p>
+              </div>
+
+              <PageLwcRecipes />
             </div>
           )}
 
