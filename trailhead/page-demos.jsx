@@ -4,7 +4,7 @@ const { useState, useEffect, useRef } = React;
 const ARTICLES = (window.__SF_DATA__ && window.__SF_DATA__.articles) || [];
 
 function PageDemos({ go }) {
-  const [activeTab, setActiveTab] = useState("demos"); // "demos", "lwc", or "articles"
+  const [activeTab, setActiveTab] = useState("demos"); // "demos", "lwc", "apex", "agent", "soql", or "articles"
   
   // Apex Race States
   const [raceRunning, setRaceRunning] = useState(false);
@@ -90,6 +90,8 @@ function PageDemos({ go }) {
           {/* Tabs */}
           <div style={{ 
             display: "flex", 
+            flexWrap: "wrap",
+            rowGap: 8,
             gap: 16, 
             borderBottom: "1px solid rgba(255,255,255,0.06)", 
             marginBottom: 36,
@@ -126,6 +128,54 @@ function PageDemos({ go }) {
               }}
             >
               LWC Recipes
+            </button>
+            <button 
+              onClick={() => setActiveTab("apex")}
+              className="hoverable"
+              style={{
+                background: "transparent",
+                border: "none",
+                fontSize: 16,
+                fontWeight: 700,
+                color: activeTab === "apex" ? "white" : "var(--ink-3)",
+                borderBottom: activeTab === "apex" ? "3px solid var(--accent)" : "3px solid transparent",
+                padding: "8px 16px 12px",
+                transition: "all 0.2s"
+              }}
+            >
+              Apex Recipes
+            </button>
+            <button 
+              onClick={() => setActiveTab("agent")}
+              className="hoverable"
+              style={{
+                background: "transparent",
+                border: "none",
+                fontSize: 16,
+                fontWeight: 700,
+                color: activeTab === "agent" ? "white" : "var(--ink-3)",
+                borderBottom: activeTab === "agent" ? "3px solid var(--accent)" : "3px solid transparent",
+                padding: "8px 16px 12px",
+                transition: "all 0.2s"
+              }}
+            >
+              Agentforce Recipes
+            </button>
+            <button 
+              onClick={() => setActiveTab("soql")}
+              className="hoverable"
+              style={{
+                background: "transparent",
+                border: "none",
+                fontSize: 16,
+                fontWeight: 700,
+                color: activeTab === "soql" ? "white" : "var(--ink-3)",
+                borderBottom: activeTab === "soql" ? "3px solid var(--accent)" : "3px solid transparent",
+                padding: "8px 16px 12px",
+                transition: "all 0.2s"
+              }}
+            >
+              SOQL Recipes
             </button>
             <button 
               onClick={() => setActiveTab("articles")}
@@ -321,6 +371,48 @@ function PageDemos({ go }) {
               </div>
 
               <PageLwcRecipes />
+            </div>
+          )}
+
+          {/* Apex Recipes Tab Content */}
+          {activeTab === "apex" && (
+            <div>
+              <div style={{ marginBottom: 30 }}>
+                <h2 className="h-section" style={{ fontSize: 28, margin: "0 0 10px" }}>Apex Recipes</h2>
+                <p className="body-lg" style={{ fontSize: 15, maxWidth: 800 }}>
+                  Robust Apex Backend patterns covering trigger bypass frameworks, queueable chaining pipelines, and dynamically generated HTTP mock utilities.
+                </p>
+              </div>
+
+              <PageApexRecipes />
+            </div>
+          )}
+
+          {/* Agentforce Recipes Tab Content */}
+          {activeTab === "agent" && (
+            <div>
+              <div style={{ marginBottom: 30 }}>
+                <h2 className="h-section" style={{ fontSize: 28, margin: "0 0 10px" }}>Agentforce Recipes</h2>
+                <p className="body-lg" style={{ fontSize: 15, maxWidth: 800 }}>
+                  Advanced Salesforce AI recipes: Invocable method Actions, Prompt Template resolvers, and conversational natural language classifier routers.
+                </p>
+              </div>
+
+              <PageAgentRecipes />
+            </div>
+          )}
+
+          {/* SOQL Recipes Tab Content */}
+          {activeTab === "soql" && (
+            <div>
+              <div style={{ marginBottom: 30 }}>
+                <h2 className="h-section" style={{ fontSize: 28, margin: "0 0 10px" }}>SOQL Recipes</h2>
+                <p className="body-lg" style={{ fontSize: 15, maxWidth: 800 }}>
+                  Database query practices for complex child-parent joins, aggregate rollups, and robust defenses against dynamic query injections.
+                </p>
+              </div>
+
+              <PageSoqlRecipes />
             </div>
           )}
 

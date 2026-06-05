@@ -31,6 +31,9 @@ const files = [
   "trailhead/page-contact.jsx",
   "trailhead/page-gigs.jsx",
   "trailhead/page-lwc-recipes.jsx",
+  "trailhead/page-apex-recipes.jsx",
+  "trailhead/page-agent-recipes.jsx",
+  "trailhead/page-soql-recipes.jsx",
   "trailhead/page-demos.jsx",
   "trailhead/main.jsx",
 ];

@@ -5682,6 +5682,1548 @@ function PageLwcRecipes() {
 Object.assign(window, { PageLwcRecipes });
 
 
+/* ── trailhead/page-apex-recipes.jsx ── */
+/* hooks from shim */
+const APEX_CODES = {
+  triggerBypass: {
+    cls: `public class AccountTriggerHandler extends TriggerHandler {
+    private List<Account> newAccounts;
+    private Map<Id, Account> oldAccountMap;
+
+    public AccountTriggerHandler() {
+        this.newAccounts = (List<Account>) Trigger.new;
+        this.oldAccountMap = (Map<Id, Account>) Trigger.oldMap;
+    }
+
+    public override void beforeInsert() {
+        // Check global trigger bypass state
+        if (TriggerBypass.isBypassed('AccountTriggerHandler')) {
+            System.debug('AccountTriggerHandler is bypassed. Skipping execution.');
+            return;
+        }
+
+        for (Account acc : newAccounts) {
+            if (acc.BillingCountry == null) {
+                acc.addError('Billing Country is required on creation.');
+            }
+        }
+    }
+
+    public override void afterUpdate() {
+        if (TriggerBypass.isBypassed('AccountTriggerHandler')) return;
+
+        // Prevent recursive trigger execution
+        if (!TriggerHandler.isFirstRun()) return;
+
+        Set<Id> accIdsToProcess = new Set<Id>();
+        for (Account acc : newAccounts) {
+            Account old = oldAccountMap.get(acc.Id);
+            if (acc.BillingCountry != old.BillingCountry) {
+                accIdsToProcess.add(acc.Id);
+            }
+        }
+        
+        if (!accIdsToProcess.isEmpty()) {
+            // Execute bulk actions or enqueue queueable
+            System.enqueueJob(new AccountUpdateQueueable(accIdsToProcess));
+        }
+    }
+}`,
+    test: `@isTest
+private class AccountTriggerHandlerTest {
+    @isTest
+    static void testBeforeInsertSuccess() {
+        Account acc = new Account(Name = 'Test Corp', BillingCountry = 'USA');
+        
+        Test.startTest();
+        insert acc;
+        Test.stopTest();
+        
+        Account insertedAcc = [SELECT BillingCountry FROM Account WHERE Id = :acc.Id];
+        System.assertEquals('USA', insertedAcc.BillingCountry, 'Billing country should be saved');
+    }
+
+    @isTest
+    static void testTriggerBypass() {
+        // Enable trigger bypass
+        TriggerBypass.bypass('AccountTriggerHandler');
+        
+        // This record would fail validation normally because BillingCountry is missing
+        Account acc = new Account(Name = 'Bypassed Corp'); 
+        
+        Test.startTest();
+        Database.SaveResult sr = Database.insert(acc, false);
+        Test.stopTest();
+        
+        System.assert(sr.isSuccess(), 'Insert should succeed because trigger was bypassed');
+    }
+}`
+  },
+  queueable: {
+    cls: `public class AccountUpdateQueueable implements Queueable, Database.AllowsCallouts {
+    private Set<Id> accountIds;
+
+    public AccountUpdateQueueable(Set<Id> ids) {
+        this.accountIds = ids;
+    }
+
+    public void execute(QueueableContext context) {
+        List<Account> accounts = [SELECT Id, Name, BillingCountry, Integration_Status__c 
+                                  FROM Account WHERE Id IN :accountIds];
+        
+        // 1. Process API Callout
+        for (Account acc : accounts) {
+            String payload = '{ "accountName": "' + acc.Name + '" }';
+            HttpResponse res = HttpCalloutService.sendRequest('https://api.external.com/sync', 'POST', payload);
+            
+            if (res.getStatusCode() == 200) {
+                acc.Integration_Status__c = 'Synced';
+            } else {
+                acc.Integration_Status__c = 'Failed';
+            }
+        }
+        
+        update accounts;
+
+        // 2. Dynamic Queueable Chaining: Chain follow-up job to sync related contacts
+        if (!Test.isRunningTest()) {
+            System.enqueueJob(new ContactSyncQueueable(accountIds));
+        }
+    }
+}`,
+    test: `@isTest
+private class AsyncQueueableTest {
+    @testSetup
+    static void setup() {
+        Account acc = new Account(Name = 'Sync Test Corp', BillingCountry = 'Canada');
+        insert acc;
+    }
+
+    @isTest
+    static void testQueueableExecution() {
+        Account acc = [SELECT Id FROM Account LIMIT 1];
+        
+        // Set mock callout response
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator(200, 'Synced'));
+        
+        Test.startTest();
+        System.enqueueJob(new AccountUpdateQueueable(new Set<Id>{ acc.Id }));
+        Test.stopTest();
+        
+        Account updatedAcc = [SELECT Integration_Status__c FROM Account WHERE Id = :acc.Id];
+        System.assertEquals('Synced', updatedAcc.Integration_Status__c, 'Account status should be Synced');
+    }
+}`
+  },
+  mockCallout: {
+    cls: `public class MockHttpResponseGenerator implements HttpCalloutMock {
+    private Map<String, HttpResponse> endpointMocks = new Map<String, HttpResponse>();
+
+    public void addMock(String endpoint, Integer statusCode, String body) {
+        HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody(body);
+        res.setStatusCode(statusCode);
+        endpointMocks.put(endpoint, res);
+    }
+
+    public HttpResponse respond(HttpRequest req) {
+        String endpoint = req.getEndpoint();
+        
+        // Match mock by partial or exact endpoint url
+        for (String urlPattern : endpointMocks.keySet()) {
+            if (endpoint.contains(urlPattern)) {
+                return endpointMocks.get(urlPattern);
+            }
+        }
+
+        // Return default fallback mock
+        HttpResponse fallback = new HttpResponse();
+        fallback.setStatusCode(404);
+        fallback.setBody('{"error": "Mock not found for endpoint: ' + endpoint + '"}');
+        return fallback;
+    }
+}`,
+    test: `@isTest
+private class HttpCalloutServiceTest {
+    @isTest
+    static void testMultiEndpointCallout() {
+        // Instantiate the dynamic multi-mock generator
+        MockHttpResponseGenerator mockGen = new MockHttpResponseGenerator();
+        
+        mockGen.addMock('api.github.com', 200, '{"status": "ok"}');
+        mockGen.addMock('api.salesforce.com', 500, '{"error": "Internal Error"}');
+
+        Test.setMock(HttpCalloutMock.class, mockGen);
+
+        Test.startTest();
+        // Invoke callouts
+        HttpResponse resGithub = HttpCalloutService.sendRequest('https://api.github.com/users', 'GET', null);
+        HttpResponse resSalesforce = HttpCalloutService.sendRequest('https://api.salesforce.com/services', 'POST', '{}');
+        Test.stopTest();
+
+        System.assertEquals(200, resGithub.getStatusCode(), 'Github mock status mismatch');
+        System.assertEquals(500, resSalesforce.getStatusCode(), 'Salesforce mock status mismatch');
+    }
+}`
+  }
+};
+function PageApexRecipes() {
+  const [selectedRecipe, setSelectedRecipe] = useState("triggerBypass");
+  const [activeTab, setActiveTab] = useState("cls");
+  const [copied, setCopied] = useState(false);
+  const [bypassAccount, setBypassAccount] = useState(false);
+  const [triggerVal, setTriggerVal] = useState("");
+  const [triggerCountry, setTriggerCountry] = useState("USA");
+  const [triggerLogs, setTriggerLogs] = useState([]);
+  const [triggerLimits, setTriggerLimits] = useState({ soql: 0, dml: 0 });
+  const [queueJobs, setQueueJobs] = useState([]);
+  const [queueLogs, setQueueLogs] = useState([]);
+  const [isQueueRunning, setIsQueueRunning] = useState(false);
+  const [mocks, setMocks] = useState({
+    "api.github.com": { status: 200, body: '{"status": "ok", "service": "GitHub"}' },
+    "api.salesforce.com": { status: 500, body: '{"error": "Internal Server Error", "service": "SFDC"}' }
+  });
+  const [testEndpoint, setTestEndpoint] = useState("api.github.com");
+  const [calloutLogs, setCalloutLogs] = useState([]);
+  useEffect(() => {
+    setCopied(false);
+  }, [selectedRecipe, activeTab]);
+  const copyCode = () => {
+    const codeText = APEX_CODES[selectedRecipe][activeTab];
+    navigator.clipboard.writeText(codeText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2e3);
+    });
+  };
+  const runTriggerSim = (mode) => {
+    let logs = [`\u{1F680} Transaction Started: Mode = DML ${mode}`];
+    let soql = 0;
+    let dml = 0;
+    logs.push("\u2699\uFE0F Loading Trigger settings...");
+    if (bypassAccount) {
+      logs.push("\u{1F7E1} TRIGGER BYPASSED: 'AccountTriggerHandler' is marked as bypassed. Skipping logic.");
+    } else {
+      logs.push("\u{1F535} Executing BEFORE INSERT handler on Account...");
+      if (!triggerVal) {
+        logs.push("\u274C System.DmlException: Insert failed. Billing Country is required on creation.");
+        setTriggerLogs(logs);
+        return;
+      }
+      soql += 1;
+      logs.push(`\u{1F50D} [SOQL Query] SELECT Id, Name FROM Account WHERE Name = '${triggerVal}' LIMIT 1`);
+      logs.push("\u{1F535} Executing AFTER INSERT handler on Account...");
+      dml += 1;
+      logs.push(`\u{1F4BE} [DML Insert] Account record saved: Id = 001${Math.random().toString().slice(2, 17)}`);
+      if (mode === "UPDATE") {
+        logs.push("\u{1F535} Executing AFTER UPDATE handler on Account...");
+        if (triggerCountry !== "USA") {
+          logs.push("\u{1F517} Chaining Asynchronous Sync: Enqueuing AccountUpdateQueueable job.");
+          logs.push("\u{1F4E6} Job successfully added to FlexQueue.");
+        } else {
+          logs.push("\u{1F7E2} Country unchanged/USA. No async updates queued.");
+        }
+      }
+    }
+    logs.push("\u2705 Transaction Completed successfully.");
+    setTriggerLogs(logs);
+    setTriggerLimits({ soql, dml });
+  };
+  const runQueueableSim = () => {
+    if (isQueueRunning) return;
+    setIsQueueRunning(true);
+    setQueueJobs([]);
+    setQueueLogs(["\u{1F680} Enqueuing Job chain..."]);
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+    const process = async () => {
+      setQueueJobs((prev) => [...prev, { id: "Job-A1", name: "AccountUpdateQueueable", status: "Queued" }]);
+      await delay(1200);
+      setQueueJobs([{ id: "Job-A1", name: "AccountUpdateQueueable", status: "Processing" }]);
+      setQueueLogs((prev) => [...prev, "\u26A1 Job-A1: AccountUpdateQueueable started. Fetching accounts...", "\u{1F4DE} Job-A1: Invoking callout mock to https://api.external.com/sync"]);
+      await delay(1500);
+      setQueueJobs([{ id: "Job-A1", name: "AccountUpdateQueueable", status: "Completed" }]);
+      setQueueLogs((prev) => [...prev, "\u2705 Job-A1: Accounts updated status to 'Synced'.", "\u{1F517} Job-A1: Chaining related contacts synchronizer..."]);
+      await delay(1e3);
+      setQueueJobs((prev) => [
+        ...prev,
+        { id: "Job-C2", name: "ContactSyncQueueable", status: "Queued" }
+      ]);
+      await delay(1200);
+      setQueueJobs((prev) => [
+        prev[0],
+        { id: "Job-C2", name: "ContactSyncQueueable", status: "Processing" }
+      ]);
+      setQueueLogs((prev) => [...prev, "\u26A1 Job-C2: ContactSyncQueueable started. Fetching associated Contacts...", "\u{1F4BE} Job-C2: Executing bulk DML updates on 45 Contacts."]);
+      await delay(1500);
+      setQueueJobs((prev) => [
+        prev[0],
+        { id: "Job-C2", name: "ContactSyncQueueable", status: "Completed" }
+      ]);
+      setQueueLogs((prev) => [...prev, "\u2705 Job-C2: Contacts updated successfully.", "\u{1F389} Queueable Chaining pipeline empty. Chain execution complete."]);
+      setIsQueueRunning(false);
+    };
+    process();
+  };
+  const runCalloutSim = () => {
+    const activeMock = mocks[testEndpoint];
+    let logs = [
+      `\u{1F680} Initializing Dynamic Callout request...`,
+      `\u{1F4E1} Request URL: https://${testEndpoint}/v1/resources`,
+      `\u2699\uFE0F Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator()) triggered.`
+    ];
+    logs.push(`\u{1F50D} MockHttpResponseGenerator: Inspecting endpoint...`);
+    if (activeMock) {
+      logs.push(`\u{1F3AF} Match found for pattern: "${testEndpoint}"`);
+      logs.push(`\u{1F4E6} Loading Mocked Payload...`);
+      logs.push(`\u{1F4E5} HttpResponse returned: Status Code = ${activeMock.status}`);
+      logs.push(`\u{1F4C4} Response Body: ${activeMock.body}`);
+    } else {
+      logs.push(`\u26A0\uFE0F No mock mapping found for: "${testEndpoint}". Returning default fallback.`);
+      logs.push(`\u{1F4E5} HttpResponse returned: Status Code = 404 (Not Found)`);
+    }
+    setCalloutLogs(logs);
+  };
+  return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "280px 1fr", gap: 32 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 8, paddingLeft: 8 } }, "Apex Recipes Directory"), [
+    { id: "triggerBypass", name: "1. Trigger Bypass Framework", desc: "Re-entrancy & bypass controls" },
+    { id: "queueable", name: "2. Queueable Chain Sync", desc: "Async job pipeline chaining" },
+    { id: "mockCallout", name: "3. Callout Multi-Mock", desc: "Multi-endpoint unit test mocks" }
+  ].map((rec) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: rec.id,
+      onClick: () => setSelectedRecipe(rec.id),
+      className: "hoverable",
+      style: {
+        textAlign: "left",
+        padding: "14px 18px",
+        background: selectedRecipe === rec.id ? "rgba(0,161,224,0.08)" : "rgba(255,255,255,0.02)",
+        border: "1px solid " + (selectedRecipe === rec.id ? "var(--accent)" : "var(--line)"),
+        borderRadius: 14,
+        color: selectedRecipe === rec.id ? "white" : "var(--ink-2)",
+        cursor: "pointer",
+        transition: "all 0.2s"
+      }
+    },
+    /* @__PURE__ */ React.createElement("strong", { style: { display: "block", fontSize: 13.5, marginBottom: 4 } }, rec.name),
+    /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11.5, color: selectedRecipe === rec.id ? "var(--accent-deep)" : "var(--ink-3)" } }, rec.desc)
+  ))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 24 } }, /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(10,18,48,0.25)", border: "1px solid var(--line)", padding: 24, borderRadius: 18 } }, selectedRecipe === "triggerBypass" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Apex Trigger Handler & Bypass Console"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Illustrates a clean Apex Trigger Handler framework supporting dynamic runtime bypass configurations. In large Salesforce instances, bypassing triggers programmatically during heavy data loads, migrations, or tests is essential for speed and preventing execution limit violations.")), selectedRecipe === "queueable" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Queueable Chaining & Asynchronous Pipeline"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Demonstrates how to chain Queueable jobs sequentially in Salesforce. This structure enables developers to execute long-running processes (like REST callouts followed by child updates) while staying compliant with Apex governor limits.")), selectedRecipe === "mockCallout" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Multi-Mock HTTP Callout Framework"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "A robust unit testing mock generator. When a transaction makes callouts to different endpoints (e.g. GitHub and Salesforce APIs), a standard mock generator fails. This registry-based multi-mock captures endpoint requests and maps mock payloads dynamically."))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" } }, /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 18, background: "rgba(10,18,48,0.45)", border: "1px solid var(--line)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: 12, marginBottom: 20 } }, /* @__PURE__ */ React.createElement("strong", { style: { fontSize: 12, color: "var(--accent-deep)", textTransform: "uppercase", letterSpacing: ".05em" } }, "\u26A1 INTERACTIVE SANDBOX"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, background: "rgba(0,161,224,0.1)", color: "var(--accent)", padding: "4px 8px", borderRadius: 4, fontWeight: 700 } }, "APEX SIMULATOR")), selectedRecipe === "triggerBypass" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "checkbox",
+      id: "trigger-bypass-chk",
+      checked: bypassAccount,
+      onChange: (e) => setBypassAccount(e.target.checked),
+      style: { width: 16, height: 16, cursor: "pointer" }
+    }
+  ), /* @__PURE__ */ React.createElement("label", { htmlFor: "trigger-bypass-chk", style: { fontSize: 13, cursor: "pointer" } }, "Bypass 'AccountTriggerHandler' logic")), /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid var(--line-2)", paddingTop: 14 } }, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 4 } }, "Account Name"), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      value: triggerVal,
+      onChange: (e) => setTriggerVal(e.target.value),
+      placeholder: "Enter Account name...",
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    }
+  )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 4 } }, "Billing Country"), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: triggerCountry,
+      onChange: (e) => setTriggerCountry(e.target.value),
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "USA" }, "USA"),
+    /* @__PURE__ */ React.createElement("option", { value: "Canada" }, "Canada"),
+    /* @__PURE__ */ React.createElement("option", { value: "India" }, "India"),
+    /* @__PURE__ */ React.createElement("option", { value: "" }, "(Blank/Null)")
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 10 } }, /* @__PURE__ */ React.createElement("button", { onClick: () => runTriggerSim("INSERT"), className: "btn primary hoverable", style: { padding: "8px 16px", fontSize: 12.5, flex: 1, justifyContent: "center" } }, "Simulate INSERT"), /* @__PURE__ */ React.createElement("button", { onClick: () => runTriggerSim("UPDATE"), className: "btn ghost hoverable", style: { padding: "8px 16px", fontSize: 12.5, flex: 1, justifyContent: "center" } }, "Simulate UPDATE")), /* @__PURE__ */ React.createElement("div", { style: {
+    background: "#030612",
+    border: "1px solid var(--line-2)",
+    borderRadius: 10,
+    padding: 12,
+    fontFamily: "var(--font-mono)",
+    height: 120,
+    overflowY: "auto",
+    fontSize: 11
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 10, color: "var(--ink-3)", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 4, marginBottom: 6 } }, /* @__PURE__ */ React.createElement("span", null, "SIMULATOR Apex Debug Logs"), /* @__PURE__ */ React.createElement("span", { style: { color: "var(--accent-deep)" } }, "SOQL: ", triggerLimits.soql, "/100 | DML: ", triggerLimits.dml, "/150")), triggerLogs.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { color: "rgba(244,248,255,0.25)" } }, "Simulate a DML transaction to output logs.") : triggerLogs.map((log, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: {
+    color: log.includes("\u274C") ? "#e74c3c" : log.includes("\u{1F7E1}") ? "#f1c40f" : "rgba(244,248,255,0.65)",
+    marginBottom: 4
+  } }, log)))), selectedRecipe === "queueable" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: runQueueableSim,
+      disabled: isQueueRunning,
+      className: "btn primary hoverable",
+      style: { width: "100%", justifyContent: "center", padding: "10px" }
+    },
+    isQueueRunning ? "\u23F3 Running Job Pipeline..." : "\u25B6\uFE0F Dispatch Queueable Chain"
+  ), /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid var(--line-2)", paddingTop: 14 } }, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 12, color: "var(--ink-3)", marginBottom: 8 } }, "Asynchronous FlexQueue Status"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 } }, queueJobs.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: 12, background: "rgba(255,255,255,0.01)", border: "1px dashed var(--line-2)", borderRadius: 8, fontSize: 12, color: "var(--ink-3)", textAlign: "center" } }, "Queue empty.") : queueJobs.map((job) => /* @__PURE__ */ React.createElement("div", { key: job.id, style: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 14px",
+    background: "rgba(0,0,0,0.25)",
+    border: "1px solid " + (job.status === "Completed" ? "rgba(46,204,113,0.3)" : job.status === "Processing" ? "var(--accent)" : "rgba(255,255,255,0.08)"),
+    borderRadius: 8
+  } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12.5, fontWeight: 700, color: "white" } }, job.name), /* @__PURE__ */ React.createElement("small", { style: { color: "var(--ink-3)", fontSize: 10.5 } }, "Job ID: ", job.id)), /* @__PURE__ */ React.createElement("span", { style: {
+    fontSize: 10,
+    fontWeight: 700,
+    padding: "3px 6px",
+    borderRadius: 4,
+    background: job.status === "Completed" ? "rgba(46,204,113,0.15)" : job.status === "Processing" ? "rgba(0,161,224,0.15)" : "rgba(255,255,255,0.05)",
+    color: job.status === "Completed" ? "#2ecc71" : job.status === "Processing" ? "var(--accent)" : "var(--ink-2)"
+  } }, job.status))))), /* @__PURE__ */ React.createElement("div", { style: {
+    background: "#030612",
+    border: "1px solid var(--line-2)",
+    borderRadius: 10,
+    padding: 12,
+    fontFamily: "var(--font-mono)",
+    height: 100,
+    overflowY: "auto",
+    fontSize: 11
+  } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "var(--ink-3)", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 4, marginBottom: 6 } }, "QUEUE ENGINE DEBUG LOGS"), queueLogs.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { color: "rgba(244,248,255,0.25)" } }, "Pipeline execution telemetry.") : queueLogs.map((log, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { color: log.startsWith("\u2705") ? "#2ecc71" : "rgba(244,248,255,0.65)", marginBottom: 4 } }, log)))), selectedRecipe === "mockCallout" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, "1. Select Target Endpoint"), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: testEndpoint,
+      onChange: (e) => setTestEndpoint(e.target.value),
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "api.github.com" }, "GitHub API (mapped to status 200)"),
+    /* @__PURE__ */ React.createElement("option", { value: "api.salesforce.com" }, "Salesforce Tooling API (mapped to status 500)"),
+    /* @__PURE__ */ React.createElement("option", { value: "api.unknown-service.com" }, "Unknown Service API (unmapped)")
+  )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { onClick: runCalloutSim, className: "btn primary hoverable", style: { width: "100%", justifyContent: "center", padding: "10px" } }, "\u{1F4E1} Execute HTTP Callout Test")), /* @__PURE__ */ React.createElement("div", { style: {
+    background: "#030612",
+    border: "1px solid var(--line-2)",
+    borderRadius: 10,
+    padding: 12,
+    fontFamily: "var(--font-mono)",
+    height: 120,
+    overflowY: "auto",
+    fontSize: 11
+  } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "var(--ink-3)", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 4, marginBottom: 6 } }, "TEST MOCK TELEMETRY"), calloutLogs.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { color: "rgba(244,248,255,0.25)" } }, "Results will show here.") : calloutLogs.map((log, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: {
+    color: log.includes("200") || log.includes("Match found") ? "#2ecc71" : log.includes("500") || log.includes("404") || log.includes("\u26A0\uFE0F") ? "#e74c3c" : "rgba(244,248,255,0.65)",
+    marginBottom: 4
+  } }, log))))), /* @__PURE__ */ React.createElement("div", { className: "card", style: { display: "flex", flexDirection: "column", height: "100%", borderRadius: 18, border: "1px solid var(--line)", background: "rgba(3,6,18,0.7)" } }, /* @__PURE__ */ React.createElement("div", { style: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: "1px solid var(--line)",
+    padding: "10px 16px",
+    background: "rgba(255,255,255,0.02)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6 } }, [
+    { id: "cls", label: "Controller (.cls)" },
+    { id: "test", label: "Apex Test (.cls)" }
+  ].map((tab) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: tab.id,
+      onClick: () => setActiveTab(tab.id),
+      style: {
+        background: activeTab === tab.id ? "rgba(0,161,224,0.12)" : "transparent",
+        border: "none",
+        color: activeTab === tab.id ? "white" : "var(--ink-3)",
+        fontSize: 12.5,
+        fontWeight: 600,
+        padding: "6px 12px",
+        borderRadius: 6,
+        cursor: "pointer"
+      }
+    },
+    tab.label
+  ))), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "btn ghost hoverable",
+      onClick: copyCode,
+      style: {
+        padding: "6px 14px",
+        fontSize: 11,
+        border: "1px solid var(--line-2)",
+        borderRadius: 6,
+        height: "auto",
+        margin: 0
+      }
+    },
+    copied ? "\u2713 Copied!" : "\u{1F4CB} Copy Code"
+  )), /* @__PURE__ */ React.createElement("pre", { style: {
+    margin: 0,
+    padding: 20,
+    overflowX: "auto",
+    fontSize: 12.5,
+    lineHeight: 1.5,
+    fontFamily: "var(--font-mono)",
+    color: "rgba(244,248,255,0.85)",
+    background: "rgba(0,0,0,0.2)",
+    height: 340,
+    overflowY: "auto"
+  } }, /* @__PURE__ */ React.createElement("code", null, APEX_CODES[selectedRecipe][activeTab]))))));
+}
+Object.assign(window, { PageApexRecipes });
+
+
+/* ── trailhead/page-agent-recipes.jsx ── */
+/* hooks from shim */
+const AGENT_CODES = {
+  invocableAction: {
+    cls: `public class AgentGetCaseSummaryAction {
+    
+    public class ActionInput {
+        @InvocableVariable(required=true description='The case number to look up')
+        public String caseNumber;
+        
+        @InvocableVariable(required=false description='Include audit history logs')
+        public Boolean includeLogs;
+    }
+
+    public class ActionOutput {
+        @InvocableVariable(description='The natural language summary of the case')
+        public String summary;
+        
+        @InvocableVariable(description='Success status of the execution')
+        public Boolean isSuccess;
+    }
+
+    @InvocableMethod(
+        label='Get Case Summary for Agent'
+        description='Fetches the subject, description, priority and status of a case and returns a natural language summary'
+        category='Agentforce'
+    )
+    public static List<ActionOutput> getCaseSummary(List<ActionInput> inputs) {
+        List<ActionOutput> outputs = new List<ActionOutput>();
+        
+        for (ActionInput input : inputs) {
+            ActionOutput output = new ActionOutput();
+            try {
+                Case c = [SELECT CaseNumber, Subject, Description, Status, Priority, 
+                                 (SELECT CommentBody FROM CaseComments ORDER BY CreatedDate DESC LIMIT 2)
+                          FROM Case WHERE CaseNumber = :input.caseNumber LIMIT 1];
+                
+                String summaryStr = 'Case #' + c.CaseNumber + ': "' + c.Subject + '" is currently ' + c.Status + '. ' +
+                                    'Priority is ' + c.Priority + '. Description: ' + c.Description;
+                
+                if (c.CaseComments.size() > 0) {
+                    summaryStr += ' Latest comments: ';
+                    for (CaseComment cc : c.CaseComments) {
+                        summaryStr += '"' + cc.CommentBody + '"; ';
+                    }
+                }
+                
+                output.summary = summaryStr;
+                output.isSuccess = true;
+            } catch (Exception e) {
+                output.summary = 'Error retrieving case summary: Case number ' + input.caseNumber + ' not found.';
+                output.isSuccess = false;
+            }
+            outputs.add(output);
+        }
+        return outputs;
+    }
+}`,
+    json: `{
+  "apiVersion": "60.0",
+  "agentAction": {
+    "masterLabel": "Get Case Summary for Agent",
+    "description": "Fetches subject, description, priority and comments for a case number to summarize case logs",
+    "invocationTarget": "apex-AgentGetCaseSummaryAction",
+    "inputs": [
+      {
+        "name": "caseNumber",
+        "type": "String",
+        "isRequired": true,
+        "description": "The case number to look up"
+      },
+      {
+        "name": "includeLogs",
+        "type": "Boolean",
+        "isRequired": false,
+        "description": "Include audit history logs"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "summary",
+        "type": "String",
+        "description": "The natural language summary of the case"
+      },
+      {
+        "name": "isSuccess",
+        "type": "Boolean",
+        "description": "Success status of the execution"
+      }
+    ]
+  }
+}`
+  },
+  promptResolver: {
+    cls: `public class AccountRiskPromptResolver extends Process.PromptTemplateResolver {
+    
+    public override Double getRiskMultiplier() {
+        return 1.5;
+    }
+
+    public override Process.PromptTemplateResponse execute(Process.PromptTemplateContext context) {
+        Process.PromptTemplateResponse response = new Process.PromptTemplateResponse();
+        
+        // Retrieve target input record
+        Account acc = (Account) context.getTargetRecord();
+        
+        // Custom business logic for calculating dynamic prompt tokens
+        Decimal score = 0;
+        if (acc.AnnualRevenue != null && acc.AnnualRevenue > 10000000) score += 30; // Large Enterprise
+        if (acc.BillingCountry != 'USA') score += 20; // Cross-border compliance check
+        
+        List<Case> openCases = [SELECT Id FROM Case WHERE AccountId = :acc.Id AND IsClosed = false];
+        score += (openCases.size() * 15); // Add risk points for active support cases
+
+        String riskRating = 'Low';
+        if (score >= 60) riskRating = 'Critical';
+        else if (score >= 40) riskRating = 'High';
+        else if (score >= 25) riskRating = 'Medium';
+
+        // Add dynamic tokens back into the template context
+        response.addTokenResponse('_riskRating', riskRating);
+        response.addTokenResponse('_calculatedScore', String.valueOf(score));
+        
+        return response;
+    }
+}`,
+    json: `{
+  "apiVersion": "60.0",
+  "promptTemplate": {
+    "masterLabel": "Account Risk Evaluation Template",
+    "type": "EinsteinPromptTemplate",
+    "targetObject": "Account",
+    "templateText": "You are a Salesforce Service Agent. Summarize account information for {!Input:Account.Name}. Accounts Country: {!Input:Account.BillingCountry}. Revenue: {!Input:Account.AnnualRevenue}. Custom Calculated Risk Rating is: {!AccountRiskPromptResolver._riskRating} (Score: {!AccountRiskPromptResolver._calculatedScore}). Please draft a high-touch outreach message based on this risk level.",
+    "resolverClass": "AccountRiskPromptResolver"
+  }
+}`
+  },
+  topicRouter: {
+    cls: `public class AgentTopicRouter {
+    
+    public class TopicClassification {
+        public String matchedTopic;
+        public Double confidenceScore;
+        public Map<String, Object> slots;
+    }
+
+    public static TopicClassification classifyIntent(String userUtterance) {
+        TopicClassification result = new TopicClassification();
+        result.slots = new Map<String, Object>();
+        
+        String cleanUtterance = userUtterance.toLowerCase();
+
+        // 1. Classification Logic
+        if (cleanUtterance.contains('billing') || cleanUtterance.contains('invoice') || cleanUtterance.contains('pay')) {
+            result.matchedTopic = 'Billing_Support';
+            result.confidenceScore = 0.94;
+            
+            // Extract invoice numbers if present
+            Pattern invPattern = Pattern.compile('inv-\\\\d{4}');
+            Matcher m = invPattern.matcher(cleanUtterance);
+            if (m.find()) {
+                result.slots.put('invoiceNumber', m.group(0).toUpperCase());
+            }
+        } 
+        else if (cleanUtterance.contains('apply') || cleanUtterance.contains('loan') || cleanUtterance.contains('mortgage')) {
+            result.matchedTopic = 'Loan_Application';
+            result.confidenceScore = 0.89;
+            
+            if (cleanUtterance.contains('mortgage') || cleanUtterance.contains('home')) {
+                result.slots.put('loanType', 'Mortgage');
+            } else if (cleanUtterance.contains('auto') || cleanUtterance.contains('car')) {
+                result.slots.put('loanType', 'Auto');
+            }
+        } 
+        else {
+            result.matchedTopic = 'General_Queries';
+            result.confidenceScore = 0.72;
+        }
+
+        return result;
+    }
+}`,
+    json: `{
+  "agentTopics": [
+    {
+      "name": "Billing_Support",
+      "description": "Handles billing inquiries, invoice downloads, and processing payments.",
+      "classificationPhrases": [
+        "check billing status",
+        "where is my invoice",
+        "how to pay my bill",
+        "dispute a charge"
+      ],
+      "requiredSlots": [
+        {
+          "name": "invoiceNumber",
+          "type": "String",
+          "prompt": "Could you please provide the invoice number (e.g. INV-1024)?"
+        }
+      ]
+    },
+    {
+      "name": "Loan_Application",
+      "description": "Collects details and starts applications for Mortgage, Auto, or Personal loans.",
+      "classificationPhrases": [
+        "apply for a loan",
+        "want to start home mortgage",
+        "car finance rate",
+        "need cash personal loan"
+      ],
+      "requiredSlots": [
+        {
+          "name": "loanType",
+          "type": "String",
+          "prompt": "What type of loan are you applying for? (Mortgage, Auto, or Personal)?"
+        }
+      ]
+    }
+  ]
+}`
+  }
+};
+function PageAgentRecipes() {
+  const [selectedRecipe, setSelectedRecipe] = useState("invocableAction");
+  const [activeTab, setActiveTab] = useState("cls");
+  const [copied, setCopied] = useState(false);
+  const [caseNo, setCaseNo] = useState("1024");
+  const [actionLogs, setActionLogs] = useState([]);
+  const mockCases = {
+    "1024": { subject: "Invoice mismatch", desc: "Charged $450 instead of $400 on billing statement.", status: "Escalated", priority: "High", comment: "Verified billing ledger, discount code was missing." },
+    "1045": { subject: "API Integration Timeout", desc: "Unable to retrieve token from endpoints.", status: "Closed", priority: "Critical", comment: "IP address was successfully whitelisted." }
+  };
+  const [selectedAccount, setSelectedAccount] = useState("Acme");
+  const [numCases, setNumCases] = useState(2);
+  const [resolvedPrompt, setResolvedPrompt] = useState("");
+  const accountsData = {
+    "Acme": { name: "Acme Corp", country: "USA", revenue: "$12,000,000" },
+    "Globex": { name: "Globex International", country: "India", revenue: "$8,500,000" },
+    "Initech": { name: "Initech LLC", country: "UK", revenue: "$4,200,000" }
+  };
+  const [chatHistory, setChatHistory] = useState([
+    { sender: "agent", text: "Hello! I am your Agentforce assistant. Ask me about your invoices or applying for a loan." }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [slotFillingState, setSlotFillingState] = useState(null);
+  useEffect(() => {
+    setCopied(false);
+  }, [selectedRecipe, activeTab]);
+  const copyCode = () => {
+    const codeText = AGENT_CODES[selectedRecipe][activeTab];
+    navigator.clipboard.writeText(codeText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2e3);
+    });
+  };
+  const runInvocableSim = () => {
+    let logs = [
+      `\u{1F916} Agentforce: Analyzing prompt request...`,
+      `\u{1F3AF} Matched Action Intent: "Get Case Summary for Agent"`,
+      `\u2699\uFE0F Binding inputs: caseNumber = "${caseNo}"`,
+      `\u{1F535} Calling Apex \`@InvocableMethod\` (AgentGetCaseSummaryAction.getCaseSummary)...`
+    ];
+    const match = mockCases[caseNo];
+    if (match) {
+      logs.push(`\u{1F50D} [SOQL SELECT] Querying Subject, Status, comments where CaseNumber = '${caseNo}'`);
+      logs.push(`\u2705 Apex returning Output Parameter:`);
+      logs.push(`   - summary: "Case #${caseNo}: '${match.subject}' is currently ${match.status}. Priority: ${match.priority}. Latest comment: '${match.comment}'"`);
+      logs.push(`   - isSuccess: true`);
+      logs.push(`\u{1F916} Agentforce: Merging data into conversational context successfully.`);
+    } else {
+      logs.push(`\u{1F50D} [SOQL SELECT] Querying CaseNumber = '${caseNo}'`);
+      logs.push(`\u274C System.QueryException: No rows returned for query.`);
+      logs.push(`\u2705 Apex returning Output Parameter:`);
+      logs.push(`   - summary: "Error retrieving case summary: Case number ${caseNo} not found."`);
+      logs.push(`   - isSuccess: false`);
+      logs.push(`\u{1F916} Agentforce: Fallback response matched for prompt failure.`);
+    }
+    setActionLogs(logs);
+  };
+  const runPromptSim = () => {
+    const acc = accountsData[selectedAccount];
+    let score = 0;
+    if (acc.name === "Acme Corp") score += 30;
+    if (acc.country !== "USA") score += 20;
+    score += numCases * 15;
+    let riskRating = "Low";
+    if (score >= 60) riskRating = "Critical";
+    else if (score >= 40) riskRating = "High";
+    else if (score >= 25) riskRating = "Medium";
+    const templateText = `You are a Salesforce Service Agent. Summarize account information for ${acc.name}. Accounts Country: ${acc.country}. Revenue: ${acc.revenue}. Custom Calculated Risk Rating is: ${riskRating} (Score: ${score}). Please draft a high-touch outreach message based on this risk level.`;
+    setResolvedPrompt(templateText);
+  };
+  const runChatClassifier = () => {
+    if (!chatInput.trim()) return;
+    const text = chatInput.trim();
+    const cleanText = text.toLowerCase();
+    setChatHistory((prev) => [...prev, { sender: "user", text }]);
+    setChatInput("");
+    if (slotFillingState) {
+      const topic = slotFillingState.topic;
+      const collectedSlots = { ...slotFillingState.slots };
+      if (topic === "Billing_Support" && slotFillingState.missingSlot === "invoiceNumber") {
+        collectedSlots.invoiceNumber = text.toUpperCase();
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "agent", text: `Got it. Checking billing ledger for Invoice ${text.toUpperCase()}...` },
+          { sender: "classifier", text: `\u{1F3AF} Topic Classified: Billing_Support (Slot invoiceNumber = ${text.toUpperCase()} filled)` },
+          { sender: "agent", text: `Invoice ${text.toUpperCase()} has been processed and is currently fully PAID. You can download the PDF statement.` }
+        ]);
+        setSlotFillingState(null);
+      } else if (topic === "Loan_Application" && slotFillingState.missingSlot === "loanType") {
+        collectedSlots.loanType = text;
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "agent", text: `Thank you. Starting a ${text} loan application worksheet.` },
+          { sender: "classifier", text: `\u{1F3AF} Topic Classified: Loan_Application (Slot loanType = ${text} filled)` },
+          { sender: "agent", text: `I have opened application #L-${Math.floor(1e3 + Math.random() * 9e3)}. Please submit your tax and identity documents.` }
+        ]);
+        setSlotFillingState(null);
+      }
+      return;
+    }
+    if (cleanText.includes("billing") || cleanText.includes("invoice") || cleanText.includes("pay")) {
+      const invMatch = text.toUpperCase().match(/INV-\d{4}/);
+      if (invMatch) {
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "classifier", text: `\u{1F3AF} Topic Classified: Billing_Support (Confidence: 0.94, slots matched = ${invMatch[0]})` },
+          { sender: "agent", text: `Looking up Invoice ${invMatch[0]}. It is currently PAID. Let me know if you need to dispute any item.` }
+        ]);
+      } else {
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "classifier", text: `\u{1F3AF} Topic Classified: Billing_Support (Confidence: 0.82, missing slots: invoiceNumber)` },
+          { sender: "agent", text: `I can help you check billing details. Could you please provide the invoice number (e.g. INV-1024)?` }
+        ]);
+        setSlotFillingState({ topic: "Billing_Support", slots: {}, missingSlot: "invoiceNumber" });
+      }
+    } else if (cleanText.includes("apply") || cleanText.includes("loan") || cleanText.includes("mortgage")) {
+      let type = "";
+      if (cleanText.includes("mortgage") || cleanText.includes("home")) type = "Mortgage";
+      else if (cleanText.includes("car") || cleanText.includes("auto")) type = "Auto";
+      if (type) {
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "classifier", text: `\u{1F3AF} Topic Classified: Loan_Application (Confidence: 0.91, slots matched = ${type})` },
+          { sender: "agent", text: `Opening a new ${type} loan application pipeline. Would you like to proceed with calculating rates?` }
+        ]);
+      } else {
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "classifier", text: `\u{1F3AF} Topic Classified: Loan_Application (Confidence: 0.88, missing slots: loanType)` },
+          { sender: "agent", text: `I can help you start a loan application. What type of loan are you applying for? (Mortgage, Auto, or Personal)?` }
+        ]);
+        setSlotFillingState({ topic: "Loan_Application", slots: {}, missingSlot: "loanType" });
+      }
+    } else {
+      setChatHistory((prev) => [
+        ...prev,
+        { sender: "classifier", text: `\u{1F3AF} Topic Classified: General_Queries (Confidence: 0.76)` },
+        { sender: "agent", text: `I'm matching that to General Queries. Could you rephrase your question with 'billing' or 'loan application' keywords to test Slot-filling routing?` }
+      ]);
+    }
+  };
+  return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "280px 1fr", gap: 32 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 8, paddingLeft: 8 } }, "Agentforce Recipes"), [
+    { id: "invocableAction", name: "1. Agent Invocable Action", desc: "Apex Action prompt parameters" },
+    { id: "promptResolver", name: "2. Prompt Grounding Template", desc: "Dynamic Prompt Builder resolver" },
+    { id: "topicRouter", name: "3. Conversational Topic Classifier", desc: "NLP Topic classification and slots" }
+  ].map((rec) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: rec.id,
+      onClick: () => setSelectedRecipe(rec.id),
+      className: "hoverable",
+      style: {
+        textAlign: "left",
+        padding: "14px 18px",
+        background: selectedRecipe === rec.id ? "rgba(0,161,224,0.08)" : "rgba(255,255,255,0.02)",
+        border: "1px solid " + (selectedRecipe === rec.id ? "var(--accent)" : "var(--line)"),
+        borderRadius: 14,
+        color: selectedRecipe === rec.id ? "white" : "var(--ink-2)",
+        cursor: "pointer",
+        transition: "all 0.2s"
+      }
+    },
+    /* @__PURE__ */ React.createElement("strong", { style: { display: "block", fontSize: 13.5, marginBottom: 4 } }, rec.name),
+    /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11.5, color: selectedRecipe === rec.id ? "var(--accent-deep)" : "var(--ink-3)" } }, rec.desc)
+  ))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 24 } }, /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(10,18,48,0.25)", border: "1px solid var(--line)", padding: 24, borderRadius: 18 } }, selectedRecipe === "invocableAction" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Agentforce Action (Invocable Apex Method)"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Shows how to implement an Apex `@InvocableMethod` exposed to Agentforce Agents. Agents leverage natural language processing to extract parameters from user chats, dynamically bind them to custom wrapper inputs, and execute the Apex context.")), selectedRecipe === "promptResolver" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Prompt Builder Grounding Template Resolver"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Illustrates how to ground LLM Prompts dynamically with Salesforce record fields and calculate complex tokens in Apex by extending `Process.PromptTemplateResolver`. Grounding ensures prompts are anchored with accurate corporate database parameters.")), selectedRecipe === "topicRouter" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Agentforce Topic Classifier & Slot-Filler"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "A simulation of Topic classification in Agentforce. Incoming messages are analyzed. If matched to a specific Topic, the Agent verifies if all required slot-filling parameters are present; if not, it prompts the user to provide them."))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" } }, /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 18, background: "rgba(10,18,48,0.45)", border: "1px solid var(--line)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: 12, marginBottom: 20 } }, /* @__PURE__ */ React.createElement("strong", { style: { fontSize: 12, color: "var(--accent-deep)", textTransform: "uppercase", letterSpacing: ".05em" } }, "\u26A1 INTERACTIVE SANDBOX"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, background: "rgba(0,161,224,0.1)", color: "var(--accent)", padding: "4px 8px", borderRadius: 4, fontWeight: 700 } }, "AI AGENT SIMULATOR")), selectedRecipe === "invocableAction" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, "1. Simulated LLM Input (Case Number)"), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: caseNo,
+      onChange: (e) => setCaseNo(e.target.value),
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "1024" }, "Case 1024 (Invoice discrepancy - High priority)"),
+    /* @__PURE__ */ React.createElement("option", { value: "1045" }, "Case 1045 (API Timeout - Critical priority)"),
+    /* @__PURE__ */ React.createElement("option", { value: "9999" }, "Case 9999 (Invalid/Non-existent)")
+  )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { onClick: runInvocableSim, className: "btn primary hoverable", style: { width: "100%", justifyContent: "center", padding: "10px" } }, "Invoke Agent Apex Method")), /* @__PURE__ */ React.createElement("div", { style: {
+    background: "#030612",
+    border: "1px solid var(--line-2)",
+    borderRadius: 10,
+    padding: 12,
+    fontFamily: "var(--font-mono)",
+    height: 120,
+    overflowY: "auto",
+    fontSize: 11
+  } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "var(--ink-3)", borderBottom: "1px solid rgba(255,255,255,0.05)", paddingBottom: 4, marginBottom: 6 } }, "AGENTFORCE SYSTEM LOGS"), actionLogs.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { color: "rgba(244,248,255,0.25)" } }, "Invoke action to show LLM/Apex telemetry trace.") : actionLogs.map((log, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: {
+    color: log.includes("\u274C") ? "#e74c3c" : log.includes("\u2705") ? "#2ecc71" : "rgba(244,248,255,0.65)",
+    marginBottom: 4
+  } }, log)))), selectedRecipe === "promptResolver" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, "Grounding Record"), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: selectedAccount,
+      onChange: (e) => setSelectedAccount(e.target.value),
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "Acme" }, "Acme Corp (USA - $12M revenue)"),
+    /* @__PURE__ */ React.createElement("option", { value: "Globex" }, "Globex Inc (India - $8.5M revenue)"),
+    /* @__PURE__ */ React.createElement("option", { value: "Initech" }, "Initech LLC (UK - $4.2M revenue)")
+  )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, "Open Cases (Score)"), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "number",
+      value: numCases,
+      onChange: (e) => setNumCases(parseInt(e.target.value) || 0),
+      min: "0",
+      max: "10",
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    }
+  ))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { onClick: runPromptSim, className: "btn primary hoverable", style: { width: "100%", justifyContent: "center", padding: "10px" } }, "\u2699\uFE0F Resolve Prompt Template")), resolvedPrompt && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid var(--line-2)", paddingTop: 14 } }, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 11, color: "var(--ink-3)", marginBottom: 4 } }, "RESOLVED GROUNDED PROMPT TEXT"), /* @__PURE__ */ React.createElement("div", { style: {
+    padding: 12,
+    background: "rgba(0,0,0,0.2)",
+    border: "1px solid var(--line-2)",
+    borderRadius: 8,
+    fontSize: 12,
+    lineHeight: 1.4,
+    color: "white"
+  } }, resolvedPrompt))), selectedRecipe === "topicRouter" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 12 } }, /* @__PURE__ */ React.createElement("div", { style: {
+    height: 180,
+    overflowY: "auto",
+    border: "1px solid var(--line)",
+    borderRadius: 10,
+    background: "rgba(0,0,0,0.3)",
+    padding: 12,
+    display: "flex",
+    flexDirection: "column",
+    gap: 10
+  } }, chatHistory.map((chat, i) => /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      key: i,
+      style: {
+        alignSelf: chat.sender === "user" ? "flex-end" : "flex-start",
+        maxWidth: "85%",
+        padding: chat.sender === "classifier" ? "4px 8px" : "8px 12px",
+        borderRadius: 10,
+        fontSize: chat.sender === "classifier" ? 10.5 : 12.5,
+        fontFamily: chat.sender === "classifier" ? "var(--font-mono)" : "inherit",
+        background: chat.sender === "user" ? "var(--accent)" : chat.sender === "classifier" ? "rgba(255,220,140,0.1)" : "rgba(255,255,255,0.06)",
+        border: chat.sender === "classifier" ? "1px solid rgba(255,220,140,0.2)" : "none",
+        color: chat.sender === "classifier" ? "#ffd479" : "white"
+      }
+    },
+    chat.text
+  ))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      value: chatInput,
+      onChange: (e) => setChatInput(e.target.value),
+      onKeyDown: (e) => {
+        if (e.key === "Enter") runChatClassifier();
+      },
+      placeholder: "Type: 'billing INV-2021' or 'apply loan'...",
+      style: {
+        flex: 1,
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    }
+  ), /* @__PURE__ */ React.createElement("button", { onClick: runChatClassifier, className: "btn primary hoverable", style: { padding: "8px 16px", fontSize: 13 } }, "Send")))), /* @__PURE__ */ React.createElement("div", { className: "card", style: { display: "flex", flexDirection: "column", height: "100%", borderRadius: 18, border: "1px solid var(--line)", background: "rgba(3,6,18,0.7)" } }, /* @__PURE__ */ React.createElement("div", { style: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: "1px solid var(--line)",
+    padding: "10px 16px",
+    background: "rgba(255,255,255,0.02)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6 } }, [
+    { id: "cls", label: "Apex Class (.cls)" },
+    { id: "json", label: "Agent Config (.json / .prompt)" }
+  ].map((tab) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: tab.id,
+      onClick: () => setActiveTab(tab.id),
+      style: {
+        background: activeTab === tab.id ? "rgba(0,161,224,0.12)" : "transparent",
+        border: "none",
+        color: activeTab === tab.id ? "white" : "var(--ink-3)",
+        fontSize: 12.5,
+        fontWeight: 600,
+        padding: "6px 12px",
+        borderRadius: 6,
+        cursor: "pointer"
+      }
+    },
+    tab.label
+  ))), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "btn ghost hoverable",
+      onClick: copyCode,
+      style: {
+        padding: "6px 14px",
+        fontSize: 11,
+        border: "1px solid var(--line-2)",
+        borderRadius: 6,
+        height: "auto",
+        margin: 0
+      }
+    },
+    copied ? "\u2713 Copied!" : "\u{1F4CB} Copy Code"
+  )), /* @__PURE__ */ React.createElement("pre", { style: {
+    margin: 0,
+    padding: 20,
+    overflowX: "auto",
+    fontSize: 12.5,
+    lineHeight: 1.5,
+    fontFamily: "var(--font-mono)",
+    color: "rgba(244,248,255,0.85)",
+    background: "rgba(0,0,0,0.2)",
+    height: 340,
+    overflowY: "auto"
+  } }, /* @__PURE__ */ React.createElement("code", null, AGENT_CODES[selectedRecipe][activeTab]))))));
+}
+Object.assign(window, { PageAgentRecipes });
+
+
+/* ── trailhead/page-soql-recipes.jsx ── */
+/* hooks from shim */
+const SOQL_CODES = {
+  relationship: {
+    soql: `// 1. Parent-to-Child Subquery (Retrieves Accounts and their sub-list of Contacts)
+SELECT Name, Industry, AnnualRevenue, 
+       (SELECT FirstName, LastName, Email, Title FROM Contacts) 
+FROM Account 
+WHERE Industry = 'Finance' LIMIT 5
+
+// 2. Child-to-Parent Query (Retrieves Contacts and references parent Account fields)
+SELECT FirstName, LastName, Email, Title,
+       Account.Name, Account.Industry, Account.AnnualRevenue
+FROM Contact
+WHERE Account.Industry = 'Finance' LIMIT 10`,
+    cls: `public class RelationshipQueryController {
+    
+    public static void printAccountContacts() {
+        // Execute Parent-to-Child query
+        List<Account> accounts = [SELECT Name, Industry, 
+                                         (SELECT FirstName, LastName, Email FROM Contacts) 
+                                  FROM Account 
+                                  WHERE Industry = 'Finance' LIMIT 5];
+        
+        for (Account acc : accounts) {
+            System.debug('Account Name: ' + acc.Name);
+            // Loop through child record sub-list
+            for (Contact con : acc.Contacts) {
+                System.debug(' -> Contact: ' + con.FirstName + ' ' + con.LastName + ' (' + con.Email + ')');
+            }
+        }
+    }
+
+    public static void printContactParents() {
+        // Execute Child-to-Parent query
+        List<Contact> contacts = [SELECT FirstName, LastName, Account.Name, Account.Industry 
+                                  FROM Contact 
+                                  WHERE Account.Industry = 'Finance' LIMIT 10];
+        
+        for (Contact con : contacts) {
+            System.debug('Contact Name: ' + con.FirstName + ' ' + con.LastName + 
+                         ' works at Account: ' + con.Account.Name);
+        }
+    }
+}`
+  },
+  aggregates: {
+    soql: `// Aggregate opportunities by Stage with filter and total rollup
+SELECT StageName, 
+       COUNT(Id) totalOpportunities, 
+       SUM(Amount) totalAmount, 
+       AVG(Amount) averageAmount
+FROM Opportunity
+GROUP BY ROLLUP(StageName)
+HAVING SUM(Amount) > :minAmountThreshold`,
+    cls: `public class OpportunityAggregateController {
+    
+    public class AggregateRow {
+        public String stage;
+        public Integer count;
+        public Decimal sumAmount;
+        public Decimal avgAmount;
+    }
+
+    public static List<AggregateRow> getOpportunityAggregates(Decimal minAmountThreshold) {
+        List<AggregateRow> results = new List<AggregateRow>();
+        
+        // Execute aggregate query and load AggregateResult list
+        List<AggregateResult> groupedResults = [
+            SELECT StageName, 
+                   COUNT(Id) opCount, 
+                   SUM(Amount) opSum, 
+                   AVG(Amount) opAvg
+            FROM Opportunity
+            GROUP BY ROLLUP(StageName)
+            HAVING SUM(Amount) > :minAmountThreshold
+        ];
+        
+        for (AggregateResult ar : groupedResults) {
+            AggregateRow row = new AggregateRow();
+            // Cast aggregated values (using aliases)
+            row.stage = (String) ar.get('StageName');
+            row.count = (Integer) ar.get('opCount');
+            row.sumAmount = (Decimal) ar.get('opSum');
+            row.avgAmount = (Decimal) ar.get('opAvg');
+            results.add(row);
+        }
+        return results;
+    }
+}`
+  },
+  injection: {
+    soql: `// 1. VULNERABLE DYNAMIC SOQL (Vulnerable to SOQL Injection)
+String query = 'SELECT Id, Name, Rating FROM Account WHERE Name = \\'' + userInput + '\\'';
+List<Account> accounts = Database.query(query);
+
+// 2. SECURED DYNAMIC SOQL (Safe - Using Bind Variables)
+String query = 'SELECT Id, Name, Rating FROM Account WHERE Name = :userInput';
+List<Account> accounts = Database.query(query);
+
+// 3. SECURED DYNAMIC SOQL (Safe - Using String Sanitization)
+String sanitizedInput = String.escapeSingleQuotes(userInput);
+String query = 'SELECT Id, Name, Rating FROM Account WHERE Name = \\'' + sanitizedInput + '\\'';
+List<Account> accounts = Database.query(query);`,
+    cls: `public class AccountSearchController {
+    
+    // \u274C VULNERABLE METHOD
+    public static List<Account> searchVulnerable(String searchString) {
+        // Direct string concatenation allows attackers to append clauses
+        String query = 'SELECT Id, Name, Rating, Active__c FROM Account WHERE Name = \\'' + searchString + '\\'';
+        return Database.query(query);
+    }
+
+    // \u2705 SECURED METHOD (BIND VARIABLE METHOD)
+    public static List<Account> searchSecuredBind(String searchString) {
+        // Database engine treats bind value strictly as data - SQL injection proof
+        String query = 'SELECT Id, Name, Rating, Active__c FROM Account WHERE Name = :searchString';
+        return Database.query(query);
+    }
+
+    // \u2705 SECURED METHOD (STRING ESCAPE METHOD)
+    public static List<Account> searchSecuredEscape(String searchString) {
+        // escapeSingleQuotes prevents closed quotes from modifying query structure
+        String safeString = String.escapeSingleQuotes(searchString);
+        String query = 'SELECT Id, Name, Rating, Active__c FROM Account WHERE Name = \\'' + safeString + '\\'';
+        return Database.query(query);
+    }
+}`
+  }
+};
+function PageSoqlRecipes() {
+  const [selectedRecipe, setSelectedRecipe] = useState("relationship");
+  const [activeTab, setActiveTab] = useState("soql");
+  const [copied, setCopied] = useState(false);
+  const [queryType, setQueryType] = useState("parentToChild");
+  const [queryResultJson, setQueryResultJson] = useState("");
+  const [amountThreshold, setAmountThreshold] = useState(5e4);
+  const [aggregateData, setAggregateData] = useState([]);
+  const [injectionPayload, setInjectionPayload] = useState("Acme' OR Rating = 'Hot");
+  const [injectionLogs, setInjectionLogs] = useState(null);
+  useEffect(() => {
+    setCopied(false);
+  }, [selectedRecipe, activeTab]);
+  const copyCode = () => {
+    const codeText = SOQL_CODES[selectedRecipe][activeTab];
+    navigator.clipboard.writeText(codeText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2e3);
+    });
+  };
+  const runRelationshipQuery = () => {
+    if (queryType === "parentToChild") {
+      const mockResult = [
+        {
+          Id: "0018W00002SpXqyQAF",
+          Name: "Apex Finance Group",
+          Industry: "Finance",
+          AnnualRevenue: 52e5,
+          Contacts: {
+            totalSize: 2,
+            done: true,
+            records: [
+              { Id: "0038W00002YtTzXQAF", FirstName: "David", LastName: "Miller", Email: "d.miller@apexfin.com", Title: "Managing Director" },
+              { Id: "0038W00002YtTzYQAF", FirstName: "Sarah", LastName: "Conner", Email: "s.conner@apexfin.com", Title: "Lead Controller" }
+            ]
+          }
+        },
+        {
+          Id: "0018W00002SpXqzQAF",
+          Name: "Capital Venture Corp",
+          Industry: "Finance",
+          AnnualRevenue: 124e5,
+          Contacts: {
+            totalSize: 1,
+            done: true,
+            records: [
+              { Id: "0038W00002YtTzZQAF", FirstName: "Robert", LastName: "Chen", Email: "r.chen@capventure.com", Title: "VP of Assets" }
+            ]
+          }
+        }
+      ];
+      setQueryResultJson(JSON.stringify(mockResult, null, 2));
+    } else {
+      const mockResult = [
+        {
+          Id: "0038W00002YtTzXQAF",
+          FirstName: "David",
+          LastName: "Miller",
+          Email: "d.miller@apexfin.com",
+          Title: "Managing Director",
+          Account: {
+            Name: "Apex Finance Group",
+            Industry: "Finance",
+            AnnualRevenue: 52e5
+          }
+        },
+        {
+          Id: "0038W00002YtTzYQAF",
+          FirstName: "Sarah",
+          LastName: "Conner",
+          Email: "s.conner@apexfin.com",
+          Title: "Lead Controller",
+          Account: {
+            Name: "Apex Finance Group",
+            Industry: "Finance",
+            AnnualRevenue: 52e5
+          }
+        },
+        {
+          Id: "0038W00002YtTzZQAF",
+          FirstName: "Robert",
+          LastName: "Chen",
+          Email: "r.chen@capventure.com",
+          Title: "VP of Assets",
+          Account: {
+            Name: "Capital Venture Corp",
+            Industry: "Finance",
+            AnnualRevenue: 124e5
+          }
+        }
+      ];
+      setQueryResultJson(JSON.stringify(mockResult, null, 2));
+    }
+  };
+  const calculateAggregates = () => {
+    const stages = [
+      { stage: "Prospecting", count: 12, sum: 45e3, avg: 3750 },
+      { stage: "Qualification", count: 8, sum: 72e3, avg: 9e3 },
+      { stage: "Proposal/Price Quote", count: 15, sum: 18e4, avg: 12e3 },
+      { stage: "Negotiation/Review", count: 6, sum: 11e4, avg: 18333 },
+      { stage: "Closed Won", count: 24, sum: 48e4, avg: 2e4 }
+    ];
+    let filtered = stages.filter((s) => s.sum > amountThreshold);
+    let totalCount = filtered.reduce((a, b) => a + b.count, 0);
+    let totalSum = filtered.reduce((a, b) => a + b.sum, 0);
+    let avgAmount = totalCount > 0 ? Math.round(totalSum / totalCount) : 0;
+    filtered.push({
+      stage: "ROLLUP (Total Summary Row)",
+      count: totalCount,
+      sum: totalSum,
+      avg: avgAmount,
+      isRollup: true
+    });
+    setAggregateData(filtered);
+  };
+  const analyzeInjection = () => {
+    let vulnerableQuery = `SELECT Id, Name, Rating FROM Account WHERE Name = '${injectionPayload}'`;
+    let vulnerableStatus = "";
+    let vulnerableRecords = [];
+    if (injectionPayload.includes("' OR") || injectionPayload.includes("' AND")) {
+      vulnerableStatus = "\u{1F6A8} INJECTION EXPLOIT SUCCESSFUL!";
+      vulnerableRecords = [
+        { Name: "Acme Corp", Rating: "Hot" },
+        { Name: "Globex International", Rating: "Hot" },
+        { Name: "Initech LLC", Rating: "Cold" },
+        { Name: "Capital Venture", Rating: "Hot" }
+      ];
+    } else {
+      vulnerableStatus = "\u{1F7E2} Single record lookup resolved.";
+      vulnerableRecords = [
+        { Name: injectionPayload, Rating: "Warm" }
+      ];
+    }
+    const escapedInput = injectionPayload.replace(/'/g, "\\'");
+    let securedQuery = `SELECT Id, Name, Rating FROM Account WHERE Name = '${escapedInput}'`;
+    let securedStatus = "\u{1F6E1}\uFE0F INJECTION DEFENDED: Closed quotes successfully escaped.";
+    let securedRecords = [];
+    setInjectionLogs({
+      vulnerableQuery,
+      vulnerableStatus,
+      vulnerableRecords,
+      securedQuery,
+      securedStatus,
+      securedRecords
+    });
+  };
+  return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "280px 1fr", gap: 32 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 8, paddingLeft: 8 } }, "SOQL Recipes Directory"), [
+    { id: "relationship", name: "1. Relationship Queries", desc: "Parent-to-child subqueries & joins" },
+    { id: "aggregates", name: "2. Aggregation & Rollups", desc: "GROUP BY, HAVING and ROLLUP totals" },
+    { id: "injection", name: "3. Injection Defense", desc: "Dynamic SOQL sanitizing & binding" }
+  ].map((rec) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: rec.id,
+      onClick: () => setSelectedRecipe(rec.id),
+      className: "hoverable",
+      style: {
+        textAlign: "left",
+        padding: "14px 18px",
+        background: selectedRecipe === rec.id ? "rgba(0,161,224,0.08)" : "rgba(255,255,255,0.02)",
+        border: "1px solid " + (selectedRecipe === rec.id ? "var(--accent)" : "var(--line)"),
+        borderRadius: 14,
+        color: selectedRecipe === rec.id ? "white" : "var(--ink-2)",
+        cursor: "pointer",
+        transition: "all 0.2s"
+      }
+    },
+    /* @__PURE__ */ React.createElement("strong", { style: { display: "block", fontSize: 13.5, marginBottom: 4 } }, rec.name),
+    /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11.5, color: selectedRecipe === rec.id ? "var(--accent-deep)" : "var(--ink-3)" } }, rec.desc)
+  ))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 24 } }, /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(10,18,48,0.25)", border: "1px solid var(--line)", padding: 24, borderRadius: 18 } }, selectedRecipe === "relationship" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Relationship queries (Inner Joins & Subqueries)"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Examines parent-to-child and child-to-parent join queries. Salesforce handles relationships natively: subqueries query children within the parent selection scope, while lookup dot-notation queries parent lookup attributes dynamically in one single SQL execution.")), selectedRecipe === "aggregates" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Aggregations, HAVING, and GROUP BY ROLLUP"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Demonstrates how to run heavy database calculations (counting records, summing amounts, extracting averages) directly inside the database index engine using GROUP BY, filter aggregate scopes with HAVING, and dynamically append total sum summaries with GROUP BY ROLLUP.")), selectedRecipe === "injection" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 20, fontWeight: 700, margin: "0 0 8px" } }, "Dynamic SOQL & SQL Injection Defenses"), /* @__PURE__ */ React.createElement("p", { style: { color: "var(--ink-2)", fontSize: 14, margin: 0, lineHeight: 1.5 } }, "Provides code guidelines to secure dynamic database queries in Salesforce. Direct string concatenation can open vulnerabilities allowing attackers to bypass object filters. Securing requires bind variables or string escaping."))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" } }, /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 18, background: "rgba(10,18,48,0.45)", border: "1px solid var(--line)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: 12, marginBottom: 20 } }, /* @__PURE__ */ React.createElement("strong", { style: { fontSize: 12, color: "var(--accent-deep)", textTransform: "uppercase", letterSpacing: ".05em" } }, "\u26A1 INTERACTIVE SANDBOX"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, background: "rgba(0,161,224,0.1)", color: "var(--accent)", padding: "4px 8px", borderRadius: 4, fontWeight: 700 } }, "DATABASE SIMULATOR")), selectedRecipe === "relationship" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, "1. Select Query Schema Type"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12 } }, /* @__PURE__ */ React.createElement("label", { style: { display: "flex", alignItems: "center", gap: 6, fontSize: 13, cursor: "pointer" } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "radio",
+      name: "qtype",
+      checked: queryType === "parentToChild",
+      onChange: () => {
+        setQueryType("parentToChild");
+        setQueryResultJson("");
+      },
+      style: { cursor: "pointer" }
+    }
+  ), "Parent-to-Child (Subquery)"), /* @__PURE__ */ React.createElement("label", { style: { display: "flex", alignItems: "center", gap: 6, fontSize: 13, cursor: "pointer" } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "radio",
+      name: "qtype",
+      checked: queryType === "childToParent",
+      onChange: () => {
+        setQueryType("childToParent");
+        setQueryResultJson("");
+      },
+      style: { cursor: "pointer" }
+    }
+  ), "Child-to-Parent (Lookup Joins)"))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { onClick: runRelationshipQuery, className: "btn primary hoverable", style: { width: "100%", justifyContent: "center", padding: "10px" } }, "\u{1F50D} Execute SOQL Query")), queryResultJson && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid var(--line-2)", paddingTop: 14 } }, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 11, color: "var(--ink-3)", marginBottom: 4 } }, "RETRIEVED DATA TREE (JSON ARRAY)"), /* @__PURE__ */ React.createElement("pre", { style: {
+    padding: 12,
+    background: "rgba(0,0,0,0.25)",
+    border: "1px solid var(--line-2)",
+    borderRadius: 8,
+    fontSize: 11.5,
+    color: "#2ecc71",
+    maxHeight: 180,
+    overflowY: "auto",
+    fontFamily: "var(--font-mono)",
+    margin: 0
+  } }, queryResultJson))), selectedRecipe === "aggregates" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, /* @__PURE__ */ React.createElement("label", null, "HAVING SUM(Amount) Threshold"), /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--accent-deep)" } }, "$", amountThreshold.toLocaleString())), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "range",
+      min: "10000",
+      max: "200000",
+      step: "10000",
+      value: amountThreshold,
+      onChange: (e) => setAmountThreshold(parseInt(e.target.value)),
+      style: { width: "100%", cursor: "pointer" }
+    }
+  ), /* @__PURE__ */ React.createElement("small", { style: { color: "var(--ink-3)", fontSize: 10.5 } }, "Filters out groups with combined amount below this limit.")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { onClick: calculateAggregates, className: "btn primary hoverable", style: { width: "100%", justifyContent: "center", padding: "10px" } }, "\u{1F4CA} Calculate Aggregate Totals")), aggregateData.length > 0 && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid var(--line-2)", paddingTop: 14, overflowX: "auto" } }, /* @__PURE__ */ React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: 12.5, textAlign: "left" } }, /* @__PURE__ */ React.createElement("thead", null, /* @__PURE__ */ React.createElement("tr", { style: { borderBottom: "1px solid var(--line)", color: "var(--ink-3)" } }, /* @__PURE__ */ React.createElement("th", { style: { padding: "6px 4px" } }, "StageName"), /* @__PURE__ */ React.createElement("th", { style: { padding: "6px 4px" } }, "Count"), /* @__PURE__ */ React.createElement("th", { style: { padding: "6px 4px" } }, "Sum(Amount)"), /* @__PURE__ */ React.createElement("th", { style: { padding: "6px 4px" } }, "Avg(Amount)"))), /* @__PURE__ */ React.createElement("tbody", null, aggregateData.map((row, i) => /* @__PURE__ */ React.createElement(
+    "tr",
+    {
+      key: i,
+      style: {
+        borderBottom: "1px solid var(--line-2)",
+        background: row.isRollup ? "rgba(0,161,224,0.08)" : "transparent",
+        fontWeight: row.isRollup ? 700 : "normal",
+        color: row.isRollup ? "var(--accent-deep)" : "white"
+      }
+    },
+    /* @__PURE__ */ React.createElement("td", { style: { padding: "8px 4px" } }, row.stage || "(null)"),
+    /* @__PURE__ */ React.createElement("td", { style: { padding: "8px 4px" } }, row.count),
+    /* @__PURE__ */ React.createElement("td", { style: { padding: "8px 4px" } }, "$", row.sum.toLocaleString()),
+    /* @__PURE__ */ React.createElement("td", { style: { padding: "8px 4px" } }, "$", row.avg.toLocaleString())
+  )))))), selectedRecipe === "injection" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: { display: "block", fontSize: 13, color: "var(--ink-2)", marginBottom: 6 } }, "1. Select/Type Database Exploit Payload"), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: injectionPayload,
+      onChange: (e) => setInjectionPayload(e.target.value),
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none",
+        marginBottom: 8
+      }
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "Acme' OR Rating = 'Hot" }, "Vulnerable: Acme' OR Rating = 'Hot (Expose hot accounts)"),
+    /* @__PURE__ */ React.createElement("option", { value: "Acme' AND AnnualRevenue > 5000000" }, "Vulnerable: Acme' AND AnnualRevenue > $5M"),
+    /* @__PURE__ */ React.createElement("option", { value: "Acme Corp" }, "Safe Name: Acme Corp (Standard lookup)")
+  ), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      value: injectionPayload,
+      onChange: (e) => setInjectionPayload(e.target.value),
+      placeholder: "Or type custom injection payload...",
+      style: {
+        width: "100%",
+        padding: "8px 12px",
+        background: "rgba(0,0,0,0.3)",
+        border: "1px solid var(--line)",
+        borderRadius: 6,
+        color: "white",
+        outline: "none"
+      }
+    }
+  )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("button", { onClick: analyzeInjection, className: "btn primary hoverable", style: { width: "100%", justifyContent: "center", padding: "10px" } }, "\u{1F6E1}\uFE0F Analyze Security Performance")), injectionLogs && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 14, borderTop: "1px solid var(--line-2)", paddingTop: 14 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, color: "var(--ink-3)" } }, "1. VULNERABLE DYNAMIC QUERY CODE"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, background: "rgba(231,76,60,0.15)", color: "#e74c3c", padding: "2px 6px", borderRadius: 4, fontWeight: 700 } }, "EXPOSED")), /* @__PURE__ */ React.createElement("div", { style: {
+    padding: 10,
+    background: "rgba(231,76,60,0.04)",
+    border: "1px solid rgba(231,76,60,0.2)",
+    borderRadius: 8,
+    fontSize: 11,
+    lineHeight: 1.4,
+    fontFamily: "var(--font-mono)",
+    color: "#f1c40f",
+    marginTop: 4
+  } }, injectionLogs.vulnerableQuery), /* @__PURE__ */ React.createElement("small", { style: { color: "#e74c3c", display: "block", marginTop: 4, fontSize: 11 } }, injectionLogs.vulnerableStatus, " Matches found: ", injectionLogs.vulnerableRecords.length, " records returned.")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, color: "var(--ink-3)" } }, "2. SECURED QUERY CODE"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, background: "rgba(46,204,113,0.15)", color: "#2ecc71", padding: "2px 6px", borderRadius: 4, fontWeight: 700 } }, "SECURE")), /* @__PURE__ */ React.createElement("div", { style: {
+    padding: 10,
+    background: "rgba(46,204,113,0.04)",
+    border: "1px solid rgba(46,204,113,0.2)",
+    borderRadius: 8,
+    fontSize: 11,
+    lineHeight: 1.4,
+    fontFamily: "var(--font-mono)",
+    color: "var(--accent-deep)",
+    marginTop: 4
+  } }, injectionLogs.securedQuery), /* @__PURE__ */ React.createElement("small", { style: { color: "#2ecc71", display: "block", marginTop: 4, fontSize: 11 } }, injectionLogs.securedStatus, " Matches found: 0 records returned."))))), /* @__PURE__ */ React.createElement("div", { className: "card", style: { display: "flex", flexDirection: "column", height: "100%", borderRadius: 18, border: "1px solid var(--line)", background: "rgba(3,6,18,0.7)" } }, /* @__PURE__ */ React.createElement("div", { style: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: "1px solid var(--line)",
+    padding: "10px 16px",
+    background: "rgba(255,255,255,0.02)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6 } }, [
+    { id: "soql", label: "SOQL Statement (.soql)" },
+    { id: "cls", label: "Controller (.cls)" }
+  ].map((tab) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: tab.id,
+      onClick: () => setActiveTab(tab.id),
+      style: {
+        background: activeTab === tab.id ? "rgba(0,161,224,0.12)" : "transparent",
+        border: "none",
+        color: activeTab === tab.id ? "white" : "var(--ink-3)",
+        fontSize: 12.5,
+        fontWeight: 600,
+        padding: "6px 12px",
+        borderRadius: 6,
+        cursor: "pointer"
+      }
+    },
+    tab.label
+  ))), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "btn ghost hoverable",
+      onClick: copyCode,
+      style: {
+        padding: "6px 14px",
+        fontSize: 11,
+        border: "1px solid var(--line-2)",
+        borderRadius: 6,
+        height: "auto",
+        margin: 0
+      }
+    },
+    copied ? "\u2713 Copied!" : "\u{1F4CB} Copy Code"
+  )), /* @__PURE__ */ React.createElement("pre", { style: {
+    margin: 0,
+    padding: 20,
+    overflowX: "auto",
+    fontSize: 12.5,
+    lineHeight: 1.5,
+    fontFamily: "var(--font-mono)",
+    color: "rgba(244,248,255,0.85)",
+    background: "rgba(0,0,0,0.2)",
+    height: 340,
+    overflowY: "auto"
+  } }, /* @__PURE__ */ React.createElement("code", null, SOQL_CODES[selectedRecipe][activeTab]))))));
+}
+Object.assign(window, { PageSoqlRecipes });
+
+
 /* ── trailhead/page-demos.jsx ── */
 /* hooks from shim */
 const ARTICLES = window.__SF_DATA__ && window.__SF_DATA__.articles || [];
@@ -5743,6 +7285,8 @@ function PageDemos({ go }) {
   };
   return /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement("section", { className: "page" }, /* @__PURE__ */ React.createElement("div", { className: "container", style: { maxWidth: 1200 } }, /* @__PURE__ */ React.createElement("div", { className: "page-head", style: { marginBottom: 40 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Research & Sandbox"), /* @__PURE__ */ React.createElement("h1", { className: "h-display", style: { fontSize: "clamp(48px, 6vw, 80px)", margin: "16px 0 12px" } }, "Demos & Articles"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { maxWidth: 640 } }, "Explore live interactive Salesforce simulations and technical articles synced directly from standard Salesforce Knowledge."))), /* @__PURE__ */ React.createElement("div", { style: {
     display: "flex",
+    flexWrap: "wrap",
+    rowGap: 8,
     gap: 16,
     borderBottom: "1px solid rgba(255,255,255,0.06)",
     marginBottom: 36,
@@ -5781,6 +7325,57 @@ function PageDemos({ go }) {
       }
     },
     "LWC Recipes"
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setActiveTab("apex"),
+      className: "hoverable",
+      style: {
+        background: "transparent",
+        border: "none",
+        fontSize: 16,
+        fontWeight: 700,
+        color: activeTab === "apex" ? "white" : "var(--ink-3)",
+        borderBottom: activeTab === "apex" ? "3px solid var(--accent)" : "3px solid transparent",
+        padding: "8px 16px 12px",
+        transition: "all 0.2s"
+      }
+    },
+    "Apex Recipes"
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setActiveTab("agent"),
+      className: "hoverable",
+      style: {
+        background: "transparent",
+        border: "none",
+        fontSize: 16,
+        fontWeight: 700,
+        color: activeTab === "agent" ? "white" : "var(--ink-3)",
+        borderBottom: activeTab === "agent" ? "3px solid var(--accent)" : "3px solid transparent",
+        padding: "8px 16px 12px",
+        transition: "all 0.2s"
+      }
+    },
+    "Agentforce Recipes"
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setActiveTab("soql"),
+      className: "hoverable",
+      style: {
+        background: "transparent",
+        border: "none",
+        fontSize: 16,
+        fontWeight: 700,
+        color: activeTab === "soql" ? "white" : "var(--ink-3)",
+        borderBottom: activeTab === "soql" ? "3px solid var(--accent)" : "3px solid transparent",
+        padding: "8px 16px 12px",
+        transition: "all 0.2s"
+      }
+    },
+    "SOQL Recipes"
   ), /* @__PURE__ */ React.createElement(
     "button",
     {
@@ -5891,7 +7486,7 @@ function PageDemos({ go }) {
     color: l.startsWith("\u2705") || l.includes("Completed") ? "#2ecc71" : l.includes("LIMITS") ? "var(--accent)" : "rgba(244,248,255,0.65)",
     marginBottom: 6,
     lineHeight: 1.4
-  } }, l))))), activeTab === "lwc" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 30 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "Lightning Web Component Recipes"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "A collection of production-grade, highly-configurable Lightning Web Component recipes with interactive sandboxes and code sheets.")), /* @__PURE__ */ React.createElement(PageLwcRecipes, null)), activeTab === "articles" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 36 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "Published Knowledge Base"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "Technical briefs and guides published directly from the standard Salesforce Knowledge base object (", /* @__PURE__ */ React.createElement("code", null, "Knowledge__kav"), ").")), ARTICLES.length === 0 ? /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 48, textPosition: "center", textAlign: "center", color: "var(--ink-3)" } }, /* @__PURE__ */ React.createElement(Icon, { name: "cloud", size: 32, style: { marginBottom: 12, opacity: 0.3 } }), /* @__PURE__ */ React.createElement("p", { style: { margin: 0, fontSize: 16 } }, "No Salesforce Knowledge articles published yet in this org.")) : /* @__PURE__ */ React.createElement("div", { style: {
+  } }, l))))), activeTab === "lwc" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 30 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "Lightning Web Component Recipes"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "A collection of production-grade, highly-configurable Lightning Web Component recipes with interactive sandboxes and code sheets.")), /* @__PURE__ */ React.createElement(PageLwcRecipes, null)), activeTab === "apex" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 30 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "Apex Recipes"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "Robust Apex Backend patterns covering trigger bypass frameworks, queueable chaining pipelines, and dynamically generated HTTP mock utilities.")), /* @__PURE__ */ React.createElement(PageApexRecipes, null)), activeTab === "agent" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 30 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "Agentforce Recipes"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "Advanced Salesforce AI recipes: Invocable method Actions, Prompt Template resolvers, and conversational natural language classifier routers.")), /* @__PURE__ */ React.createElement(PageAgentRecipes, null)), activeTab === "soql" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 30 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "SOQL Recipes"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "Database query practices for complex child-parent joins, aggregate rollups, and robust defenses against dynamic query injections.")), /* @__PURE__ */ React.createElement(PageSoqlRecipes, null)), activeTab === "articles" && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 36 } }, /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { fontSize: 28, margin: "0 0 10px" } }, "Published Knowledge Base"), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { fontSize: 15, maxWidth: 800 } }, "Technical briefs and guides published directly from the standard Salesforce Knowledge base object (", /* @__PURE__ */ React.createElement("code", null, "Knowledge__kav"), ").")), ARTICLES.length === 0 ? /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 48, textPosition: "center", textAlign: "center", color: "var(--ink-3)" } }, /* @__PURE__ */ React.createElement(Icon, { name: "cloud", size: 32, style: { marginBottom: 12, opacity: 0.3 } }), /* @__PURE__ */ React.createElement("p", { style: { margin: 0, fontSize: 16 } }, "No Salesforce Knowledge articles published yet in this org.")) : /* @__PURE__ */ React.createElement("div", { style: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
     gap: 20
