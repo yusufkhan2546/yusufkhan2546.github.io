@@ -3682,7 +3682,7 @@ function SFTextarea({ label, name, placeholder, required = false }) {
     }
   ));
 }
-function PageContact({ go }) {
+function PageContact({ go, mapplsToken }) {
   const [commType, setCommType] = React.useState("Architecture Review");
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
@@ -3857,11 +3857,230 @@ Here are some details about our project and what we'd like to build together:
     { label: "PASSENGER", value: "YUSUF KHAN" },
     { label: "CLASS", value: "LEAD DEV" },
     { label: "GATE", value: "JUL '26" }
-  ].map(({ label, value }) => /* @__PURE__ */ React.createElement("div", { key: label }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: ".14em", fontFamily: "var(--font-mono)" } }, label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-mono)", marginTop: 2 } }, value))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: ".14em", fontFamily: "var(--font-mono)" } }, "STATUS"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4ADE80", fontFamily: "var(--font-mono)", marginTop: 2, animation: "readyBlink 2.2s ease-in-out infinite" } }, "\u25CF READY")))), /* @__PURE__ */ React.createElement(ContactCard, { icon: "mail", label: "Email", value: "yusufkhantrailblazer@gmail.com", cta: "Compose", href: "mailto:yusufkhantrailblazer@gmail.com" }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "linkedin", label: "LinkedIn", value: "/in/yusufkhan2546", cta: "Connect", href: "https://www.linkedin.com/in/yusufkhan2546" }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "trail", label: "Trailblazer profile", value: "yusufkhan2546", cta: "View badges", href: "https://www.salesforce.com/trailblazer/yusufkhan2546" }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "whatsapp", label: "WhatsApp", value: "+91 9100652546", cta: "Chat", href: "https://wa.me/919100652546" }), /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 18, background: "linear-gradient(135deg, var(--sf-navy), #0A1B3C)", color: "white" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } }, /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 18, color: "var(--sf-blue)" }), /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-display)", fontSize: 18 } }, "Resume \u2014 2026")), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 13.5, color: "rgba(255,255,255,.7)", marginBottom: 16 } }, "One-page summary, certifications appendix, two reference case studies."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement("a", { href: "assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf", download: "Yusuf_Khan_Salesforce_Developer_Resume.pdf", className: "btn primary hoverable", style: { background: "var(--sf-blue)", textDecoration: "none" } }, "Download PDF ", /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 14 })))))), /* @__PURE__ */ React.createElement("div", { className: "card availability-strip", style: { marginTop: 40, padding: 28, borderRadius: 22, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { position: "relative", width: 14, height: 14, flexShrink: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { width: 14, height: 14, borderRadius: 99, background: "var(--sf-success)", animation: "bleep 1.8s ease-in-out infinite" } }), /* @__PURE__ */ React.createElement("style", null, `@keyframes bleep { 0%,100%{opacity:1; box-shadow:0 0 6px var(--sf-success);} 50%{opacity:0.4; box-shadow:0 0 14px var(--sf-success);} }`)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-display)", fontSize: 20 } }, "Available for new engagements"), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 14, marginTop: 2 } }, "Best fit: lead developer, architect-in-residence, or Salesforce AI strategy engagements.")), /* @__PURE__ */ React.createElement("button", { className: "btn dark hoverable avail-btn", onClick: () => go("home") }, /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 14 }), " Back to top")))));
+  ].map(({ label, value }) => /* @__PURE__ */ React.createElement("div", { key: label }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: ".14em", fontFamily: "var(--font-mono)" } }, label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-mono)", marginTop: 2 } }, value))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 8, color: "rgba(255,255,255,0.35)", letterSpacing: ".14em", fontFamily: "var(--font-mono)" } }, "STATUS"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#4ADE80", fontFamily: "var(--font-mono)", marginTop: 2, animation: "readyBlink 2.2s ease-in-out infinite" } }, "\u25CF READY")))), /* @__PURE__ */ React.createElement(ContactMap, { token: mapplsToken }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "mail", label: "Email", value: "yusufkhantrailblazer@gmail.com", cta: "Compose", href: "mailto:yusufkhantrailblazer@gmail.com" }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "linkedin", label: "LinkedIn", value: "/in/yusufkhan2546", cta: "Connect", href: "https://www.linkedin.com/in/yusufkhan2546" }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "trail", label: "Trailblazer profile", value: "yusufkhan2546", cta: "View badges", href: "https://www.salesforce.com/trailblazer/yusufkhan2546" }), /* @__PURE__ */ React.createElement(ContactCard, { icon: "whatsapp", label: "WhatsApp", value: "+91 9100652546", cta: "Chat", href: "https://wa.me/919100652546" }), /* @__PURE__ */ React.createElement("div", { className: "card", style: { padding: 24, borderRadius: 18, background: "linear-gradient(135deg, var(--sf-navy), #0A1B3C)", color: "white" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 12 } }, /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 18, color: "var(--sf-blue)" }), /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-display)", fontSize: 18 } }, "Resume \u2014 2026")), /* @__PURE__ */ React.createElement("p", { style: { fontSize: 13.5, color: "rgba(255,255,255,.7)", marginBottom: 16 } }, "One-page summary, certifications appendix, two reference case studies."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement("a", { href: "assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf", download: "Yusuf_Khan_Salesforce_Developer_Resume.pdf", className: "btn primary hoverable", style: { background: "var(--sf-blue)", textDecoration: "none" } }, "Download PDF ", /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 14 })))))), /* @__PURE__ */ React.createElement("div", { className: "card availability-strip", style: { marginTop: 40, padding: 28, borderRadius: 22, display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 24, alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { position: "relative", width: 14, height: 14, flexShrink: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { width: 14, height: 14, borderRadius: 99, background: "var(--sf-success)", animation: "bleep 1.8s ease-in-out infinite" } }), /* @__PURE__ */ React.createElement("style", null, `@keyframes bleep { 0%,100%{opacity:1; box-shadow:0 0 6px var(--sf-success);} 50%{opacity:0.4; box-shadow:0 0 14px var(--sf-success);} }`)), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("strong", { style: { fontFamily: "var(--font-display)", fontSize: 20 } }, "Available for new engagements"), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 14, marginTop: 2 } }, "Best fit: lead developer, architect-in-residence, or Salesforce AI strategy engagements.")), /* @__PURE__ */ React.createElement("button", { className: "btn dark hoverable avail-btn", onClick: () => go("home") }, /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 14 }), " Back to top")))));
 }
 function ContactCard({ icon, label, value, cta, href }) {
   const isExternal = href && href.startsWith("http");
   return /* @__PURE__ */ React.createElement("a", { href: href || "#", target: isExternal ? "_blank" : void 0, rel: isExternal ? "noopener noreferrer" : void 0, onClick: (e) => !href && e.preventDefault(), className: "card hoverable", style: { padding: 18, borderRadius: 16, display: "flex", alignItems: "center", gap: 14, color: "var(--ink)", textDecoration: "none" } }, /* @__PURE__ */ React.createElement("div", { style: { width: 40, height: 40, borderRadius: 12, background: "var(--accent)", display: "grid", placeItems: "center", color: "var(--accent-deep)" } }, /* @__PURE__ */ React.createElement(Icon, { name: icon, size: 20 })), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)" } }, label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14.5, fontWeight: 600, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, value)), cta && /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "var(--accent)" } }, cta, " \u2192"));
+}
+const loadResource = (url, type, callback) => {
+  const selector = type === "css" ? `link[href="${url}"]` : `script[src="${url}"]`;
+  if (document.querySelector(selector)) {
+    if (callback) callback();
+    return;
+  }
+  const el = document.createElement(type === "css" ? "link" : "script");
+  if (type === "css") {
+    el.rel = "stylesheet";
+    el.href = url;
+  } else {
+    el.src = url;
+    el.async = true;
+  }
+  el.onload = () => callback && callback();
+  el.onerror = () => console.error(`Error loading resource: ${url}`);
+  document.head.appendChild(el);
+};
+function ContactMap({ token }) {
+  const mapContainerRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const [mapType, setMapType] = useState("loading");
+  useEffect(() => {
+    let active = true;
+    const initMap = () => {
+      if (!mapContainerRef.current) return;
+      if (mapInstanceRef.current) {
+        try {
+          if (typeof mapInstanceRef.current.remove === "function") {
+            mapInstanceRef.current.remove();
+          } else if (typeof mapInstanceRef.current.destroy === "function") {
+            mapInstanceRef.current.destroy();
+          }
+        } catch (e) {
+          console.warn("Error cleaning up map instance:", e);
+        }
+        mapInstanceRef.current = null;
+      }
+      const lat = 17.385;
+      const lng = 78.4867;
+      if (token) {
+        setMapType("loading");
+        loadResource("https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=" + token, "js", () => {
+          if (!active) return;
+          if (window.mappls && window.mappls.Map) {
+            try {
+              const map = new window.mappls.Map(mapContainerRef.current, {
+                center: [lat, lng],
+                zoom: 11,
+                zoomControl: true,
+                hybrid: false
+              });
+              mapInstanceRef.current = map;
+              new window.mappls.Marker({
+                map,
+                position: { lat, lng },
+                popupHtml: '<div style="color:#111;padding:5px;font-family:sans-serif;font-size:12px;"><strong>Hyderabad Base</strong><br/>Salesforce Operations</div>'
+              });
+              setMapType("mappls");
+            } catch (err) {
+              console.error("MapmyIndia Map Init Error:", err);
+              loadLeafletFallback();
+            }
+          } else {
+            loadLeafletFallback();
+          }
+        });
+      } else {
+        loadLeafletFallback();
+      }
+    };
+    const loadLeafletFallback = () => {
+      setMapType("loading");
+      loadResource("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", "css", () => {
+        loadResource("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", "js", () => {
+          if (!active) return;
+          if (window.L) {
+            try {
+              const map = window.L.map(mapContainerRef.current, {
+                center: [17.385, 78.4867],
+                zoom: 11,
+                zoomControl: false
+              });
+              mapInstanceRef.current = map;
+              window.L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CartoDB</a>',
+                subdomains: "abcd",
+                maxZoom: 20
+              }).addTo(map);
+              const pulseIcon = window.L.divIcon({
+                className: "custom-map-marker",
+                html: '<div class="marker-pulse-wrapper"><div class="marker-pin"></div><div class="marker-pulse"></div></div>',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+              });
+              const marker = window.L.marker([17.385, 78.4867], { icon: pulseIcon }).addTo(map);
+              marker.bindPopup('<div style="color:var(--bg);font-family:var(--font-body);font-size:12px;font-weight:600;min-width:110px;">\u{1F4CD} Operations Base<br/>Hyderabad, India</div>');
+              setMapType("leaflet");
+            } catch (err) {
+              console.error("Leaflet Init Error:", err);
+              setMapType("error");
+            }
+          } else {
+            setMapType("error");
+          }
+        });
+      });
+    };
+    initMap();
+    return () => {
+      active = false;
+      if (mapInstanceRef.current) {
+        try {
+          if (typeof mapInstanceRef.current.remove === "function") {
+            mapInstanceRef.current.remove();
+          } else if (typeof mapInstanceRef.current.destroy === "function") {
+            mapInstanceRef.current.destroy();
+          }
+        } catch (e) {
+          console.warn("Cleanup error:", e);
+        }
+      }
+    };
+  }, [token]);
+  return /* @__PURE__ */ React.createElement("div", { className: "card", style: {
+    overflow: "hidden",
+    border: "1px solid var(--line)",
+    borderRadius: 16,
+    background: "var(--card)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: {
+    padding: "14px 18px",
+    borderBottom: "1px solid var(--line-2)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement("span", { style: {
+    width: 8,
+    height: 8,
+    borderRadius: "50%",
+    background: mapType === "error" ? "#EF4444" : "var(--sf-blue)",
+    boxShadow: mapType === "error" ? "0 0 8px #EF4444" : "0 0 8px var(--sf-blue)",
+    display: "inline-block"
+  } }), /* @__PURE__ */ React.createElement("strong", { style: { fontSize: 13, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--ink)" } }, "Operations Base")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" } }, "17.3850\xB0 N, 78.4867\xB0 E")), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", height: 200, background: "#060b22" } }, /* @__PURE__ */ React.createElement("div", { ref: mapContainerRef, style: { width: "100%", height: "100%" } }), mapType === "loading" && /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(6,11,34,0.8)",
+    display: "grid",
+    placeItems: "center",
+    color: "var(--ink-2)",
+    fontSize: 12
+  } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { className: "spinner-loader" }), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 8 } }, "Synchronizing Map Coordinates..."))), mapType === "error" && /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(6,11,34,0.95)",
+    display: "grid",
+    placeItems: "center",
+    color: "#EF4444",
+    fontSize: 12,
+    padding: 20,
+    textAlign: "center"
+  } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 24, marginBottom: 6 } }, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("strong", null, "Failed to initialize map client."), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-3)", marginTop: 4 } }, "Check your network connection or console logs.")))), /* @__PURE__ */ React.createElement("div", { style: {
+    padding: "8px 16px",
+    background: "rgba(255,255,255,0.02)",
+    borderTop: "1px solid var(--line-2)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    fontSize: 11
+  } }, /* @__PURE__ */ React.createElement("span", { style: { color: "var(--ink-2)" } }, mapType === "mappls" ? "\u{1F4E1} MapmyIndia Web SDK (Live)" : "\u{1F4E1} CartoDB Dark (Leaflet Fallback)"), /* @__PURE__ */ React.createElement("span", { style: { color: "var(--sf-success)", fontWeight: 600 } }, "\u25CF SECURE")), /* @__PURE__ */ React.createElement("style", null, `
+        .spinner-loader {
+          width: 20px; height: 20px;
+          border: 2px solid rgba(255,255,255,0.1);
+          border-top-color: var(--sf-blue);
+          border-radius: 50%;
+          animation: spinMap 1s linear infinite;
+          margin: 0 auto;
+        }
+        @keyframes spinMap { to { transform: rotate(360deg); } }
+
+        .marker-pulse-wrapper {
+          position: relative; width: 20px; height: 20px;
+        }
+        .marker-pin {
+          width: 10px; height: 10px;
+          border-radius: 50%; background: var(--sf-blue);
+          border: 2px solid white;
+          box-shadow: 0 0 4px rgba(0,0,0,0.5);
+          position: absolute; top: 5px; left: 5px;
+          z-index: 10;
+        }
+        .marker-pulse {
+          width: 20px; height: 20px;
+          border-radius: 50%; background: rgba(0,161,224,0.4);
+          position: absolute; top: 0; left: 0;
+          animation: mapPulse 1.8s ease-out infinite;
+          z-index: 5;
+        }
+        @keyframes mapPulse {
+          0% { transform: scale(0.4); opacity: 1; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        .leaflet-popup-content-wrapper {
+          background: rgba(10,20,50,0.92) !important;
+          backdrop-filter: blur(8px);
+          border: 1px solid var(--line) !important;
+          border-radius: 8px !important;
+          box-shadow: var(--shadow-2) !important;
+        }
+        .leaflet-popup-content {
+          margin: 10px 14px !important;
+        }
+        .leaflet-popup-tip {
+          background: rgba(10,20,50,0.92) !important;
+          border: 1px solid var(--line) !important;
+          border-top: none; border-left: none;
+        }
+      `));
 }
 Object.assign(window, { PageContact });
 
@@ -4534,7 +4753,7 @@ function App() {
   else if (route === "experience") Page = /* @__PURE__ */ React.createElement(PageExperience, { go });
   else if (route === "gigs") Page = /* @__PURE__ */ React.createElement(PageGigs, { go });
   else if (route === "demos") Page = /* @__PURE__ */ React.createElement(PageDemos, { go });
-  else if (route === "contact") Page = /* @__PURE__ */ React.createElement(PageContact, { go });
+  else if (route === "contact") Page = /* @__PURE__ */ React.createElement(PageContact, { go, mapplsToken: t.mapplsToken });
   else Page = /* @__PURE__ */ React.createElement(PageHome, { go });
   const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", gigs: "05 Services", demos: "06 Demos & Articles", contact: "07 Contact" };
   return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Mascot, { route, setTweak, enabled: t.mascot }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
@@ -4553,6 +4772,14 @@ function App() {
       options: ["#032D60", "#16325C", "#1A1A2E", "#3C0F66", "#1F2937"],
       onChange: (v) => setTweak("accentDeep", v)
     }
-  )), /* @__PURE__ */ React.createElement(TweakSection, { title: "Effects" }, /* @__PURE__ */ React.createElement(TweakToggle, { label: "Lightning bolt cursor trail", value: t.boltTrail, onChange: (v) => setTweak("boltTrail", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Custom cursor dot", value: t.showCursor, onChange: (v) => setTweak("showCursor", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Trail companion mascot", value: t.mascot, onChange: (v) => setTweak("mascot", v) }))));
+  )), /* @__PURE__ */ React.createElement(TweakSection, { title: "Effects" }, /* @__PURE__ */ React.createElement(TweakToggle, { label: "Lightning bolt cursor trail", value: t.boltTrail, onChange: (v) => setTweak("boltTrail", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Custom cursor dot", value: t.showCursor, onChange: (v) => setTweak("showCursor", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Trail companion mascot", value: t.mascot, onChange: (v) => setTweak("mascot", v) })), /* @__PURE__ */ React.createElement(TweakSection, { title: "Integrations" }, /* @__PURE__ */ React.createElement(
+    TweakText,
+    {
+      label: "Mappls Access Token",
+      value: t.mapplsToken || "",
+      placeholder: "MapmyIndia SDK Token",
+      onChange: (v) => setTweak("mapplsToken", v)
+    }
+  ))));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ React.createElement(App, null));

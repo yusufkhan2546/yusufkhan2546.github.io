@@ -221,7 +221,7 @@ function App() {
   else if (route === "experience") Page = <PageExperience go={go} />;
   else if (route === "gigs") Page = <PageGigs go={go} />;
   else if (route === "demos") Page = <PageDemos go={go} />;
-  else if (route === "contact") Page = <PageContact go={go} />;
+  else if (route === "contact") Page = <PageContact go={go} mapplsToken={t.mapplsToken} />;
   else Page = <PageHome go={go} />;
 
   const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", gigs: "05 Services", demos: "06 Demos & Articles", contact: "07 Contact" };
@@ -247,6 +247,10 @@ function App() {
           <TweakToggle label="Lightning bolt cursor trail" value={t.boltTrail} onChange={v=>setTweak("boltTrail", v)} />
           <TweakToggle label="Custom cursor dot" value={t.showCursor} onChange={v=>setTweak("showCursor", v)} />
           <TweakToggle label="Trail companion mascot" value={t.mascot} onChange={v=>setTweak("mascot", v)} />
+        </TweakSection>
+        <TweakSection title="Integrations">
+          <TweakText label="Mappls Access Token" value={t.mapplsToken || ""} placeholder="MapmyIndia SDK Token"
+            onChange={v=>setTweak("mapplsToken", v)} />
         </TweakSection>
       </TweaksPanel>
     </div>

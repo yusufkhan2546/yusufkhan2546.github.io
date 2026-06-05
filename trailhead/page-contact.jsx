@@ -65,7 +65,7 @@ function SFTextarea({ label, name, placeholder, required = false }) {
   );
 }
 
-function PageContact({ go }) {
+function PageContact({ go, mapplsToken }) {
   const [commType, setCommType] = React.useState("Architecture Review");
   const [submitting, setSubmitting] = React.useState(false);
   const [submitted, setSubmitted] = React.useState(false);
@@ -363,6 +363,9 @@ function PageContact({ go }) {
                   </div>
                 </div>
               </div>
+
+              <ContactMap token={mapplsToken} />
+
               <ContactCard icon="mail" label="Email" value="yusufkhantrailblazer@gmail.com" cta="Compose" href="mailto:yusufkhantrailblazer@gmail.com" />
               <ContactCard icon="linkedin" label="LinkedIn" value="/in/yusufkhan2546" cta="Connect" href="https://www.linkedin.com/in/yusufkhan2546" />
               <ContactCard icon="trail" label="Trailblazer profile" value="yusufkhan2546" cta="View badges" href="https://www.salesforce.com/trailblazer/yusufkhan2546" />
@@ -420,6 +423,274 @@ function ContactCard({ icon, label, value, cta, href }) {
       </div>
       {cta && <span style={{ fontSize: 12, fontWeight: 700, color: "var(--accent)" }}>{cta} →</span>}
     </a>
+  );
+}
+
+const loadResource = (url, type, callback) => {
+  const selector = type === 'css' ? `link[href="${url}"]` : `script[src="${url}"]`;
+  if (document.querySelector(selector)) {
+    if (callback) callback();
+    return;
+  }
+  const el = document.createElement(type === 'css' ? 'link' : 'script');
+  if (type === 'css') {
+    el.rel = 'stylesheet';
+    el.href = url;
+  } else {
+    el.src = url;
+    el.async = true;
+  }
+  el.onload = () => callback && callback();
+  el.onerror = () => console.error(`Error loading resource: ${url}`);
+  document.head.appendChild(el);
+};
+
+function ContactMap({ token }) {
+  const mapContainerRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const [mapType, setMapType] = useState("loading"); // loading | mappls | leaflet | error
+
+  useEffect(() => {
+    let active = true;
+
+    const initMap = () => {
+      if (!mapContainerRef.current) return;
+      
+      // Cleanup previous map instance if any
+      if (mapInstanceRef.current) {
+        try {
+          if (typeof mapInstanceRef.current.remove === "function") {
+            mapInstanceRef.current.remove();
+          } else if (typeof mapInstanceRef.current.destroy === "function") {
+            mapInstanceRef.current.destroy();
+          }
+        } catch (e) {
+          console.warn("Error cleaning up map instance:", e);
+        }
+        mapInstanceRef.current = null;
+      }
+
+      const lat = 17.3850;
+      const lng = 78.4867;
+
+      if (token) {
+        // Load MapmyIndia (Mappls)
+        setMapType("loading");
+        loadResource("https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=" + token, "js", () => {
+          if (!active) return;
+          if (window.mappls && window.mappls.Map) {
+            try {
+              const map = new window.mappls.Map(mapContainerRef.current, {
+                center: [lat, lng],
+                zoom: 11,
+                zoomControl: true,
+                hybrid: false
+              });
+              mapInstanceRef.current = map;
+              
+              new window.mappls.Marker({
+                map: map,
+                position: { lat: lat, lng: lng },
+                popupHtml: '<div style="color:#111;padding:5px;font-family:sans-serif;font-size:12px;"><strong>Hyderabad Base</strong><br/>Salesforce Operations</div>'
+              });
+              
+              setMapType("mappls");
+            } catch (err) {
+              console.error("MapmyIndia Map Init Error:", err);
+              loadLeafletFallback();
+            }
+          } else {
+            loadLeafletFallback();
+          }
+        });
+      } else {
+        loadLeafletFallback();
+      }
+    };
+
+    const loadLeafletFallback = () => {
+      setMapType("loading");
+      loadResource("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", "css", () => {
+        loadResource("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", "js", () => {
+          if (!active) return;
+          if (window.L) {
+            try {
+              const map = window.L.map(mapContainerRef.current, {
+                center: [17.3850, 78.4867],
+                zoom: 11,
+                zoomControl: false
+              });
+              mapInstanceRef.current = map;
+
+              window.L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CartoDB</a>',
+                subdomains: 'abcd',
+                maxZoom: 20
+              }).addTo(map);
+
+              const pulseIcon = window.L.divIcon({
+                className: 'custom-map-marker',
+                html: '<div class="marker-pulse-wrapper"><div class="marker-pin"></div><div class="marker-pulse"></div></div>',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+              });
+
+              const marker = window.L.marker([17.3850, 78.4867], { icon: pulseIcon }).addTo(map);
+              marker.bindPopup('<div style="color:var(--bg);font-family:var(--font-body);font-size:12px;font-weight:600;min-width:110px;">📍 Operations Base<br/>Hyderabad, India</div>');
+              
+              setMapType("leaflet");
+            } catch (err) {
+              console.error("Leaflet Init Error:", err);
+              setMapType("error");
+            }
+          } else {
+            setMapType("error");
+          }
+        });
+      });
+    };
+
+    initMap();
+
+    return () => {
+      active = false;
+      if (mapInstanceRef.current) {
+        try {
+          if (typeof mapInstanceRef.current.remove === "function") {
+            mapInstanceRef.current.remove();
+          } else if (typeof mapInstanceRef.current.destroy === "function") {
+            mapInstanceRef.current.destroy();
+          }
+        } catch (e) {
+          console.warn("Cleanup error:", e);
+        }
+      }
+    };
+  }, [token]);
+
+  return (
+    <div className="card" style={{
+      overflow: "hidden",
+      border: "1px solid var(--line)",
+      borderRadius: 16,
+      background: "var(--card)"
+    }}>
+      <div style={{
+        padding: "14px 18px",
+        borderBottom: "1px solid var(--line-2)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{
+            width: 8, height: 8, borderRadius: "50%",
+            background: mapType === "error" ? "#EF4444" : "var(--sf-blue)",
+            boxShadow: mapType === "error" ? "0 0 8px #EF4444" : "0 0 8px var(--sf-blue)",
+            display: "inline-block"
+          }} />
+          <strong style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--ink)" }}>Operations Base</strong>
+        </div>
+        <span style={{ fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}>
+          17.3850° N, 78.4867° E
+        </span>
+      </div>
+
+      <div style={{ position: "relative", height: 200, background: "#060b22" }}>
+        <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />
+        
+        {mapType === "loading" && (
+          <div style={{
+            position: "absolute", inset: 0, background: "rgba(6,11,34,0.8)",
+            display: "grid", placeItems: "center", color: "var(--ink-2)", fontSize: 12
+          }}>
+            <div style={{ textAlign: "center" }}>
+              <div className="spinner-loader" />
+              <div style={{ marginTop: 8 }}>Synchronizing Map Coordinates...</div>
+            </div>
+          </div>
+        )}
+
+        {mapType === "error" && (
+          <div style={{
+            position: "absolute", inset: 0, background: "rgba(6,11,34,0.95)",
+            display: "grid", placeItems: "center", color: "#EF4444", fontSize: 12, padding: 20, textAlign: "center"
+          }}>
+            <div>
+              <div style={{ fontSize: 24, marginBottom: 6 }}>⚠️</div>
+              <strong>Failed to initialize map client.</strong>
+              <div style={{ color: "var(--ink-3)", marginTop: 4 }}>Check your network connection or console logs.</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div style={{
+        padding: "8px 16px",
+        background: "rgba(255,255,255,0.02)",
+        borderTop: "1px solid var(--line-2)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        fontSize: 11
+      }}>
+        <span style={{ color: "var(--ink-2)" }}>
+          {mapType === "mappls" ? "📡 MapmyIndia Web SDK (Live)" : "📡 CartoDB Dark (Leaflet Fallback)"}
+        </span>
+        <span style={{ color: "var(--sf-success)", fontWeight: 600 }}>● SECURE</span>
+      </div>
+
+      <style>{`
+        .spinner-loader {
+          width: 20px; height: 20px;
+          border: 2px solid rgba(255,255,255,0.1);
+          border-top-color: var(--sf-blue);
+          border-radius: 50%;
+          animation: spinMap 1s linear infinite;
+          margin: 0 auto;
+        }
+        @keyframes spinMap { to { transform: rotate(360deg); } }
+
+        .marker-pulse-wrapper {
+          position: relative; width: 20px; height: 20px;
+        }
+        .marker-pin {
+          width: 10px; height: 10px;
+          border-radius: 50%; background: var(--sf-blue);
+          border: 2px solid white;
+          box-shadow: 0 0 4px rgba(0,0,0,0.5);
+          position: absolute; top: 5px; left: 5px;
+          z-index: 10;
+        }
+        .marker-pulse {
+          width: 20px; height: 20px;
+          border-radius: 50%; background: rgba(0,161,224,0.4);
+          position: absolute; top: 0; left: 0;
+          animation: mapPulse 1.8s ease-out infinite;
+          z-index: 5;
+        }
+        @keyframes mapPulse {
+          0% { transform: scale(0.4); opacity: 1; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        .leaflet-popup-content-wrapper {
+          background: rgba(10,20,50,0.92) !important;
+          backdrop-filter: blur(8px);
+          border: 1px solid var(--line) !important;
+          border-radius: 8px !important;
+          box-shadow: var(--shadow-2) !important;
+        }
+        .leaflet-popup-content {
+          margin: 10px 14px !important;
+        }
+        .leaflet-popup-tip {
+          background: rgba(10,20,50,0.92) !important;
+          border: 1px solid var(--line) !important;
+          border-top: none; border-left: none;
+        }
+      `}</style>
+    </div>
   );
 }
 
