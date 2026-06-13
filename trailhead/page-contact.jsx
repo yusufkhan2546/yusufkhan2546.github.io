@@ -73,6 +73,118 @@ function PageContact({ go, mapplsToken }) {
   const formRef = React.useRef(null);
   const widgetIdRef = React.useRef(null);
 
+  const [locationPromptVisible, setLocationPromptVisible] = React.useState(false);
+  const [locationStatus, setLocationStatus] = React.useState("idle"); // idle | locating | geocoding | success | error
+  const [locationMessage, setLocationMessage] = React.useState("");
+  const hasPromptedRef = React.useRef(false);
+
+  const handleFormInteraction = () => {
+    if (hasPromptedRef.current) return;
+    hasPromptedRef.current = true;
+    setLocationPromptVisible(true);
+  };
+
+  const fillAddressFields = (address) => {
+    const fields = {
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      zip: address.zip,
+      country: address.country,
+    };
+    
+    Object.entries(fields).forEach(([name, val]) => {
+      const el = document.getElementById("sf-" + name);
+      if (el) {
+        el.value = val;
+      }
+    });
+  };
+
+  const handleRequestLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationStatus("error");
+      setLocationMessage("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    setLocationStatus("locating");
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocationStatus("geocoding");
+        
+        try {
+          if (mapplsToken) {
+            const response = await fetch(
+              `https://search.mappls.com/search/address/rev-geocode?lat=${latitude}&lng=${longitude}&access_token=${mapplsToken}`
+            );
+            if (!response.ok) {
+              throw new Error(`Reverse geocoding failed: ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (data.responseCode !== 200 || !data.results) {
+              throw new Error(data.message || "Invalid response from Mappls API");
+            }
+            const result = Array.isArray(data.results) ? data.results[0] : data.results;
+            
+            fillAddressFields({
+              street: result.street || result.locality || result.subLocality || "",
+              city: result.city || result.district || "",
+              state: result.state || "",
+              zip: result.pincode || "",
+              country: result.country || "India",
+            });
+            
+            setLocationStatus("success");
+            setTimeout(() => setLocationPromptVisible(false), 3000);
+          } else {
+            // Fallback to OpenStreetMap Nominatim API if no Mappls token
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            );
+            if (!response.ok) {
+              throw new Error("Reverse geocoding failed");
+            }
+            const data = await response.json();
+            const addr = data.address || {};
+            
+            fillAddressFields({
+              street: addr.road || addr.suburb || addr.neighbourhood || "",
+              city: addr.city || addr.town || addr.village || "",
+              state: addr.state || "",
+              zip: addr.postcode || "",
+              country: addr.country || "",
+            });
+            
+            setLocationStatus("success");
+            setTimeout(() => setLocationPromptVisible(false), 3000);
+          }
+        } catch (err) {
+          console.error("Reverse geocoding error:", err);
+          setLocationStatus("error");
+          setLocationMessage("Failed to resolve address. Please type manually.");
+          setTimeout(() => setLocationStatus("idle"), 4000);
+        }
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        setLocationStatus("error");
+        let msg = "Location access denied or unavailable.";
+        if (error.code === error.PERMISSION_DENIED) {
+          msg = "Location access denied by user.";
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          msg = "Location position unavailable.";
+        } else if (error.code === error.TIMEOUT) {
+          msg = "Location request timed out.";
+        }
+        setLocationMessage(msg);
+        setTimeout(() => setLocationStatus("idle"), 4000);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
+
   const commTypes = ["Architecture Review", "Hiring", "Networking & Community", "Collaboration"];
 
   // Render reCAPTCHA — uses global queue so timing doesn't matter
@@ -206,6 +318,7 @@ function PageContact({ go, mapplsToken }) {
               method="POST"
               target="sf-submit-target"
               onSubmit={handleSubmit}
+              onFocus={handleFormInteraction}
               className="card form-card" style={{ padding: 36, borderRadius: 22 }}
             >
               {/* Hidden Salesforce fields */}
@@ -250,6 +363,111 @@ function PageContact({ go, mapplsToken }) {
               {/* Company (auto-fills "Individual" if blank) */}
               <div style={{ marginBottom: 16 }}>
                 <SFField label="Company" name="company" placeholder="ACME Corp (leave blank if individual)" maxLength={40} />
+              </div>
+
+              {/* Address Details */}
+              <div style={{ marginTop: 24, marginBottom: 24, borderTop: "1px solid var(--line-2)", paddingTop: 20 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                  <span style={labelStyle}>Address Details</span>
+                </div>
+
+                {locationPromptVisible && (
+                  <div className="location-banner" style={{
+                    background: "rgba(0, 161, 224, 0.06)",
+                    border: "1px solid rgba(0, 161, 224, 0.2)",
+                    borderRadius: 12,
+                    padding: "14px 18px",
+                    marginBottom: 20,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 12,
+                    animation: "slideDown .25s ease-out",
+                  }}>
+                    <style>{`
+                      @keyframes slideDown {
+                        from { opacity: 0; transform: translateY(-10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                      }
+                    `}</style>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13.5, color: "var(--ink)" }}>
+                      <span style={{ fontSize: 16, display: "inline-block", animation: locationStatus === "locating" || locationStatus === "geocoding" ? "readyBlink 1.2s infinite" : "none" }}>
+                        {locationStatus === "success" ? "✅" : locationStatus === "error" ? "⚠️" : "📍"}
+                      </span>
+                      <div>
+                        {locationStatus === "idle" && (
+                          <strong>Auto-populate address using your location?</strong>
+                        )}
+                        {locationStatus === "locating" && (
+                          <span>Detecting GPS coordinates...</span>
+                        )}
+                        {locationStatus === "geocoding" && (
+                          <span>Resolving address via Mappls API...</span>
+                        )}
+                        {locationStatus === "success" && (
+                          <strong style={{ color: "var(--sf-success)" }}>Address fields auto-populated!</strong>
+                        )}
+                        {locationStatus === "error" && (
+                          <span style={{ color: "#EF4444" }}>{locationMessage || "Unable to retrieve location."}</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {locationStatus === "idle" && (
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <button
+                          type="button"
+                          onClick={handleRequestLocation}
+                          style={{
+                            background: "var(--accent)",
+                            color: "white",
+                            border: "none",
+                            padding: "6px 12px",
+                            borderRadius: 8,
+                            fontSize: 12,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            transition: "background .15s",
+                          }}
+                          className="hoverable"
+                        >
+                          Use Location
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setLocationPromptVisible(false)}
+                          style={{
+                            background: "transparent",
+                            color: "var(--ink-2)",
+                            border: "1px solid var(--line)",
+                            padding: "6px 12px",
+                            borderRadius: 8,
+                            fontSize: 12,
+                            fontWeight: 700,
+                            cursor: "pointer",
+                            transition: "all .15s",
+                          }}
+                          className="hoverable"
+                        >
+                          Fill Manually
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div style={{ marginBottom: 16 }}>
+                  <SFField label="Street Address" name="street" placeholder="123 Trailblazer Way" />
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+                  <SFField label="City" name="city" placeholder="Hyderabad" />
+                  <SFField label="State / Province" name="state" placeholder="Telangana" />
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                  <SFField label="Zip / Postal Code" name="zip" placeholder="500001" />
+                  <SFField label="Country" name="country" placeholder="India" />
+                </div>
               </div>
 
               {/* Description / Message */}

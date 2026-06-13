@@ -1359,6 +1359,177 @@ Object.assign(window, {
 
 
 /* ── trailhead/mascot.jsx ── */
+function CoverLetterForm({ onSubmit }) {
+  const [jobDescription, setJobDescription] = useState("");
+  const [highlightingPoints, setHighlightingPoints] = useState("");
+  const [tone, setTone] = useState("Results-oriented");
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [sponsorshipNeeded, setSponsorshipNeeded] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const availableSkills = ["Apex", "LWC", "Integrations", "OmniStudio", "Agentforce", "Data Cloud", "Flow"];
+  const toggleSkill = (skill) => {
+    setSelectedSkills(
+      (prev) => prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]
+    );
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!jobDescription.trim()) return;
+    setSubmitted(true);
+    onSubmit({
+      jobDescription,
+      highlightingPoints,
+      tone,
+      highlightSkills: selectedSkills.join(", "),
+      sponsorshipNeeded
+    });
+  };
+  if (submitted) {
+    return /* @__PURE__ */ React.createElement("div", { style: { padding: 10, textAlign: "center", color: "rgba(255,255,255,0.7)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 4, margin: "10px auto" } }, /* @__PURE__ */ React.createElement("span", { style: { width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both" } }), /* @__PURE__ */ React.createElement("span", { style: { width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both", animationDelay: "0.2s" } }), /* @__PURE__ */ React.createElement("span", { style: { width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both", animationDelay: "0.4s" } })), /* @__PURE__ */ React.createElement("p", { style: { fontSize: "11px", margin: 0 } }, "Submitting preferences to Agentforce..."));
+  }
+  return /* @__PURE__ */ React.createElement("form", { onSubmit: handleSubmit, style: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+    padding: "8px 4px",
+    fontSize: "12px",
+    color: "white",
+    width: "100%",
+    textAlign: "left"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "bold", borderBottom: "1px solid rgba(180,210,255,0.15)", paddingBottom: 4, color: "#00A1E0", fontSize: "12.5px" } }, "Configure Cover Letter"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 3 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Job Description *"), /* @__PURE__ */ React.createElement(
+    "textarea",
+    {
+      required: true,
+      rows: 3,
+      placeholder: "Paste job description here...",
+      value: jobDescription,
+      onChange: (e) => setJobDescription(e.target.value),
+      style: {
+        background: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(180,210,255,0.2)",
+        borderRadius: 6,
+        padding: 6,
+        color: "white",
+        fontSize: "11px",
+        resize: "vertical",
+        outline: "none",
+        fontFamily: "inherit"
+      }
+    }
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 3 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Highlighting Points"), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      placeholder: "e.g. Lead 3 FSC setups, 90% CSAT...",
+      value: highlightingPoints,
+      onChange: (e) => setHighlightingPoints(e.target.value),
+      style: {
+        background: "rgba(255,255,255,0.05)",
+        border: "1px solid rgba(180,210,255,0.2)",
+        borderRadius: 6,
+        padding: 6,
+        color: "white",
+        fontSize: "11px",
+        outline: "none",
+        fontFamily: "inherit"
+      }
+    }
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 3 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Tone"), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: tone,
+      onChange: (e) => setTone(e.target.value),
+      style: {
+        background: "rgba(10,20,50,0.95)",
+        border: "1px solid rgba(180,210,255,0.2)",
+        borderRadius: 6,
+        padding: 6,
+        color: "white",
+        fontSize: "11px",
+        outline: "none",
+        fontFamily: "inherit"
+      }
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "Results-oriented" }, "Results-oriented (Outcomes & Metrics)"),
+    /* @__PURE__ */ React.createElement("option", { value: "Achievement-oriented" }, "Achievement-oriented (Projects & Awards)")
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Highlight Skills"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 4 } }, availableSkills.map((skill) => {
+    const isSelected = selectedSkills.includes(skill);
+    return /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: skill,
+        type: "button",
+        onClick: () => toggleSkill(skill),
+        style: {
+          background: isSelected ? "var(--accent)" : "rgba(255,255,255,0.04)",
+          border: `1px solid ${isSelected ? "var(--accent)" : "rgba(180,210,255,0.15)"}`,
+          borderRadius: 999,
+          padding: "2px 8px",
+          color: "white",
+          fontSize: "10px",
+          cursor: "pointer",
+          transition: "all 0.1s ease"
+        }
+      },
+      skill
+    );
+  }))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, margin: "2px 0" } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "checkbox",
+      id: "sponsorship",
+      checked: sponsorshipNeeded,
+      onChange: (e) => setSponsorshipNeeded(e.target.checked),
+      style: { cursor: "pointer", width: 12, height: 12 }
+    }
+  ), /* @__PURE__ */ React.createElement("label", { htmlFor: "sponsorship", style: { cursor: "pointer", userSelect: "none", color: "rgba(255,255,255,0.85)", fontSize: "11px" } }, "Visa Sponsorship Required")), /* @__PURE__ */ React.createElement("button", { type: "submit", className: "btn primary", style: {
+    marginTop: 4,
+    padding: "8px 12px",
+    fontSize: "11.5px",
+    justifyContent: "center",
+    border: "none",
+    width: "100%"
+  } }, "Generate Letter"));
+}
+function CoverLetterDownload({ base64Pdf }) {
+  const handleDownload = () => {
+    try {
+      const byteCharacters = atob(base64Pdf);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = "Yusuf_Khan_Cover_Letter.pdf";
+      link.click();
+    } catch (e) {
+      console.error("Error creating download blob:", e);
+    }
+  };
+  return /* @__PURE__ */ React.createElement("div", { style: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 8,
+    padding: "10px 8px",
+    background: "rgba(255, 255, 255, 0.04)",
+    border: "1px solid rgba(180, 210, 255, 0.15)",
+    borderRadius: 12,
+    marginTop: 4,
+    width: "100%",
+    textAlign: "center"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 20 } }, "\u{1F4C4}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "bold", fontSize: "12px", color: "white" } }, "Yusuf_Khan_Cover_Letter.pdf"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "rgba(255,255,255,0.5)", marginTop: 2 } }, "Ready for download")), /* @__PURE__ */ React.createElement("button", { onClick: handleDownload, className: "btn primary", style: {
+    padding: "6px 12px",
+    fontSize: "11px",
+    border: "none",
+    gap: 4,
+    width: "100%",
+    justifyContent: "center"
+  } }, /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 24 24", width: "12", height: "12", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", style: { marginTop: -1 } }, /* @__PURE__ */ React.createElement("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }), /* @__PURE__ */ React.createElement("polyline", { points: "7 10 12 15 17 10" }), /* @__PURE__ */ React.createElement("line", { x1: "12", y1: "15", x2: "12", y2: "3" })), "Download Cover Letter"));
+}
 function Mascot({ route, setTweak, enabled = true }) {
   const [pose, setPose] = useState("idle");
   const [bubble, setBubble] = useState(null);
@@ -1638,6 +1809,59 @@ function Mascot({ route, setTweak, enabled = true }) {
       }]);
     }
   };
+  const submitCoverLetterForm = async (data) => {
+    if (sending) return;
+    const userMsgId = "user-" + Date.now();
+    setMessages((prev) => [...prev, {
+      id: userMsgId,
+      text: "Submitted cover letter preferences.",
+      sender: "user"
+    }]);
+    setSending(true);
+    setPose("thinking");
+    try {
+      const token = accessTokenRef.current;
+      const convId = conversationIdRef.current;
+      const messageId = generateUUID();
+      const payloadText = `Job Description: ${data.jobDescription}
+Highlighting Points: ${data.highlightingPoints || "None"}
+Tone: ${data.tone || "Results-oriented"}
+Highlight Skills: ${data.highlightSkills || "None"}
+Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
+      const response = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation/${convId}/message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message: {
+            id: messageId,
+            messageType: "StaticContentMessage",
+            staticContent: {
+              formatType: "Text",
+              text: payloadText
+            }
+          },
+          esDeveloperName: SF_CONFIG.esDeveloperName,
+          isNewMessagingSession: false,
+          language: "en"
+        })
+      });
+      if (!response.ok) throw new Error("Send failed: " + response.statusText);
+      setSending(false);
+      setPose("idle");
+    } catch (err) {
+      console.error("Message send error:", err);
+      setSending(false);
+      setPose("idle");
+      setMessages((prev) => [...prev, {
+        id: "err-" + Date.now(),
+        text: "Failed to submit form. Please try again.",
+        sender: "agent"
+      }]);
+    }
+  };
   if (!enabled) return null;
   return /* @__PURE__ */ React.createElement("div", { ref: wrapRef, style: {
     position: "fixed",
@@ -1685,7 +1909,17 @@ function Mascot({ route, setTweak, enabled = true }) {
     borderRight: "8px solid transparent",
     borderTop: "8px solid rgba(255, 255, 255, 0.88)",
     filter: "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2))"
-  } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar" }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement("span", { className: `cosmic-chat-status-dot ${connecting ? "connecting" : ""}` }), /* @__PURE__ */ React.createElement("span", null, connecting ? "Connecting..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => /* @__PURE__ */ React.createElement("div", { key: msg.id, className: `cosmic-chat-message ${msg.sender}` }, msg.text)), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing" }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
+  } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar" }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement("span", { className: `cosmic-chat-status-dot ${connecting ? "connecting" : ""}` }), /* @__PURE__ */ React.createElement("span", null, connecting ? "Connecting..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => {
+    const isForm = msg.text === "[SHOW_COVER_LETTER_FORM]";
+    const isDownload = msg.text.startsWith("[DOWNLOAD_PDF:");
+    return /* @__PURE__ */ React.createElement("div", { key: msg.id, className: `cosmic-chat-message ${msg.sender}`, style: {
+      width: isForm || isDownload ? "90%" : void 0,
+      maxWidth: isForm || isDownload ? "90%" : void 0,
+      padding: isForm || isDownload ? "6px 8px" : void 0,
+      background: isForm ? "rgba(10,20,50,0.4)" : isDownload ? "rgba(255,255,255,0.03)" : void 0,
+      border: isForm || isDownload ? "1px solid rgba(180, 210, 255, 0.15)" : void 0
+    } }, isForm ? /* @__PURE__ */ React.createElement(CoverLetterForm, { onSubmit: submitCoverLetterForm }) : isDownload ? /* @__PURE__ */ React.createElement(CoverLetterDownload, { base64Pdf: msg.text.substring("[DOWNLOAD_PDF:".length, msg.text.length - 1).trim() }) : msg.text);
+  }), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing" }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
     e.preventDefault();
     sendMessage(inputText);
   } }, /* @__PURE__ */ React.createElement(
@@ -3689,6 +3923,106 @@ function PageContact({ go, mapplsToken }) {
   const [captchaError, setCaptchaError] = React.useState(false);
   const formRef = React.useRef(null);
   const widgetIdRef = React.useRef(null);
+  const [locationPromptVisible, setLocationPromptVisible] = React.useState(false);
+  const [locationStatus, setLocationStatus] = React.useState("idle");
+  const [locationMessage, setLocationMessage] = React.useState("");
+  const hasPromptedRef = React.useRef(false);
+  const handleFormInteraction = () => {
+    if (hasPromptedRef.current) return;
+    hasPromptedRef.current = true;
+    setLocationPromptVisible(true);
+  };
+  const fillAddressFields = (address) => {
+    const fields = {
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      zip: address.zip,
+      country: address.country
+    };
+    Object.entries(fields).forEach(([name, val]) => {
+      const el = document.getElementById("sf-" + name);
+      if (el) {
+        el.value = val;
+      }
+    });
+  };
+  const handleRequestLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationStatus("error");
+      setLocationMessage("Geolocation is not supported by your browser.");
+      return;
+    }
+    setLocationStatus("locating");
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocationStatus("geocoding");
+        try {
+          if (mapplsToken) {
+            const response = await fetch(
+              `https://search.mappls.com/search/address/rev-geocode?lat=${latitude}&lng=${longitude}&access_token=${mapplsToken}`
+            );
+            if (!response.ok) {
+              throw new Error(`Reverse geocoding failed: ${response.statusText}`);
+            }
+            const data = await response.json();
+            if (data.responseCode !== 200 || !data.results) {
+              throw new Error(data.message || "Invalid response from Mappls API");
+            }
+            const result = Array.isArray(data.results) ? data.results[0] : data.results;
+            fillAddressFields({
+              street: result.street || result.locality || result.subLocality || "",
+              city: result.city || result.district || "",
+              state: result.state || "",
+              zip: result.pincode || "",
+              country: result.country || "India"
+            });
+            setLocationStatus("success");
+            setTimeout(() => setLocationPromptVisible(false), 3e3);
+          } else {
+            const response = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            );
+            if (!response.ok) {
+              throw new Error("Reverse geocoding failed");
+            }
+            const data = await response.json();
+            const addr = data.address || {};
+            fillAddressFields({
+              street: addr.road || addr.suburb || addr.neighbourhood || "",
+              city: addr.city || addr.town || addr.village || "",
+              state: addr.state || "",
+              zip: addr.postcode || "",
+              country: addr.country || ""
+            });
+            setLocationStatus("success");
+            setTimeout(() => setLocationPromptVisible(false), 3e3);
+          }
+        } catch (err) {
+          console.error("Reverse geocoding error:", err);
+          setLocationStatus("error");
+          setLocationMessage("Failed to resolve address. Please type manually.");
+          setTimeout(() => setLocationStatus("idle"), 4e3);
+        }
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        setLocationStatus("error");
+        let msg = "Location access denied or unavailable.";
+        if (error.code === error.PERMISSION_DENIED) {
+          msg = "Location access denied by user.";
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+          msg = "Location position unavailable.";
+        } else if (error.code === error.TIMEOUT) {
+          msg = "Location request timed out.";
+        }
+        setLocationMessage(msg);
+        setTimeout(() => setLocationStatus("idle"), 4e3);
+      },
+      { enableHighAccuracy: true, timeout: 1e4 }
+    );
+  };
   const commTypes = ["Architecture Review", "Hiring", "Networking & Community", "Collaboration"];
   React.useEffect(() => {
     function doRender() {
@@ -3784,6 +4118,7 @@ Here are some details about our project and what we'd like to build together:
       method: "POST",
       target: "sf-submit-target",
       onSubmit: handleSubmit,
+      onFocus: handleFormInteraction,
       className: "card form-card",
       style: { padding: 36, borderRadius: 22 }
     },
@@ -3814,6 +4149,60 @@ Here are some details about our project and what we'd like to build together:
     /* @__PURE__ */ React.createElement("div", { className: "name-fields", style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 } }, /* @__PURE__ */ React.createElement(SFField, { label: "First Name", name: "first_name", placeholder: "Jane", required: true, maxLength: 40 }), /* @__PURE__ */ React.createElement(SFField, { label: "Last Name", name: "last_name", placeholder: "Trailblazer", required: true, maxLength: 80 })),
     /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 16 } }, /* @__PURE__ */ React.createElement(SFField, { label: "Email", name: "email", type: "email", placeholder: "jane@company.com", required: true, maxLength: 80 })),
     /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 16 } }, /* @__PURE__ */ React.createElement(SFField, { label: "Company", name: "company", placeholder: "ACME Corp (leave blank if individual)", maxLength: 40 })),
+    /* @__PURE__ */ React.createElement("div", { style: { marginTop: 24, marginBottom: 24, borderTop: "1px solid var(--line-2)", paddingTop: 20 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 } }, /* @__PURE__ */ React.createElement("span", { style: labelStyle }, "Address Details")), locationPromptVisible && /* @__PURE__ */ React.createElement("div", { className: "location-banner", style: {
+      background: "rgba(0, 161, 224, 0.06)",
+      border: "1px solid rgba(0, 161, 224, 0.2)",
+      borderRadius: 12,
+      padding: "14px 18px",
+      marginBottom: 20,
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
+      animation: "slideDown .25s ease-out"
+    } }, /* @__PURE__ */ React.createElement("style", null, `
+                      @keyframes slideDown {
+                        from { opacity: 0; transform: translateY(-10px); }
+                        to { opacity: 1; transform: translateY(0); }
+                      }
+                    `), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, fontSize: 13.5, color: "var(--ink)" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 16, display: "inline-block", animation: locationStatus === "locating" || locationStatus === "geocoding" ? "readyBlink 1.2s infinite" : "none" } }, locationStatus === "success" ? "\u2705" : locationStatus === "error" ? "\u26A0\uFE0F" : "\u{1F4CD}"), /* @__PURE__ */ React.createElement("div", null, locationStatus === "idle" && /* @__PURE__ */ React.createElement("strong", null, "Auto-populate address using your location?"), locationStatus === "locating" && /* @__PURE__ */ React.createElement("span", null, "Detecting GPS coordinates..."), locationStatus === "geocoding" && /* @__PURE__ */ React.createElement("span", null, "Resolving address via Mappls API..."), locationStatus === "success" && /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--sf-success)" } }, "Address fields auto-populated!"), locationStatus === "error" && /* @__PURE__ */ React.createElement("span", { style: { color: "#EF4444" } }, locationMessage || "Unable to retrieve location."))), locationStatus === "idle" && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        type: "button",
+        onClick: handleRequestLocation,
+        style: {
+          background: "var(--accent)",
+          color: "white",
+          border: "none",
+          padding: "6px 12px",
+          borderRadius: 8,
+          fontSize: 12,
+          fontWeight: 700,
+          cursor: "pointer",
+          transition: "background .15s"
+        },
+        className: "hoverable"
+      },
+      "Use Location"
+    ), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        type: "button",
+        onClick: () => setLocationPromptVisible(false),
+        style: {
+          background: "transparent",
+          color: "var(--ink-2)",
+          border: "1px solid var(--line)",
+          padding: "6px 12px",
+          borderRadius: 8,
+          fontSize: 12,
+          fontWeight: 700,
+          cursor: "pointer",
+          transition: "all .15s"
+        },
+        className: "hoverable"
+      },
+      "Fill Manually"
+    ))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 16 } }, /* @__PURE__ */ React.createElement(SFField, { label: "Street Address", name: "street", placeholder: "123 Trailblazer Way" })), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 } }, /* @__PURE__ */ React.createElement(SFField, { label: "City", name: "city", placeholder: "Hyderabad" }), /* @__PURE__ */ React.createElement(SFField, { label: "State / Province", name: "state", placeholder: "Telangana" })), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 } }, /* @__PURE__ */ React.createElement(SFField, { label: "Zip / Postal Code", name: "zip", placeholder: "500001" }), /* @__PURE__ */ React.createElement(SFField, { label: "Country", name: "country", placeholder: "India" }))),
     /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 22 } }, /* @__PURE__ */ React.createElement(
       SFTextarea,
       {

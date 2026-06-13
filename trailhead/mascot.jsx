@@ -2,6 +2,239 @@
 // Interactions: eyes track cursor, waves on idle, speech bubble tips per page,
 // click to bounce + open Agentforce chat window.
 
+function CoverLetterForm({ onSubmit }) {
+  const [jobDescription, setJobDescription] = useState("");
+  const [highlightingPoints, setHighlightingPoints] = useState("");
+  const [tone, setTone] = useState("Results-oriented");
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [sponsorshipNeeded, setSponsorshipNeeded] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const availableSkills = ["Apex", "LWC", "Integrations", "OmniStudio", "Agentforce", "Data Cloud", "Flow"];
+
+  const toggleSkill = (skill) => {
+    setSelectedSkills(prev =>
+      prev.includes(skill) ? prev.filter(s => s !== skill) : [...prev, skill]
+    );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!jobDescription.trim()) return;
+    setSubmitted(true);
+    onSubmit({
+      jobDescription,
+      highlightingPoints,
+      tone,
+      highlightSkills: selectedSkills.join(", "),
+      sponsorshipNeeded
+    });
+  };
+
+  if (submitted) {
+    return (
+      <div style={{ padding: 10, textAlign: "center", color: "rgba(255,255,255,0.7)" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 4, margin: "10px auto" }}>
+          <span style={{ width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both" }}></span>
+          <span style={{ width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both", animationDelay: "0.2s" }}></span>
+          <span style={{ width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both", animationDelay: "0.4s" }}></span>
+        </div>
+        <p style={{ fontSize: "11px", margin: 0 }}>Submitting preferences to Agentforce...</p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{
+      display: "flex",
+      flexDirection: "column",
+      gap: 10,
+      padding: "8px 4px",
+      fontSize: "12px",
+      color: "white",
+      width: "100%",
+      textAlign: "left"
+    }}>
+      <div style={{ fontWeight: "bold", borderBottom: "1px solid rgba(180,210,255,0.15)", paddingBottom: 4, color: "#00A1E0", fontSize: "12.5px" }}>
+        Configure Cover Letter
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <label style={{ fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>Job Description *</label>
+        <textarea
+          required
+          rows={3}
+          placeholder="Paste job description here..."
+          value={jobDescription}
+          onChange={e => setJobDescription(e.target.value)}
+          style={{
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(180,210,255,0.2)",
+            borderRadius: 6,
+            padding: 6,
+            color: "white",
+            fontSize: "11px",
+            resize: "vertical",
+            outline: "none",
+            fontFamily: "inherit"
+          }}
+        />
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <label style={{ fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>Highlighting Points</label>
+        <input
+          type="text"
+          placeholder="e.g. Lead 3 FSC setups, 90% CSAT..."
+          value={highlightingPoints}
+          onChange={e => setHighlightingPoints(e.target.value)}
+          style={{
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(180,210,255,0.2)",
+            borderRadius: 6,
+            padding: 6,
+            color: "white",
+            fontSize: "11px",
+            outline: "none",
+            fontFamily: "inherit"
+          }}
+        />
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <label style={{ fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>Tone</label>
+        <select
+          value={tone}
+          onChange={e => setTone(e.target.value)}
+          style={{
+            background: "rgba(10,20,50,0.95)",
+            border: "1px solid rgba(180,210,255,0.2)",
+            borderRadius: 6,
+            padding: 6,
+            color: "white",
+            fontSize: "11px",
+            outline: "none",
+            fontFamily: "inherit"
+          }}
+        >
+          <option value="Results-oriented">Results-oriented (Outcomes &amp; Metrics)</option>
+          <option value="Achievement-oriented">Achievement-oriented (Projects &amp; Awards)</option>
+        </select>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+        <label style={{ fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>Highlight Skills</label>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+          {availableSkills.map(skill => {
+            const isSelected = selectedSkills.includes(skill);
+            return (
+              <button
+                key={skill}
+                type="button"
+                onClick={() => toggleSkill(skill)}
+                style={{
+                  background: isSelected ? "var(--accent)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${isSelected ? "var(--accent)" : "rgba(180,210,255,0.15)"}`,
+                  borderRadius: 999,
+                  padding: "2px 8px",
+                  color: "white",
+                  fontSize: "10px",
+                  cursor: "pointer",
+                  transition: "all 0.1s ease"
+                }}
+              >
+                {skill}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 6, margin: "2px 0" }}>
+        <input
+          type="checkbox"
+          id="sponsorship"
+          checked={sponsorshipNeeded}
+          onChange={e => setSponsorshipNeeded(e.target.checked)}
+          style={{ cursor: "pointer", width: 12, height: 12 }}
+        />
+        <label htmlFor="sponsorship" style={{ cursor: "pointer", userSelect: "none", color: "rgba(255,255,255,0.85)", fontSize: "11px" }}>
+          Visa Sponsorship Required
+        </label>
+      </div>
+
+      <button type="submit" className="btn primary" style={{
+        marginTop: 4,
+        padding: "8px 12px",
+        fontSize: "11.5px",
+        justifyContent: "center",
+        border: "none",
+        width: "100%"
+      }}>
+        Generate Letter
+      </button>
+    </form>
+  );
+}
+
+function CoverLetterDownload({ base64Pdf }) {
+  const handleDownload = () => {
+    try {
+      const byteCharacters = atob(base64Pdf);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'Yusuf_Khan_Cover_Letter.pdf';
+      link.click();
+    } catch (e) {
+      console.error("Error creating download blob:", e);
+    }
+  };
+
+  return (
+    <div style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 8,
+      padding: "10px 8px",
+      background: "rgba(255, 255, 255, 0.04)",
+      border: "1px solid rgba(180, 210, 255, 0.15)",
+      borderRadius: 12,
+      marginTop: 4,
+      width: "100%",
+      textAlign: "center"
+    }}>
+      <div style={{ fontSize: 20 }}>📄</div>
+      <div>
+        <div style={{ fontWeight: "bold", fontSize: "12px", color: "white" }}>Yusuf_Khan_Cover_Letter.pdf</div>
+        <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", marginTop: 2 }}>Ready for download</div>
+      </div>
+      <button onClick={handleDownload} className="btn primary" style={{
+        padding: "6px 12px",
+        fontSize: "11px",
+        border: "none",
+        gap: 4,
+        width: "100%",
+        justifyContent: "center"
+      }}>
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: -1 }}>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Download Cover Letter
+      </button>
+    </div>
+  );
+}
+
 function Mascot({ route, setTweak, enabled = true }) {
   const [pose, setPose] = useState("idle"); // idle | wave | wink | bounce | thinking
   const [bubble, setBubble] = useState(null);
@@ -311,6 +544,67 @@ function Mascot({ route, setTweak, enabled = true }) {
     }
   };
 
+  const submitCoverLetterForm = async (data) => {
+    if (sending) return;
+
+    // Add a clean message to chat view
+    const userMsgId = 'user-' + Date.now();
+    setMessages(prev => [...prev, {
+      id: userMsgId,
+      text: "Submitted cover letter preferences.",
+      sender: 'user'
+    }]);
+
+    setSending(true);
+    setPose("thinking");
+
+    try {
+      const token = accessTokenRef.current;
+      const convId = conversationIdRef.current;
+      const messageId = generateUUID();
+
+      const payloadText = `Job Description: ${data.jobDescription}\n` +
+                          `Highlighting Points: ${data.highlightingPoints || 'None'}\n` +
+                          `Tone: ${data.tone || 'Results-oriented'}\n` +
+                          `Highlight Skills: ${data.highlightSkills || 'None'}\n` +
+                          `Sponsorship Needed: ${data.sponsorshipNeeded ? 'True' : 'False'}`;
+
+      const response = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation/${convId}/message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          message: {
+            id: messageId,
+            messageType: "StaticContentMessage",
+            staticContent: {
+              formatType: "Text",
+              text: payloadText
+            }
+          },
+          esDeveloperName: SF_CONFIG.esDeveloperName,
+          isNewMessagingSession: false,
+          language: "en"
+        })
+      });
+
+      if (!response.ok) throw new Error("Send failed: " + response.statusText);
+      setSending(false);
+      setPose("idle");
+    } catch (err) {
+      console.error("Message send error:", err);
+      setSending(false);
+      setPose("idle");
+      setMessages(prev => [...prev, {
+        id: 'err-' + Date.now(),
+        text: "Failed to submit form. Please try again.",
+        sender: "agent"
+      }]);
+    }
+  };
+
   if (!enabled) return null;
 
   return (
@@ -370,11 +664,27 @@ function Mascot({ route, setTweak, enabled = true }) {
           </div>
           
           <div className="cosmic-chat-messages" ref={chatMessagesRef}>
-            {messages.map(msg => (
-              <div key={msg.id} className={`cosmic-chat-message ${msg.sender}`}>
-                {msg.text}
-              </div>
-            ))}
+            {messages.map(msg => {
+              const isForm = msg.text === '[SHOW_COVER_LETTER_FORM]';
+              const isDownload = msg.text.startsWith('[DOWNLOAD_PDF:');
+              return (
+                <div key={msg.id} className={`cosmic-chat-message ${msg.sender}`} style={{
+                  width: (isForm || isDownload) ? '90%' : undefined,
+                  maxWidth: (isForm || isDownload) ? '90%' : undefined,
+                  padding: (isForm || isDownload) ? '6px 8px' : undefined,
+                  background: isForm ? 'rgba(10,20,50,0.4)' : isDownload ? 'rgba(255,255,255,0.03)' : undefined,
+                  border: (isForm || isDownload) ? '1px solid rgba(180, 210, 255, 0.15)' : undefined
+                }}>
+                  {isForm ? (
+                    <CoverLetterForm onSubmit={submitCoverLetterForm} />
+                  ) : isDownload ? (
+                    <CoverLetterDownload base64Pdf={msg.text.substring('[DOWNLOAD_PDF:'.length, msg.text.length - 1).trim()} />
+                  ) : (
+                    msg.text
+                  )}
+                </div>
+              );
+            })}
             
             {(sending || connecting) && (
               <div className="cosmic-chat-typing">
