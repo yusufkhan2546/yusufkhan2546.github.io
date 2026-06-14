@@ -665,20 +665,30 @@ function Mascot({ route, setTweak, enabled = true }) {
           
           <div className="cosmic-chat-messages" ref={chatMessagesRef}>
             {messages.map(msg => {
-              const isForm = msg.text === '[SHOW_COVER_LETTER_FORM]';
-              const isDownload = msg.text.startsWith('[DOWNLOAD_PDF:');
+              const hasForm = msg.text && msg.text.includes('[SHOW_COVER_LETTER_FORM]');
+              const hasDownload = msg.text && msg.text.includes('[DOWNLOAD_PDF:');
+              
+              let downloadBase64 = "";
+              if (hasDownload) {
+                const startIdx = msg.text.indexOf('[DOWNLOAD_PDF:') + '[DOWNLOAD_PDF:'.length;
+                const endIdx = msg.text.indexOf(']', startIdx);
+                if (endIdx !== -1) {
+                  downloadBase64 = msg.text.substring(startIdx, endIdx).trim();
+                }
+              }
+
               return (
                 <div key={msg.id} className={`cosmic-chat-message ${msg.sender}`} style={{
-                  width: (isForm || isDownload) ? '90%' : undefined,
-                  maxWidth: (isForm || isDownload) ? '90%' : undefined,
-                  padding: (isForm || isDownload) ? '6px 8px' : undefined,
-                  background: isForm ? 'rgba(10,20,50,0.4)' : isDownload ? 'rgba(255,255,255,0.03)' : undefined,
-                  border: (isForm || isDownload) ? '1px solid rgba(180, 210, 255, 0.15)' : undefined
+                  width: (hasForm || hasDownload) ? '90%' : undefined,
+                  maxWidth: (hasForm || hasDownload) ? '90%' : undefined,
+                  padding: (hasForm || hasDownload) ? '6px 8px' : undefined,
+                  background: hasForm ? 'rgba(10,20,50,0.4)' : hasDownload ? 'rgba(255,255,255,0.03)' : undefined,
+                  border: (hasForm || hasDownload) ? '1px solid rgba(180, 210, 255, 0.15)' : undefined
                 }}>
-                  {isForm ? (
+                  {hasForm ? (
                     <CoverLetterForm onSubmit={submitCoverLetterForm} />
-                  ) : isDownload ? (
-                    <CoverLetterDownload base64Pdf={msg.text.substring('[DOWNLOAD_PDF:'.length, msg.text.length - 1).trim()} />
+                  ) : hasDownload ? (
+                    <CoverLetterDownload base64Pdf={downloadBase64} />
                   ) : (
                     msg.text
                   )}

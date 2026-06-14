@@ -1910,15 +1910,23 @@ Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
     borderTop: "8px solid rgba(255, 255, 255, 0.88)",
     filter: "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2))"
   } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar" }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement("span", { className: `cosmic-chat-status-dot ${connecting ? "connecting" : ""}` }), /* @__PURE__ */ React.createElement("span", null, connecting ? "Connecting..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => {
-    const isForm = msg.text === "[SHOW_COVER_LETTER_FORM]";
-    const isDownload = msg.text.startsWith("[DOWNLOAD_PDF:");
+    const hasForm = msg.text && msg.text.includes("[SHOW_COVER_LETTER_FORM]");
+    const hasDownload = msg.text && msg.text.includes("[DOWNLOAD_PDF:");
+    let downloadBase64 = "";
+    if (hasDownload) {
+      const startIdx = msg.text.indexOf("[DOWNLOAD_PDF:") + "[DOWNLOAD_PDF:".length;
+      const endIdx = msg.text.indexOf("]", startIdx);
+      if (endIdx !== -1) {
+        downloadBase64 = msg.text.substring(startIdx, endIdx).trim();
+      }
+    }
     return /* @__PURE__ */ React.createElement("div", { key: msg.id, className: `cosmic-chat-message ${msg.sender}`, style: {
-      width: isForm || isDownload ? "90%" : void 0,
-      maxWidth: isForm || isDownload ? "90%" : void 0,
-      padding: isForm || isDownload ? "6px 8px" : void 0,
-      background: isForm ? "rgba(10,20,50,0.4)" : isDownload ? "rgba(255,255,255,0.03)" : void 0,
-      border: isForm || isDownload ? "1px solid rgba(180, 210, 255, 0.15)" : void 0
-    } }, isForm ? /* @__PURE__ */ React.createElement(CoverLetterForm, { onSubmit: submitCoverLetterForm }) : isDownload ? /* @__PURE__ */ React.createElement(CoverLetterDownload, { base64Pdf: msg.text.substring("[DOWNLOAD_PDF:".length, msg.text.length - 1).trim() }) : msg.text);
+      width: hasForm || hasDownload ? "90%" : void 0,
+      maxWidth: hasForm || hasDownload ? "90%" : void 0,
+      padding: hasForm || hasDownload ? "6px 8px" : void 0,
+      background: hasForm ? "rgba(10,20,50,0.4)" : hasDownload ? "rgba(255,255,255,0.03)" : void 0,
+      border: hasForm || hasDownload ? "1px solid rgba(180, 210, 255, 0.15)" : void 0
+    } }, hasForm ? /* @__PURE__ */ React.createElement(CoverLetterForm, { onSubmit: submitCoverLetterForm }) : hasDownload ? /* @__PURE__ */ React.createElement(CoverLetterDownload, { base64Pdf: downloadBase64 }) : msg.text);
   }), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing" }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
     e.preventDefault();
     sendMessage(inputText);
