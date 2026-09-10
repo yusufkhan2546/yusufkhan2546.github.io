@@ -96,38 +96,104 @@
   </noscript>
 
   <style>
-    :root {
-      --sf-blue: #00A1E0;
-      --sf-blue-deep: #0070D2;
-      --sf-navy: #032D60;
-      --sf-navy-2: #16325C;
-      --sf-sky: rgba(0, 161, 224, .12);
-      --sf-cloud: rgba(255, 255, 255, .04);
+    :root, html[data-theme="cyber-matrix"] {
+      --sf-blue: #00F0FF;
+      --sf-blue-deep: #00A3FF;
+      --sf-navy: #030712;
+      --sf-navy-2: #090D1E;
+      --sf-sky: rgba(0, 240, 255, 0.15);
+      --sf-cloud: rgba(0, 240, 255, 0.05);
       --sf-trail: #FFB75D;
-      --sf-success: #2E844A;
-      --sf-purple: #7F00FF;
-      --ink: #F4F8FF;
-      /* main text on dark */
-      --ink-2: rgba(244, 248, 255, .65);
-      --ink-3: rgba(244, 248, 255, .45);
-      --line: rgba(180, 210, 255, .14);
-      --line-2: rgba(180, 210, 255, .10);
-      --bg: #050818;
-      /* deep cosmic base */
-      --bg-2: #0A1230;
-      --card: rgba(255, 255, 255, .04);
-      /* glass card */
-      --card-solid: #0C1530;
-      --accent: var(--sf-blue);
-      --accent-deep: #6BB7FF;
-      /* lighter on dark for contrast */
-      --radius: 14px;
-      --shadow-1: 0 1px 0 rgba(180, 210, 255, .05), 0 2px 8px rgba(0, 0, 0, .25);
-      --shadow-2: 0 12px 28px -10px rgba(0, 0, 0, .55), 0 4px 12px rgba(0, 160, 255, .08);
-      --shadow-3: 0 30px 60px -20px rgba(0, 0, 0, .7), 0 12px 30px -10px rgba(0, 160, 255, .15);
+      --sf-success: #10B981;
+      --sf-purple: #8B5CF6;
+      --sf-pink: #EC4899;
+      --ink: #F3F8FF;
+      --ink-2: rgba(243, 248, 255, 0.72);
+      --ink-3: rgba(243, 248, 255, 0.45);
+      --line: rgba(0, 240, 255, 0.18);
+      --line-2: rgba(0, 240, 255, 0.10);
+      --bg: #030712;
+      --bg-2: #090D1E;
+      --card: rgba(13, 22, 45, 0.55);
+      --card-solid: #0A1226;
+      --card-border: rgba(0, 240, 255, 0.22);
+      --accent: #00F0FF;
+      --accent-deep: #7C3AED;
+      --accent-secondary: #EC4899;
+      --neon-glow: 0 0 25px rgba(0, 240, 255, 0.35);
+      --radius: 16px;
+      --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.45), 0 0 15px rgba(0, 240, 255, 0.08);
+      --shadow-2: 0 12px 36px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 240, 255, 0.22);
+      --shadow-3: 0 30px 60px -20px rgba(0, 0, 0, 0.85), 0 0 40px rgba(124, 58, 237, 0.3);
       --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
       --font-body: 'Manrope', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    html[data-theme="hyperion"] {
+      --sf-blue: #F59E0B;
+      --sf-blue-deep: #D97706;
+      --sf-navy: #0A0806;
+      --sf-navy-2: #16120B;
+      --sf-sky: rgba(245, 158, 11, 0.15);
+      --sf-cloud: rgba(245, 158, 11, 0.05);
+      --sf-purple: #F59E0B;
+      --sf-pink: #EF4444;
+      --line: rgba(245, 158, 11, 0.20);
+      --line-2: rgba(245, 158, 11, 0.10);
+      --bg: #070503;
+      --bg-2: #14100B;
+      --card: rgba(28, 20, 12, 0.55);
+      --card-solid: #19120A;
+      --card-border: rgba(245, 158, 11, 0.25);
+      --accent: #F59E0B;
+      --accent-deep: #D97706;
+      --accent-secondary: #EF4444;
+      --neon-glow: 0 0 25px rgba(245, 158, 11, 0.35);
+    }
+
+    html[data-theme="nebula"] {
+      --sf-blue: #A855F7;
+      --sf-blue-deep: #9333EA;
+      --sf-navy: #0B0514;
+      --sf-navy-2: #170B29;
+      --sf-sky: rgba(168, 85, 247, 0.15);
+      --sf-cloud: rgba(168, 85, 247, 0.05);
+      --sf-purple: #A855F7;
+      --sf-pink: #F43F5E;
+      --line: rgba(168, 85, 247, 0.20);
+      --line-2: rgba(168, 85, 247, 0.10);
+      --bg: #0A0413;
+      --bg-2: #150926;
+      --card: rgba(28, 14, 46, 0.55);
+      --card-solid: #170A2A;
+      --card-border: rgba(168, 85, 247, 0.25);
+      --accent: #A855F7;
+      --accent-deep: #EC4899;
+      --accent-secondary: #38BDF8;
+      --neon-glow: 0 0 25px rgba(168, 85, 247, 0.35);
+    }
+
+    html[data-theme="apex"] {
+      --sf-blue: #10B981;
+      --sf-blue-deep: #059669;
+      --sf-navy: #040D0A;
+      --sf-navy-2: #091F18;
+      --sf-sky: rgba(16, 185, 129, 0.15);
+      --sf-cloud: rgba(16, 185, 129, 0.05);
+      --sf-purple: #10B981;
+      --sf-pink: #06B6D4;
+      --line: rgba(16, 185, 129, 0.20);
+      --line-2: rgba(16, 185, 129, 0.10);
+      --bg: #030A08;
+      --bg-2: #081A14;
+      --card: rgba(10, 32, 26, 0.55);
+      --card-solid: #0A211A;
+      --card-border: rgba(16, 185, 129, 0.25);
+      --accent: #10B981;
+      --accent-deep: #0284C7;
+      --accent-secondary: #6366F1;
+      --neon-glow: 0 0 25px rgba(16, 185, 129, 0.35);
     }
 
     *,
@@ -140,18 +206,19 @@
     body {
       margin: 0;
       padding: 0;
+      background-color: var(--bg);
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
 
     body {
       font-family: var(--font-body);
       color: var(--ink);
-      background: #050818;
+      background: var(--bg);
       background-image:
-        radial-gradient(ellipse 80% 60% at 80% 0%, rgba(0, 161, 224, .18), transparent 60%),
-        radial-gradient(ellipse 70% 50% at 10% 30%, rgba(127, 0, 255, .18), transparent 60%),
-        radial-gradient(ellipse 90% 60% at 90% 100%, rgba(0, 212, 255, .10), transparent 60%),
-        radial-gradient(ellipse 60% 40% at 30% 80%, rgba(255, 119, 176, .08), transparent 65%),
-        linear-gradient(180deg, #050818 0%, #060B22 40%, #02050E 100%);
+        radial-gradient(ellipse 90% 70% at 80% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%),
+        radial-gradient(ellipse 75% 50% at 10% 30%, color-mix(in oklab, var(--accent-deep) 18%, transparent), transparent 60%),
+        radial-gradient(ellipse 90% 60% at 90% 100%, color-mix(in oklab, var(--sf-blue) 12%, transparent), transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 40%, #02040A 100%);
       background-attachment: fixed;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
@@ -547,31 +614,159 @@
       }
     }
 
-    /* Grid bg patterns */
+    /* Grid bg patterns with cyber HUD grid overlay */
     .grid-bg {
       background-image:
-        linear-gradient(to right, rgba(3, 45, 96, .06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(3, 45, 96, .06) 1px, transparent 1px);
-      background-size: 56px 56px;
+        linear-gradient(to right, color-mix(in oklab, var(--accent) 12%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, var(--accent) 12%, transparent) 1px, transparent 1px);
+      background-size: 40px 40px;
     }
 
     .dot-bg {
-      background-image: radial-gradient(rgba(3, 45, 96, .18) 1px, transparent 1px);
-      background-size: 22px 22px;
+      background-image: radial-gradient(color-mix(in oklab, var(--accent) 22%, transparent) 1px, transparent 1px);
+      background-size: 20px 20px;
     }
 
-    /* common card — glass on dark */
-    .card {
+    /* Futuristic HUD Grid & Overlay */
+    .cyber-hud-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-hud-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 15%, transparent), transparent 70%),
+        linear-gradient(to right, color-mix(in oklab, var(--accent) 8%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, var(--accent) 8%, transparent) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Common card — futuristic glass on obsidian */
+    .card, .glass-card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow-1);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
     }
 
-    .card:hover {
+    .card:hover, .glass-card:hover {
       box-shadow: var(--shadow-2);
-      border-color: rgba(180, 210, 255, .22);
+      border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+      transform: translateY(-2px);
+    }
+
+    .cyber-card {
+      background: rgba(8, 15, 32, 0.65);
+      border: 1px solid color-mix(in oklab, var(--accent) 25%, transparent);
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.6;
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7), var(--neon-glow);
+    }
+
+    /* Futuristic HUD Pill Badge */
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--accent) 12%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+      box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 20%, transparent);
+    }
+
+    .hud-badge .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: hudPulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes hudPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.5; }
+    }
+
+    /* Futuristic Theme Switcher Pills */
+    .theme-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(3, 7, 18, 0.6);
+      border: 1px solid var(--line);
+      padding: 3px;
+      border-radius: 999px;
+      backdrop-filter: blur(12px);
+    }
+
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--ink-2);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .theme-btn.active {
+      color: #FFFFFF;
+      background: color-mix(in oklab, var(--accent) 25%, transparent);
+      border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
+      box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 30%, transparent);
+    }
+
+    .theme-dot-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
     }
 
     /* sections — kill the bright stripe backgrounds, let cosmic show through */

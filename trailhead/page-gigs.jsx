@@ -150,6 +150,121 @@ function FAQItem({ q, a }) {
   );
 }
 
+function ProjectEstimator({ onInquire }) {
+  const [service, setService] = useState("agentforce");
+  const [scale, setScale] = useState("medium");
+  const [duration, setDuration] = useState(2); // weeks
+
+  const calcEstimate = useMemo(() => {
+    let rate = 150;
+    if (service === "agentforce") rate = 170;
+    if (service === "vlocity") rate = 160;
+    if (service === "lowcode") rate = 120;
+    if (service === "apex_lwc") rate = 130;
+
+    let multiplier = scale === "small" ? 0.75 : scale === "medium" ? 1.0 : 1.6;
+    let days = Math.round(duration * 5 * multiplier);
+    let total = days * rate;
+
+    return { rate, days, total };
+  }, [service, scale, duration]);
+
+  return (
+    <div className="cyber-card" style={{ padding: "32px 36px", marginBottom: 60 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
+        <div>
+          <div className="hud-badge">
+            <span className="pulse-dot"></span> INTERACTIVE PROJECT SCOPE ESTIMATOR
+          </div>
+          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 22, color: "white", margin: "10px 0 4px" }}>
+            Estimate Your Project Timeline &amp; Investment
+          </h3>
+        </div>
+        <div style={{ textAlign: "right", background: "rgba(3, 7, 18, 0.8)", padding: "10px 18px", borderRadius: 12, border: "1px solid var(--line)" }}>
+          <div style={{ fontSize: 11, color: "var(--ink-2)", textTransform: "uppercase", fontFamily: "var(--font-mono)" }}>Estimated Investment</div>
+          <div style={{ fontSize: 26, fontWeight: 800, color: "var(--accent)" }}>
+            ${calcEstimate.total.toLocaleString()} <span style={{ fontSize: 13, color: "var(--ink-3)", fontWeight: 500 }}>({calcEstimate.days} dev days)</span>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20, marginBottom: 24 }}>
+        {/* Service Type */}
+        <div>
+          <label style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-2)", textTransform: "uppercase", letterSpacing: ".06em", display: "block", marginBottom: 8 }}>
+            Primary Technical Domain
+          </label>
+          <select
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+            style={{
+              width: "100%", padding: "10px 14px", borderRadius: 10, background: "rgba(3, 7, 18, 0.9)",
+              border: "1px solid var(--line)", color: "white", fontFamily: "inherit", fontSize: 13.5
+            }}
+          >
+            <option value="agentforce">🤖 Agentforce AI &amp; Data Cloud ($170/day)</option>
+            <option value="vlocity">🔮 OmniStudio &amp; FSC ($160/day)</option>
+            <option value="integration">🔌 Third-Party REST/SOAP Integrations ($150/day)</option>
+            <option value="apex_lwc">⚡ Apex &amp; LWC Custom Dev ($130/day)</option>
+            <option value="lowcode">⚙️ Low-Code Flows &amp; Admin ($120/day)</option>
+          </select>
+        </div>
+
+        {/* Project Scale */}
+        <div>
+          <label style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-2)", textTransform: "uppercase", letterSpacing: ".06em", display: "block", marginBottom: 8 }}>
+            Architecture Scale
+          </label>
+          <div style={{ display: "flex", gap: 6 }}>
+            {[["small", "Sprint / Quick MVP"], ["medium", "Standard Build"], ["enterprise", "Enterprise Core"]].map(([k, label]) => (
+              <button
+                key={k}
+                className={`btn ghost ${scale === k ? "active" : ""}`}
+                onClick={() => setScale(k)}
+                style={{
+                  flex: 1, padding: "8px 6px", fontSize: 11.5, textTransform: "capitalize",
+                  borderColor: scale === k ? "var(--accent)" : "var(--line)",
+                  background: scale === k ? "color-mix(in oklab, var(--accent) 20%, transparent)" : "rgba(255,255,255,0.03)"
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Duration */}
+        <div>
+          <label style={{ fontSize: 12, fontWeight: 700, color: "var(--ink-2)", textTransform: "uppercase", letterSpacing: ".06em", display: "block", marginBottom: 8 }}>
+            Estimated Duration: {duration} {duration === 1 ? "Week" : "Weeks"}
+          </label>
+          <input
+            type="range"
+            min={1}
+            max={12}
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value))}
+            style={{ width: "100%", accentColor: "var(--accent)", margin: "10px 0" }}
+          />
+        </div>
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, borderTop: "1px solid var(--line)", paddingTop: 18 }}>
+        <div style={{ fontSize: 12.5, color: "var(--ink-2)" }}>
+          ✔️ Includes full technical design doc, governor-limit safe code, unit test coverage &amp; post-launch hypercare.
+        </div>
+        <button
+          className="btn primary hoverable"
+          onClick={() => onInquire(`Estimated Project: ${service.toUpperCase()} (${calcEstimate.days} days ~ $${calcEstimate.total.toLocaleString()})`)}
+          style={{ padding: "10px 22px", border: "none" }}
+        >
+          Book Consultation With Estimate <Icon name="arrow" size={15} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function PageGigs({ go }) {
   const handleSelectGig = (title) => {
     window.__GIG_SELECTION__ = title;
@@ -178,6 +293,9 @@ function PageGigs({ go }) {
               </button>
             </div>
           </div>
+
+          {/* Interactive Project Estimator */}
+          <ProjectEstimator onInquire={handleSelectGig} />
 
           {/* Grid Layout */}
           <div style={{ 

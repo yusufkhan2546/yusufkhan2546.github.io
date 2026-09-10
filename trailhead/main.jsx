@@ -23,8 +23,46 @@ function useHashRoute() {
 
 const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
 
+const THEMES = [
+  { id: "cyber-matrix", label: "Matrix", color: "#00F0FF" },
+  { id: "hyperion", label: "Hyperion", color: "#F59E0B" },
+  { id: "nebula", label: "Nebula", color: "#A855F7" },
+  { id: "apex", label: "Apex", color: "#10B981" }
+];
+
+function ThemeSwitcher({ theme, setTheme }) {
+  return (
+    <div className="theme-selector" style={{ margin: "0 6px" }}>
+      {THEMES.map((t) => (
+        <button
+          key={t.id}
+          className={"theme-btn hoverable" + (theme === t.id ? " active" : "")}
+          onClick={() => setTheme(t.id)}
+          title={`Switch to ${t.label} theme`}
+        >
+          <span className="theme-dot-icon" style={{ background: t.color, boxShadow: `0 0 6px ${t.color}` }}></span>
+          <span>{t.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function Nav({ route, go }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [theme, setThemeState] = useState(() => {
+    return localStorage.getItem("sf_theme") || "cyber-matrix";
+  });
+
+  const changeTheme = (newTheme) => {
+    setThemeState(newTheme);
+    localStorage.setItem("sf_theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const navigate = (id) => {
     setDrawerOpen(false);
@@ -49,12 +87,15 @@ function Nav({ route, go }) {
       <nav className="nav">
         <div className="nav-inner">
           <a className="brand hoverable" href="#home" onClick={(e)=>{e.preventDefault(); navigate("home");}}>
-            <span className="brand-mark" style={{ overflow: "hidden" }}>
+            <span className="brand-mark" style={{ overflow: "hidden", border: "1px solid color-mix(in oklab, var(--accent) 40%, transparent)" }}>
               <img src="uploads/YK.png" alt="YK" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </span>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 }}>
-              <span style={{ lineHeight: 1.1 }}>Yusuf Khan</span>
-              <span style={{ fontWeight: 500, color: "var(--ink-2)", fontSize: 11.5, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>Salesforce Developer</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ lineHeight: 1.1, fontWeight: 700 }}>Yusuf Khan</span>
+                <span className="hud-badge" style={{ padding: "2px 6px", fontSize: 9 }}>● ONLINE</span>
+              </div>
+              <span style={{ fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>Salesforce Lead Architect & SME</span>
             </div>
           </a>
 
@@ -70,8 +111,9 @@ function Nav({ route, go }) {
             ))}
           </div>
 
-          {/* Desktop CTA buttons — hidden on mobile via .nav-cta-group CSS class */}
-          <div className="nav-cta-group" style={{ display: "flex", gap: 10 }}>
+          {/* Theme switcher + CTA buttons */}
+          <div className="nav-cta-group" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <ThemeSwitcher theme={theme} setTheme={changeTheme} />
             <a className="btn ghost hoverable" href="#contact" onClick={(e)=>{e.preventDefault(); navigate("contact");}}>
               <Icon name="mail" size={15}/> Get in touch
             </a>
@@ -96,6 +138,13 @@ function Nav({ route, go }) {
       {drawerOpen && (
         <div className="mobile-drawer" role="dialog" aria-label="Navigation menu">
           <button className="drawer-close" aria-label="Close menu" onClick={() => setDrawerOpen(false)}>✕</button>
+
+          <div style={{ marginBottom: 12, textTransform: "uppercase", fontSize: 11, letterSpacing: "0.1em", color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}>
+            Select Futuristic Theme
+          </div>
+          <ThemeSwitcher theme={theme} setTheme={changeTheme} />
+
+          <div style={{ height: 16 }}></div>
 
           {ROUTES.map(r => (
             <a key={r.id}

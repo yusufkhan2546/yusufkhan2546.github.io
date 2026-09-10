@@ -203,6 +203,129 @@ function HeroMarquee() {
   );
 }
 
+function AgentforceAssistantWidget({ go }) {
+  const [activePrompt, setActivePrompt] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+  const [displayedText, setDisplayedText] = useState("");
+
+  const presets = useMemo(() => [
+    {
+      q: "✨ FSC & Banking Architecture",
+      a: "Yusuf Khan is a Salesforce Technical SME & Certified FSC Consultant who has architected Tier-1 banking & lending platforms handling over $4.2B+ in loan transactions. His implementations leverage OmniStudio, custom LWC engines, and MuleSoft integrations to reduce loan origination time from days to under 14 minutes."
+    },
+    {
+      q: "🎓 12× Certifications & Credentials",
+      a: "Yusuf holds 12× Salesforce Certifications including Platform Developer II, Agentforce Specialist, Data Cloud Consultant, Financial Services Cloud Consultant, OmniStudio Developer, JavaScript Developer I, and Deployment Architect. He maintains a 99.9% verification record with 506+ Trailhead badges."
+    },
+    {
+      q: "⚡ OmniStudio & LWC Frameworks",
+      a: "Yusuf builds modular, governor-limit safe LWC & OmniStudio FlexCards/OmniScripts designed for high concurrency. He enforces strict separation of concerns, Apex enterprise trigger frameworks (Selectors, Domain, Service layers), and async Queueables/Platform Events to achieve 99.98% processing accuracy."
+    },
+    {
+      q: "🤖 Agentforce AI & Data Cloud",
+      a: "As a Certified Agentforce Specialist and AI Associate, Yusuf designs autonomous Salesforce AI Agents, Prompt Templates, and Data Cloud retrieval pipelines that automate customer service inquiries, loan risk profiling, and real-time carrier provisioning."
+    }
+  ], []);
+
+  const handleSelect = (idx) => {
+    setActivePrompt(idx);
+    triggerResponse(presets[idx].a);
+  };
+
+  const triggerResponse = (text) => {
+    setIsTyping(true);
+    setDisplayedText("");
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayedText(text.slice(0, i + 5));
+        i += 5;
+      } else {
+        setDisplayedText(text);
+        setIsTyping(false);
+        clearInterval(interval);
+      }
+    }, 15);
+  };
+
+  useEffect(() => {
+    handleSelect(0);
+  }, []);
+
+  return (
+    <div className="cyber-card hoverable" style={{ padding: "24px 28px", marginTop: 32, textAlign: "left", width: "100%", maxWidth: 840, margin: "32px auto 0", pointerEvents: "auto" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, borderBottom: "1px solid var(--line)", paddingBottom: 10, flexWrap: "wrap", gap: 8 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="hud-badge">
+            <span className="pulse-dot"></span> AGENTFORCE AI ASSISTANT
+          </div>
+          <span style={{ fontSize: 11, color: "var(--ink-2)", fontFamily: "var(--font-mono)" }}>● LIVE DEMO</span>
+        </div>
+        <span style={{ fontSize: 10.5, color: "var(--accent)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>SALESFORCE DATA CLOUD CONNECTED</span>
+      </div>
+
+      {/* Preset Buttons */}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+        {presets.map((p, idx) => (
+          <button
+            key={idx}
+            className={`btn ghost hoverable ${activePrompt === idx ? "active" : ""}`}
+            onClick={() => handleSelect(idx)}
+            style={{
+              padding: "6px 12px",
+              fontSize: 12,
+              borderRadius: 999,
+              borderColor: activePrompt === idx ? "var(--accent)" : "var(--line)",
+              background: activePrompt === idx ? "color-mix(in oklab, var(--accent) 18%, transparent)" : "rgba(255,255,255,0.03)",
+              color: activePrompt === idx ? "#FFFFFF" : "var(--ink-2)",
+              transition: "all 0.2s ease"
+            }}
+          >
+            {p.q}
+          </button>
+        ))}
+      </div>
+
+      {/* AI Response Display Box */}
+      <div style={{
+        background: "rgba(3, 7, 18, 0.8)",
+        border: "1px solid var(--line)",
+        borderRadius: 12,
+        padding: "16px 20px",
+        minHeight: 90,
+        fontFamily: "var(--font-body)",
+        fontSize: 13.5,
+        lineHeight: 1.6,
+        color: "var(--ink)",
+        position: "relative"
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--accent)" }}>
+          <Icon name="bolt" size={13} color="var(--accent)" />
+          <span>AGENTFORCE AI RESPONSE</span>
+          {isTyping && <span style={{ marginLeft: "auto", color: "var(--sf-pink)" }}>GENERATING...</span>}
+        </div>
+        <p style={{ margin: 0 }}>
+          {displayedText}
+          {isTyping && <span style={{ display: "inline-block", width: 7, height: 14, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" }}></span>}
+        </p>
+      </div>
+
+      {/* Action footer */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14, flexWrap: "wrap", gap: 10 }}>
+        <span style={{ fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}>💡 Click presets above to test Agentforce AI responses</span>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button className="btn primary hoverable" onClick={() => go("projects")} style={{ padding: "6px 14px", fontSize: 12, border: "none" }}>
+            Explore Case Studies <Icon name="arrow" size={13} />
+          </button>
+          <button className="btn ghost hoverable" onClick={() => go("contact")} style={{ padding: "6px 14px", fontSize: 12 }}>
+            Contact SME
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function HeroSection({ go }) {
   const nameRef = React.useRef(null);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
@@ -403,34 +526,36 @@ function HeroSection({ go }) {
         {/* CTAs */}
         <div style={{ display: "inline-flex", gap: 12, flexWrap: "wrap", justifyContent: "center", pointerEvents: "auto", animation: "letterIn .8s ease .6s both" }}>
           <button className="btn primary hoverable" onClick={() => go("projects")} style={{
-            background: "linear-gradient(90deg, #00A1E0, #7F00FF)",
-            boxShadow: "0 18px 40px -12px rgba(127,0,255,.6)",
-            padding: "14px 24px", fontSize: 14,
+            background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
+            boxShadow: "0 18px 40px -12px color-mix(in oklab, var(--accent) 60%, transparent)",
+            padding: "14px 24px", fontSize: 14, border: "none"
           }}>
             See case studies <Icon name="arrow" size={16} />
           </button>
           <button className="btn ghost hoverable" onClick={() => go("certs")} style={{
-            background: "rgba(255,255,255,.06)", color: "white", borderColor: "rgba(255,255,255,.18)",
+            background: "rgba(255,255,255,.06)", color: "white", borderColor: "var(--line)",
             padding: "14px 24px", fontSize: 14,
           }}>
             <Icon name="badge" size={16} /> 12 certifications
           </button>
         </div>
 
-        {/* Stats strip */}
+        {/* Futuristic Telemetry Stats strip */}
         <div className="hero-stats" style={{
-          marginTop: 48,
+          marginTop: 36,
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
           gap: 0,
-          maxWidth: 720,
+          maxWidth: 760,
           marginLeft: "auto", marginRight: "auto",
-          borderTop: "1px solid rgba(255,255,255,.10)",
-          borderBottom: "1px solid rgba(255,255,255,.10)",
-          background: "rgba(255,255,255,.025)",
-          backdropFilter: "blur(8px)",
+          border: "1px solid var(--line)",
+          borderRadius: 16,
+          background: "rgba(3, 7, 18, 0.65)",
+          backdropFilter: "blur(14px)",
+          boxShadow: "var(--shadow-2)",
           animation: "letterIn .8s ease .75s both",
           pointerEvents: "auto",
+          overflow: "hidden"
         }}>
           {(function() {
             const sfData = window.__SF_DATA__ || {};
@@ -438,21 +563,26 @@ function HeroSection({ go }) {
             const tb         = sfData.trailblazerStats || {};
             const pointsDisp = tb.pointsK ? tb.pointsK + "K+" : "—";
             return [
-              [String(certCount), "Certs"],
-              ["6+",              "Years"],
-              ["8+",              "Projects"],
-              [pointsDisp,        "Trailhead Points"],
+              [String(certCount), "Salesforce Certs", "100% Verified"],
+              ["6+",              "Years Exp.",       "Lead SME"],
+              ["8+",              "Enterprise Apps", "Banking & Retail"],
+              [pointsDisp,        "Trailhead Pts",   "506 Badges"],
             ];
-          })().map(([n, l], i) => (
+          })().map(([n, l, sub], i) => (
             <div key={l} style={{
               padding: "16px 12px",
-              borderLeft: i > 0 ? "1px solid rgba(255,255,255,.10)" : "none",
+              borderLeft: i > 0 ? "1px solid var(--line)" : "none",
+              background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)"
             }}>
-              <div className="h-display" style={{ fontSize: 30, fontWeight: 800, color: "white" }}>{n}</div>
-              <div style={{ color: "rgba(255,255,255,.55)", fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".14em", marginTop: 2 }}>{l}</div>
+              <div className="h-display" style={{ fontSize: 28, fontWeight: 800, color: "var(--accent)" }}>{n}</div>
+              <div style={{ color: "white", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", marginTop: 2 }}>{l}</div>
+              <div style={{ color: "var(--ink-2)", fontSize: 10, fontFamily: "var(--font-mono)", marginTop: 2 }}>{sub}</div>
             </div>
           ))}
         </div>
+
+        {/* Agentforce AI Assistant Box */}
+        <AgentforceAssistantWidget go={go} />
       </div>
 
       {/* Drag hint */}
