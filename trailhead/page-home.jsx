@@ -288,15 +288,15 @@ function AgentforceAssistantWidget({ go }) {
 
       {/* AI Response Display Box */}
       <div style={{
-        background: "rgba(3, 7, 18, 0.8)",
+        background: "rgba(3, 7, 18, 0.9)",
         border: "1px solid var(--line)",
         borderRadius: 12,
         padding: "16px 20px",
-        minHeight: 90,
+        minHeight: 85,
         fontFamily: "var(--font-body)",
-        fontSize: 13.5,
+        fontSize: 14,
         lineHeight: 1.6,
-        color: "var(--ink)",
+        color: "#F8FAFC",
         position: "relative"
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--accent)" }}>
@@ -304,7 +304,7 @@ function AgentforceAssistantWidget({ go }) {
           <span>AGENTFORCE AI RESPONSE</span>
           {isTyping && <span style={{ marginLeft: "auto", color: "var(--sf-pink)" }}>GENERATING...</span>}
         </div>
-        <p style={{ margin: 0 }}>
+        <p style={{ margin: 0, color: "#F8FAFC" }}>
           {displayedText}
           {isTyping && <span style={{ display: "inline-block", width: 7, height: 14, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" }}></span>}
         </p>
@@ -330,12 +330,11 @@ function HeroSection({ go }) {
   const nameRef = React.useRef(null);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   useEffect(() => {
-    // Only enable parallax on non-touch (pointer: fine) devices
     if (window.matchMedia("(hover: none)").matches) return;
     const on = (e) => {
       setParallax({
-        x: (e.clientX / window.innerWidth - .5) * 30,
-        y: (e.clientY / window.innerHeight - .5) * 20,
+        x: (e.clientX / window.innerWidth - .5) * 20,
+        y: (e.clientY / window.innerHeight - .5) * 15,
       });
     };
     window.addEventListener("pointermove", on);
@@ -345,79 +344,34 @@ function HeroSection({ go }) {
   return (
     <section style={{
       position: "relative",
-      minHeight: "min(900px, 100vh)",
-      height: "calc(100vh - 65px)",
+      padding: "80px 0 60px",
       minWidth: 0,
       overflow: "hidden",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      /* Atmospheric overlay — sits on top of the page-shell gradient */
-      background: "radial-gradient(120% 90% at 50% 0%, rgba(10,27,60,0.85) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
+      background: "radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
       color: "white",
-      marginTop: -56,
-      paddingTop: 56,
     }}>
       {/* starfield + nebula */}
       <StarField />
-      <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1 }}>
-        <div style={{
-          position: "absolute", width: 800, height: 800, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,161,224,.3), transparent 65%)",
-          top: "-15%", left: "-10%", filter: "blur(50px)", animation: "blob1 22s ease-in-out infinite"
-        }} />
-        <div style={{
-          position: "absolute", width: 900, height: 900, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(127,0,255,.28), transparent 65%)",
-          bottom: "-25%", right: "-15%", filter: "blur(60px)", animation: "blob2 28s ease-in-out infinite"
-        }} />
-        <div style={{
-          position: "absolute", width: 500, height: 500, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(255,119,176,.16), transparent 70%)",
-          top: "30%", left: "55%", filter: "blur(60px)", animation: "blob3 32s ease-in-out infinite"
-        }} />
-        <style>{`
-          @keyframes blob1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(80px, 60px) scale(1.12); } }
-          @keyframes blob2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-100px, -50px) scale(1.18); } }
-          @keyframes blob3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-60px, 70px) scale(1.1); } }
-          @keyframes scrollCue {
-            0% { transform: translateY(0); opacity: .9; }
-            70% { transform: translateY(16px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 0; }
-          }
-          @keyframes letterIn {
-            0% { opacity: 0; transform: translateY(40px); filter: blur(8px); }
-            100% { opacity: 1; transform: none; filter: none; }
-          }
-          @keyframes pulseDot {
-            0%,100% { box-shadow: 0 0 0 0 rgba(46,132,74,.55), 0 0 12px rgba(46,132,74,1); }
-            70% { box-shadow: 0 0 0 12px rgba(46,132,74,0), 0 0 12px rgba(46,132,74,1); }
-          }
-        `}</style>
-      </div>
 
-      {/* Bottom fade — smoothly dissolves hero into the next section */}
-      <div aria-hidden="true" style={{
-        position: "absolute", bottom: 0, left: 0, right: 0,
-        height: 180, zIndex: 5, pointerEvents: "none",
-        background: "linear-gradient(to bottom, transparent 0%, rgba(5,8,24,0.6) 50%, #050818 100%)",
-      }} />
-
-      {/* 3D orb behind type */}
+      {/* 3D orb safely positioned in background */}
       <div style={{
         position: "absolute",
-        top: "-55%",
-        right: 0,
-        zIndex: 2,
-        pointerEvents: "auto",
-        transform: `translate(${parallax.x * .4}px, ${parallax.y * .4}px)`,
+        top: "45%",
+        right: "-5%",
+        transform: "translateY(-50%)",
+        zIndex: 0,
+        pointerEvents: "none",
+        opacity: 0.45
       }}>
         <div style={{
-          width: "min(920px, 85vw)",
-          height: "min(920px, 85vw)",
-          opacity: .65,
+          width: "min(650px, 60vw)",
+          height: "min(650px, 60vw)",
         }}>
-          <ThreeOrb height={920} bare={true} />
+          <ThreeOrb height={650} bare={true} />
         </div>
       </div>
 
@@ -470,39 +424,35 @@ function HeroSection({ go }) {
           </span>
         </div> */}
 
+        {/* Eyebrow HUD pill */}
+        <div style={{ marginBottom: 14, pointerEvents: "auto" }}>
+          <span className="hud-badge" style={{ padding: "6px 14px", fontSize: 11 }}>
+            <span className="pulse-dot"></span> SALESFORCE LEAD ARCHITECT &amp; TECHNICAL SME
+          </span>
+        </div>
+
         {/* HELLO I AM YUSUF KHAN Wordmark */}
         <h1 className="wordmark anim-word hero-wordmark" style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
+          alignItems: "center",
           fontFamily: "'Anton', system-ui, sans-serif",
-          fontSize: "clamp(80px, 13vw, 220px)",
-          letterSpacing: ".005em",
-          lineHeight: .85,
+          fontSize: "clamp(46px, 7.5vw, 100px)",
+          letterSpacing: ".02em",
+          lineHeight: 1,
           color: "#FFFFFF",
           textTransform: "uppercase",
           whiteSpace: "nowrap",
           zIndex: 3,
-          textShadow: "0 6px 30px rgba(0, 0, 0, .75), 0 0 40px rgba(0, 161, 224, .25), 0 0 15px rgba(127, 0, 255, .20)",
+          textShadow: "0 6px 30px rgba(0, 0, 0, .75), 0 0 35px color-mix(in oklab, var(--accent) 35%, transparent)",
           userSelect: "none",
-          margin: "0 auto 30px",
+          margin: "0 auto 20px",
           width: "fit-content",
-          animation: "letterIn 1.2s ease both",
           pointerEvents: "auto",
-          marginTop: "20px",
         }}>
-          <span style={{
-            fontSize: "0.33em",
-            lineHeight: 1,
-            marginBottom: "-8px",
-            paddingLeft: "6px",
-            fontFamily: "'Anton', sans-serif"
-          }}>
-            HELLO I AM
-          </span>
           <div style={{ display: "flex", alignItems: "baseline", gap: "16px" }}>
             <span className="split" style={{ display: "inline-block", fontFamily: "'Anton', sans-serif" }}>YUSUF</span>
-            <span className="accent" style={{ display: "inline-block", fontFamily: "'Anton', sans-serif", color: "#FFFFFF" }}>KHAN</span>
+            <span className="accent" style={{ display: "inline-block", fontFamily: "'Anton', sans-serif", color: "var(--accent)" }}>KHAN</span>
           </div>
         </h1>
 

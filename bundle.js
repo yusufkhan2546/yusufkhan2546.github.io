@@ -2256,17 +2256,17 @@ function AgentforceAssistantWidget({ go }) {
     },
     p.q
   ))), /* @__PURE__ */ React.createElement("div", { style: {
-    background: "rgba(3, 7, 18, 0.8)",
+    background: "rgba(3, 7, 18, 0.9)",
     border: "1px solid var(--line)",
     borderRadius: 12,
     padding: "16px 20px",
-    minHeight: 90,
+    minHeight: 85,
     fontFamily: "var(--font-body)",
-    fontSize: 13.5,
+    fontSize: 14,
     lineHeight: 1.6,
-    color: "var(--ink)",
+    color: "#F8FAFC",
     position: "relative"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--accent)" } }, /* @__PURE__ */ React.createElement(Icon, { name: "bolt", size: 13, color: "var(--accent)" }), /* @__PURE__ */ React.createElement("span", null, "AGENTFORCE AI RESPONSE"), isTyping && /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", color: "var(--sf-pink)" } }, "GENERATING...")), /* @__PURE__ */ React.createElement("p", { style: { margin: 0 } }, displayedText, isTyping && /* @__PURE__ */ React.createElement("span", { style: { display: "inline-block", width: 7, height: 14, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" } }))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14, flexWrap: "wrap", gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" } }, "\u{1F4A1} Click presets above to test Agentforce AI responses"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: { padding: "6px 14px", fontSize: 12, border: "none" } }, "Explore Case Studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 13 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("contact"), style: { padding: "6px 14px", fontSize: 12 } }, "Contact SME"))));
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--accent)" } }, /* @__PURE__ */ React.createElement(Icon, { name: "bolt", size: 13, color: "var(--accent)" }), /* @__PURE__ */ React.createElement("span", null, "AGENTFORCE AI RESPONSE"), isTyping && /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", color: "var(--sf-pink)" } }, "GENERATING...")), /* @__PURE__ */ React.createElement("p", { style: { margin: 0, color: "#F8FAFC" } }, displayedText, isTyping && /* @__PURE__ */ React.createElement("span", { style: { display: "inline-block", width: 7, height: 14, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" } }))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14, flexWrap: "wrap", gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" } }, "\u{1F4A1} Click presets above to test Agentforce AI responses"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: { padding: "6px 14px", fontSize: 12, border: "none" } }, "Explore Case Studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 13 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("contact"), style: { padding: "6px 14px", fontSize: 12 } }, "Contact SME"))));
 }
 function HeroSection({ go }) {
   const nameRef = React.useRef(null);
@@ -2275,8 +2275,8 @@ function HeroSection({ go }) {
     if (window.matchMedia("(hover: none)").matches) return;
     const on = (e) => {
       setParallax({
-        x: (e.clientX / window.innerWidth - 0.5) * 30,
-        y: (e.clientY / window.innerHeight - 0.5) * 20
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 15
       });
     };
     window.addEventListener("pointermove", on);
@@ -2284,117 +2284,50 @@ function HeroSection({ go }) {
   }, []);
   return /* @__PURE__ */ React.createElement("section", { style: {
     position: "relative",
-    minHeight: "min(900px, 100vh)",
-    height: "calc(100vh - 65px)",
+    padding: "80px 0 60px",
     minWidth: 0,
     overflow: "hidden",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    /* Atmospheric overlay — sits on top of the page-shell gradient */
-    background: "radial-gradient(120% 90% at 50% 0%, rgba(10,27,60,0.85) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
-    color: "white",
-    marginTop: -56,
-    paddingTop: 56
-  } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { "aria-hidden": "true", style: { position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1 } }, /* @__PURE__ */ React.createElement("div", { style: {
+    background: "radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
+    color: "white"
+  } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { style: {
     position: "absolute",
-    width: 800,
-    height: 800,
-    borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(0,161,224,.3), transparent 65%)",
-    top: "-15%",
-    left: "-10%",
-    filter: "blur(50px)",
-    animation: "blob1 22s ease-in-out infinite"
-  } }), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    width: 900,
-    height: 900,
-    borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(127,0,255,.28), transparent 65%)",
-    bottom: "-25%",
-    right: "-15%",
-    filter: "blur(60px)",
-    animation: "blob2 28s ease-in-out infinite"
-  } }), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    width: 500,
-    height: 500,
-    borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(255,119,176,.16), transparent 70%)",
-    top: "30%",
-    left: "55%",
-    filter: "blur(60px)",
-    animation: "blob3 32s ease-in-out infinite"
-  } }), /* @__PURE__ */ React.createElement("style", null, `
-          @keyframes blob1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(80px, 60px) scale(1.12); } }
-          @keyframes blob2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-100px, -50px) scale(1.18); } }
-          @keyframes blob3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-60px, 70px) scale(1.1); } }
-          @keyframes scrollCue {
-            0% { transform: translateY(0); opacity: .9; }
-            70% { transform: translateY(16px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 0; }
-          }
-          @keyframes letterIn {
-            0% { opacity: 0; transform: translateY(40px); filter: blur(8px); }
-            100% { opacity: 1; transform: none; filter: none; }
-          }
-          @keyframes pulseDot {
-            0%,100% { box-shadow: 0 0 0 0 rgba(46,132,74,.55), 0 0 12px rgba(46,132,74,1); }
-            70% { box-shadow: 0 0 0 12px rgba(46,132,74,0), 0 0 12px rgba(46,132,74,1); }
-          }
-        `)), /* @__PURE__ */ React.createElement("div", { "aria-hidden": "true", style: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 180,
-    zIndex: 5,
+    top: "45%",
+    right: "-5%",
+    transform: "translateY(-50%)",
+    zIndex: 0,
     pointerEvents: "none",
-    background: "linear-gradient(to bottom, transparent 0%, rgba(5,8,24,0.6) 50%, #050818 100%)"
-  } }), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    top: "-55%",
-    right: 0,
-    zIndex: 2,
-    pointerEvents: "auto",
-    transform: `translate(${parallax.x * 0.4}px, ${parallax.y * 0.4}px)`
+    opacity: 0.45
   } }, /* @__PURE__ */ React.createElement("div", { style: {
-    width: "min(920px, 85vw)",
-    height: "min(920px, 85vw)",
-    opacity: 0.65
-  } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 920, bare: true }))), /* @__PURE__ */ React.createElement("div", { className: "container", style: {
+    width: "min(650px, 60vw)",
+    height: "min(650px, 60vw)"
+  } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 650, bare: true }))), /* @__PURE__ */ React.createElement("div", { className: "container", style: {
     position: "relative",
     zIndex: 3,
     textAlign: "center",
     transform: `translate(${parallax.x * -0.2}px, ${parallax.y * -0.2}px)`,
     pointerEvents: "none"
-  } }, /* @__PURE__ */ React.createElement("h1", { className: "wordmark anim-word hero-wordmark", style: {
+  } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 14, pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { padding: "6px 14px", fontSize: 11 } }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " SALESFORCE LEAD ARCHITECT & TECHNICAL SME")), /* @__PURE__ */ React.createElement("h1", { className: "wordmark anim-word hero-wordmark", style: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
     fontFamily: "'Anton', system-ui, sans-serif",
-    fontSize: "clamp(80px, 13vw, 220px)",
-    letterSpacing: ".005em",
-    lineHeight: 0.85,
+    fontSize: "clamp(46px, 7.5vw, 100px)",
+    letterSpacing: ".02em",
+    lineHeight: 1,
     color: "#FFFFFF",
     textTransform: "uppercase",
     whiteSpace: "nowrap",
     zIndex: 3,
-    textShadow: "0 6px 30px rgba(0, 0, 0, .75), 0 0 40px rgba(0, 161, 224, .25), 0 0 15px rgba(127, 0, 255, .20)",
+    textShadow: "0 6px 30px rgba(0, 0, 0, .75), 0 0 35px color-mix(in oklab, var(--accent) 35%, transparent)",
     userSelect: "none",
-    margin: "0 auto 30px",
+    margin: "0 auto 20px",
     width: "fit-content",
-    animation: "letterIn 1.2s ease both",
-    pointerEvents: "auto",
-    marginTop: "20px"
-  } }, /* @__PURE__ */ React.createElement("span", { style: {
-    fontSize: "0.33em",
-    lineHeight: 1,
-    marginBottom: "-8px",
-    paddingLeft: "6px",
-    fontFamily: "'Anton', sans-serif"
-  } }, "HELLO I AM"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: "16px" } }, /* @__PURE__ */ React.createElement("span", { className: "split", style: { display: "inline-block", fontFamily: "'Anton', sans-serif" } }, "YUSUF"), /* @__PURE__ */ React.createElement("span", { className: "accent", style: { display: "inline-block", fontFamily: "'Anton', sans-serif", color: "#FFFFFF" } }, "KHAN"))), /* @__PURE__ */ React.createElement("p", { style: {
+    pointerEvents: "auto"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: "16px" } }, /* @__PURE__ */ React.createElement("span", { className: "split", style: { display: "inline-block", fontFamily: "'Anton', sans-serif" } }, "YUSUF"), /* @__PURE__ */ React.createElement("span", { className: "accent", style: { display: "inline-block", fontFamily: "'Anton', sans-serif", color: "var(--accent)" } }, "KHAN"))), /* @__PURE__ */ React.createElement("p", { style: {
     fontSize: "clamp(15px, 1.4vw, 19px)",
     lineHeight: 1.5,
     maxWidth: 640,
@@ -8172,7 +8105,7 @@ const ROUTES = [
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
   { id: "gigs", label: "Services" },
-  { id: "demos", label: "Demos & Articles" },
+  { id: "demos", label: "Demos" },
   { id: "contact", label: "Contact" }
 ];
 function useHashRoute() {
@@ -8195,17 +8128,78 @@ const THEMES = [
   { id: "apex", label: "Apex", color: "#10B981" }
 ];
 function ThemeSwitcher({ theme, setTheme }) {
-  return /* @__PURE__ */ React.createElement("div", { className: "theme-selector", style: { margin: "0 6px" } }, THEMES.map((t) => /* @__PURE__ */ React.createElement(
+  const [open, setOpen] = useState(false);
+  const current = THEMES.find((t) => t.id === theme) || THEMES[0];
+  const ref = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  return /* @__PURE__ */ React.createElement("div", { ref, style: { position: "relative" } }, /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "btn ghost hoverable",
+      onClick: () => setOpen(!open),
+      style: {
+        padding: "7px 12px",
+        fontSize: 12,
+        borderRadius: 999,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        borderColor: "var(--line)",
+        background: "rgba(255,255,255,0.04)"
+      },
+      title: "Switch Theme"
+    },
+    /* @__PURE__ */ React.createElement("span", { style: { width: 8, height: 8, borderRadius: "50%", background: current.color, boxShadow: `0 0 8px ${current.color}` } }),
+    /* @__PURE__ */ React.createElement("span", null, current.label),
+    /* @__PURE__ */ React.createElement("span", { style: { fontSize: 9, opacity: 0.6 } }, "\u25BC")
+  ), open && /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    top: "calc(100% + 8px)",
+    right: 0,
+    background: "rgba(6, 12, 28, 0.95)",
+    backdropFilter: "blur(18px)",
+    border: "1px solid var(--line)",
+    borderRadius: 14,
+    padding: 6,
+    display: "flex",
+    flexDirection: "column",
+    gap: 4,
+    zIndex: 1e3,
+    boxShadow: "0 14px 40px rgba(0,0,0,0.7), 0 0 20px color-mix(in oklab, var(--accent) 20%, transparent)",
+    minWidth: 135
+  } }, THEMES.map((t) => /* @__PURE__ */ React.createElement(
     "button",
     {
       key: t.id,
-      className: "theme-btn hoverable" + (theme === t.id ? " active" : ""),
-      onClick: () => setTheme(t.id),
-      title: `Switch to ${t.label} theme`
+      onClick: () => {
+        setTheme(t.id);
+        setOpen(false);
+      },
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "8px 12px",
+        borderRadius: 8,
+        border: "none",
+        background: theme === t.id ? "color-mix(in oklab, var(--accent) 22%, transparent)" : "transparent",
+        color: theme === t.id ? "#FFFFFF" : "var(--ink-2)",
+        fontSize: 12.5,
+        fontWeight: 600,
+        cursor: "pointer",
+        textAlign: "left",
+        transition: "all 0.15s ease"
+      }
     },
-    /* @__PURE__ */ React.createElement("span", { className: "theme-dot-icon", style: { background: t.color, boxShadow: `0 0 6px ${t.color}` } }),
-    /* @__PURE__ */ React.createElement("span", null, t.label)
-  )));
+    /* @__PURE__ */ React.createElement("span", { style: { width: 8, height: 8, borderRadius: "50%", background: t.color, boxShadow: `0 0 6px ${t.color}` } }),
+    t.label
+  ))));
 }
 function Nav({ route, go }) {
   const [drawerOpen, setDrawerOpen] = useState(false);

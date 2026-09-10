@@ -7,7 +7,7 @@ const ROUTES = [
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
   { id: "gigs", label: "Services" },
-  { id: "demos", label: "Demos & Articles" },
+  { id: "demos", label: "Demos" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -31,19 +31,67 @@ const THEMES = [
 ];
 
 function ThemeSwitcher({ theme, setTheme }) {
+  const [open, setOpen] = useState(false);
+  const current = THEMES.find(t => t.id === theme) || THEMES[0];
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className="theme-selector" style={{ margin: "0 6px" }}>
-      {THEMES.map((t) => (
-        <button
-          key={t.id}
-          className={"theme-btn hoverable" + (theme === t.id ? " active" : "")}
-          onClick={() => setTheme(t.id)}
-          title={`Switch to ${t.label} theme`}
-        >
-          <span className="theme-dot-icon" style={{ background: t.color, boxShadow: `0 0 6px ${t.color}` }}></span>
-          <span>{t.label}</span>
-        </button>
-      ))}
+    <div ref={ref} style={{ position: "relative" }}>
+      <button
+        className="btn ghost hoverable"
+        onClick={() => setOpen(!open)}
+        style={{
+          padding: "7px 12px",
+          fontSize: 12,
+          borderRadius: 999,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 6,
+          borderColor: "var(--line)",
+          background: "rgba(255,255,255,0.04)"
+        }}
+        title="Switch Theme"
+      >
+        <span style={{ width: 8, height: 8, borderRadius: "50%", background: current.color, boxShadow: `0 0 8px ${current.color}` }}></span>
+        <span>{current.label}</span>
+        <span style={{ fontSize: 9, opacity: 0.6 }}>▼</span>
+      </button>
+
+      {open && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 8px)", right: 0,
+          background: "rgba(6, 12, 28, 0.95)", backdropFilter: "blur(18px)",
+          border: "1px solid var(--line)", borderRadius: 14, padding: 6,
+          display: "flex", flexDirection: "column", gap: 4, zIndex: 1000,
+          boxShadow: "0 14px 40px rgba(0,0,0,0.7), 0 0 20px color-mix(in oklab, var(--accent) 20%, transparent)",
+          minWidth: 135
+        }}>
+          {THEMES.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => { setTheme(t.id); setOpen(false); }}
+              style={{
+                display: "flex", alignItems: "center", gap: 8, padding: "8px 12px",
+                borderRadius: 8, border: "none",
+                background: theme === t.id ? "color-mix(in oklab, var(--accent) 22%, transparent)" : "transparent",
+                color: theme === t.id ? "#FFFFFF" : "var(--ink-2)", fontSize: 12.5, fontWeight: 600,
+                cursor: "pointer", textAlign: "left", transition: "all 0.15s ease"
+              }}
+            >
+              <span style={{ width: 8, height: 8, borderRadius: "50%", background: t.color, boxShadow: `0 0 6px ${t.color}` }}></span>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
