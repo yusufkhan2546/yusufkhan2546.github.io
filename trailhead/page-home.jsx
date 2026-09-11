@@ -203,122 +203,170 @@ function HeroMarquee() {
   );
 }
 
-function AgentforceAssistantWidget({ go }) {
-  const [activePrompt, setActivePrompt] = useState(0);
+function AgentforceCLIWidget({ go }) {
+  const [activeCmd, setActiveCmd] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
-  const [displayedText, setDisplayedText] = useState("");
+  const [displayedOutput, setDisplayedOutput] = useState("");
+  const [inputCmd, setInputCmd] = useState("");
 
-  const presets = useMemo(() => [
+  const commands = useMemo(() => [
     {
-      q: "✨ FSC & Banking Architecture",
-      a: "Yusuf Khan is a Salesforce Technical SME & Certified FSC Consultant who has architected Tier-1 banking & lending platforms handling over $4.2B+ in loan transactions. His implementations leverage OmniStudio, custom LWC engines, and MuleSoft integrations to reduce loan origination time from days to under 14 minutes."
+      id: "query_fsc",
+      cmd: "query_fsc_architecture",
+      label: "FSC & Banking",
+      output: [
+        "SYSTEM_DIAGNOSTIC > QUERY: FSC & BANKING ARCHITECTURE",
+        "STATUS: ACTIVE | PLATFORM: Financial Services Cloud (FSC) & Experience Cloud",
+        "CAPABILITIES:",
+        " • Architected Tier-1 Global Lending engine handling $4.2B+ volume",
+        " • Automated 360° verification pipeline reducing origination time from 3 days to 14 mins",
+        " • Built Governor-limit safe Apex frameworks with 99.98% processing accuracy",
+        "INTEGRATIONS: MuleSoft, OAuth 2.0, Bureau APIs, Data Cloud streams"
+      ].join("\n")
     },
     {
-      q: "🎓 12× Certifications & Credentials",
-      a: "Yusuf holds 12× Salesforce Certifications including Platform Developer II, Agentforce Specialist, Data Cloud Consultant, Financial Services Cloud Consultant, OmniStudio Developer, JavaScript Developer I, and Deployment Architect. He maintains a 99.9% verification record with 506+ Trailhead badges."
+      id: "get_certs",
+      cmd: "get_certifications_vault",
+      label: "12× Certifications",
+      output: [
+        "SYSTEM_DIAGNOSTIC > QUERY: CREDENTIAL VAULT",
+        "STATUS: VERIFIED (100%) | TRAILHEAD BADGES: 506 | POINTS: 294K+",
+        "ACTIVE CERTIFICATIONS (12×):",
+        " [01] Agentforce Specialist         [07] Financial Services Cloud",
+        " [02] Platform Developer II        [08] Service Cloud Consultant",
+        " [03] Data Cloud Consultant         [09] Platform Developer I",
+        " [04] OmniStudio Developer          [10] Platform Administrator",
+        " [05] JavaScript Developer I        [11] AI Associate",
+        " [06] Lifecycle & Deployment Arch   [12] Salesforce Associate"
+      ].join("\n")
     },
     {
-      q: "⚡ OmniStudio & LWC Frameworks",
-      a: "Yusuf builds modular, governor-limit safe LWC & OmniStudio FlexCards/OmniScripts designed for high concurrency. He enforces strict separation of concerns, Apex enterprise trigger frameworks (Selectors, Domain, Service layers), and async Queueables/Platform Events to achieve 99.98% processing accuracy."
+      id: "show_lwc",
+      cmd: "show_omnistudio_framework",
+      label: "OmniStudio & LWC",
+      output: [
+        "SYSTEM_DIAGNOSTIC > QUERY: OMNISTUDIO & LWC ARCHITECTURE",
+        "ARCHITECTURE LAYER: High-Concurrency Customer Portal Engines",
+        " • Modular Lightning Web Components with Shadow DOM encapsulation",
+        " • Custom OmniStudio OmniScripts & FlexCards for dynamic intake",
+        " • Async Queueable & Platform Event dispatchers for zero governor-limit breaches",
+        " • 90%+ Unit Test Coverage target across all enterprise deployment pipelines"
+      ].join("\n")
     },
     {
-      q: "🤖 Agentforce AI & Data Cloud",
-      a: "As a Certified Agentforce Specialist and AI Associate, Yusuf designs autonomous Salesforce AI Agents, Prompt Templates, and Data Cloud retrieval pipelines that automate customer service inquiries, loan risk profiling, and real-time carrier provisioning."
+      id: "run_apex",
+      cmd: "run_apex_sandbox",
+      label: "Apex Trigger Sandbox",
+      output: [
+        "// Apex Execution Sandbox - Live Class Output",
+        "public inherited sharing class OpportunityTriggerHandler {",
+        "    public static void handleAfterUpdate(List<Opportunity> opps) {",
+        "        if (!isFirstRun) return; // Prevent recursion",
+        "        isFirstRun = false;",
+        "        ProvisioningService.activate(opps); // Bulk-safe async callout",
+        "    }",
+        "}",
+        "SUCCESS > Execution finished in 12ms. 0 Governor limit violations."
+      ].join("\n")
     }
   ], []);
 
-  const handleSelect = (idx) => {
-    setActivePrompt(idx);
-    triggerResponse(presets[idx].a);
-  };
-
-  const triggerResponse = (text) => {
+  const runCommand = (idx) => {
+    setActiveCmd(idx);
+    setInputCmd(commands[idx].cmd);
     setIsTyping(true);
-    setDisplayedText("");
+    setDisplayedOutput("");
+    const text = commands[idx].output;
     let i = 0;
     const interval = setInterval(() => {
       if (i < text.length) {
-        setDisplayedText(text.slice(0, i + 5));
-        i += 5;
+        setDisplayedOutput(text.slice(0, i + 8));
+        i += 8;
       } else {
-        setDisplayedText(text);
+        setDisplayedOutput(text);
         setIsTyping(false);
         clearInterval(interval);
       }
-    }, 15);
+    }, 12);
   };
 
   useEffect(() => {
-    handleSelect(0);
+    runCommand(0);
   }, []);
 
   return (
-    <div className="cyber-card hoverable" style={{ padding: "24px 28px", marginTop: 32, textAlign: "left", width: "100%", maxWidth: 840, margin: "32px auto 0", pointerEvents: "auto" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, borderBottom: "1px solid var(--line)", paddingBottom: 10, flexWrap: "wrap", gap: 8 }}>
+    <div className="cyber-card" style={{ padding: "28px 32px", marginTop: 40, width: "100%", maxWidth: 960, margin: "40px auto 0", pointerEvents: "auto", textAlign: "left" }}>
+      {/* CLI Header bar */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, borderBottom: "1px solid var(--line)", paddingBottom: 12, flexWrap: "wrap", gap: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div className="hud-badge">
-            <span className="pulse-dot"></span> AGENTFORCE AI ASSISTANT
-          </div>
-          <span style={{ fontSize: 11, color: "var(--ink-2)", fontFamily: "var(--font-mono)" }}>● LIVE DEMO</span>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#FF5F56" }}></span>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#FFBD2E" }}></span>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#27C93F" }}></span>
+          <span style={{ fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--accent)", fontWeight: 700, marginLeft: 6 }}>
+            AI_AGENTFORCE_CORE_v3.2.sh — INTERACTIVE TERMINAL
+          </span>
         </div>
-        <span style={{ fontSize: 10.5, color: "var(--accent)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" }}>SALESFORCE DATA CLOUD CONNECTED</span>
+        <div className="hud-badge" style={{ padding: "3px 10px", fontSize: 10 }}>
+          <span className="pulse-dot"></span> LIVE DATA CLOUD STREAM
+        </div>
       </div>
 
-      {/* Preset Buttons */}
+      {/* Preset Command Buttons */}
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
-        {presets.map((p, idx) => (
+        {commands.map((c, idx) => (
           <button
-            key={idx}
-            className={`btn ghost hoverable ${activePrompt === idx ? "active" : ""}`}
-            onClick={() => handleSelect(idx)}
+            key={c.id}
+            className={`btn ghost hoverable ${activeCmd === idx ? "active" : ""}`}
+            onClick={() => runCommand(idx)}
             style={{
-              padding: "6px 12px",
-              fontSize: 12,
-              borderRadius: 999,
-              borderColor: activePrompt === idx ? "var(--accent)" : "var(--line)",
-              background: activePrompt === idx ? "color-mix(in oklab, var(--accent) 18%, transparent)" : "rgba(255,255,255,0.03)",
-              color: activePrompt === idx ? "#FFFFFF" : "var(--ink-2)",
-              transition: "all 0.2s ease"
+              padding: "6px 14px", fontSize: 12, borderRadius: 8, fontFamily: "var(--font-mono)",
+              borderColor: activeCmd === idx ? "var(--accent)" : "var(--line)",
+              background: activeCmd === idx ? "color-mix(in oklab, var(--accent) 22%, transparent)" : "rgba(255,255,255,0.03)",
+              color: activeCmd === idx ? "#FFFFFF" : "var(--ink-2)"
             }}
           >
-            {p.q}
+            &gt; {c.label}
           </button>
         ))}
       </div>
 
-      {/* AI Response Display Box */}
-      <div style={{
-        background: "rgba(3, 7, 18, 0.9)",
-        border: "1px solid var(--line)",
-        borderRadius: 12,
-        padding: "16px 20px",
-        minHeight: 85,
-        fontFamily: "var(--font-body)",
-        fontSize: 14,
-        lineHeight: 1.6,
-        color: "#F8FAFC",
-        position: "relative"
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--accent)" }}>
-          <Icon name="bolt" size={13} color="var(--accent)" />
-          <span>AGENTFORCE AI RESPONSE</span>
-          {isTyping && <span style={{ marginLeft: "auto", color: "var(--sf-pink)" }}>GENERATING...</span>}
-        </div>
-        <p style={{ margin: 0, color: "#F8FAFC" }}>
-          {displayedText}
-          {isTyping && <span style={{ display: "inline-block", width: 7, height: 14, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" }}></span>}
-        </p>
+      {/* Interactive Command Prompt Line */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(3,7,18,0.95)", border: "1px solid var(--line)", borderRadius: "8px 8px 0 0", padding: "10px 16px", fontFamily: "var(--font-mono)", fontSize: 12.5, color: "var(--accent)" }}>
+        <span>yusuf@salesforce-core:~$</span>
+        <input
+          type="text"
+          value={inputCmd}
+          onChange={(e) => setInputCmd(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const match = commands.findIndex(c => c.cmd.includes(inputCmd.toLowerCase()));
+              runCommand(match >= 0 ? match : 0);
+            }
+          }}
+          placeholder="type command or click chip above..."
+          style={{ flex: 1, background: "transparent", border: "none", color: "#FFFFFF", fontFamily: "inherit", fontSize: "inherit", outline: "none" }}
+        />
+        {isTyping && <span style={{ color: "var(--sf-pink)", fontSize: 11 }}>[EXECUTING]</span>}
       </div>
 
-      {/* Action footer */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14, flexWrap: "wrap", gap: 10 }}>
-        <span style={{ fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}>💡 Click presets above to test Agentforce AI responses</span>
+      {/* Terminal Output Screen */}
+      <div style={{
+        background: "#030712", border: "1px solid var(--line)", borderTop: "none", borderRadius: "0 0 8px 8px",
+        padding: "18px 20px", minHeight: 140, fontFamily: "var(--font-mono)", fontSize: 13, lineHeight: 1.65,
+        color: "#F8FAFC", whiteSpace: "pre-wrap", overflowX: "auto"
+      }}>
+        {displayedOutput}
+        {isTyping && <span style={{ display: "inline-block", width: 8, height: 16, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" }}></span>}
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 14, flexWrap: "wrap", gap: 10 }}>
+        <span style={{ fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}>💡 Type custom queries or select preset chips above</span>
         <div style={{ display: "flex", gap: 8 }}>
           <button className="btn primary hoverable" onClick={() => go("projects")} style={{ padding: "6px 14px", fontSize: 12, border: "none" }}>
-            Explore Case Studies <Icon name="arrow" size={13} />
+            View Blueprint Case Studies <Icon name="arrow" size={13} />
           </button>
           <button className="btn ghost hoverable" onClick={() => go("contact")} style={{ padding: "6px 14px", fontSize: 12 }}>
-            Contact SME
+            Contact SME Architect
           </button>
         </div>
       </div>
@@ -327,184 +375,96 @@ function AgentforceAssistantWidget({ go }) {
 }
 
 function HeroSection({ go }) {
-  const nameRef = React.useRef(null);
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-    const on = (e) => {
-      setParallax({
-        x: (e.clientX / window.innerWidth - .5) * 20,
-        y: (e.clientY / window.innerHeight - .5) * 15,
-      });
-    };
-    window.addEventListener("pointermove", on);
-    return () => window.removeEventListener("pointermove", on);
-  }, []);
-
   return (
     <section style={{
       position: "relative",
-      padding: "80px 0 60px",
-      minWidth: 0,
+      padding: "90px 0 60px",
       overflow: "hidden",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
       color: "white",
     }}>
-      {/* starfield + nebula */}
       <StarField />
 
-      {/* 3D orb safely positioned in background */}
-      <div style={{
-        position: "absolute",
-        top: "45%",
-        right: "-5%",
-        transform: "translateY(-50%)",
-        zIndex: 0,
-        pointerEvents: "none",
-        opacity: 0.45
-      }}>
-        <div style={{
-          width: "min(650px, 60vw)",
-          height: "min(650px, 60vw)",
-        }}>
-          <ThreeOrb height={650} bare={true} />
-        </div>
-      </div>
+      <div className="container" style={{ position: "relative", zIndex: 3 }}>
+        {/* Split Grid Hero: Left Text / Right 3D Orb */}
+        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 40, alignItems: "center" }}>
+          
+          {/* Left Column: Operator Profile & Call to Actions */}
+          <div style={{ textAlign: "left" }}>
+            <div style={{ marginBottom: 14 }}>
+              <span className="hud-badge" style={{ padding: "6px 14px", fontSize: 11 }}>
+                <span className="pulse-dot"></span> OPERATOR STATUS: ONLINE // LEVEL 12 ARCHITECT
+              </span>
+            </div>
 
-      {/* Foreground content */}
-      <div className="container" style={{
-        position: "relative", zIndex: 3, textAlign: "center",
-        transform: `translate(${parallax.x * -.2}px, ${parallax.y * -.2}px)`,
-        pointerEvents: "none",
-      }}>
-        {/* top bar */}
-        {/* <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "absolute", top: 16, left: 0, right: 0, pointerEvents: "auto" }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            padding: "8px 14px", borderRadius: 999,
-            background: "rgba(255,255,255,.05)",
-            border: "1px solid rgba(255,255,255,.12)",
-            backdropFilter: "blur(10px)",
-            fontSize: 11.5, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase",
-            color: "rgba(255,255,255,.92)",
-          }}>
-            <span style={{ width: 7, height: 7, borderRadius: 99, background: "#2E844A", animation: "pulseDot 2s infinite" }}></span>
-            Available · Q3 2026
+            <h1 style={{
+              fontFamily: "'Anton', system-ui, sans-serif",
+              fontSize: "clamp(52px, 7vw, 92px)",
+              letterSpacing: ".02em",
+              lineHeight: 1,
+              color: "#FFFFFF",
+              textTransform: "uppercase",
+              margin: "0 0 16px",
+              textShadow: "0 0 30px color-mix(in oklab, var(--accent) 40%, transparent)"
+            }}>
+              YUSUF <span style={{ color: "var(--accent)" }}>KHAN</span>
+            </h1>
+
+            <p style={{
+              fontSize: "17px",
+              lineHeight: 1.6,
+              color: "var(--ink-2)",
+              fontWeight: 500,
+              marginBottom: 28,
+              maxWidth: 580
+            }}>
+              Architecting enterprise <strong style={{ color: "white" }}>Salesforce Cloud</strong> &amp; <strong style={{ color: "var(--accent)" }}>Agentforce AI</strong> platforms across <strong style={{ color: "#6BB7FF" }}>Banking</strong>, <strong style={{ color: "#FF9F66" }}>Retail</strong>, and <strong style={{ color: "#B57BFF" }}>Lending</strong> — clean Apex, fast LWCs, automations that scale.
+            </p>
+
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
+              <button className="btn primary hoverable" onClick={() => go("projects")} style={{
+                background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
+                boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
+                padding: "14px 26px", fontSize: 14, border: "none"
+              }}>
+                Launch Case Studies <Icon name="arrow" size={16} />
+              </button>
+              <button className="btn ghost hoverable" onClick={() => go("certs")} style={{
+                background: "rgba(255,255,255,.05)", color: "white", borderColor: "var(--line)",
+                padding: "14px 24px", fontSize: 14,
+              }}>
+                <Icon name="badge" size={16} /> Certification Vault (12×)
+              </button>
+            </div>
           </div>
-          <div className="mono" style={{
-            display: "inline-flex", alignItems: "center", gap: 10,
-            padding: "8px 14px", borderRadius: 999,
-            background: "rgba(255,255,255,.04)",
-            border: "1px solid rgba(255,255,255,.10)",
-            backdropFilter: "blur(10px)",
-            fontSize: 11.5, fontWeight: 600, letterSpacing: ".1em",
-            color: "rgba(255,255,255,.7)",
-          }}>
-            <LiveClock /> IST · 16 MAY 26
+
+          {/* Right Column: 3D Orb + Tactical Reticle */}
+          <div style={{ position: "relative", display: "grid", placeItems: "center" }}>
+            {/* Outer HUD Reticle Circle */}
+            <div style={{
+              position: "absolute", width: "100%", maxWidth: 440, height: 440,
+              borderRadius: "50%", border: "1px dashed var(--line)",
+              animation: "spinReticle 60s linear infinite", pointerEvents: "none"
+            }}></div>
+            <style>{`
+              @keyframes spinReticle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            `}</style>
+            <div style={{ width: "100%", maxWidth: 460, height: 440 }}>
+              <ThreeOrb height={440} bare={true} />
+            </div>
           </div>
-        </div> */}
-
-        {/* small eyebrow */}
-        {/* <div style={{ marginBottom: 18 }}>
-          <span style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "5px 14px", borderRadius: 99,
-            background: "rgba(255,255,255,.05)",
-            border: "1px solid rgba(180,230,255,.20)",
-            fontFamily: "var(--font-mono)",
-            fontSize: 10.5, letterSpacing: ".22em", textTransform: "uppercase",
-            color: "rgba(180,230,255,.92)", fontWeight: 700,
-            animation: "letterIn .7s ease both",
-          }}>
-            <Icon name="bolt" size={11} color="#FFB75D" /> Salesforce · Lead Developer · 12× certified
-          </span>
-        </div> */}
-
-        {/* Eyebrow HUD pill */}
-        <div style={{ marginBottom: 14, pointerEvents: "auto" }}>
-          <span className="hud-badge" style={{ padding: "6px 14px", fontSize: 11 }}>
-            <span className="pulse-dot"></span> SALESFORCE LEAD ARCHITECT &amp; TECHNICAL SME
-          </span>
         </div>
 
-        {/* HELLO I AM YUSUF KHAN Wordmark */}
-        <h1 className="wordmark anim-word hero-wordmark" style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          fontFamily: "'Anton', system-ui, sans-serif",
-          fontSize: "clamp(46px, 7.5vw, 100px)",
-          letterSpacing: ".02em",
-          lineHeight: 1,
-          color: "#FFFFFF",
-          textTransform: "uppercase",
-          whiteSpace: "nowrap",
-          zIndex: 3,
-          textShadow: "0 6px 30px rgba(0, 0, 0, .75), 0 0 35px color-mix(in oklab, var(--accent) 35%, transparent)",
-          userSelect: "none",
-          margin: "0 auto 20px",
-          width: "fit-content",
-          pointerEvents: "auto",
-        }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "16px" }}>
-            <span className="split" style={{ display: "inline-block", fontFamily: "'Anton', sans-serif" }}>YUSUF</span>
-            <span className="accent" style={{ display: "inline-block", fontFamily: "'Anton', sans-serif", color: "var(--accent)" }}>KHAN</span>
-          </div>
-        </h1>
-
-        <p style={{
-          fontSize: "clamp(15px, 1.4vw, 19px)",
-          lineHeight: 1.5,
-          maxWidth: 640,
-          margin: "0 auto 40px",
-          color: "rgba(255,255,255,.78)",
-          fontWeight: 500,
-          animation: "letterIn .8s ease .45s both",
-          textAlign: "center",
-        }}>
-          I architect &amp; ship enterprise <strong style={{ color: "white" }}>Salesforce</strong> platforms across
-          <strong style={{ color: "#6BB7FF" }}> banking</strong>,
-          <strong style={{ color: "#FF9F66" }}> retail</strong> and
-          <strong style={{ color: "#B57BFF" }}> lending</strong> —
-          clean Apex, fast LWCs, automations that scale.
-        </p>
-
-        {/* CTAs */}
-        <div style={{ display: "inline-flex", gap: 12, flexWrap: "wrap", justifyContent: "center", pointerEvents: "auto", animation: "letterIn .8s ease .6s both" }}>
-          <button className="btn primary hoverable" onClick={() => go("projects")} style={{
-            background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
-            boxShadow: "0 18px 40px -12px color-mix(in oklab, var(--accent) 60%, transparent)",
-            padding: "14px 24px", fontSize: 14, border: "none"
-          }}>
-            See case studies <Icon name="arrow" size={16} />
-          </button>
-          <button className="btn ghost hoverable" onClick={() => go("certs")} style={{
-            background: "rgba(255,255,255,.06)", color: "white", borderColor: "var(--line)",
-            padding: "14px 24px", fontSize: 14,
-          }}>
-            <Icon name="badge" size={16} /> 12 certifications
-          </button>
-        </div>
-
-        {/* Futuristic Telemetry Stats strip */}
+        {/* Telemetry Stats Grid */}
         <div className="hero-stats" style={{
-          marginTop: 36,
+          marginTop: 40,
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
           gap: 0,
-          maxWidth: 760,
-          marginLeft: "auto", marginRight: "auto",
           border: "1px solid var(--line)",
           borderRadius: 16,
-          background: "rgba(3, 7, 18, 0.65)",
-          backdropFilter: "blur(14px)",
+          background: "rgba(6, 12, 28, 0.75)",
+          backdropFilter: "blur(16px)",
           boxShadow: "var(--shadow-2)",
-          animation: "letterIn .8s ease .75s both",
-          pointerEvents: "auto",
           overflow: "hidden"
         }}>
           {(function() {
@@ -514,55 +474,25 @@ function HeroSection({ go }) {
             const pointsDisp = tb.pointsK ? tb.pointsK + "K+" : "—";
             return [
               [String(certCount), "Salesforce Certs", "100% Verified"],
-              ["6+",              "Years Exp.",       "Lead SME"],
-              ["8+",              "Enterprise Apps", "Banking & Retail"],
+              ["6+",              "Years Exp.",       "Lead Technical SME"],
+              ["8+",              "Enterprise Apps", "$4.2B+ Volume"],
               [pointsDisp,        "Trailhead Pts",   "506 Badges"],
             ];
           })().map(([n, l, sub], i) => (
             <div key={l} style={{
-              padding: "16px 12px",
+              padding: "20px 16px",
               borderLeft: i > 0 ? "1px solid var(--line)" : "none",
               background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)"
             }}>
-              <div className="h-display" style={{ fontSize: 28, fontWeight: 800, color: "var(--accent)" }}>{n}</div>
-              <div style={{ color: "white", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", marginTop: 2 }}>{l}</div>
-              <div style={{ color: "var(--ink-2)", fontSize: 10, fontFamily: "var(--font-mono)", marginTop: 2 }}>{sub}</div>
+              <div className="h-display" style={{ fontSize: 32, fontWeight: 800, color: "var(--accent)" }}>{n}</div>
+              <div style={{ color: "white", fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", marginTop: 4 }}>{l}</div>
+              <div style={{ color: "var(--ink-2)", fontSize: 10.5, fontFamily: "var(--font-mono)", marginTop: 2 }}>{sub}</div>
             </div>
           ))}
         </div>
 
-        {/* Agentforce AI Assistant Box */}
-        <AgentforceAssistantWidget go={go} />
-      </div>
-
-      {/* Drag hint */}
-      <div style={{
-        position: "absolute", left: 24, bottom: 80, zIndex: 4, pointerEvents: "none",
-        fontFamily: "var(--font-mono)", fontSize: 10.5, color: "rgba(255,255,255,.55)",
-        letterSpacing: ".14em", textTransform: "uppercase",
-        display: "flex", alignItems: "center", gap: 8,
-      }}>
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M10 3v8M10 11l-3-3M10 11l3-3M5 14v3M10 14v3M15 14v3" />
-        </svg>
-        {/* Drag the orbit */}
-      </div>
-
-      {/* Scroll cue */}
-      <div style={{
-        position: "absolute", right: 24, bottom: 80, zIndex: 4, pointerEvents: "none",
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-        fontFamily: "var(--font-mono)", fontSize: 10.5, color: "rgba(255,255,255,.55)",
-        letterSpacing: ".14em", textTransform: "uppercase",
-      }}>
-        {/* <span>Scroll</span> */}
-        <div style={{ width: 18, height: 28, borderRadius: 12, border: "1px solid rgba(255,255,255,.4)", position: "relative", overflow: "hidden" }}>
-          <span style={{
-            position: "absolute", top: 5, left: "50%", marginLeft: -2,
-            width: 4, height: 7, borderRadius: 2, background: "rgba(255,255,255,.85)",
-            animation: "scrollCue 1.8s infinite",
-          }}></span>
-        </div>
+        {/* Agentforce CLI Console */}
+        <AgentforceCLIWidget go={go} />
       </div>
 
       {/* Bottom marquee */}

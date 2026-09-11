@@ -2194,175 +2194,196 @@ function HeroMarquee() {
         }
       `));
 }
-function AgentforceAssistantWidget({ go }) {
-  const [activePrompt, setActivePrompt] = useState(0);
+function AgentforceCLIWidget({ go }) {
+  const [activeCmd, setActiveCmd] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
-  const [displayedText, setDisplayedText] = useState("");
-  const presets = useMemo(() => [
+  const [displayedOutput, setDisplayedOutput] = useState("");
+  const [inputCmd, setInputCmd] = useState("");
+  const commands = useMemo(() => [
     {
-      q: "\u2728 FSC & Banking Architecture",
-      a: "Yusuf Khan is a Salesforce Technical SME & Certified FSC Consultant who has architected Tier-1 banking & lending platforms handling over $4.2B+ in loan transactions. His implementations leverage OmniStudio, custom LWC engines, and MuleSoft integrations to reduce loan origination time from days to under 14 minutes."
+      id: "query_fsc",
+      cmd: "query_fsc_architecture",
+      label: "FSC & Banking",
+      output: [
+        "SYSTEM_DIAGNOSTIC > QUERY: FSC & BANKING ARCHITECTURE",
+        "STATUS: ACTIVE | PLATFORM: Financial Services Cloud (FSC) & Experience Cloud",
+        "CAPABILITIES:",
+        " \u2022 Architected Tier-1 Global Lending engine handling $4.2B+ volume",
+        " \u2022 Automated 360\xB0 verification pipeline reducing origination time from 3 days to 14 mins",
+        " \u2022 Built Governor-limit safe Apex frameworks with 99.98% processing accuracy",
+        "INTEGRATIONS: MuleSoft, OAuth 2.0, Bureau APIs, Data Cloud streams"
+      ].join("\n")
     },
     {
-      q: "\u{1F393} 12\xD7 Certifications & Credentials",
-      a: "Yusuf holds 12\xD7 Salesforce Certifications including Platform Developer II, Agentforce Specialist, Data Cloud Consultant, Financial Services Cloud Consultant, OmniStudio Developer, JavaScript Developer I, and Deployment Architect. He maintains a 99.9% verification record with 506+ Trailhead badges."
+      id: "get_certs",
+      cmd: "get_certifications_vault",
+      label: "12\xD7 Certifications",
+      output: [
+        "SYSTEM_DIAGNOSTIC > QUERY: CREDENTIAL VAULT",
+        "STATUS: VERIFIED (100%) | TRAILHEAD BADGES: 506 | POINTS: 294K+",
+        "ACTIVE CERTIFICATIONS (12\xD7):",
+        " [01] Agentforce Specialist         [07] Financial Services Cloud",
+        " [02] Platform Developer II        [08] Service Cloud Consultant",
+        " [03] Data Cloud Consultant         [09] Platform Developer I",
+        " [04] OmniStudio Developer          [10] Platform Administrator",
+        " [05] JavaScript Developer I        [11] AI Associate",
+        " [06] Lifecycle & Deployment Arch   [12] Salesforce Associate"
+      ].join("\n")
     },
     {
-      q: "\u26A1 OmniStudio & LWC Frameworks",
-      a: "Yusuf builds modular, governor-limit safe LWC & OmniStudio FlexCards/OmniScripts designed for high concurrency. He enforces strict separation of concerns, Apex enterprise trigger frameworks (Selectors, Domain, Service layers), and async Queueables/Platform Events to achieve 99.98% processing accuracy."
+      id: "show_lwc",
+      cmd: "show_omnistudio_framework",
+      label: "OmniStudio & LWC",
+      output: [
+        "SYSTEM_DIAGNOSTIC > QUERY: OMNISTUDIO & LWC ARCHITECTURE",
+        "ARCHITECTURE LAYER: High-Concurrency Customer Portal Engines",
+        " \u2022 Modular Lightning Web Components with Shadow DOM encapsulation",
+        " \u2022 Custom OmniStudio OmniScripts & FlexCards for dynamic intake",
+        " \u2022 Async Queueable & Platform Event dispatchers for zero governor-limit breaches",
+        " \u2022 90%+ Unit Test Coverage target across all enterprise deployment pipelines"
+      ].join("\n")
     },
     {
-      q: "\u{1F916} Agentforce AI & Data Cloud",
-      a: "As a Certified Agentforce Specialist and AI Associate, Yusuf designs autonomous Salesforce AI Agents, Prompt Templates, and Data Cloud retrieval pipelines that automate customer service inquiries, loan risk profiling, and real-time carrier provisioning."
+      id: "run_apex",
+      cmd: "run_apex_sandbox",
+      label: "Apex Trigger Sandbox",
+      output: [
+        "// Apex Execution Sandbox - Live Class Output",
+        "public inherited sharing class OpportunityTriggerHandler {",
+        "    public static void handleAfterUpdate(List<Opportunity> opps) {",
+        "        if (!isFirstRun) return; // Prevent recursion",
+        "        isFirstRun = false;",
+        "        ProvisioningService.activate(opps); // Bulk-safe async callout",
+        "    }",
+        "}",
+        "SUCCESS > Execution finished in 12ms. 0 Governor limit violations."
+      ].join("\n")
     }
   ], []);
-  const handleSelect = (idx) => {
-    setActivePrompt(idx);
-    triggerResponse(presets[idx].a);
-  };
-  const triggerResponse = (text) => {
+  const runCommand = (idx) => {
+    setActiveCmd(idx);
+    setInputCmd(commands[idx].cmd);
     setIsTyping(true);
-    setDisplayedText("");
+    setDisplayedOutput("");
+    const text = commands[idx].output;
     let i = 0;
     const interval = setInterval(() => {
       if (i < text.length) {
-        setDisplayedText(text.slice(0, i + 5));
-        i += 5;
+        setDisplayedOutput(text.slice(0, i + 8));
+        i += 8;
       } else {
-        setDisplayedText(text);
+        setDisplayedOutput(text);
         setIsTyping(false);
         clearInterval(interval);
       }
-    }, 15);
+    }, 12);
   };
   useEffect(() => {
-    handleSelect(0);
+    runCommand(0);
   }, []);
-  return /* @__PURE__ */ React.createElement("div", { className: "cyber-card hoverable", style: { padding: "24px 28px", marginTop: 32, textAlign: "left", width: "100%", maxWidth: 840, margin: "32px auto 0", pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, borderBottom: "1px solid var(--line)", paddingBottom: 10, flexWrap: "wrap", gap: 8 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement("div", { className: "hud-badge" }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " AGENTFORCE AI ASSISTANT"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "var(--ink-2)", fontFamily: "var(--font-mono)" } }, "\u25CF LIVE DEMO")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10.5, color: "var(--accent)", fontFamily: "var(--font-mono)", letterSpacing: "0.08em" } }, "SALESFORCE DATA CLOUD CONNECTED")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 } }, presets.map((p, idx) => /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { className: "cyber-card", style: { padding: "28px 32px", marginTop: 40, width: "100%", maxWidth: 960, margin: "40px auto 0", pointerEvents: "auto", textAlign: "left" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, borderBottom: "1px solid var(--line)", paddingBottom: 12, flexWrap: "wrap", gap: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { width: 10, height: 10, borderRadius: "50%", background: "#FF5F56" } }), /* @__PURE__ */ React.createElement("span", { style: { width: 10, height: 10, borderRadius: "50%", background: "#FFBD2E" } }), /* @__PURE__ */ React.createElement("span", { style: { width: 10, height: 10, borderRadius: "50%", background: "#27C93F" } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontFamily: "var(--font-mono)", color: "var(--accent)", fontWeight: 700, marginLeft: 6 } }, "AI_AGENTFORCE_CORE_v3.2.sh \u2014 INTERACTIVE TERMINAL")), /* @__PURE__ */ React.createElement("div", { className: "hud-badge", style: { padding: "3px 10px", fontSize: 10 } }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " LIVE DATA CLOUD STREAM")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 } }, commands.map((c, idx) => /* @__PURE__ */ React.createElement(
     "button",
     {
-      key: idx,
-      className: `btn ghost hoverable ${activePrompt === idx ? "active" : ""}`,
-      onClick: () => handleSelect(idx),
+      key: c.id,
+      className: `btn ghost hoverable ${activeCmd === idx ? "active" : ""}`,
+      onClick: () => runCommand(idx),
       style: {
-        padding: "6px 12px",
+        padding: "6px 14px",
         fontSize: 12,
-        borderRadius: 999,
-        borderColor: activePrompt === idx ? "var(--accent)" : "var(--line)",
-        background: activePrompt === idx ? "color-mix(in oklab, var(--accent) 18%, transparent)" : "rgba(255,255,255,0.03)",
-        color: activePrompt === idx ? "#FFFFFF" : "var(--ink-2)",
-        transition: "all 0.2s ease"
+        borderRadius: 8,
+        fontFamily: "var(--font-mono)",
+        borderColor: activeCmd === idx ? "var(--accent)" : "var(--line)",
+        background: activeCmd === idx ? "color-mix(in oklab, var(--accent) 22%, transparent)" : "rgba(255,255,255,0.03)",
+        color: activeCmd === idx ? "#FFFFFF" : "var(--ink-2)"
       }
     },
-    p.q
-  ))), /* @__PURE__ */ React.createElement("div", { style: {
-    background: "rgba(3, 7, 18, 0.9)",
+    "> ",
+    c.label
+  ))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, background: "rgba(3,7,18,0.95)", border: "1px solid var(--line)", borderRadius: "8px 8px 0 0", padding: "10px 16px", fontFamily: "var(--font-mono)", fontSize: 12.5, color: "var(--accent)" } }, /* @__PURE__ */ React.createElement("span", null, "yusuf@salesforce-core:~$"), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      value: inputCmd,
+      onChange: (e) => setInputCmd(e.target.value),
+      onKeyDown: (e) => {
+        if (e.key === "Enter") {
+          const match = commands.findIndex((c) => c.cmd.includes(inputCmd.toLowerCase()));
+          runCommand(match >= 0 ? match : 0);
+        }
+      },
+      placeholder: "type command or click chip above...",
+      style: { flex: 1, background: "transparent", border: "none", color: "#FFFFFF", fontFamily: "inherit", fontSize: "inherit", outline: "none" }
+    }
+  ), isTyping && /* @__PURE__ */ React.createElement("span", { style: { color: "var(--sf-pink)", fontSize: 11 } }, "[EXECUTING]")), /* @__PURE__ */ React.createElement("div", { style: {
+    background: "#030712",
     border: "1px solid var(--line)",
-    borderRadius: 12,
-    padding: "16px 20px",
-    minHeight: 85,
-    fontFamily: "var(--font-body)",
-    fontSize: 14,
-    lineHeight: 1.6,
+    borderTop: "none",
+    borderRadius: "0 0 8px 8px",
+    padding: "18px 20px",
+    minHeight: 140,
+    fontFamily: "var(--font-mono)",
+    fontSize: 13,
+    lineHeight: 1.65,
     color: "#F8FAFC",
-    position: "relative"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8, fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--accent)" } }, /* @__PURE__ */ React.createElement(Icon, { name: "bolt", size: 13, color: "var(--accent)" }), /* @__PURE__ */ React.createElement("span", null, "AGENTFORCE AI RESPONSE"), isTyping && /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", color: "var(--sf-pink)" } }, "GENERATING...")), /* @__PURE__ */ React.createElement("p", { style: { margin: 0, color: "#F8FAFC" } }, displayedText, isTyping && /* @__PURE__ */ React.createElement("span", { style: { display: "inline-block", width: 7, height: 14, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" } }))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14, flexWrap: "wrap", gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" } }, "\u{1F4A1} Click presets above to test Agentforce AI responses"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: { padding: "6px 14px", fontSize: 12, border: "none" } }, "Explore Case Studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 13 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("contact"), style: { padding: "6px 14px", fontSize: 12 } }, "Contact SME"))));
+    whiteSpace: "pre-wrap",
+    overflowX: "auto"
+  } }, displayedOutput, isTyping && /* @__PURE__ */ React.createElement("span", { style: { display: "inline-block", width: 8, height: 16, background: "var(--accent)", marginLeft: 4, verticalAlign: "middle" } })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 14, flexWrap: "wrap", gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: "var(--ink-3)", fontFamily: "var(--font-mono)" } }, "\u{1F4A1} Type custom queries or select preset chips above"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: { padding: "6px 14px", fontSize: 12, border: "none" } }, "View Blueprint Case Studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 13 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("contact"), style: { padding: "6px 14px", fontSize: 12 } }, "Contact SME Architect"))));
 }
 function HeroSection({ go }) {
-  const nameRef = React.useRef(null);
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
-    const on = (e) => {
-      setParallax({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 15
-      });
-    };
-    window.addEventListener("pointermove", on);
-    return () => window.removeEventListener("pointermove", on);
-  }, []);
   return /* @__PURE__ */ React.createElement("section", { style: {
     position: "relative",
-    padding: "80px 0 60px",
-    minWidth: 0,
+    padding: "90px 0 60px",
     overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "radial-gradient(120% 90% at 50% 0%, color-mix(in oklab, var(--accent) 12%, transparent) 0%, rgba(6,11,34,0.6) 40%, transparent 100%)",
     color: "white"
-  } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    top: "45%",
-    right: "-5%",
-    transform: "translateY(-50%)",
-    zIndex: 0,
-    pointerEvents: "none",
-    opacity: 0.45
-  } }, /* @__PURE__ */ React.createElement("div", { style: {
-    width: "min(650px, 60vw)",
-    height: "min(650px, 60vw)"
-  } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 650, bare: true }))), /* @__PURE__ */ React.createElement("div", { className: "container", style: {
-    position: "relative",
-    zIndex: 3,
-    textAlign: "center",
-    transform: `translate(${parallax.x * -0.2}px, ${parallax.y * -0.2}px)`,
-    pointerEvents: "none"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 14, pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { padding: "6px 14px", fontSize: 11 } }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " SALESFORCE LEAD ARCHITECT & TECHNICAL SME")), /* @__PURE__ */ React.createElement("h1", { className: "wordmark anim-word hero-wordmark", style: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+  } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { className: "container", style: { position: "relative", zIndex: 3 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 40, alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "left" } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 14 } }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { padding: "6px 14px", fontSize: 11 } }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " OPERATOR STATUS: ONLINE // LEVEL 12 ARCHITECT")), /* @__PURE__ */ React.createElement("h1", { style: {
     fontFamily: "'Anton', system-ui, sans-serif",
-    fontSize: "clamp(46px, 7.5vw, 100px)",
+    fontSize: "clamp(52px, 7vw, 92px)",
     letterSpacing: ".02em",
     lineHeight: 1,
     color: "#FFFFFF",
     textTransform: "uppercase",
-    whiteSpace: "nowrap",
-    zIndex: 3,
-    textShadow: "0 6px 30px rgba(0, 0, 0, .75), 0 0 35px color-mix(in oklab, var(--accent) 35%, transparent)",
-    userSelect: "none",
-    margin: "0 auto 20px",
-    width: "fit-content",
-    pointerEvents: "auto"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: "16px" } }, /* @__PURE__ */ React.createElement("span", { className: "split", style: { display: "inline-block", fontFamily: "'Anton', sans-serif" } }, "YUSUF"), /* @__PURE__ */ React.createElement("span", { className: "accent", style: { display: "inline-block", fontFamily: "'Anton', sans-serif", color: "var(--accent)" } }, "KHAN"))), /* @__PURE__ */ React.createElement("p", { style: {
-    fontSize: "clamp(15px, 1.4vw, 19px)",
-    lineHeight: 1.5,
-    maxWidth: 640,
-    margin: "0 auto 40px",
-    color: "rgba(255,255,255,.78)",
+    margin: "0 0 16px",
+    textShadow: "0 0 30px color-mix(in oklab, var(--accent) 40%, transparent)"
+  } }, "YUSUF ", /* @__PURE__ */ React.createElement("span", { style: { color: "var(--accent)" } }, "KHAN")), /* @__PURE__ */ React.createElement("p", { style: {
+    fontSize: "17px",
+    lineHeight: 1.6,
+    color: "var(--ink-2)",
     fontWeight: 500,
-    animation: "letterIn .8s ease .45s both",
-    textAlign: "center"
-  } }, "I architect & ship enterprise ", /* @__PURE__ */ React.createElement("strong", { style: { color: "white" } }, "Salesforce"), " platforms across", /* @__PURE__ */ React.createElement("strong", { style: { color: "#6BB7FF" } }, " banking"), ",", /* @__PURE__ */ React.createElement("strong", { style: { color: "#FF9F66" } }, " retail"), " and", /* @__PURE__ */ React.createElement("strong", { style: { color: "#B57BFF" } }, " lending"), " \u2014 clean Apex, fast LWCs, automations that scale."), /* @__PURE__ */ React.createElement("div", { style: { display: "inline-flex", gap: 12, flexWrap: "wrap", justifyContent: "center", pointerEvents: "auto", animation: "letterIn .8s ease .6s both" } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: {
+    marginBottom: 28,
+    maxWidth: 580
+  } }, "Architecting enterprise ", /* @__PURE__ */ React.createElement("strong", { style: { color: "white" } }, "Salesforce Cloud"), " & ", /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--accent)" } }, "Agentforce AI"), " platforms across ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#6BB7FF" } }, "Banking"), ", ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#FF9F66" } }, "Retail"), ", and ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#B57BFF" } }, "Lending"), " \u2014 clean Apex, fast LWCs, automations that scale."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: {
     background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
-    boxShadow: "0 18px 40px -12px color-mix(in oklab, var(--accent) 60%, transparent)",
-    padding: "14px 24px",
+    boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
+    padding: "14px 26px",
     fontSize: 14,
     border: "none"
-  } }, "See case studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 16 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("certs"), style: {
-    background: "rgba(255,255,255,.06)",
+  } }, "Launch Case Studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 16 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("certs"), style: {
+    background: "rgba(255,255,255,.05)",
     color: "white",
     borderColor: "var(--line)",
     padding: "14px 24px",
     fontSize: 14
-  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " 12 certifications")), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
-    marginTop: 36,
+  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    width: "100%",
+    maxWidth: 440,
+    height: 440,
+    borderRadius: "50%",
+    border: "1px dashed var(--line)",
+    animation: "spinReticle 60s linear infinite",
+    pointerEvents: "none"
+  } }), /* @__PURE__ */ React.createElement("style", null, `
+              @keyframes spinReticle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            `), /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 460, height: 440 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 440, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
+    marginTop: 40,
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
     gap: 0,
-    maxWidth: 760,
-    marginLeft: "auto",
-    marginRight: "auto",
     border: "1px solid var(--line)",
     borderRadius: 16,
-    background: "rgba(3, 7, 18, 0.65)",
-    backdropFilter: "blur(14px)",
+    background: "rgba(6, 12, 28, 0.75)",
+    backdropFilter: "blur(16px)",
     boxShadow: "var(--shadow-2)",
-    animation: "letterIn .8s ease .75s both",
-    pointerEvents: "auto",
     overflow: "hidden"
   } }, (function() {
     const sfData = window.__SF_DATA__ || {};
@@ -2371,54 +2392,15 @@ function HeroSection({ go }) {
     const pointsDisp = tb.pointsK ? tb.pointsK + "K+" : "\u2014";
     return [
       [String(certCount), "Salesforce Certs", "100% Verified"],
-      ["6+", "Years Exp.", "Lead SME"],
-      ["8+", "Enterprise Apps", "Banking & Retail"],
+      ["6+", "Years Exp.", "Lead Technical SME"],
+      ["8+", "Enterprise Apps", "$4.2B+ Volume"],
       [pointsDisp, "Trailhead Pts", "506 Badges"]
     ];
   })().map(([n, l, sub], i) => /* @__PURE__ */ React.createElement("div", { key: l, style: {
-    padding: "16px 12px",
+    padding: "20px 16px",
     borderLeft: i > 0 ? "1px solid var(--line)" : "none",
     background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)"
-  } }, /* @__PURE__ */ React.createElement("div", { className: "h-display", style: { fontSize: 28, fontWeight: 800, color: "var(--accent)" } }, n), /* @__PURE__ */ React.createElement("div", { style: { color: "white", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", marginTop: 2 } }, l), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 10, fontFamily: "var(--font-mono)", marginTop: 2 } }, sub)))), /* @__PURE__ */ React.createElement(AgentforceAssistantWidget, { go })), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    left: 24,
-    bottom: 80,
-    zIndex: 4,
-    pointerEvents: "none",
-    fontFamily: "var(--font-mono)",
-    fontSize: 10.5,
-    color: "rgba(255,255,255,.55)",
-    letterSpacing: ".14em",
-    textTransform: "uppercase",
-    display: "flex",
-    alignItems: "center",
-    gap: 8
-  } }, /* @__PURE__ */ React.createElement("svg", { width: "20", height: "20", viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: "1.5" }, /* @__PURE__ */ React.createElement("path", { d: "M10 3v8M10 11l-3-3M10 11l3-3M5 14v3M10 14v3M15 14v3" }))), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    right: 24,
-    bottom: 80,
-    zIndex: 4,
-    pointerEvents: "none",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 8,
-    fontFamily: "var(--font-mono)",
-    fontSize: 10.5,
-    color: "rgba(255,255,255,.55)",
-    letterSpacing: ".14em",
-    textTransform: "uppercase"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { width: 18, height: 28, borderRadius: 12, border: "1px solid rgba(255,255,255,.4)", position: "relative", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("span", { style: {
-    position: "absolute",
-    top: 5,
-    left: "50%",
-    marginLeft: -2,
-    width: 4,
-    height: 7,
-    borderRadius: 2,
-    background: "rgba(255,255,255,.85)",
-    animation: "scrollCue 1.8s infinite"
-  } }))), /* @__PURE__ */ React.createElement(HeroMarquee, null));
+  } }, /* @__PURE__ */ React.createElement("div", { className: "h-display", style: { fontSize: 32, fontWeight: 800, color: "var(--accent)" } }, n), /* @__PURE__ */ React.createElement("div", { style: { color: "white", fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", marginTop: 4 } }, l), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 10.5, fontFamily: "var(--font-mono)", marginTop: 2 } }, sub)))), /* @__PURE__ */ React.createElement(AgentforceCLIWidget, { go })), /* @__PURE__ */ React.createElement(HeroMarquee, null));
 }
 function ApexShowcase() {
   return /* @__PURE__ */ React.createElement("section", { style: { padding: "0px 0 60px", borderTop: "none" } }, /* @__PURE__ */ React.createElement("div", { className: "container", style: { display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 56, alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "eyebrow" }, /* @__PURE__ */ React.createElement("span", { className: "dot" }), " Live Apex \xB7 this very page"), /* @__PURE__ */ React.createElement("h2", { className: "h-section", style: { margin: "16px 0 18px" } }, "The hiring code, written in Apex."), /* @__PURE__ */ React.createElement("p", { className: "body-lg", style: { marginBottom: 22 } }, "A live developer console rendering a class that defines me \u2014 public, sealed, and fully governor-limit aware. Watch it type itself."), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 } }, /* @__PURE__ */ React.createElement("div", { className: "card hoverable", style: { padding: 18 } }, /* @__PURE__ */ React.createElement(Icon, { name: "code", size: 20, color: "var(--accent)" }), /* @__PURE__ */ React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 700, marginTop: 8, fontSize: 16 } }, "Clean Apex"), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 13, marginTop: 4 } }, "91% test coverage \xB7 0 P1s")), /* @__PURE__ */ React.createElement("div", { className: "card hoverable", style: { padding: 18 } }, /* @__PURE__ */ React.createElement(Icon, { name: "database", size: 20, color: "var(--accent)" }), /* @__PURE__ */ React.createElement("div", { style: { fontFamily: "var(--font-display)", fontWeight: 700, marginTop: 8, fontSize: 16 } }, "SOQL discipline"), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 13, marginTop: 4 } }, "Selective queries \xB7 bulk-safe")))), /* @__PURE__ */ React.createElement(ApexTypewriter, null)));
@@ -8122,10 +8104,10 @@ function useHashRoute() {
 }
 const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
 const THEMES = [
-  { id: "cyber-matrix", label: "Matrix", color: "#00F0FF" },
-  { id: "hyperion", label: "Hyperion", color: "#F59E0B" },
-  { id: "nebula", label: "Nebula", color: "#A855F7" },
-  { id: "apex", label: "Apex", color: "#10B981" }
+  { id: "cyber-matrix", label: "Cyber Matrix", color: "#00F0FF" },
+  { id: "solar-flare", label: "Solar Flare", color: "#F59E0B" },
+  { id: "neon-nebula", label: "Neon Nebula", color: "#A855F7" },
+  { id: "apex-cyber", label: "Apex Cyber", color: "#10B981" }
 ];
 function ThemeSwitcher({ theme, setTheme }) {
   const [open, setOpen] = useState(false);

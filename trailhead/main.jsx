@@ -24,10 +24,10 @@ function useHashRoute() {
 const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
 
 const THEMES = [
-  { id: "cyber-matrix", label: "Matrix", color: "#00F0FF" },
-  { id: "hyperion", label: "Hyperion", color: "#F59E0B" },
-  { id: "nebula", label: "Nebula", color: "#A855F7" },
-  { id: "apex", label: "Apex", color: "#10B981" }
+  { id: "cyber-matrix", label: "Cyber Matrix", color: "#00F0FF" },
+  { id: "solar-flare", label: "Solar Flare", color: "#F59E0B" },
+  { id: "neon-nebula", label: "Neon Nebula", color: "#A855F7" },
+  { id: "apex-cyber", label: "Apex Cyber", color: "#10B981" }
 ];
 
 function ThemeSwitcher({ theme, setTheme }) {
