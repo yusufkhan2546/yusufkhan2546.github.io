@@ -98,9 +98,18 @@ function ThemeSwitcher({ theme, setTheme }) {
 
 function Nav({ route, go }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [theme, setThemeState] = useState(() => {
     return localStorage.getItem("sf_theme") || "cyber-matrix";
   });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const changeTheme = (newTheme) => {
     setThemeState(newTheme);
@@ -132,18 +141,23 @@ function Nav({ route, go }) {
 
   return (
     <>
-      <nav className="nav">
+      <nav className={"nav" + (scrolled ? " scrolled" : "")}>
         <div className="nav-inner">
           <a className="brand hoverable" href="#home" onClick={(e)=>{e.preventDefault(); navigate("home");}}>
-            <span className="brand-mark" style={{ overflow: "hidden", border: "1px solid color-mix(in oklab, var(--accent) 40%, transparent)" }}>
+            <span className="brand-mark" style={{ overflow: "hidden", border: "1px solid color-mix(in oklab, var(--accent) 45%, transparent)" }}>
               <img src="uploads/YK.png" alt="YK" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </span>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ lineHeight: 1.1, fontWeight: 700 }}>Yusuf Khan</span>
-                <span className="hud-badge" style={{ padding: "2px 6px", fontSize: 9 }}>● ONLINE</span>
+                <span style={{ lineHeight: 1.1, fontWeight: 700, letterSpacing: "-0.01em" }}>Yusuf Khan</span>
+                <span className="hud-badge">
+                  <span className="hud-badge-dot"></span>
+                  <span>ONLINE</span>
+                </span>
               </div>
-              <span style={{ fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>Salesforce Lead Architect & SME</span>
+              <span style={{ fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>
+                Salesforce Lead Architect &amp; SME
+              </span>
             </div>
           </a>
 
@@ -160,24 +174,26 @@ function Nav({ route, go }) {
           </div>
 
           {/* Theme switcher + CTA buttons */}
-          <div className="nav-cta-group" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="nav-cta-group" style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <ThemeSwitcher theme={theme} setTheme={changeTheme} />
-            <a className="btn ghost hoverable" href="#contact" onClick={(e)=>{e.preventDefault(); navigate("contact");}}>
-              <Icon name="mail" size={15}/> Get in touch
+            <a className="btn ghost hoverable" href="#contact" onClick={(e)=>{e.preventDefault(); navigate("contact");}} style={{ padding: "8px 14px", fontSize: 13 }}>
+              <Icon name="mail" size={14}/> Get in touch
             </a>
-            <a className="btn primary hoverable" href="assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf" target="_blank" rel="noopener noreferrer">
-              <Icon name="download" size={15}/> Resume
+            <a className="btn primary hoverable" href="assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf" target="_blank" rel="noopener noreferrer" style={{ padding: "8px 14px", fontSize: 13 }}>
+              <Icon name="download" size={14}/> Resume
             </a>
           </div>
 
-          {/* Hamburger — visible on mobile/tablet via CSS */}
+          {/* Hamburger with morphing animated bars */}
           <button
-            className="nav-hamburger"
-            aria-label="Open menu"
+            className={"nav-hamburger" + (drawerOpen ? " open" : "")}
+            aria-label="Toggle navigation menu"
             aria-expanded={drawerOpen}
-            onClick={() => setDrawerOpen(true)}
+            onClick={() => setDrawerOpen(!drawerOpen)}
           >
-            ☰
+            <span className="ham-line"></span>
+            <span className="ham-line"></span>
+            <span className="ham-line"></span>
           </button>
         </div>
       </nav>
@@ -187,12 +203,12 @@ function Nav({ route, go }) {
         <div className="mobile-drawer" role="dialog" aria-label="Navigation menu">
           <button className="drawer-close" aria-label="Close menu" onClick={() => setDrawerOpen(false)}>✕</button>
 
-          <div style={{ marginBottom: 12, textTransform: "uppercase", fontSize: 11, letterSpacing: "0.1em", color: "var(--ink-3)", fontFamily: "var(--font-mono)" }}>
-            Select Futuristic Theme
+          <div style={{ marginBottom: 8, textTransform: "uppercase", fontSize: 11, letterSpacing: "0.12em", color: "var(--accent)", fontFamily: "var(--font-mono)", fontWeight: 600 }}>
+            ● COSMIC THEME ENGINE
           </div>
           <ThemeSwitcher theme={theme} setTheme={changeTheme} />
 
-          <div style={{ height: 16 }}></div>
+          <div style={{ height: 12 }}></div>
 
           {ROUTES.map(r => (
             <a key={r.id}
@@ -203,7 +219,7 @@ function Nav({ route, go }) {
             </a>
           ))}
 
-          <div className="drawer-ctas">
+          <div className="drawer-ctas" style={{ marginTop: 16 }}>
             <a className="btn ghost" href="#contact" onClick={(e)=>{e.preventDefault(); navigate("contact");}}>
               <Icon name="mail" size={15}/> Get in touch
             </a>
@@ -268,6 +284,70 @@ function Footer({ go }) {
   );
 }
 
+function FloatingTelemetryIsland({ route, go }) {
+  const [minimized, setMinimized] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const routeNames = {
+    home: "Orbit 360",
+    certs: "12 Credentials",
+    projects: "Case Studies",
+    experience: "Experience",
+    gigs: "Services",
+    demos: "Sandbox Demos",
+    contact: "Contact Channel"
+  };
+
+  return (
+    <aside className={"floating-dock" + (minimized ? " minimized" : "")} aria-label="Quick Telemetry Dock">
+      <div className="dock-pill">
+        <div className="dock-telemetry">
+          <span className="dock-ping"></span>
+          <span className="dock-label">COSMIC VERSE</span>
+          <span className="dock-sep">//</span>
+          <span className="dock-route">{routeNames[route] || route}</span>
+        </div>
+
+        <div className="dock-actions">
+          {route !== "demos" && (
+            <button
+              className="dock-btn"
+              onClick={() => go("demos")}
+              title="Launch Code Sandbox & Demos"
+            >
+              ⚡ Recipes
+            </button>
+          )}
+
+          {scrollY > 300 && (
+            <button
+              className="dock-btn"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              title="Scroll to Top"
+            >
+              ▲ Top
+            </button>
+          )}
+
+          <button
+            className="dock-minimize"
+            onClick={() => setMinimized(!minimized)}
+            title={minimized ? "Expand Telemetry" : "Minimize Telemetry"}
+          >
+            {minimized ? "＋" : "−"}
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 function App() {
   const [route, go] = useHashRoute();
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
@@ -328,6 +408,7 @@ function App() {
       <BoltTrail enabled={t.boltTrail} showCursor={t.showCursor} />
       <Mascot route={route} setTweak={setTweak} enabled={t.mascot} />
       <Nav route={route} go={go} />
+      <FloatingTelemetryIsland route={route} go={go} />
       <div key={route} className="page-shell page-enter" style={route === "home" ? { paddingTop: 0 } : undefined}>
         {Page}
       </div>

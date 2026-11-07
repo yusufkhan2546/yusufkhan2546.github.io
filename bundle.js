@@ -8185,9 +8185,17 @@ function ThemeSwitcher({ theme, setTheme }) {
 }
 function Nav({ route, go }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [theme, setThemeState] = useState(() => {
     return localStorage.getItem("sf_theme") || "cyber-matrix";
   });
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const changeTheme = (newTheme) => {
     setThemeState(newTheme);
     localStorage.setItem("sf_theme", newTheme);
@@ -8213,10 +8221,10 @@ function Nav({ route, go }) {
       document.body.style.overflow = "";
     };
   }, [drawerOpen]);
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("nav", { className: "nav" }, /* @__PURE__ */ React.createElement("div", { className: "nav-inner" }, /* @__PURE__ */ React.createElement("a", { className: "brand hoverable", href: "#home", onClick: (e) => {
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("nav", { className: "nav" + (scrolled ? " scrolled" : "") }, /* @__PURE__ */ React.createElement("div", { className: "nav-inner" }, /* @__PURE__ */ React.createElement("a", { className: "brand hoverable", href: "#home", onClick: (e) => {
     e.preventDefault();
     navigate("home");
-  } }, /* @__PURE__ */ React.createElement("span", { className: "brand-mark", style: { overflow: "hidden", border: "1px solid color-mix(in oklab, var(--accent) 40%, transparent)" } }, /* @__PURE__ */ React.createElement("img", { src: "uploads/YK.png", alt: "YK", style: { width: "100%", height: "100%", objectFit: "contain" } })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { lineHeight: 1.1, fontWeight: 700 } }, "Yusuf Khan"), /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { padding: "2px 6px", fontSize: 9 } }, "\u25CF ONLINE")), /* @__PURE__ */ React.createElement("span", { style: { fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 } }, "Salesforce Lead Architect & SME"))), /* @__PURE__ */ React.createElement("div", { className: "nav-links" }, ROUTES.map((r) => /* @__PURE__ */ React.createElement(
+  } }, /* @__PURE__ */ React.createElement("span", { className: "brand-mark", style: { overflow: "hidden", border: "1px solid color-mix(in oklab, var(--accent) 45%, transparent)" } }, /* @__PURE__ */ React.createElement("img", { src: "uploads/YK.png", alt: "YK", style: { width: "100%", height: "100%", objectFit: "contain" } })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { lineHeight: 1.1, fontWeight: 700, letterSpacing: "-0.01em" } }, "Yusuf Khan"), /* @__PURE__ */ React.createElement("span", { className: "hud-badge" }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge-dot" }), /* @__PURE__ */ React.createElement("span", null, "ONLINE"))), /* @__PURE__ */ React.createElement("span", { style: { fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 } }, "Salesforce Lead Architect & SME"))), /* @__PURE__ */ React.createElement("div", { className: "nav-links" }, ROUTES.map((r) => /* @__PURE__ */ React.createElement(
     "a",
     {
       key: r.id,
@@ -8228,19 +8236,21 @@ function Nav({ route, go }) {
       className: "nav-link hoverable " + (route === r.id ? "active" : "")
     },
     r.label
-  ))), /* @__PURE__ */ React.createElement("div", { className: "nav-cta-group", style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement(ThemeSwitcher, { theme, setTheme: changeTheme }), /* @__PURE__ */ React.createElement("a", { className: "btn ghost hoverable", href: "#contact", onClick: (e) => {
+  ))), /* @__PURE__ */ React.createElement("div", { className: "nav-cta-group", style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement(ThemeSwitcher, { theme, setTheme: changeTheme }), /* @__PURE__ */ React.createElement("a", { className: "btn ghost hoverable", href: "#contact", onClick: (e) => {
     e.preventDefault();
     navigate("contact");
-  } }, /* @__PURE__ */ React.createElement(Icon, { name: "mail", size: 15 }), " Get in touch"), /* @__PURE__ */ React.createElement("a", { className: "btn primary hoverable", href: "assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf", target: "_blank", rel: "noopener noreferrer" }, /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 15 }), " Resume")), /* @__PURE__ */ React.createElement(
+  }, style: { padding: "8px 14px", fontSize: 13 } }, /* @__PURE__ */ React.createElement(Icon, { name: "mail", size: 14 }), " Get in touch"), /* @__PURE__ */ React.createElement("a", { className: "btn primary hoverable", href: "assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf", target: "_blank", rel: "noopener noreferrer", style: { padding: "8px 14px", fontSize: 13 } }, /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 14 }), " Resume")), /* @__PURE__ */ React.createElement(
     "button",
     {
-      className: "nav-hamburger",
-      "aria-label": "Open menu",
+      className: "nav-hamburger" + (drawerOpen ? " open" : ""),
+      "aria-label": "Toggle navigation menu",
       "aria-expanded": drawerOpen,
-      onClick: () => setDrawerOpen(true)
+      onClick: () => setDrawerOpen(!drawerOpen)
     },
-    "\u2630"
-  ))), drawerOpen && /* @__PURE__ */ React.createElement("div", { className: "mobile-drawer", role: "dialog", "aria-label": "Navigation menu" }, /* @__PURE__ */ React.createElement("button", { className: "drawer-close", "aria-label": "Close menu", onClick: () => setDrawerOpen(false) }, "\u2715"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 12, textTransform: "uppercase", fontSize: 11, letterSpacing: "0.1em", color: "var(--ink-3)", fontFamily: "var(--font-mono)" } }, "Select Futuristic Theme"), /* @__PURE__ */ React.createElement(ThemeSwitcher, { theme, setTheme: changeTheme }), /* @__PURE__ */ React.createElement("div", { style: { height: 16 } }), ROUTES.map((r) => /* @__PURE__ */ React.createElement(
+    /* @__PURE__ */ React.createElement("span", { className: "ham-line" }),
+    /* @__PURE__ */ React.createElement("span", { className: "ham-line" }),
+    /* @__PURE__ */ React.createElement("span", { className: "ham-line" })
+  ))), drawerOpen && /* @__PURE__ */ React.createElement("div", { className: "mobile-drawer", role: "dialog", "aria-label": "Navigation menu" }, /* @__PURE__ */ React.createElement("button", { className: "drawer-close", "aria-label": "Close menu", onClick: () => setDrawerOpen(false) }, "\u2715"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 8, textTransform: "uppercase", fontSize: 11, letterSpacing: "0.12em", color: "var(--accent)", fontFamily: "var(--font-mono)", fontWeight: 600 } }, "\u25CF COSMIC THEME ENGINE"), /* @__PURE__ */ React.createElement(ThemeSwitcher, { theme, setTheme: changeTheme }), /* @__PURE__ */ React.createElement("div", { style: { height: 12 } }), ROUTES.map((r) => /* @__PURE__ */ React.createElement(
     "a",
     {
       key: r.id,
@@ -8252,7 +8262,7 @@ function Nav({ route, go }) {
       }
     },
     r.label
-  )), /* @__PURE__ */ React.createElement("div", { className: "drawer-ctas" }, /* @__PURE__ */ React.createElement("a", { className: "btn ghost", href: "#contact", onClick: (e) => {
+  )), /* @__PURE__ */ React.createElement("div", { className: "drawer-ctas", style: { marginTop: 16 } }, /* @__PURE__ */ React.createElement("a", { className: "btn ghost", href: "#contact", onClick: (e) => {
     e.preventDefault();
     navigate("contact");
   } }, /* @__PURE__ */ React.createElement(Icon, { name: "mail", size: 15 }), " Get in touch"), /* @__PURE__ */ React.createElement("a", { className: "btn primary", href: "assets/Yusuf_Khan_Salesforce_Developer_Resume.pdf", target: "_blank", rel: "noopener noreferrer" }, /* @__PURE__ */ React.createElement(Icon, { name: "download", size: 15 }), " Resume"))));
@@ -8271,6 +8281,49 @@ function Footer({ go }) {
     },
     r.label
   )))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { textTransform: "uppercase", letterSpacing: ".14em", fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 12 } }, "Domains"), ["Banking & FSC", "Retail / Commerce", "Lending & Loan Origination", "Experience Cloud", "Agentforce & AI"].map((s) => /* @__PURE__ */ React.createElement("div", { key: s, style: { marginBottom: 8, color: "var(--ink-2)", fontSize: 14, fontWeight: 500 } }, s))), /* @__PURE__ */ React.createElement("div", { className: "footer-currently" }, /* @__PURE__ */ React.createElement("div", { style: { textTransform: "uppercase", letterSpacing: ".14em", fontSize: 11, color: "var(--ink-2)", fontWeight: 700, marginBottom: 12 } }, "Currently"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8 } }, /* @__PURE__ */ React.createElement("span", { style: { width: 8, height: 8, borderRadius: 99, background: "var(--sf-success)", boxShadow: "0 0 8px var(--sf-success)" } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, fontWeight: 600 } }, "Available for new engagements")), /* @__PURE__ */ React.createElement("div", { style: { color: "var(--ink-2)", fontSize: 14 } }, "Replies within 24h"))), /* @__PURE__ */ React.createElement("div", { className: "container footer-bottom", style: { marginTop: 40, paddingTop: 20, borderTop: "1px solid var(--line-2)", display: "flex", justifyContent: "space-between", color: "var(--ink-2)", fontSize: 13 } }, /* @__PURE__ */ React.createElement("span", null, "\xA9 2026 Yusuf Khan. Built with curiosity and a lot of Apex."), /* @__PURE__ */ React.createElement("span", { className: "mono" }, "v1.0 \xB7 Trailhead-inspired")));
+}
+function FloatingTelemetryIsland({ route, go }) {
+  const [minimized, setMinimized] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  const routeNames = {
+    home: "Orbit 360",
+    certs: "12 Credentials",
+    projects: "Case Studies",
+    experience: "Experience",
+    gigs: "Services",
+    demos: "Sandbox Demos",
+    contact: "Contact Channel"
+  };
+  return /* @__PURE__ */ React.createElement("aside", { className: "floating-dock" + (minimized ? " minimized" : ""), "aria-label": "Quick Telemetry Dock" }, /* @__PURE__ */ React.createElement("div", { className: "dock-pill" }, /* @__PURE__ */ React.createElement("div", { className: "dock-telemetry" }, /* @__PURE__ */ React.createElement("span", { className: "dock-ping" }), /* @__PURE__ */ React.createElement("span", { className: "dock-label" }, "COSMIC VERSE"), /* @__PURE__ */ React.createElement("span", { className: "dock-sep" }, "//"), /* @__PURE__ */ React.createElement("span", { className: "dock-route" }, routeNames[route] || route)), /* @__PURE__ */ React.createElement("div", { className: "dock-actions" }, route !== "demos" && /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "dock-btn",
+      onClick: () => go("demos"),
+      title: "Launch Code Sandbox & Demos"
+    },
+    "\u26A1 Recipes"
+  ), scrollY > 300 && /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "dock-btn",
+      onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+      title: "Scroll to Top"
+    },
+    "\u25B2 Top"
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "dock-minimize",
+      onClick: () => setMinimized(!minimized),
+      title: minimized ? "Expand Telemetry" : "Minimize Telemetry"
+    },
+    minimized ? "\uFF0B" : "\u2212"
+  ))));
 }
 function App() {
   const [route, go] = useHashRoute();
@@ -8317,7 +8370,7 @@ function App() {
   else if (route === "contact") Page = /* @__PURE__ */ React.createElement(PageContact, { go, mapplsToken: t.mapplsToken });
   else Page = /* @__PURE__ */ React.createElement(PageHome, { go });
   const labels = { home: "01 Home", certs: "02 Certifications", projects: "03 Projects", experience: "04 Experience", gigs: "05 Services", demos: "06 Demos & Articles", contact: "07 Contact" };
-  return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Mascot, { route, setTweak, enabled: t.mascot }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Mascot, { route, setTweak, enabled: t.mascot }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement(FloatingTelemetryIsland, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
     TweakColor,
     {
       label: "Accent",
