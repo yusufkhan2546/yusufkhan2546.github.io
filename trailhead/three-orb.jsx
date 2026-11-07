@@ -4,20 +4,37 @@
 function ThreeOrb({ height = 440, bare = false }) {
   const wrapRef = React.useRef(null);
   const stateRef = React.useRef({});
+  const [threeReady, setThreeReady] = React.useState(typeof window !== "undefined" && !!window.THREE);
 
   React.useEffect(() => {
-    // Skip entirely on mobile — too expensive
-    if (window.__IS_MOBILE) return;
-    if (!window.THREE) return;
-    const THREE = window.THREE;
+    if (window.THREE) {
+      if (!threeReady) setThreeReady(true);
+      return;
+    }
+    const checkTimer = setInterval(() => {
+      if (window.THREE) {
+        setThreeReady(true);
+        clearInterval(checkTimer);
+      }
+    }, 60);
+    return () => clearInterval(checkTimer);
+  }, [threeReady]);
+
+  React.useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
 
-    const width = wrap.clientWidth;
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); // cap at 1.5x
+    if (!window.THREE) {
+      return;
+    }
+    const THREE = window.THREE;
+
+    const width = wrap.clientWidth || 560;
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
+    wrap.innerHTML = "";
     wrap.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -209,7 +226,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     // Stagger orbits slightly so 12 nodes aren't too crowded
     NODES.forEach((n, i) => { 
       n.ang = (Math.PI * 2 * i) / NODES.length; 
-      n.r = i % 2 === 0 ? 4.6 : 5.6; 
+      n.r = i % 2 === 0 ? 4.8 : 5.8; 
     });
 
     const texLoader = new THREE.TextureLoader();
@@ -237,7 +254,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         map: tex, transparent: true, depthWrite: false,
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1.35, 1.35, 1);
+      sprite.scale.set(1.4, 1.4, 1);
       g.add(sprite);
       g.userData = { sprite, glow };
 
@@ -375,12 +392,8 @@ function ThreeOrb({ height = 440, bare = false }) {
       wire.rotation.x += .002;
 
       // Badge gentle breathe
-      const bs = 2.6 + Math.sin(t * 1.4) * .05;
+      const bs = 3.4 + Math.sin(t * 1.4) * .08;
       badge.scale.set(bs, bs, 1);
-      // halo disc pulse
-      const hs = 1.7 + Math.sin(t * 1.4) * .06;
-      haloDisc.scale.set(hs / 1.7, hs / 1.7, 1);
-      haloDisc.material.opacity = .22 + Math.sin(t * 1.4) * .08;
 
       // Nodes — gentle bobbing; sprites always face the camera so no extra rotation needed
       nodes.forEach((n, i) => {
@@ -391,10 +404,6 @@ function ThreeOrb({ height = 440, bare = false }) {
           n.group.userData.glow.material.opacity = op;
         }
       });
-
-      // Halo
-      halo.rotation.z = t * .1;
-      halo2.rotation.z = -t * .07;
 
       // Stars rotate slowly
       stars.rotation.y = t * .02;
@@ -420,8 +429,8 @@ function ThreeOrb({ height = 440, bare = false }) {
             activeLabel = owner.idx;
             labelEl.textContent = owner.data.name;
           }
-          // Slightly enlarge the badge on hover
-          owner.sprite.scale.x = owner.sprite.scale.y = 1.0 + Math.sin(t * 6) * .05 + .25;
+          // Enlarge the badge on hover
+          owner.sprite.scale.x = owner.sprite.scale.y = 1.65 + Math.sin(t * 6) * .05;
           const v = new THREE.Vector3();
           owner.group.getWorldPosition(v);
           v.project(camera);
@@ -433,7 +442,7 @@ function ThreeOrb({ height = 440, bare = false }) {
           labelEl.style.opacity = "1";
         }
       } else {
-        nodes.forEach(n => { n.sprite.scale.x = n.sprite.scale.y = 1.0; });
+        nodes.forEach(n => { n.sprite.scale.x = n.sprite.scale.y = 1.4; });
         activeLabel = null;
         labelEl.style.opacity = "0";
       }
@@ -444,20 +453,23 @@ function ThreeOrb({ height = 440, bare = false }) {
     animate();
 
     // Pause RAF when the canvas is scrolled off-screen
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        if (!raf) raf = requestAnimationFrame(animate);
-      } else {
-        cancelAnimationFrame(raf);
-        raf = 0;
-      }
-    }, { threshold: 0.05 });
-    io.observe(wrap);
+    let io = null;
+    if (window.IntersectionObserver) {
+      io = new IntersectionObserver(([e]) => {
+        if (e && e.isIntersecting) {
+          if (!raf) raf = requestAnimationFrame(animate);
+        } else if (e && !e.isIntersecting) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      }, { threshold: 0.01 });
+      io.observe(wrap);
+    }
 
     stateRef.current = { renderer, scene };
 
     return () => {
-      io.disconnect();
+      if (io) io.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onMove);
@@ -465,12 +477,16 @@ function ThreeOrb({ height = 440, bare = false }) {
       renderer.domElement.removeEventListener("pointerdown", onDown);
       renderer.domElement.removeEventListener("pointermove", onMouseMove);
       renderer.dispose();
-      wrap.removeChild(renderer.domElement);
-      try { wrap.removeChild(labelEl); } catch (e) { }
+      try {
+        if (renderer.domElement.parentNode === wrap) wrap.removeChild(renderer.domElement);
+      } catch (e) { }
+      try {
+        if (labelEl.parentNode === wrap) wrap.removeChild(labelEl);
+      } catch (e) { }
     };
-  }, [height]);
+  }, [height, threeReady]);
 
-  const bareStyle = { width: "100%", height, position: "relative" };
+  const bareStyle = { width: "100%", height, minHeight: height, position: "relative" };
   const fullStyle = { ...bareStyle, borderRadius: 18, overflow: "hidden", background: "linear-gradient(180deg, #061331, #0A1B3C 60%, #112858)", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 30px 60px -20px rgba(0,30,80,.45)" };
   return (
     <div ref={wrapRef} style={bare ? bareStyle : fullStyle}>

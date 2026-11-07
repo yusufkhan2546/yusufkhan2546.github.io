@@ -1919,7 +1919,7 @@ function SpidermanIntro({ onComplete }) {
 function PageHome({ go }) {
   // Spider-Man intro disabled
   return (
-    <main style={{ animation: "letterIn 2s ease both" }}>
+    <main>
       <HeroSection go={go} />
       {/* <ApexShowcase /> */}
       {/* <AboutSection /> */}

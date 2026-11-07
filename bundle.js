@@ -280,17 +280,33 @@ Object.assign(window, { BoltTrail });
 function ThreeOrb({ height = 440, bare = false }) {
   const wrapRef = React.useRef(null);
   const stateRef = React.useRef({});
+  const [threeReady, setThreeReady] = React.useState(typeof window !== "undefined" && !!window.THREE);
   React.useEffect(() => {
-    if (window.__IS_MOBILE) return;
-    if (!window.THREE) return;
-    const THREE = window.THREE;
+    if (window.THREE) {
+      if (!threeReady) setThreeReady(true);
+      return;
+    }
+    const checkTimer = setInterval(() => {
+      if (window.THREE) {
+        setThreeReady(true);
+        clearInterval(checkTimer);
+      }
+    }, 60);
+    return () => clearInterval(checkTimer);
+  }, [threeReady]);
+  React.useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
-    const width = wrap.clientWidth;
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: "low-power" });
+    if (!window.THREE) {
+      return;
+    }
+    const THREE = window.THREE;
+    const width = wrap.clientWidth || 560;
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.setClearColor(0, 0);
+    wrap.innerHTML = "";
     wrap.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
@@ -455,7 +471,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     ];
     NODES.forEach((n, i) => {
       n.ang = Math.PI * 2 * i / NODES.length;
-      n.r = i % 2 === 0 ? 4.6 : 5.6;
+      n.r = i % 2 === 0 ? 4.8 : 5.8;
     });
     const texLoader = new THREE.TextureLoader();
     const nodes = [];
@@ -482,7 +498,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         depthWrite: false
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1.35, 1.35, 1);
+      sprite.scale.set(1.4, 1.4, 1);
       g.add(sprite);
       g.userData = { sprite, glow };
       const base = new THREE.Group();
@@ -603,11 +619,8 @@ function ThreeOrb({ height = 440, bare = false }) {
       core.scale.set(s, s, s);
       wire.rotation.y += 4e-3;
       wire.rotation.x += 2e-3;
-      const bs = 2.6 + Math.sin(t * 1.4) * 0.05;
+      const bs = 3.4 + Math.sin(t * 1.4) * 0.08;
       badge.scale.set(bs, bs, 1);
-      const hs = 1.7 + Math.sin(t * 1.4) * 0.06;
-      haloDisc.scale.set(hs / 1.7, hs / 1.7, 1);
-      haloDisc.material.opacity = 0.22 + Math.sin(t * 1.4) * 0.08;
       nodes.forEach((n, i) => {
         n.group.position.y = Math.sin(t * 1.2 + i) * 0.15;
         if (n.group.userData.glow) {
@@ -615,8 +628,6 @@ function ThreeOrb({ height = 440, bare = false }) {
           n.group.userData.glow.material.opacity = op;
         }
       });
-      halo.rotation.z = t * 0.1;
-      halo2.rotation.z = -t * 0.07;
       stars.rotation.y = t * 0.02;
       if (t - lastSpawn > 1.8) {
         spawnBolt();
@@ -644,7 +655,7 @@ function ThreeOrb({ height = 440, bare = false }) {
             activeLabel = owner.idx;
             labelEl.textContent = owner.data.name;
           }
-          owner.sprite.scale.x = owner.sprite.scale.y = 1 + Math.sin(t * 6) * 0.05 + 0.25;
+          owner.sprite.scale.x = owner.sprite.scale.y = 1.65 + Math.sin(t * 6) * 0.05;
           const v = new THREE.Vector3();
           owner.group.getWorldPosition(v);
           v.project(camera);
@@ -657,7 +668,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         }
       } else {
         nodes.forEach((n) => {
-          n.sprite.scale.x = n.sprite.scale.y = 1;
+          n.sprite.scale.x = n.sprite.scale.y = 1.4;
         });
         activeLabel = null;
         labelEl.style.opacity = "0";
@@ -666,18 +677,21 @@ function ThreeOrb({ height = 440, bare = false }) {
       raf = requestAnimationFrame(animate);
     };
     animate();
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        if (!raf) raf = requestAnimationFrame(animate);
-      } else {
-        cancelAnimationFrame(raf);
-        raf = 0;
-      }
-    }, { threshold: 0.05 });
-    io.observe(wrap);
+    let io = null;
+    if (window.IntersectionObserver) {
+      io = new IntersectionObserver(([e]) => {
+        if (e && e.isIntersecting) {
+          if (!raf) raf = requestAnimationFrame(animate);
+        } else if (e && !e.isIntersecting) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      }, { threshold: 0.01 });
+      io.observe(wrap);
+    }
     stateRef.current = { renderer, scene };
     return () => {
-      io.disconnect();
+      if (io) io.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("pointermove", onMove);
@@ -685,14 +699,17 @@ function ThreeOrb({ height = 440, bare = false }) {
       renderer.domElement.removeEventListener("pointerdown", onDown);
       renderer.domElement.removeEventListener("pointermove", onMouseMove);
       renderer.dispose();
-      wrap.removeChild(renderer.domElement);
       try {
-        wrap.removeChild(labelEl);
+        if (renderer.domElement.parentNode === wrap) wrap.removeChild(renderer.domElement);
+      } catch (e) {
+      }
+      try {
+        if (labelEl.parentNode === wrap) wrap.removeChild(labelEl);
       } catch (e) {
       }
     };
-  }, [height]);
-  const bareStyle = { width: "100%", height, position: "relative" };
+  }, [height, threeReady]);
+  const bareStyle = { width: "100%", height, minHeight: height, position: "relative" };
   const fullStyle = { ...bareStyle, borderRadius: 18, overflow: "hidden", background: "linear-gradient(180deg, #061331, #0A1B3C 60%, #112858)", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 30px 60px -20px rgba(0,30,80,.45)" };
   return /* @__PURE__ */ React.createElement("div", { ref: wrapRef, style: bare ? bareStyle : fullStyle }, !bare && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 14, left: 14, display: "flex", alignItems: "center", gap: 10, zIndex: 2, pointerEvents: "none" } }, /* @__PURE__ */ React.createElement("span", { style: { width: 8, height: 8, borderRadius: 99, background: "var(--sf-blue)", boxShadow: "0 0 10px var(--sf-blue)" } }), /* @__PURE__ */ React.createElement("span", { style: { fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(255,255,255,.7)", fontWeight: 700 } }, "Customer 360 \xB7 live orbit")), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 14, right: 14, color: "rgba(255,255,255,.4)", fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: ".08em", pointerEvents: "none" } }, "drag to rotate \xB7 hover for label")));
 }
@@ -3400,7 +3417,7 @@ function SpidermanIntro({ onComplete }) {
   );
 }
 function PageHome({ go }) {
-  return /* @__PURE__ */ React.createElement("main", { style: { animation: "letterIn 2s ease both" } }, /* @__PURE__ */ React.createElement(HeroSection, { go }), /* @__PURE__ */ React.createElement(SkillsTrail, null), /* @__PURE__ */ React.createElement(CommunityEvents, null), /* @__PURE__ */ React.createElement(Testimonials, null), /* @__PURE__ */ React.createElement(CTAStrip, { go }));
+  return /* @__PURE__ */ React.createElement("main", null, /* @__PURE__ */ React.createElement(HeroSection, { go }), /* @__PURE__ */ React.createElement(SkillsTrail, null), /* @__PURE__ */ React.createElement(CommunityEvents, null), /* @__PURE__ */ React.createElement(Testimonials, null), /* @__PURE__ */ React.createElement(CTAStrip, { go }));
 }
 Object.assign(window, { PageHome });
 

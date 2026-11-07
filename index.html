@@ -1521,7 +1521,7 @@
 
   <script>
     // Detect low-power / mobile devices
-    const _isMobile = window.innerWidth <= 900 || ('ontouchstart' in window);
+    const _isMobile = window.innerWidth <= 600;
     window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
       "accent": "#0070D2",
       "accentDeep": "#032D60",
@@ -1658,21 +1658,14 @@
   <!-- React production builds (no dev warnings overhead) -->
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <!-- Three.js + Lottie — desktop only (heavy libraries, skipped on mobile) -->
-  <script>
-    if (!window.__IS_MOBILE) {
-      document.write('<scr'+'ipt src="https://unpkg.com/three@0.160.0/build/three.min.js"><\/scr'+'ipt>');
-      var s = document.createElement('script');
-      s.type = 'module';
-      s.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
-      document.head.appendChild(s);
-    }
-  </script>
+  <!-- Three.js: direct local load ensures 3D orbit always renders reliably -->
+  <script src="assets/three.min.js"></script>
+  <script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
 
   <!-- Salesforce portfolio data — generated at build time by sf-fetch.js -->
   <script src="sf-data.js"></script>
   <!-- Pre-compiled bundle — no runtime JSX transpilation -->
-  <script src="bundle.js?v=orbit-large-v2"></script>
+  <script src="bundle.js?v=orb-fixed-v4"></script>
 
 </body>
 
