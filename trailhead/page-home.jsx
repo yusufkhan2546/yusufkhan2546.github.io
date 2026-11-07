@@ -437,19 +437,10 @@ function HeroSection({ go }) {
             </div>
           </div>
 
-          {/* Right Column: 3D Orb + Tactical Reticle */}
-          <div style={{ position: "relative", display: "grid", placeItems: "center" }}>
-            {/* Outer HUD Reticle Circle */}
-            <div style={{
-              position: "absolute", width: "100%", maxWidth: 440, height: 440,
-              borderRadius: "50%", border: "1px dashed var(--line)",
-              animation: "spinReticle 60s linear infinite", pointerEvents: "none"
-            }}></div>
-            <style>{`
-              @keyframes spinReticle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-            `}</style>
-            <div style={{ width: "100%", maxWidth: 460, height: 440 }}>
-              <ThreeOrb height={440} bare={true} />
+          {/* Right Column: 3D Orb (Expanded & Frameless) */}
+          <div style={{ position: "relative", display: "grid", placeItems: "center", width: "100%" }}>
+            <div style={{ width: "100%", maxWidth: 620, height: 560 }}>
+              <ThreeOrb height={560} bare={true} />
             </div>
           </div>
         </div>
@@ -1083,7 +1074,7 @@ function ThreeOrbSection() {
               ))}
             </div>
           </div>
-          <ThreeOrb height={500} />
+          <ThreeOrb height={620} />
         </div>
       </div>
     </section>

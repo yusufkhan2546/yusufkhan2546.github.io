@@ -22,7 +22,7 @@ function ThreeOrb({ height = 440, bare = false }) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
-    camera.position.set(0, 0.5, 15);
+    camera.position.set(0, 0.4, 11.2);
 
     // lights
     const amb = new THREE.AmbientLight(0xffffff, 0.55);
@@ -185,34 +185,10 @@ function ThreeOrb({ height = 440, bare = false }) {
     badgeTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
     const badgeMat = new THREE.SpriteMaterial({ map: badgeTex, transparent: true, depthWrite: false });
     const badge = new THREE.Sprite(badgeMat);
-    badge.scale.set(2.6, 2.6, 1);
+    badge.scale.set(3.4, 3.4, 1);
     badge.position.z = 0;
     // Add badge OUTSIDE root so it always faces the camera and doesn't rotate with the orbit
     scene.add(badge);
-
-    // soft glow disc behind the badge
-    const haloDisc = new THREE.Mesh(
-      new THREE.CircleGeometry(1.7, 64),
-      new THREE.MeshBasicMaterial({
-        color: 0x00a1e0, transparent: true, opacity: .25,
-        blending: THREE.AdditiveBlending,
-      })
-    );
-    haloDisc.position.z = -.05;
-    scene.add(haloDisc);
-
-    // halo
-    const haloGeo = new THREE.RingGeometry(1.85, 1.88, 96);
-    const haloMat = new THREE.MeshBasicMaterial({ color: 0x00a1e0, transparent: true, opacity: .30, side: THREE.DoubleSide });
-    const halo = new THREE.Mesh(haloGeo, haloMat);
-    halo.rotation.x = Math.PI / 2.2;
-    root.add(halo);
-
-    const halo2 = halo.clone();
-    halo2.scale.set(1.3, 1.3, 1.3);
-    halo2.material = halo.material.clone();
-    halo2.material.opacity = .14;
-    root.add(halo2);
 
     // Certification badges orbit — uses all 12 user-uploaded badge PNGs as textures.
     const NODES = [
@@ -233,7 +209,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     // Stagger orbits slightly so 12 nodes aren't too crowded
     NODES.forEach((n, i) => { 
       n.ang = (Math.PI * 2 * i) / NODES.length; 
-      n.r = i % 2 === 0 ? 4.2 : 5.2; 
+      n.r = i % 2 === 0 ? 4.6 : 5.6; 
     });
 
     const texLoader = new THREE.TextureLoader();
@@ -243,9 +219,9 @@ function ThreeOrb({ height = 440, bare = false }) {
       const g = new THREE.Group();
 
       // Soft glow disc behind the badge (additive blending for a halo)
-      const glowGeo = new THREE.CircleGeometry(.6, 48);
+      const glowGeo = new THREE.CircleGeometry(.75, 48);
       const glowMat = new THREE.MeshBasicMaterial({
-        color: 0x00a1e0, transparent: true, opacity: .10,
+        color: 0x00a1e0, transparent: true, opacity: .12,
         blending: THREE.AdditiveBlending, depthWrite: false,
       });
       const glow = new THREE.Mesh(glowGeo, glowMat);
@@ -261,7 +237,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         map: tex, transparent: true, depthWrite: false,
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1.0, 1.0, 1);
+      sprite.scale.set(1.35, 1.35, 1);
       g.add(sprite);
       g.userData = { sprite, glow };
 
@@ -276,13 +252,6 @@ function ThreeOrb({ height = 440, bare = false }) {
 
       nodes.push({ group: g, base, data: n, idx: i, sprite });
     });
-
-    // Orbit lines
-    const orbitGeo = new THREE.RingGeometry(4.18, 4.22, 128);
-    const orbitMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .08, side: THREE.DoubleSide });
-    const orbit1 = new THREE.Mesh(orbitGeo, orbitMat);
-    orbit1.rotation.x = Math.PI / 2;
-    root.add(orbit1);
 
     // Lightning lines — periodic strikes between random nodes & core
     const bolts = [];

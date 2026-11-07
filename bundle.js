@@ -294,7 +294,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     wrap.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
-    camera.position.set(0, 0.5, 15);
+    camera.position.set(0, 0.4, 11.2);
     const amb = new THREE.AmbientLight(16777215, 0.55);
     scene.add(amb);
     const key = new THREE.DirectionalLight(16777215, 0.9);
@@ -436,30 +436,9 @@ function ThreeOrb({ height = 440, bare = false }) {
     badgeTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
     const badgeMat = new THREE.SpriteMaterial({ map: badgeTex, transparent: true, depthWrite: false });
     const badge = new THREE.Sprite(badgeMat);
-    badge.scale.set(2.6, 2.6, 1);
+    badge.scale.set(3.4, 3.4, 1);
     badge.position.z = 0;
     scene.add(badge);
-    const haloDisc = new THREE.Mesh(
-      new THREE.CircleGeometry(1.7, 64),
-      new THREE.MeshBasicMaterial({
-        color: 41440,
-        transparent: true,
-        opacity: 0.25,
-        blending: THREE.AdditiveBlending
-      })
-    );
-    haloDisc.position.z = -0.05;
-    scene.add(haloDisc);
-    const haloGeo = new THREE.RingGeometry(1.85, 1.88, 96);
-    const haloMat = new THREE.MeshBasicMaterial({ color: 41440, transparent: true, opacity: 0.3, side: THREE.DoubleSide });
-    const halo = new THREE.Mesh(haloGeo, haloMat);
-    halo.rotation.x = Math.PI / 2.2;
-    root.add(halo);
-    const halo2 = halo.clone();
-    halo2.scale.set(1.3, 1.3, 1.3);
-    halo2.material = halo.material.clone();
-    halo2.material.opacity = 0.14;
-    root.add(halo2);
     const NODES = [
       { name: "Administrator", img: "assets/badges/2025-03_Platform-Admin_500x490.png", tilt: 0.1 },
       { name: "Platform Developer I", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev_500x490px.png", tilt: -0.1 },
@@ -476,17 +455,17 @@ function ThreeOrb({ height = 440, bare = false }) {
     ];
     NODES.forEach((n, i) => {
       n.ang = Math.PI * 2 * i / NODES.length;
-      n.r = i % 2 === 0 ? 4.2 : 5.2;
+      n.r = i % 2 === 0 ? 4.6 : 5.6;
     });
     const texLoader = new THREE.TextureLoader();
     const nodes = [];
     NODES.forEach((n, i) => {
       const g = new THREE.Group();
-      const glowGeo = new THREE.CircleGeometry(0.6, 48);
+      const glowGeo = new THREE.CircleGeometry(0.75, 48);
       const glowMat = new THREE.MeshBasicMaterial({
         color: 41440,
         transparent: true,
-        opacity: 0.1,
+        opacity: 0.12,
         blending: THREE.AdditiveBlending,
         depthWrite: false
       });
@@ -503,7 +482,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         depthWrite: false
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1, 1, 1);
+      sprite.scale.set(1.35, 1.35, 1);
       g.add(sprite);
       g.userData = { sprite, glow };
       const base = new THREE.Group();
@@ -515,11 +494,6 @@ function ThreeOrb({ height = 440, bare = false }) {
       root.add(base);
       nodes.push({ group: g, base, data: n, idx: i, sprite });
     });
-    const orbitGeo = new THREE.RingGeometry(4.18, 4.22, 128);
-    const orbitMat = new THREE.MeshBasicMaterial({ color: 16777215, transparent: true, opacity: 0.08, side: THREE.DoubleSide });
-    const orbit1 = new THREE.Mesh(orbitGeo, orbitMat);
-    orbit1.rotation.x = Math.PI / 2;
-    root.add(orbit1);
     const bolts = [];
     function spawnBolt() {
       const a = nodes[Math.floor(Math.random() * nodes.length)].group;
@@ -2363,18 +2337,7 @@ function HeroSection({ go }) {
     borderColor: "var(--line)",
     padding: "14px 24px",
     fontSize: 14
-  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    width: "100%",
-    maxWidth: 440,
-    height: 440,
-    borderRadius: "50%",
-    border: "1px dashed var(--line)",
-    animation: "spinReticle 60s linear infinite",
-    pointerEvents: "none"
-  } }), /* @__PURE__ */ React.createElement("style", null, `
-              @keyframes spinReticle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-            `), /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 460, height: 440 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 440, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
+  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 620, height: 560 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 560, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
     marginTop: 40,
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
@@ -2730,7 +2693,7 @@ function ThreeOrbSection() {
     ["Agentforce", "#B14AED"],
     ["FSC", "#0070D2"],
     ["Industries (Vlocity)", "#FFB75D"]
-  ].map(([n, c]) => /* @__PURE__ */ React.createElement("div", { key: n, className: "hoverable", "data-cursor": "hover", style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600 } }, /* @__PURE__ */ React.createElement("span", { style: { width: 10, height: 10, borderRadius: 99, background: c, boxShadow: `0 0 10px ${c}` } }), " ", n)))), /* @__PURE__ */ React.createElement(ThreeOrb, { height: 500 }))));
+  ].map(([n, c]) => /* @__PURE__ */ React.createElement("div", { key: n, className: "hoverable", "data-cursor": "hover", style: { display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600 } }, /* @__PURE__ */ React.createElement("span", { style: { width: 10, height: 10, borderRadius: 99, background: c, boxShadow: `0 0 10px ${c}` } }), " ", n)))), /* @__PURE__ */ React.createElement(ThreeOrb, { height: 620 }))));
 }
 function CommunityEvents() {
   const events = [
