@@ -309,9 +309,9 @@ function ThreeOrb({ height = 440, bare = false }) {
     wrap.innerHTML = "";
     wrap.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
-    camera.position.set(0, 0.4, 11.2);
-    const amb = new THREE.AmbientLight(16777215, 0.55);
+    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
+    camera.position.set(0, 0.3, 14.6);
+    const amb = new THREE.AmbientLight(16777215, 0.6);
     scene.add(amb);
     const key = new THREE.DirectionalLight(16777215, 0.9);
     key.position.set(5, 6, 8);
@@ -324,22 +324,17 @@ function ThreeOrb({ height = 440, bare = false }) {
     scene.add(pt);
     const root = new THREE.Group();
     scene.add(root);
-    const coreGeo = new THREE.IcosahedronGeometry(1, 1);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: 41440,
-      emissive: 17011,
-      emissiveIntensity: 0.9,
-      metalness: 0.35,
-      roughness: 0.25,
+    const coreGlowGeo = new THREE.CircleGeometry(2.1, 48);
+    const coreGlowMat = new THREE.MeshBasicMaterial({
+      color: 28882,
       transparent: true,
-      opacity: 0.35
+      opacity: 0.2,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
     });
-    const core = new THREE.Mesh(coreGeo, coreMat);
-    root.add(core);
-    const wireGeo = new THREE.IcosahedronGeometry(1.55, 2);
-    const wireMat = new THREE.MeshBasicMaterial({ color: 11986687, wireframe: true, transparent: true, opacity: 0.35 });
-    const wire = new THREE.Mesh(wireGeo, wireMat);
-    root.add(wire);
+    const coreGlow = new THREE.Mesh(coreGlowGeo, coreGlowMat);
+    coreGlow.position.z = -0.05;
+    scene.add(coreGlow);
     const badgeCanvas = document.createElement("canvas");
     badgeCanvas.width = 1024;
     badgeCanvas.height = 1024;
@@ -452,7 +447,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     badgeTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
     const badgeMat = new THREE.SpriteMaterial({ map: badgeTex, transparent: true, depthWrite: false });
     const badge = new THREE.Sprite(badgeMat);
-    badge.scale.set(3.4, 3.4, 1);
+    badge.scale.set(3, 3, 1);
     badge.position.z = 0;
     scene.add(badge);
     const NODES = [
@@ -471,13 +466,13 @@ function ThreeOrb({ height = 440, bare = false }) {
     ];
     NODES.forEach((n, i) => {
       n.ang = Math.PI * 2 * i / NODES.length;
-      n.r = i % 2 === 0 ? 4.8 : 5.8;
+      n.r = i % 2 === 0 ? 4.3 : 5.2;
     });
     const texLoader = new THREE.TextureLoader();
     const nodes = [];
     NODES.forEach((n, i) => {
       const g = new THREE.Group();
-      const glowGeo = new THREE.CircleGeometry(0.75, 48);
+      const glowGeo = new THREE.CircleGeometry(0.65, 48);
       const glowMat = new THREE.MeshBasicMaterial({
         color: 41440,
         transparent: true,
@@ -498,7 +493,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         depthWrite: false
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1.4, 1.4, 1);
+      sprite.scale.set(1.3, 1.3, 1);
       g.add(sprite);
       g.userData = { sprite, glow };
       const base = new THREE.Group();
@@ -599,11 +594,14 @@ function ThreeOrb({ height = 440, bare = false }) {
     wrap.style.position = "relative";
     wrap.appendChild(labelEl);
     const onResize = () => {
-      const w = wrap.clientWidth;
+      const w = wrap.clientWidth || 560;
       renderer.setSize(w, height);
-      camera.aspect = w / height;
+      const aspect = w / height;
+      camera.aspect = aspect;
+      camera.position.z = aspect < 1.05 ? 14.6 * (1.05 / Math.max(aspect, 0.65)) : 14.6;
       camera.updateProjectionMatrix();
     };
+    onResize();
     window.addEventListener("resize", onResize);
     let raf = 0;
     let t = 0;
@@ -615,12 +613,10 @@ function ThreeOrb({ height = 440, bare = false }) {
       }
       root.rotation.y += (targetRotY - root.rotation.y) * 0.06;
       root.rotation.x += (targetRotX - root.rotation.x) * 0.06;
-      const s = 1 + Math.sin(t * 1.6) * 0.04;
-      core.scale.set(s, s, s);
-      wire.rotation.y += 4e-3;
-      wire.rotation.x += 2e-3;
-      const bs = 3.4 + Math.sin(t * 1.4) * 0.08;
+      const bs = 3 + Math.sin(t * 1.4) * 0.06;
       badge.scale.set(bs, bs, 1);
+      const gs = 1 + Math.sin(t * 1.4) * 0.05;
+      coreGlow.scale.set(gs, gs, 1);
       nodes.forEach((n, i) => {
         n.group.position.y = Math.sin(t * 1.2 + i) * 0.15;
         if (n.group.userData.glow) {
@@ -655,7 +651,7 @@ function ThreeOrb({ height = 440, bare = false }) {
             activeLabel = owner.idx;
             labelEl.textContent = owner.data.name;
           }
-          owner.sprite.scale.x = owner.sprite.scale.y = 1.65 + Math.sin(t * 6) * 0.05;
+          owner.sprite.scale.x = owner.sprite.scale.y = 1.55 + Math.sin(t * 6) * 0.05;
           const v = new THREE.Vector3();
           owner.group.getWorldPosition(v);
           v.project(camera);
@@ -668,7 +664,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         }
       } else {
         nodes.forEach((n) => {
-          n.sprite.scale.x = n.sprite.scale.y = 1.4;
+          n.sprite.scale.x = n.sprite.scale.y = 1.3;
         });
         activeLabel = null;
         labelEl.style.opacity = "0";
@@ -2326,7 +2322,7 @@ function HeroSection({ go }) {
     padding: "90px 0 60px",
     overflow: "hidden",
     color: "white"
-  } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { className: "container", style: { position: "relative", zIndex: 3 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 40, alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "left" } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 14 } }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { padding: "6px 14px", fontSize: 11 } }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " OPERATOR STATUS: ONLINE // LEVEL 12 ARCHITECT")), /* @__PURE__ */ React.createElement("h1", { style: {
+  } }, /* @__PURE__ */ React.createElement(StarField, null), /* @__PURE__ */ React.createElement("div", { className: "container", style: { position: "relative", zIndex: 3 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "left" } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 14 } }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { padding: "6px 14px", fontSize: 11 } }, /* @__PURE__ */ React.createElement("span", { className: "pulse-dot" }), " OPERATOR STATUS: ONLINE // LEVEL 12 ARCHITECT")), /* @__PURE__ */ React.createElement("h1", { style: {
     fontFamily: "'Anton', system-ui, sans-serif",
     fontSize: "clamp(52px, 7vw, 92px)",
     letterSpacing: ".02em",
@@ -2354,7 +2350,7 @@ function HeroSection({ go }) {
     borderColor: "var(--line)",
     padding: "14px 24px",
     fontSize: 14
-  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 620, height: 560 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 560, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
+  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 660, height: 580 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 580, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
     marginTop: 40,
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",

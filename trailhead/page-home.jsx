@@ -386,7 +386,7 @@ function HeroSection({ go }) {
 
       <div className="container" style={{ position: "relative", zIndex: 3 }}>
         {/* Split Grid Hero: Left Text / Right 3D Orb */}
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 40, alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
           
           {/* Left Column: Operator Profile & Call to Actions */}
           <div style={{ textAlign: "left" }}>
@@ -438,9 +438,9 @@ function HeroSection({ go }) {
           </div>
 
           {/* Right Column: 3D Orb (Expanded & Frameless) */}
-          <div style={{ position: "relative", display: "grid", placeItems: "center", width: "100%" }}>
-            <div style={{ width: "100%", maxWidth: 620, height: 560 }}>
-              <ThreeOrb height={560} bare={true} />
+          <div style={{ position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" }}>
+            <div style={{ width: "100%", maxWidth: 660, height: 580 }}>
+              <ThreeOrb height={580} bare={true} />
             </div>
           </div>
         </div>

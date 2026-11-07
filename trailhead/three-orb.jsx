@@ -38,11 +38,11 @@ function ThreeOrb({ height = 440, bare = false }) {
     wrap.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(52, width / height, 0.1, 100);
-    camera.position.set(0, 0.4, 11.2);
+    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 100);
+    camera.position.set(0, 0.3, 14.6);
 
     // lights
-    const amb = new THREE.AmbientLight(0xffffff, 0.55);
+    const amb = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(amb);
     const key = new THREE.DirectionalLight(0xffffff, 0.9);
     key.position.set(5, 6, 8);
@@ -58,20 +58,15 @@ function ThreeOrb({ height = 440, bare = false }) {
     const root = new THREE.Group();
     scene.add(root);
 
-    // central core — icosahedron with wireframe overlay
-    const coreGeo = new THREE.IcosahedronGeometry(1.0, 1);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x00a1e0, emissive: 0x004273, emissiveIntensity: .9,
-      metalness: .35, roughness: .25, transparent: true, opacity: .35,
+    // Clean celestial ambient glow behind central badge (no 3D polygon/wireframe meshes)
+    const coreGlowGeo = new THREE.CircleGeometry(2.1, 48);
+    const coreGlowMat = new THREE.MeshBasicMaterial({
+      color: 0x0070d2, transparent: true, opacity: .20,
+      blending: THREE.AdditiveBlending, depthWrite: false
     });
-    const core = new THREE.Mesh(coreGeo, coreMat);
-    root.add(core);
-
-    // wire over core
-    const wireGeo = new THREE.IcosahedronGeometry(1.55, 2);
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xb6e6ff, wireframe: true, transparent: true, opacity: .35 });
-    const wire = new THREE.Mesh(wireGeo, wireMat);
-    root.add(wire);
+    const coreGlow = new THREE.Mesh(coreGlowGeo, coreGlowMat);
+    coreGlow.position.z = -0.05;
+    scene.add(coreGlow);
 
     // === Centerpiece: original "YK · Lead Dev" hex badge (canvas-texture sprite) ===
     const badgeCanvas = document.createElement("canvas");
@@ -202,7 +197,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     badgeTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
     const badgeMat = new THREE.SpriteMaterial({ map: badgeTex, transparent: true, depthWrite: false });
     const badge = new THREE.Sprite(badgeMat);
-    badge.scale.set(3.4, 3.4, 1);
+    badge.scale.set(3.0, 3.0, 1);
     badge.position.z = 0;
     // Add badge OUTSIDE root so it always faces the camera and doesn't rotate with the orbit
     scene.add(badge);
@@ -226,7 +221,7 @@ function ThreeOrb({ height = 440, bare = false }) {
     // Stagger orbits slightly so 12 nodes aren't too crowded
     NODES.forEach((n, i) => { 
       n.ang = (Math.PI * 2 * i) / NODES.length; 
-      n.r = i % 2 === 0 ? 4.8 : 5.8; 
+      n.r = i % 2 === 0 ? 4.3 : 5.2; 
     });
 
     const texLoader = new THREE.TextureLoader();
@@ -236,7 +231,7 @@ function ThreeOrb({ height = 440, bare = false }) {
       const g = new THREE.Group();
 
       // Soft glow disc behind the badge (additive blending for a halo)
-      const glowGeo = new THREE.CircleGeometry(.75, 48);
+      const glowGeo = new THREE.CircleGeometry(.65, 48);
       const glowMat = new THREE.MeshBasicMaterial({
         color: 0x00a1e0, transparent: true, opacity: .12,
         blending: THREE.AdditiveBlending, depthWrite: false,
@@ -254,7 +249,7 @@ function ThreeOrb({ height = 440, bare = false }) {
         map: tex, transparent: true, depthWrite: false,
       });
       const sprite = new THREE.Sprite(spriteMat);
-      sprite.scale.set(1.4, 1.4, 1);
+      sprite.scale.set(1.3, 1.3, 1);
       g.add(sprite);
       g.userData = { sprite, glow };
 
@@ -362,13 +357,17 @@ function ThreeOrb({ height = 440, bare = false }) {
     wrap.style.position = "relative";
     wrap.appendChild(labelEl);
 
-    // Resize
+    // Resize & adaptive camera framing so orb is NEVER cut off
     const onResize = () => {
-      const w = wrap.clientWidth;
+      const w = wrap.clientWidth || 560;
       renderer.setSize(w, height);
-      camera.aspect = w / height;
+      const aspect = w / height;
+      camera.aspect = aspect;
+      // Step camera back proportionally if the container gets narrow, guaranteeing full visibility
+      camera.position.z = aspect < 1.05 ? 14.6 * (1.05 / Math.max(aspect, 0.65)) : 14.6;
       camera.updateProjectionMatrix();
     };
+    onResize();
     window.addEventListener("resize", onResize);
 
     // Animate
@@ -385,15 +384,11 @@ function ThreeOrb({ height = 440, bare = false }) {
       root.rotation.y += (targetRotY - root.rotation.y) * 0.06;
       root.rotation.x += (targetRotX - root.rotation.x) * 0.06;
 
-      // Core pulsing
-      const s = 1 + Math.sin(t * 1.6) * .04;
-      core.scale.set(s, s, s);
-      wire.rotation.y += .004;
-      wire.rotation.x += .002;
-
-      // Badge gentle breathe
-      const bs = 3.4 + Math.sin(t * 1.4) * .08;
+      // Badge gentle breathe & ambient glow (pure 2D, no polygon meshes)
+      const bs = 3.0 + Math.sin(t * 1.4) * .06;
       badge.scale.set(bs, bs, 1);
+      const gs = 1 + Math.sin(t * 1.4) * .05;
+      coreGlow.scale.set(gs, gs, 1);
 
       // Nodes — gentle bobbing; sprites always face the camera so no extra rotation needed
       nodes.forEach((n, i) => {
@@ -430,7 +425,7 @@ function ThreeOrb({ height = 440, bare = false }) {
             labelEl.textContent = owner.data.name;
           }
           // Enlarge the badge on hover
-          owner.sprite.scale.x = owner.sprite.scale.y = 1.65 + Math.sin(t * 6) * .05;
+          owner.sprite.scale.x = owner.sprite.scale.y = 1.55 + Math.sin(t * 6) * .05;
           const v = new THREE.Vector3();
           owner.group.getWorldPosition(v);
           v.project(camera);
@@ -442,7 +437,7 @@ function ThreeOrb({ height = 440, bare = false }) {
           labelEl.style.opacity = "1";
         }
       } else {
-        nodes.forEach(n => { n.sprite.scale.x = n.sprite.scale.y = 1.4; });
+        nodes.forEach(n => { n.sprite.scale.x = n.sprite.scale.y = 1.3; });
         activeLabel = null;
         labelEl.style.opacity = "0";
       }
