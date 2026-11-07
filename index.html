@@ -1,1465 +1,1602 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Yusuf Khan — Salesforce Lead Developer &amp; Architect</title>
-  <meta name="description" content="Portfolio of Yusuf Khan, a Salesforce Lead Developer &amp; Technical SME building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services." />
-  <meta name="keywords" content="Yusuf Khan, Salesforce Lead Developer, Salesforce Technical SME, Salesforce Architect, Apex, LWC, OmniStudio, Financial Services Cloud, FSC, Experience Cloud, Data Cloud, Agentforce" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yusuf Khan — Salesforce Lead Developer &amp; Architect | Enterprise Cloud Engineering</title>
+  <meta name="description" content="Portfolio and technical portal of Yusuf Khan, Salesforce Lead Developer and Technical Architect specializing in Financial Services Cloud, OmniStudio, and Agentforce integrations." />
+  <meta name="keywords" content="Yusuf Khan, Salesforce Lead Developer, Salesforce Technical Architect, Apex, LWC, OmniStudio, Financial Services Cloud, FSC, Experience Cloud, Data Cloud, Agentforce" />
   <meta name="author" content="Yusuf Khan" />
   <link rel="canonical" href="https://iamyusufkhan.in/" />
   <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://iamyusufkhan.in/" />
   <meta property="og:title" content="Yusuf Khan — Salesforce Lead Developer &amp; Architect" />
-  <meta property="og:description" content="Portfolio of Yusuf Khan, building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services." />
+  <meta property="og:description" content="Architect resilient Salesforce systems that scale past enterprise limits. Specializing in Financial Services Cloud, OmniStudio, and Agentforce." />
   <meta property="og:image" content="https://iamyusufkhan.in/uploads/yusuf_cloud.png" />
-
-  <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://iamyusufkhan.in/" />
   <meta property="twitter:title" content="Yusuf Khan — Salesforce Lead Developer &amp; Architect" />
-  <meta property="twitter:description" content="Portfolio of Yusuf Khan, building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services." />
+  <meta property="twitter:description" content="Architect resilient Salesforce systems that scale past enterprise limits. Specializing in Financial Services Cloud, OmniStudio, and Agentforce." />
   <meta property="twitter:image" content="https://iamyusufkhan.in/uploads/yusuf_cloud.png" />
 
-  <!-- Structured Data / JSON-LD -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="uploads/YK.png" />
+
+  <!-- Structured Data: Person & FAQ Schema for SEO / AEO -->
   <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Yusuf Khan",
-      "url": "https://iamyusufkhan.in",
-      "image": "https://iamyusufkhan.in/uploads/yusuf_cloud.png",
-      "jobTitle": "Salesforce Lead Developer & Technical SME",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "K Square Group"
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://iamyusufkhan.in/#person",
+        "name": "Yusuf Khan",
+        "url": "https://iamyusufkhan.in/",
+        "image": "https://iamyusufkhan.in/uploads/yusuf_cloud.png",
+        "jobTitle": "Salesforce Lead Developer & Technical Architect",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "K Square Group"
+        },
+        "alumniOf": {
+          "@type": "Organization",
+          "name": "Prodapt Solutions"
+        },
+        "knowsAbout": [
+          "Salesforce Architecture",
+          "Financial Services Cloud",
+          "Apex",
+          "Lightning Web Components",
+          "OmniStudio",
+          "Agentforce",
+          "Data Cloud",
+          "MuleSoft Integration"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/yusufkhan2546",
+          "https://www.salesforce.com/trailblazer/yusufkhan2546",
+          "https://github.com/yusufkhan2546"
+        ]
       },
-      "alumniOf": {
-        "@type": "Organization",
-        "name": "Prodapt Solutions"
-      },
-      "knowsAbout": [
-        "Salesforce",
-        "Apex",
-        "Lightning Web Components (LWC)",
-        "OmniStudio",
-        "Financial Services Cloud (FSC)",
-        "Experience Cloud",
-        "Communications Cloud",
-        "Sales Cloud",
-        "Service Cloud",
-        "MuleSoft",
-        "Agentforce",
-        "AI"
-      ],
-      "sameAs": [
-        "https://www.linkedin.com/in/yusufkhan2546",
-        "https://www.salesforce.com/trailblazer/yusufkhan2546",
-        "https://github.com/yusufkhan2546"
-      ],
-      "description": "Salesforce Lead Developer & Technical SME with certifications including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant. Experienced in Banking & FSC, Retail/Commerce, and integrations."
-    }
+      {
+        "@type": "FAQPage",
+        "@id": "https://iamyusufkhan.in/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What distinguishes your architectural methodology from conventional consulting agencies?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Every solution is engineered around governor limit predictability and clean separation of concerns. Rather than piling logic into unmanaged flows or tangled triggers, I implement modular trigger frameworks, enterprise service layers, and bulk safe patterns that withstand millions of monthly transactions."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you ensure enterprise data security in Financial Services Cloud implementations?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Security is enforced at the database and object level using strict field level security, sharing models, platform cache encryption, and OAuth two authentication for all MuleSoft and external integration endpoints."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can you audit and untangle legacy codebases with high technical debt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. I conduct structural static code audits, identify recursion loops, decouple tangled triggers into single responsibility handlers, and increase robust unit test coverage to ensure safe production refactoring."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you integrate Salesforce Agentforce with real enterprise data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "By establishing verified Data Cloud data streams, creating precise prompt templates in Prompt Builder, and implementing deterministic Apex actions with guarded inputs so autonomous agents execute real business tasks without hallucinations."
+            }
+          }
+        ]
+      }
+    ]
+  }
   </script>
 
-  <link rel="icon" type="image/png" href="uploads/YK.png" />
-  <!-- Google reCAPTCHA Enterprise -->
+  <!-- Typography: Approved Geist & Geist Mono via Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS Engine with strict Design System Configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    window._rcQueue = [];
-    window._rcReady = false;
-    window.onReCaptchaReady = function () {
-      window._rcReady = true;
-      window._rcQueue.forEach(function (fn) { fn(); });
-      window._rcQueue = [];
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif'],
+            mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            portal: {
+              black: '#000000',
+              obsidian: '#131209',
+              surface: '#181818',
+              card: '#1F1F1F',
+              elevated: '#272727',
+              border: '#313131',
+              cyan: '#00F0FF',
+              emerald: '#10B981',
+              amber: '#F59E0B'
+            }
+          },
+          spacing: {
+            '0': '0px',
+            '25': '2px',
+            '50': '4px',
+            '75': '8px',
+            '100': '12px',
+            '200': '16px',
+            '300': '24px',
+            '400': '32px',
+            '500': '40px',
+            '600': '48px',
+            '700': '64px',
+            '800': '80px',
+            '900': '96px'
+          },
+          transitionTimingFunction: {
+            'portal-base': 'cubic-bezier(0.22, 1, 0.36, 1)'
+          },
+          transitionDuration: {
+            '500': '500ms',
+            '300': '300ms'
+          }
+        }
+      }
     };
   </script>
-  <script src="https://www.google.com/recaptcha/enterprise.js?onload=onReCaptchaReady&render=explicit" async defer></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F12CZVN8YV"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-F12CZVN8YV');
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&display=swap"
-    rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  </noscript>
 
   <style>
-    :root, html[data-theme="cyber-matrix"] {
-      --sf-blue: #00F0FF;
-      --sf-blue-deep: #00A3FF;
-      --sf-navy: #030712;
-      --sf-navy-2: #080D1F;
-      --sf-sky: rgba(0, 240, 255, 0.15);
-      --sf-cloud: rgba(0, 240, 255, 0.05);
-      --sf-trail: #00F0FF;
-      --sf-success: #10B981;
-      --sf-purple: #8B5CF6;
-      --sf-pink: #EC4899;
-      --ink: #F8FAFC;
-      --ink-2: rgba(248, 250, 252, 0.78);
-      --ink-3: rgba(248, 250, 252, 0.48);
-      --line: rgba(0, 240, 255, 0.22);
-      --line-2: rgba(0, 240, 255, 0.12);
-      --bg: #030712;
-      --bg-2: #070D1E;
-      --card: rgba(10, 18, 40, 0.65);
-      --card-solid: #0A1226;
-      --card-border: rgba(0, 240, 255, 0.28);
-      --accent: #00F0FF;
-      --accent-deep: #8B5CF6;
-      --accent-secondary: #EC4899;
-      --neon-glow: 0 0 25px rgba(0, 240, 255, 0.40);
-      --radius: 14px;
-      --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 240, 255, 0.10);
-      --shadow-2: 0 12px 36px -10px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 240, 255, 0.25);
-      --shadow-3: 0 30px 60px -20px rgba(0, 0, 0, 0.9), 0 0 45px rgba(139, 92, 246, 0.35);
-      --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
-      --font-body: 'Manrope', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    /* Strict Design System Reset & Type Styles */
+    :root {
+      color-scheme: dark;
     }
 
-    html[data-theme="solar-flare"] {
-      --sf-blue: #F59E0B;
-      --sf-blue-deep: #D97706;
-      --sf-navy: #070503;
-      --sf-navy-2: #14100B;
-      --sf-sky: rgba(245, 158, 11, 0.15);
-      --sf-cloud: rgba(245, 158, 11, 0.05);
-      --sf-trail: #FBBF24;
-      --sf-purple: #F59E0B;
-      --sf-pink: #EF4444;
-      --ink: #FFFDF8;
-      --ink-2: rgba(255, 253, 248, 0.78);
-      --ink-3: rgba(255, 253, 248, 0.48);
-      --line: rgba(245, 158, 11, 0.24);
-      --line-2: rgba(245, 158, 11, 0.12);
-      --bg: #070503;
-      --bg-2: #14100B;
-      --card: rgba(28, 20, 12, 0.65);
-      --card-solid: #19120A;
-      --card-border: rgba(245, 158, 11, 0.30);
-      --accent: #F59E0B;
-      --accent-deep: #D97706;
-      --accent-secondary: #EF4444;
-      --neon-glow: 0 0 25px rgba(245, 158, 11, 0.40);
-    }
-
-    html[data-theme="neon-nebula"] {
-      --sf-blue: #A855F7;
-      --sf-blue-deep: #9333EA;
-      --sf-navy: #0A0413;
-      --sf-navy-2: #150926;
-      --sf-sky: rgba(168, 85, 247, 0.15);
-      --sf-cloud: rgba(168, 85, 247, 0.05);
-      --sf-trail: #F43F5E;
-      --sf-purple: #A855F7;
-      --sf-pink: #F43F5E;
-      --ink: #FDF4FF;
-      --ink-2: rgba(253, 244, 255, 0.78);
-      --ink-3: rgba(253, 244, 255, 0.48);
-      --line: rgba(168, 85, 247, 0.24);
-      --line-2: rgba(168, 85, 247, 0.12);
-      --bg: #0A0413;
-      --bg-2: #150926;
-      --card: rgba(28, 14, 46, 0.65);
-      --card-solid: #170A2A;
-      --card-border: rgba(168, 85, 247, 0.30);
-      --accent: #A855F7;
-      --accent-deep: #EC4899;
-      --accent-secondary: #38BDF8;
-      --neon-glow: 0 0 25px rgba(168, 85, 247, 0.40);
-    }
-
-    html[data-theme="apex-cyber"] {
-      --sf-blue: #10B981;
-      --sf-blue-deep: #059669;
-      --sf-navy: #030A08;
-      --sf-navy-2: #081A14;
-      --sf-sky: rgba(16, 185, 129, 0.15);
-      --sf-cloud: rgba(16, 185, 129, 0.05);
-      --sf-trail: #10B981;
-      --sf-purple: #10B981;
-      --sf-pink: #06B6D4;
-      --ink: #F0FDF4;
-      --ink-2: rgba(240, 253, 244, 0.78);
-      --ink-3: rgba(240, 253, 244, 0.48);
-      --line: rgba(16, 185, 129, 0.24);
-      --line-2: rgba(16, 185, 129, 0.12);
-      --bg: #030A08;
-      --bg-2: #081A14;
-      --card: rgba(10, 32, 26, 0.65);
-      --card-solid: #0A211A;
-      --card-border: rgba(16, 185, 129, 0.30);
-      --accent: #10B981;
-      --accent-deep: #0284C7;
-      --accent-secondary: #6366F1;
-      --neon-glow: 0 0 25px rgba(16, 185, 129, 0.40);
-    }
-
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       box-sizing: border-box;
     }
 
-    html,
     body {
       margin: 0;
       padding: 0;
-      background-color: var(--bg);
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
-
-    body {
-      font-family: var(--font-body);
-      color: var(--ink);
-      background: var(--bg);
-      background-image:
-        radial-gradient(ellipse 90% 70% at 80% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%),
-        radial-gradient(ellipse 75% 50% at 10% 30%, color-mix(in oklab, var(--accent-deep) 18%, transparent), transparent 60%),
-        radial-gradient(ellipse 90% 60% at 90% 100%, color-mix(in oklab, var(--sf-blue) 12%, transparent), transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 40%, #02040A 100%);
-      background-attachment: fixed;
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 24px;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
-      position: relative;
     }
 
-    /* persistent starfield across whole page */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .9), transparent 100%),
-        radial-gradient(1px 1px at 70% 20%, rgba(180, 230, 255, .7), transparent 100%),
-        radial-gradient(1.2px 1.2px at 45% 70%, rgba(255, 255, 255, .6), transparent 100%),
-        radial-gradient(1px 1px at 88% 60%, rgba(180, 230, 255, .5), transparent 100%),
-        radial-gradient(1.5px 1.5px at 12% 80%, rgba(255, 220, 140, .6), transparent 100%),
-        radial-gradient(1px 1px at 60% 90%, rgba(255, 255, 255, .5), transparent 100%),
-        radial-gradient(1px 1px at 35% 15%, rgba(255, 255, 255, .7), transparent 100%),
-        radial-gradient(1.2px 1.2px at 78% 45%, rgba(180, 230, 255, .4), transparent 100%),
-        radial-gradient(1px 1px at 5% 50%, rgba(255, 255, 255, .6), transparent 100%),
-        radial-gradient(1.4px 1.4px at 95% 25%, rgba(255, 255, 255, .5), transparent 100%);
-      background-size: 1200px 800px;
-      opacity: .9;
-      animation: starDrift 120s linear infinite;
-    }
-
-    @keyframes starDrift {
-      from {
-        background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
-      }
-
-      to {
-        background-position: 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px;
-      }
-    }
-
-    /* keep everything above the starfield */
-    body>* {
-      position: relative;
-      z-index: 1;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font-family: inherit;
-    }
-
-    ::selection {
-      background: var(--sf-blue);
-      color: white;
-    }
-
-    /* Custom cursor + lightning trail */
-    .cursor-trail-badge {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 30px;
-      height: 32px;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform .08s ease-out, width .2s, height .2s;
-      filter: drop-shadow(0 4px 10px rgba(0, 40, 90, .45));
-    }
-
-    .cursor-trail-badge.hover {
-      width: 44px;
-      height: 47px;
-    }
-
-    .cursor-trail-badge.hover svg .badge-bg {
-      fill: var(--sf-blue);
-    }
-
-    .cursor-trail-badge.hover svg .badge-mountain {
-      fill: white;
-    }
-
-    #bolt-canvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9998;
-    }
-
-    /* Page transitions */
-    .page-shell {
-      min-height: 100vh;
-    }
-
-    .page-enter {
-      animation: pageIn .55s cubic-bezier(.2, .7, .2, 1) both;
-    }
-
-    @keyframes pageIn {
-      0% {
-        opacity: 0;
-        transform: translateY(14px);
-        filter: blur(6px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: none;
-        filter: blur(0);
-      }
-    }
-
-    /* Common buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 999px;
+    /* Strict Named Text Styles from B1 */
+    .heading-1 {
+      font-size: 60px;
+      line-height: 60px;
       font-weight: 600;
-      font-size: 14px;
-      letter-spacing: .01em;
-      border: 1.5px solid transparent;
-      background: var(--ink);
-      color: white;
-      transition: transform .15s ease, background .2s, color .2s, border-color .2s, box-shadow .2s;
-      cursor: pointer;
+      text-wrap: balance;
+    }
+    @media (max-width: 768px) {
+      .heading-1 {
+        font-size: 36px;
+        line-height: 40px;
+      }
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-2);
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      color: white;
-      box-shadow: 0 8px 22px -8px var(--accent);
-    }
-
-    .btn.ghost {
-      background: transparent;
-      color: var(--ink);
-      border-color: var(--line);
-    }
-
-    .btn.ghost:hover {
-      border-color: var(--ink);
-    }
-
-    .btn.dark {
-      background: var(--accent-deep);
-      color: white;
-    }
-
-    /* utility */
-    .container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-transform: uppercase;
-      letter-spacing: .14em;
-      font-size: 11px;
-      font-weight: 700;
-      color: #FFFFFF;
-      background: var(--sf-sky);
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid color-mix(in oklab, var(--sf-blue) 22%, transparent);
-    }
-
-    .eyebrow .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--sf-blue);
-      box-shadow: 0 0 8px var(--sf-blue);
-    }
-
-    .h-display {
-      font-family: var(--font-display);
-      font-weight: 700;
-      letter-spacing: -.025em;
-      line-height: 1;
-    }
-
-    .h-section {
-      font-family: var(--font-display);
-      font-weight: 700;
-      letter-spacing: -.02em;
-      font-size: 56px;
-      line-height: 1.02;
-    }
-
-    .body-lg {
-      font-size: 18px;
-      line-height: 1.55;
-      color: var(--ink-2);
-    }
-
-    .mono {
-      font-family: var(--font-mono);
-    }
-
-    /* Lightning bolt SVG glyph reused */
-    .bolt-glyph {
-      color: var(--accent);
-    }
-
-    /* Nav */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(14px) saturate(1.2);
-      background: rgba(5, 8, 24, .7);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 32px;
-      max-width: 1320px;
-      margin: 0 auto;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 18px;
-    }
-
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--sf-blue), var(--sf-navy));
-      display: grid;
-      place-items: center;
-      color: white;
-      box-shadow: 0 4px 12px -2px var(--sf-blue);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px;
-    }
-
-    .nav-link {
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 13.5px;
+    .heading-2 {
+      font-size: 48px;
+      line-height: 48px;
       font-weight: 600;
-      color: var(--ink-2);
-      transition: color .15s, background .15s;
+      text-wrap: balance;
     }
-
-    .nav-link:hover {
-      color: var(--ink);
-      background: var(--sf-cloud);
-    }
-
-    .nav-link.active {
-      color: #FFFFFF;
-      background: var(--sf-sky);
-    }
-
-    /* Page wrapper */
-    .page {
-      padding: 56px 0 120px;
-    }
-
-    .page-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 40px;
-      margin-bottom: 48px;
-    }
-
-    /* Hero name — come-to-life animations when a star lands */
-    .hero-name {
-      transition: filter .35s ease;
-      will-change: filter;
-    }
-
-    .hero-name.name-spark {
-      animation: nameLive 1.1s cubic-bezier(.2, 1.6, .4, 1) both;
-    }
-
-    @keyframes nameLive {
-      0% {
-        filter: brightness(1) drop-shadow(0 0 0 rgba(255, 220, 140, 0));
-        transform: scale(1);
-      }
-
-      25% {
-        filter: brightness(1.65) drop-shadow(0 0 28px rgba(255, 220, 140, .85));
-        transform: scale(1.02);
-      }
-
-      60% {
-        filter: brightness(1.25) drop-shadow(0 0 16px rgba(180, 230, 255, .55));
-        transform: scale(1.005);
-      }
-
-      100% {
-        filter: brightness(1) drop-shadow(0 0 0 rgba(255, 220, 140, 0));
-        transform: scale(1);
+    @media (max-width: 768px) {
+      .heading-2 {
+        font-size: 30px;
+        line-height: 36px;
       }
     }
 
-    .hero-name::after {
-      content: "";
-      position: absolute;
-      inset: -20% -8%;
-      background: linear-gradient(110deg,
-          transparent 30%,
-          rgba(255, 220, 140, 0) 45%,
-          rgba(255, 255, 255, .55) 50%,
-          rgba(255, 220, 140, 0) 55%,
-          transparent 70%);
-      background-size: 250% 100%;
-      background-position: 100% 0;
-      mix-blend-mode: screen;
-      opacity: 0;
-      pointer-events: none;
-      -webkit-mask-image: linear-gradient(180deg, black, black);
-      border-radius: 12px;
-    }
-
-    .hero-name.name-spark::after {
-      animation: nameShine 1.1s cubic-bezier(.4, .2, .6, 1) both;
-    }
-
-    @keyframes nameShine {
-      0% {
-        background-position: 100% 0;
-        opacity: 0;
-      }
-
-      20% {
-        opacity: 1;
-      }
-
-      100% {
-        background-position: -100% 0;
-        opacity: 0;
-      }
-    }
-
-    .name-sparkle-dot {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #fff 0%, #ffd479 40%, transparent 70%);
-      box-shadow: 0 0 24px 8px rgba(255, 220, 140, .8), 0 0 60px 20px rgba(255, 220, 140, .35);
-      transform: translate(-50%, -50%) scale(0);
-      pointer-events: none;
-      animation: sparkleDot .9s cubic-bezier(.2, 1.4, .4, 1) both;
-    }
-
-    @keyframes sparkleDot {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 1;
-      }
-
-      40% {
-        transform: translate(-50%, -50%) scale(1.4);
-        opacity: 1;
-      }
-
-      100% {
-        transform: translate(-50%, -50%) scale(.4);
-        opacity: 0;
-      }
-    }
-
-    /* Grid bg patterns with cyber HUD grid overlay */
-    .grid-bg {
-      background-image:
-        linear-gradient(to right, color-mix(in oklab, var(--accent) 12%, transparent) 1px, transparent 1px),
-        linear-gradient(to bottom, color-mix(in oklab, var(--accent) 12%, transparent) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-
-    .dot-bg {
-      background-image: radial-gradient(color-mix(in oklab, var(--accent) 22%, transparent) 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
-
-    /* Futuristic HUD Grid & Overlay */
-    .cyber-hud-bg {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cyber-hud-bg::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 15%, transparent), transparent 70%),
-        linear-gradient(to right, color-mix(in oklab, var(--accent) 8%, transparent) 1px, transparent 1px),
-        linear-gradient(to bottom, color-mix(in oklab, var(--accent) 8%, transparent) 1px, transparent 1px);
-      background-size: 100% 100%, 32px 32px, 32px 32px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Common card — futuristic glass on obsidian */
-    .card, .glass-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-1);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
-      position: relative;
-    }
-
-    .card:hover, .glass-card:hover {
-      box-shadow: var(--shadow-2);
-      border-color: color-mix(in oklab, var(--accent) 45%, transparent);
-      transform: translateY(-2px);
-    }
-
-    .cyber-card {
-      background: rgba(8, 15, 32, 0.65);
-      border: 1px solid color-mix(in oklab, var(--accent) 25%, transparent);
-      border-radius: 18px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cyber-card::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0.6;
-    }
-
-    .cyber-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7), var(--neon-glow);
-    }
-
-    /* Futuristic HUD Pill Badge */
-    .hud-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-mono);
-      font-size: 11px;
+    .heading-3 {
+      font-size: 36px;
+      line-height: 40px;
       font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 999px;
-      background: color-mix(in oklab, var(--accent) 12%, transparent);
-      color: var(--accent);
-      border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
-      box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 20%, transparent);
+      text-wrap: balance;
+    }
+    @media (max-width: 768px) {
+      .heading-3 {
+        font-size: 24px;
+        line-height: 32px;
+      }
     }
 
-    .hud-badge .pulse-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: hudPulse 1.8s infinite ease-in-out;
-    }
-
-    @keyframes hudPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.4); opacity: 0.5; }
-    }
-
-    /* Futuristic Theme Switcher Pills */
-    .theme-selector {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(3, 7, 18, 0.6);
-      border: 1px solid var(--line);
-      padding: 3px;
-      border-radius: 999px;
-      backdrop-filter: blur(12px);
-    }
-
-    .theme-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: none;
-      background: transparent;
-      color: var(--ink-2);
-      font-size: 12px;
+    .heading-4 {
+      font-size: 30px;
+      line-height: 36px;
       font-weight: 600;
-      font-family: var(--font-body);
-      cursor: pointer;
-      transition: all 0.2s ease;
+      text-wrap: balance;
     }
 
-    .theme-btn:hover {
-      color: var(--ink);
-      background: rgba(255, 255, 255, 0.08);
+    .heading-5 {
+      font-size: 24px;
+      line-height: 32px;
+      font-weight: 600;
+      text-wrap: balance;
     }
 
-    .theme-btn.active {
-      color: #FFFFFF;
-      background: color-mix(in oklab, var(--accent) 25%, transparent);
-      border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
-      box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 30%, transparent);
+    .heading-6 {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 600;
+      text-wrap: balance;
     }
 
-    .theme-dot-icon {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+    .title-1 { font-size: 20px; line-height: 28px; font-weight: 500; }
+    .title-2 { font-size: 18px; line-height: 28px; font-weight: 500; }
+    .title-3 { font-size: 16px; line-height: 24px; font-weight: 500; }
+    .title-4 { font-size: 14px; line-height: 20px; font-weight: 500; }
+    .title-5 { font-size: 12px; line-height: 16px; font-weight: 500; }
+
+    .body-1 { font-size: 16px; line-height: 24px; font-weight: 600; text-wrap: pretty; }
+    .body-2 { font-size: 16px; line-height: 24px; font-weight: 500; text-wrap: pretty; }
+    .body-3 { font-size: 16px; line-height: 24px; font-weight: 400; text-wrap: pretty; }
+    .body-4 { font-size: 14px; line-height: 20px; font-weight: 600; text-wrap: pretty; }
+    .body-5 { font-size: 14px; line-height: 20px; font-weight: 500; text-wrap: pretty; }
+    .body-6 { font-size: 14px; line-height: 20px; font-weight: 400; text-wrap: pretty; }
+
+    .button-lg { font-size: 18px; line-height: 28px; font-weight: 600; }
+    .button-md { font-size: 16px; line-height: 24px; font-weight: 600; }
+    .button-sm { font-size: 14px; line-height: 20px; font-weight: 600; }
+    .button-xsm { font-size: 12px; line-height: 16px; font-weight: 600; }
+
+    .caption-1 { font-size: 14px; line-height: 20px; font-weight: 500; }
+    .caption-2 { font-size: 14px; line-height: 20px; font-weight: 400; }
+    .caption-3 { font-size: 12px; line-height: 16px; font-weight: 600; }
+    .caption-4 { font-size: 12px; line-height: 16px; font-weight: 500; }
+    .caption-5 { font-size: 12px; line-height: 16px; font-weight: 400; }
+
+    /* Hero Text Gradient - Strictly B5 allowed location */
+    .hero-gradient-text {
+      background: linear-gradient(90deg, #FFFFFF 0%, #9B9B9B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       display: inline-block;
     }
 
-    /* sections — kill the bright stripe backgrounds, let cosmic show through */
-    main section {
-      background: transparent !important;
-      border-top-color: var(--line) !important;
+    /* Focus States B9 */
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 2px solid #00F0FF;
+      outline-offset: 2px;
     }
 
-    main section[style*="linear-gradient"] {
-      background: transparent !important;
+    /* Scroll Reveal Initial State */
+    .reveal-section {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-section.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    /* buttons revised for dark surface */
-    .btn {
-      background: rgba(255, 255, 255, .06);
-      color: var(--ink);
-      border-color: rgba(180, 210, 255, .18);
+    /* Tagline Reveal Section B11 */
+    .tagline-word {
+      display: inline-block;
+      color: rgba(255, 255, 255, 0.28);
+      transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tagline-word.active {
+      color: #FFFFFF;
     }
 
-    .btn:hover {
-      background: rgba(255, 255, 255, .10);
-    }
-
-    .btn.primary {
-      background: linear-gradient(90deg, var(--sf-blue), var(--sf-purple));
-      color: white;
-      border-color: transparent;
-      box-shadow: 0 10px 28px -10px rgba(0, 161, 224, .6);
-    }
-
-    .btn.ghost {
-      background: transparent;
-      color: var(--ink);
-      border-color: rgba(180, 210, 255, .22);
-    }
-
-    .btn.ghost:hover {
-      background: rgba(255, 255, 255, .06);
-      border-color: rgba(180, 210, 255, .45);
-    }
-
-    .btn.dark {
-      background: rgba(255, 255, 255, .08);
-      color: white;
-    }
-
-    /* "Trail" themed underline */
-    .trail-underline {
-      background-image: linear-gradient(90deg, transparent, var(--sf-blue), transparent);
-      height: 2px;
-      width: 100%;
-    }
-
-    /* ─── Desktop only — hide mobile-only elements ─────── */
-    @media (min-width: 641px) {
-      .mobile-stats-strip   { display: none !important; }
-    }
-
-    /* ─── Performance ─────────────────────────────────────── */
-    /* GPU-composite the nav (prevents repaints on scroll) */
-    .nav { will-change: transform; }
-
-    /* Defer rendering of below-fold sections */
-    main section + section {
-      content-visibility: auto;
-      contain-intrinsic-size: 0 600px;
-    }
-
-    /* Reduce backdrop-filter cost on mobile */
-    @media (max-width: 900px) {
-      .nav { backdrop-filter: blur(8px) !important; }
-      .glass-card, .card { backdrop-filter: none !important; }
-    }
-
-    /* ─── Mobile performance — kill expensive rendering ──── */
-    @media (max-width: 900px) {
-      /* Stop the persistent starfield CSS animation */
-      body::before { animation: none !important; opacity: 0.4; }
-
-      /* Freeze background blobs in hero — they use GPU constantly */
-      @keyframes blob1 { 0%,100% { transform: none; } }
-      @keyframes blob2 { 0%,100% { transform: none; } }
-      @keyframes blob3 { 0%,100% { transform: none; } }
-
-      /* Kill marquee scroll animation — use static display */
-      @keyframes marquee { 0%,100% { transform: none; } }
-
-      /* Remove all backdrop-filter (most expensive CSS prop on mobile) */
-      * { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
-
-      /* Simplify nav background */
-      .nav { background: rgba(5,8,24,.97) !important; }
-
-      /* Kill the SVG trail animations */
-      svg animate { display: none; }
-      svg animateMotion { display: none; }
-
-      /* Reduce will-change surface area */
-      * { will-change: auto !important; }
-
-      /* Disable scroll-driven entrance animations — show content immediately */
-      .page-enter { animation: none !important; }
-      .anim-word, .anim-fig, .anim-marquee { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
-
-      /* No box-shadow blur on mobile */
-      .card { box-shadow: 0 2px 8px rgba(0,0,0,.4) !important; }
-
-      /* Simpler base on mobile — page-shell gradient provides depth */
-      body { background: #050818 !important; }
-    }
-
-    /* Custom cursor — only hide default cursor when badge cursor is enabled */
-    body.custom-cursor,
-    body.custom-cursor button,
-    body.custom-cursor a,
-    body.custom-cursor .btn,
-    body.custom-cursor .hoverable { cursor: none !important; }
-
-    /* ─── Section background blending ────────────────────── */
-    /* A single continuous gradient that all home sections sit on,
-       flowing from hero navy → cosmic dark → deep midnight */
-    .page-shell {
-      background: linear-gradient(
-        180deg,
-        #0a1b3c  0%,
-        #060e28  8%,
-        #050818  20%,
-        #07101f  38%,
-        #050818  55%,
-        #04091a  75%,
-        #020508  100%
-      );
-    }
-
-    /* Let sections show through the page-shell gradient */
-    main > section {
-      background: transparent !important;
-    }
-
-    /* ─── Responsive ──────────────────────────────────────── */
-
-    /* Tablet + Desktop nav-links hide */
-    @media (max-width: 900px) {
-      .h-section { font-size: 40px; }
-      .nav-links  { display: none; }
-    }
-
-    /* iOS Safari: fixed bg causes repaint jank */
-    body {
-      background-attachment: scroll;
-    }
-
-    /* Touch devices: restore pointer cursor */
-    @media (hover: none) and (pointer: coarse) {
-      body, button, a { cursor: auto !important; }
-    }
-
-    /* ── Mobile (≤ 640px) ───────────────────────────────── */
-    @media (max-width: 640px) {
-      .container   { padding: 0 16px; }
-      .h-section   { font-size: 28px; line-height: 1.1; }
-      .body-lg     { font-size: 15px; }
-      .page        { padding: 32px 0 80px; }
-      .eyebrow     { font-size: 10px; }
-
-      /* Hero wordmark clamp already uses vw but the 13vw
-         value is still huge on 360px — tighten here */
-      .hero-wordmark { font-size: clamp(64px, 18vw, 120px) !important; }
-
-      /* Stats strip: 2 × 2 grid */
-      .hero-stats  { grid-template-columns: repeat(2, 1fr) !important; max-width: 100% !important; }
-
-      /* CTA strip card */
-      .cta-card    { padding: 36px 20px !important; }
-      .cta-heading { font-size: 32px !important; line-height: 1.1 !important; }
-      .cta-glyph   { display: none !important; }
-
-      /* SkillsTrail — use a text list fallback */
-      .skills-svg-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-      /* Nav: hide both CTA buttons; show hamburger */
-      .nav-cta-group { display: none !important; }
-      .nav-hamburger { display: flex !important; }
-
-      /* Footer mobile: flex-wrap so brand and currently take full row,
-         sitemap + domains sit side-by-side in the same row */
-      .footer-grid        { display: flex !important; flex-wrap: wrap !important; gap: 20px !important; }
-      .footer-brand       { width: 100% !important; }
-      .footer-grid > div:not(.footer-brand):not(.footer-currently) { flex: 1 1 40% !important; min-width: 120px; }
-      .footer-currently   { width: 100% !important; }
-      .footer-bottom      { flex-direction: column !important; gap: 8px !important; text-align: center; }
-
-      /* Experience timeline: stack */
-      .timeline-card     { padding-left: 36px !important; }
-      .timeline-dot      { left: 0 !important; top: 6px !important; }
-      .timeline-axis     { left: 10px !important; top: 34px !important; }
-
-      /* Tech matrix: single column */
-      .tech-matrix  { grid-template-columns: 1fr !important; }
-      .tech-sidebar { display: none !important; }
-      .tech-main    { grid-template-columns: 1fr !important; }
-
-      /* Projects: single column card grid */
-      .projects-grid { grid-template-columns: 1fr !important; }
-
-      /* Certs: ledger row wrap */
-      .cert-row-meta { display: none !important; }
-
-      /* ── Projects page ─────────────────────── */
-      .project-card-header      { grid-template-columns: auto 1fr !important; }
-      .desktop-only-btn         { display: none !important; }
-      .desktop-expand-section   { display: none !important; }
-      .mobile-stats-strip       { display: block !important; }
-      .pipeline-grid            { grid-template-columns: repeat(2, 1fr) !important; }
-      .diagram-2col             { grid-template-columns: 1fr !important; }
-      .challenge-grid           { grid-template-columns: 1fr !important; }
-      .impact-strip             { grid-template-columns: 1fr !important; }
-      .project-expand-pad       { padding: 16px !important; }
-      .project-card-pad         { padding: 20px !important; }
-      .page-head                { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
-      .page-head-actions        { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
-
-      /* ── Contact page ──────────────────────── */
-      .contact-layout           { display: flex !important; flex-direction: column !important; gap: 16px !important; }
-      .contact-aside            { display: contents !important; }
-      .name-fields              { grid-template-columns: 1fr !important; }
-      .availability-strip       { grid-template-columns: 1fr !important; }
-      .availability-strip .avail-btn { width: 100%; justify-content: center; margin-top: 8px; }
-      .form-card                { padding: 20px !important; border-radius: 16px !important; }
-      .form-footer              { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
-      .form-footer .submit-btn  { width: 100%; justify-content: center; }
-      .success-card             { padding: 36px 20px !important; margin: 40px auto !important; }
-    }
-
-    /* ─── Tablet (641px – 900px) ─────────────────────────── */
-    @media (min-width: 641px) and (max-width: 900px) {
-      .container   { padding: 0 24px; }
-      .h-section   { font-size: 36px; }
-
-      /* Stats strip: 2 × 2 */
-      .hero-stats  { grid-template-columns: repeat(2, 1fr) !important; max-width: 100% !important; }
-
-      /* CTA strip */
-      .cta-card    { padding: 48px 32px !important; }
-      .cta-heading { font-size: 40px !important; }
-      .cta-glyph   { display: none !important; }
-
-      /* Nav */
-      .nav-cta-group { display: none !important; }
-      .nav-hamburger { display: flex !important; }
-
-      /* Footer: 2-column */
-      .footer-grid { grid-template-columns: 1fr 1fr !important; }
-
-      /* Experience timeline: stack */
-      .timeline-card { padding-left: 36px !important; }
-      .timeline-dot  { left: 0 !important; top: 6px !important; }
-      .timeline-axis { left: 10px !important; top: 34px !important; }
-
-      /* Projects & Contact on tablet */
-      .pipeline-grid    { grid-template-columns: repeat(3, 1fr) !important; }
-      .contact-layout   { grid-template-columns: 1fr !important; }
-      .challenge-grid   { grid-template-columns: 1fr !important; }
-      .page-head        { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
-      .page-head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    }
-
-    /* ── Hamburger / Mobile Drawer ──────────────────────── */
-    .nav-hamburger {
-      display: none;
-      align-items: center; justify-content: center;
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(180,210,255,.18);
-      color: var(--ink); font-size: 18px;
-      cursor: auto;
-      transition: background .15s;
-      flex-shrink: 0;
-    }
-    .nav-hamburger:hover { background: rgba(255,255,255,.12); }
-
-    .mobile-drawer {
-      position: fixed; inset: 0; z-index: 9990;
-      background: rgba(5,8,24,.97);
-      backdrop-filter: blur(18px);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 28px;
-      animation: drawerIn .25s ease both;
-    }
-    @keyframes drawerIn {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: none; }
-    }
-    .drawer-link {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 7vw, 40px);
-      font-weight: 700; color: var(--ink);
-      letter-spacing: -.01em;
-      transition: color .15s;
-    }
-    .drawer-link:hover, .drawer-link.active { color: var(--accent); }
-    .drawer-close {
-      position: absolute; top: 20px; right: 20px;
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(180,210,255,.18);
-      color: var(--ink); font-size: 20px;
-      display: grid; place-items: center;
-      cursor: auto;
-    }
-    .drawer-ctas {
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-      margin-top: 8px;
-    }
-
-    /* Cosmic Chat Widget Styles */
-    .cosmic-chat-window {
-      position: fixed;
-      bottom: 120px;
-      right: 24px;
-      width: 380px;
-      height: 520px;
-      max-width: calc(100vw - 48px);
-      max-height: calc(100vh - 160px);
-      background: rgba(10, 20, 50, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(180, 210, 255, 0.2);
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 161, 224, 0.15);
-      display: flex;
-      flex-direction: column;
-      z-index: 1000;
-      overflow: hidden;
-      font-family: var(--font-body);
-      animation: chatFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    @keyframes chatFadeIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .cosmic-chat-header {
-      padding: 16px 20px;
-      background: linear-gradient(135deg, rgba(3, 45, 96, 0.6), rgba(127, 0, 255, 0.15));
-      border-bottom: 1px solid rgba(180, 210, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .cosmic-chat-header-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .cosmic-chat-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--sf-blue), var(--sf-purple));
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-      color: white;
-      font-size: 14px;
-      border: 1.5px solid rgba(255,255,255,0.25);
-    }
-    .cosmic-chat-title {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 700;
-      color: white;
-    }
-    .cosmic-chat-status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.6);
-      margin-top: 1px;
-    }
-    .cosmic-chat-status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--sf-success);
-      box-shadow: 0 0 8px var(--sf-success);
-    }
-    .cosmic-chat-status-dot.connecting {
-      background: #EAB308;
-      box-shadow: 0 0 8px #EAB308;
-      animation: blink 1s infinite alternate;
-    }
-    @keyframes blink {
-      0% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
-    .cosmic-chat-close {
-      background: transparent;
-      border: none;
-      color: rgba(255,255,255,0.6);
-      font-size: 20px;
-      cursor: pointer;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      transition: background 0.2s, color 0.2s;
-    }
-    .cosmic-chat-close:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-    }
-    .cosmic-chat-messages {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      scroll-behavior: smooth;
-    }
-    .cosmic-chat-message {
-      max-width: 80%;
-      padding: 10px 14px;
-      border-radius: 16px;
-      font-size: 13.5px;
-      line-height: 1.45;
-      animation: msgPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    @keyframes msgPop {
-      from { opacity: 0; transform: translateY(10px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .cosmic-chat-message.agent {
-      align-self: flex-start;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(180, 210, 255, 0.15);
-      color: var(--ink);
-      border-bottom-left-radius: 4px;
-    }
-    .cosmic-chat-message.user {
-      align-self: flex-end;
-      background: linear-gradient(135deg, var(--sf-blue), var(--sf-purple));
-      color: white;
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 4px 14px rgba(0, 161, 224, 0.2);
-    }
-    .cosmic-chat-input-area {
-      padding: 16px;
-      border-top: 1px solid rgba(180, 210, 255, 0.15);
-      background: rgba(5, 8, 24, 0.4);
-      display: flex;
-      gap: 10px;
-    }
-    .cosmic-chat-input {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(180, 210, 255, 0.15);
-      border-radius: 999px;
-      padding: 10px 18px;
-      color: white;
-      font-family: inherit;
-      font-size: 13.5px;
-      outline: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .cosmic-chat-input:focus {
-      border-color: var(--sf-blue);
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .cosmic-chat-send {
-      background: var(--sf-blue);
-      color: white;
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-    }
-    .cosmic-chat-send:hover {
-      background: var(--sf-blue-deep);
-      transform: scale(1.05);
-      box-shadow: 0 0 12px var(--sf-blue);
-    }
-    .cosmic-chat-send:disabled {
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.3);
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    /* Typing indicator */
-    .cosmic-chat-typing {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(180, 210, 255, 0.1);
-      border-radius: 16px;
-      border-bottom-left-radius: 4px;
-      align-self: flex-start;
-      width: fit-content;
-    }
-    .cosmic-chat-typing span {
-      width: 6px;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      animation: typing 1.4s infinite both;
-    }
-    .cosmic-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
-    .cosmic-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes typing {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
+    /* Respect Reduced Motion B7 */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-section {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .tagline-word {
+        color: #FFFFFF !important;
+        transition: none !important;
+      }
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
-
-  <script>
-    // Detect low-power / mobile devices
-    const _isMobile = window.innerWidth <= 900 || ('ontouchstart' in window);
-    window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-      "accent": "#0070D2",
-      "accentDeep": "#032D60",
-      "boltTrail": false,
-      "showCursor": false,
-      "mascot": true,
-      "mapplsToken": ""
-    }/*EDITMODE-END*/;
-    window.__IS_MOBILE = _isMobile;
-  </script>
-
 </head>
 
-<body>
+<body class="bg-portal-black text-white antialiased selection:bg-portal-cyan selection:text-portal-black">
 
-  <div id="root">
-    <!-- SEO fallback content for non-JS web crawlers and screen readers -->
-    <header style="padding: 20px; text-align: center;">
-      <h1>Yusuf Khan — Salesforce Developer</h1>
-      <p>Building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services.</p>
-      <nav style="margin: 10px 0;">
-        <a href="#home">Home</a> | 
-        <a href="#certs">Certifications</a> | 
-        <a href="#projects">Projects</a> | 
-        <a href="#experience">Experience</a> | 
-        <a href="#gigs">Services</a> | 
-        <a href="#demos">Demos &amp; Articles</a> | 
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+  <!-- Accessible Skip to Content Link B10 -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-75 focus:left-75 focus:z-50 focus:bg-portal-cyan focus:text-portal-black focus:px-100 focus:py-75 focus:rounded-md focus:font-semibold">
+    Skip to primary content
+  </a>
 
-    <main style="padding: 20px; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-      <section id="about" style="margin-bottom: 30px;">
-        <h2>About Yusuf Khan</h2>
-        <p>I am a Salesforce Developer &amp; Technical SME based in Hyderabad, India. With deep expertise in design, development, and integration of Salesforce clouds (including Financial Services Cloud, Communications Cloud, Sales &amp; Service Cloud, Experience Cloud, and OmniStudio/Vlocity), I help organizations deliver high-performing, scalable solutions.</p>
-        <p>Currently serving as a Salesforce Developer &amp; Technical SME at K Square Group, and previously Software Engineer (Salesforce) at Prodapt Solutions.</p>
-      </section>
+  <!-- Floating HUD Navigation Bar B7 -->
+  <header class="fixed top-75 inset-x-0 z-40 flex justify-center px-100 pointer-events-none">
+    <nav aria-label="Portal Navigation" class="pointer-events-auto flex items-center justify-between gap-300 px-200 py-75 rounded-2xl border border-portal-border bg-portal-surface/90 backdrop-blur-md shadow-2xl max-w-4xl w-full transition-all duration-300">
+      
+      <!-- Brand & Status Pill -->
+      <a href="#hero" class="flex items-center gap-75 group" aria-label="Yusuf Khan Home">
+        <span class="w-75 h-75 rounded-full bg-portal-cyan animate-pulse" aria-hidden="true"></span>
+        <div class="flex flex-col">
+          <span class="title-4 text-white group-hover:text-portal-cyan transition-colors duration-300">Yusuf Khan</span>
+          <span class="caption-5 font-mono text-neutral-400">Lead Architect</span>
+        </div>
+      </a>
 
-      <section id="certifications" style="margin-bottom: 30px;">
-        <h2>Salesforce Certifications</h2>
-        <ul>
-          <li>Platform Developer II (PD2)</li>
-          <li>Agentforce Specialist</li>
-          <li>Data Cloud Consultant</li>
-          <li>OmniStudio Developer</li>
-          <li>Financial Services Cloud (FSC)</li>
-          <li>Lifecycle &amp; Deployment Architect</li>
-          <li>Platform Developer I (PD1)</li>
-          <li>JavaScript Developer I</li>
-          <li>Service Cloud Consultant</li>
-          <li>Administrator</li>
-          <li>AI Associate</li>
-          <li>Salesforce Associate</li>
-        </ul>
-      </section>
+      <!-- Desktop Nav Items -->
+      <div class="hidden md:flex items-center gap-200">
+        <a href="#benefits" class="title-4 text-neutral-300 hover:text-white transition-colors duration-300 py-25 px-50">Architecture</a>
+        <a href="#case-studies" class="title-4 text-neutral-300 hover:text-white transition-colors duration-300 py-25 px-50">Case Studies</a>
+        <a href="#certifications" class="title-4 text-neutral-300 hover:text-white transition-colors duration-300 py-25 px-50">Credentials</a>
+        <a href="#endorsements" class="title-4 text-neutral-300 hover:text-white transition-colors duration-300 py-25 px-50">Endorsements</a>
+        <a href="#faq" class="title-4 text-neutral-300 hover:text-white transition-colors duration-300 py-25 px-50">FAQ</a>
+      </div>
 
-      <section id="projects" style="margin-bottom: 30px;">
-        <h2>Key Projects</h2>
-        <ul>
-          <li>
-            <h3>Banking Public Portal</h3>
-            <p><strong>Role:</strong> Lead Developer &amp; Integration Architect</p>
-            <p><strong>Client:</strong> Tier-1 Global Financial Institution</p>
-            <p>Designed a custom, high-security Experience Cloud public portal utilizing OmniStudio and custom LWCs, integrating MuleSoft to run real-time 3rd-party background checks and automated risk-profiling.</p>
-          </li>
-          <li>
-            <h3>Loan Origination Systems</h3>
-            <p><strong>Role:</strong> Salesforce Technical Architect</p>
-            <p><strong>Client:</strong> Enterprise Lending Group</p>
-            <p>Built a secure, enterprise-grade Loan Origination System on FSC with deep validations, risk-profiling calculations, and multi-tier approval routing using Apex trigger frameworks.</p>
-          </li>
-          <li>
-            <h3>Retail Store Application</h3>
-            <p><strong>Role:</strong> Lead Developer &amp; Solutions Designer</p>
-            <p><strong>Client:</strong> Global Telecommunications Provider</p>
-            <p>Delivered a tablet-native Communications Cloud retail application that aggregates customer history via Data Cloud and orchestrates SIM and network provisioning.</p>
-          </li>
-        </ul>
-      </section>
+      <!-- Header Primary Action Button B2, B3, B9 -->
+      <div class="flex items-center gap-75">
+        <button id="quick-terminal-btn" class="hidden sm:flex items-center gap-50 py-75 px-100 rounded-lg border border-portal-border bg-portal-card text-neutral-300 hover:text-white hover:border-portal-cyan transition-all duration-300 button-xsm font-mono active:scale-[0.98]">
+          <svg class="w-50 h-50" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM92,100a12,12,0,0,1,12-12h48a12,12,0,0,1,0,24H104A12,12,0,0,1,92,100Zm0,56a12,12,0,0,1,12-12h48a12,12,0,0,1,0,24H104A12,12,0,0,1,92,156Z"/>
+          </svg>
+          <span>Telemetry</span>
+        </button>
 
-      <section id="experience" style="margin-bottom: 30px;">
-        <h2>Work Experience</h2>
-        <ul>
-          <li>
-            <h3>K Square Group — Salesforce Developer &amp; Technical SME</h3>
-            <p>Sep 2024 — Present | Hyderabad, India</p>
-            <p>Led delivery of Salesforce implementations for financial services institutions. Architected and implemented custom workflows, flows, and enterprise integrations. Guided junior developers.</p>
-          </li>
-          <li>
-            <h3>Prodapt Solutions — Software Engineer (Salesforce)</h3>
-            <p>Oct 2021 — Sep 2024 | Hyderabad, India</p>
-            <p>Collaborated with stakeholders to deliver tailored, scalable solutions. Contributed to 60% of development, building Apex triggers, LWC, OmniStudio components, and Sales/Service Cloud features.</p>
-          </li>
-        </ul>
-      </section>
+        <a href="#consultation" class="flex items-center gap-50 py-75 px-100 rounded-lg bg-white text-portal-black hover:bg-neutral-200 transition-all duration-300 button-sm active:scale-[0.98]">
+          <span>Consultation</span>
+          <svg class="w-50 h-50" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
+          </svg>
+        </a>
 
-      <section id="services" style="margin-bottom: 30px;">
-        <h2>Technical Services &amp; Gigs</h2>
-        <p>Bespoke consulting packages and development solutions available on a daily rate:</p>
-        <ul>
-          <li><strong>Third-Party Integrations</strong> (Starting from $150 / day) — Connect Salesforce with external ERPs, legacy systems, payment gateways, or custom APIs.</li>
-          <li><strong>Admin &amp; Low-Code Development</strong> (Starting from $120 / day) — Complex Salesforce Flows, dynamic layouts, roll-ups, permissions models, and declarative automation.</li>
-          <li><strong>Apex &amp; LWC Custom Development</strong> (Starting from $130 / day) — Custom Lightning Web Components, bulkified triggers, asynchronous handlers, and unit test generation.</li>
-          <li><strong>Agentforce AI Development</strong> (Starting from $170 / day) — Custom Copilot Topics, Prompt Builder configurations, agent actions, and Einstein AI integration.</li>
-          <li><strong>Vlocity / Industries Org Development</strong> (Starting from $160 / day) — Custom OmniScripts, FlexCards, Integration Procedures, and DataRaptor mappings.</li>
-          <li><strong>Customer 360 Ecosystem Builds</strong> (Starting from $140 / day) — Data Cloud pipelines, identity resolution rules, and unified Experience Cloud community setups.</li>
-          <li><strong>Data Migration &amp; DevOps Deployments</strong> (Starting from $140 / day) — GitHub Actions CI/CD setup, Copado/Gearset release flows, and large-scale data imports.</li>
-        </ul>
-      </section>
+        <!-- Mobile Menu Toggle Button B7 -->
+        <button id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false" class="md:hidden flex items-center justify-center p-75 rounded-lg border border-portal-border bg-portal-card text-neutral-300 hover:text-white transition-all duration-300">
+          <svg id="menu-icon" class="w-100 h-100 transition-transform duration-300" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
 
-      <section id="demos" style="margin-bottom: 30px;">
-        <h2>Demos &amp; Salesforce Articles</h2>
-        <p>Interactive code components and technical articles published directly from Salesforce Knowledge (Knowledge__kav):</p>
-        <ul>
-          <li><strong>Apex Governor Limit Race (Demo)</strong>: Interactive simulation comparing non-bulkified code (SOQL inside loop) vs. bulkified code handlers to verify transaction limits and bulk safety.</li>
-          <li><strong>Bulkifying Salesforce Apex: A Patterns Guide for High-Volume Orgs</strong>: Article analyzing trigger patterns, maps, and asynchronous execution (Queueables/Batches) in Salesforce.</li>
-          <li><strong>OmniStudio Performance Tuning: Optimizing FlexCards &amp; Integration Procedures</strong>: Article detailing caching (Session/Org), payload management, and speed audits in Salesforce Industries Vlocity setups.</li>
-          <li><strong>Implementing OAuth 2.0 Client Credentials Flow in Apex</strong>: Article detailing secure system-to-system integrations, Named Credentials, and authentication.</li>
-          <li><strong>Agentforce Copilot: Building Custom Apex Actions for Intelligent Routing</strong>: Guide on writing Invocable Methods with dynamic prompt bindings for Agentforce agent routing.</li>
-        </ul>
-      </section>
+  <!-- Mobile Full Height Drawer Panel B7 -->
+  <aside id="mobile-menu" aria-label="Mobile Navigation" class="fixed inset-0 z-30 bg-portal-black/95 backdrop-blur-xl flex flex-col justify-center px-400 py-800 transition-opacity duration-300 opacity-0 pointer-events-none md:hidden">
+    <div class="flex flex-col gap-300 max-w-sm mx-auto w-full">
+      <span class="caption-4 font-mono text-portal-cyan uppercase tracking-wider">Navigation Deck</span>
+      <a href="#hero" class="mobile-nav-link text-3xl font-semibold text-white hover:text-portal-cyan transition-colors duration-300">Command Center</a>
+      <a href="#benefits" class="mobile-nav-link text-3xl font-semibold text-white hover:text-portal-cyan transition-colors duration-300">Architecture</a>
+      <a href="#case-studies" class="mobile-nav-link text-3xl font-semibold text-white hover:text-portal-cyan transition-colors duration-300">Case Studies</a>
+      <a href="#certifications" class="mobile-nav-link text-3xl font-semibold text-white hover:text-portal-cyan transition-colors duration-300">Certifications</a>
+      <a href="#endorsements" class="mobile-nav-link text-3xl font-semibold text-white hover:text-portal-cyan transition-colors duration-300">Endorsements</a>
+      <a href="#faq" class="mobile-nav-link text-3xl font-semibold text-white hover:text-portal-cyan transition-colors duration-300">Enterprise FAQ</a>
+      <div class="pt-300 border-t border-portal-border flex flex-col gap-100">
+        <a href="#consultation" class="flex items-center justify-center py-75 px-100 rounded-lg bg-white text-portal-black button-md">
+          Schedule Consultation
+        </a>
+      </div>
+    </div>
+  </aside>
 
-      <section id="contact" style="margin-bottom: 30px;">
-        <h2>Contact Yusuf Khan</h2>
-        <p>Interested in collaborating or discussing Salesforce development and architecture? Get in touch via LinkedIn or email.</p>
-        <ul>
-          <li>LinkedIn: <a href="https://www.linkedin.com/in/yusufkhan2546">yusufkhan2546</a></li>
-          <li>Trailblazer Profile: <a href="https://www.salesforce.com/trailblazer/yusufkhan2546">yusufkhan2546</a></li>
-        </ul>
-      </section>
-    </main>
-  </div>
+  <!-- PRIMARY CONTENT CONTAINER -->
+  <main id="main-content" class="relative">
 
-  <!-- React production builds (no dev warnings overhead) -->
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <!-- Three.js + Lottie — desktop only (heavy libraries, skipped on mobile) -->
+    <!-- SECTION 1: HERO SECTION A2, B5 -->
+    <section id="hero" class="relative pt-900 pb-800 px-200 md:px-400 border-b border-portal-border bg-portal-black flex flex-col items-center justify-center min-h-[92vh]">
+      
+      <!-- System Telemetry Status Tag -->
+      <div class="mb-300 inline-flex items-center gap-75 py-25 px-100 rounded-full border border-portal-border bg-portal-surface">
+        <span class="w-50 h-50 rounded-full bg-portal-emerald animate-ping" aria-hidden="true"></span>
+        <span class="caption-4 font-mono text-neutral-300 uppercase tracking-wider">
+          Enterprise Cloud Telemetry · Live Status
+        </span>
+      </div>
+
+      <!-- Hero Headline with Meaningful Breaks and Left to Right Text Gradient B5 -->
+      <div class="max-w-[680px] text-center mb-300">
+        <h1 class="heading-1 hero-gradient-text mb-200">
+          Architect resilient Salesforce systems that scale past enterprise limits
+        </h1>
+        
+        <!-- Subheadline capped at 680px B5 -->
+        <p class="body-2 text-neutral-300 max-w-[640px] mx-auto">
+          I help engineering directors and Salesforce practice leads design robust financial cloud solutions, eliminate governor bottlenecks, and deploy production ready autonomous agents.
+        </p>
+      </div>
+
+      <!-- Single Primary Action Button Above the Fold A4, B2, B9 -->
+      <div class="flex flex-col sm:flex-row items-center gap-200 mb-500">
+        <a href="#consultation" class="flex items-center gap-75 py-75 px-100 rounded-lg bg-white text-portal-black hover:bg-neutral-200 transition-all duration-300 button-md shadow-lg active:scale-[0.98]">
+          <span>Schedule architecture consultation</span>
+          <svg class="w-75 h-75" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+            <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
+          </svg>
+        </a>
+
+        <a href="#case-studies" class="flex items-center gap-75 py-75 px-100 rounded-lg border border-portal-border bg-portal-surface hover:bg-portal-card hover:border-neutral-500 text-neutral-200 hover:text-white transition-all duration-300 button-md active:scale-[0.98]">
+          <span>Inspect verified case studies</span>
+        </a>
+      </div>
+
+      <!-- Single Proof Signal Strip Above the Fold A2, B8 -->
+      <div class="max-w-[680px] w-full mb-600 py-100 px-200 rounded-xl border border-portal-border bg-portal-surface flex flex-wrap items-center justify-around gap-200 text-center">
+        <div class="flex flex-col">
+          <span class="title-2 font-mono text-white">12</span>
+          <span class="caption-5 text-neutral-400">Official Certifications</span>
+        </div>
+        <div class="h-500 w-[1px] bg-portal-border hidden sm:block"></div>
+        <div class="flex flex-col">
+          <span class="title-2 font-mono text-portal-cyan">506</span>
+          <span class="caption-5 text-neutral-400">Trailhead Badges</span>
+        </div>
+        <div class="h-500 w-[1px] bg-portal-border hidden sm:block"></div>
+        <div class="flex flex-col">
+          <span class="title-2 font-mono text-white">$4.2B+</span>
+          <span class="caption-5 text-neutral-400">Volume Secured</span>
+        </div>
+        <div class="h-500 w-[1px] bg-portal-border hidden sm:block"></div>
+        <div class="flex flex-col">
+          <span class="title-2 font-mono text-portal-emerald">99.98%</span>
+          <span class="caption-5 text-neutral-400">Verification Accuracy</span>
+        </div>
+      </div>
+
+      <!-- Hero Visual: Cyber Command Deck Terminal Interface A2, B3, B7 -->
+      <div class="w-full max-w-4xl rounded-2xl border border-portal-border bg-portal-surface overflow-hidden shadow-2xl">
+        <!-- Terminal Header Bar -->
+        <div class="flex items-center justify-between px-200 py-100 border-b border-portal-border bg-portal-card">
+          <div class="flex items-center gap-75">
+            <span class="w-75 h-75 rounded-full bg-rose-500/80"></span>
+            <span class="w-75 h-75 rounded-full bg-amber-500/80"></span>
+            <span class="w-75 h-75 rounded-full bg-emerald-500/80"></span>
+            <span class="caption-4 font-mono text-neutral-400 ml-100">yusuf khan // enterprise telemetry console</span>
+          </div>
+          <!-- Terminal View Mode Selectors -->
+          <div class="flex items-center gap-50 font-mono text-xs" role="tablist">
+            <button id="tab-apex" role="tab" aria-selected="true" class="terminal-tab px-75 py-25 rounded bg-portal-elevated text-portal-cyan border border-portal-border transition-colors duration-300">
+              Apex Trigger Handler
+            </button>
+            <button id="tab-fsc" role="tab" aria-selected="false" class="terminal-tab px-75 py-25 rounded bg-transparent text-neutral-400 hover:text-white transition-colors duration-300">
+              FSC Verification Engine
+            </button>
+            <button id="tab-agent" role="tab" aria-selected="false" class="terminal-tab px-75 py-25 rounded bg-transparent text-neutral-400 hover:text-white transition-colors duration-300">
+              Agentforce Dispatcher
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Active Content Screen -->
+        <div class="p-300 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto bg-portal-surface">
+          <!-- Screen 1: Apex Handler -->
+          <div id="screen-apex" class="space-y-50">
+            <div class="text-neutral-500">// Bulk safe enterprise trigger handler with recursion prevention</div>
+            <div class="text-white"><span class="text-amber-400">public inherited sharing class</span> <span class="text-portal-cyan">OpportunityTriggerHandler</span> {</div>
+            <div class="text-neutral-300 pl-200"><span class="text-amber-400">private static Boolean</span> isFirstRun = <span class="text-portal-emerald">true</span>;</div>
+            <div class="text-neutral-300 pl-200"><span class="text-amber-400">public static void</span> handleAfterUpdate(<span class="text-portal-cyan">List</span>&lt;<span class="text-portal-cyan">Opportunity</span>&gt; newOpps, <span class="text-portal-cyan">Map</span>&lt;<span class="text-portal-cyan">Id</span>, <span class="text-portal-cyan">Opportunity</span>&gt; oldMap) {</div>
+            <div class="text-neutral-300 pl-400"><span class="text-amber-400">if</span> (!isFirstRun) <span class="text-amber-400">return</span>;</div>
+            <div class="text-neutral-300 pl-400">isFirstRun = <span class="text-rose-400">false</span>;</div>
+            <div class="text-neutral-300 pl-400"><span class="text-portal-cyan">Set</span>&lt;<span class="text-portal-cyan">Id</span>&gt; qualifyingIds = <span class="text-amber-400">new</span> <span class="text-portal-cyan">Set</span>&lt;<span class="text-portal-cyan">Id</span>&gt;();</div>
+            <div class="text-neutral-300 pl-400"><span class="text-amber-400">for</span> (<span class="text-portal-cyan">Opportunity</span> opp : newOpps) {</div>
+            <div class="text-neutral-300 pl-600"><span class="text-portal-cyan">Opportunity</span> oldRecord = oldMap.get(opp.Id);</div>
+            <div class="text-neutral-300 pl-600"><span class="text-amber-400">if</span> (opp.StageName == <span class="text-emerald-400">'Closed Won'</span> &amp;&amp; oldRecord.StageName != <span class="text-emerald-400">'Closed Won'</span>) {</div>
+            <div class="text-neutral-300 pl-800">qualifyingIds.add(opp.Id);</div>
+            <div class="text-neutral-300 pl-600">}</div>
+            <div class="text-neutral-300 pl-400">}</div>
+            <div class="text-neutral-300 pl-400"><span class="text-amber-400">if</span> (!qualifyingIds.isEmpty()) {</div>
+            <div class="text-neutral-300 pl-600"><span class="text-portal-cyan">ProvisioningService</span>.activate(qualifyingIds); <span class="text-neutral-500">// Non blocking future job</span></div>
+            <div class="text-neutral-300 pl-400">}</div>
+            <div class="text-neutral-300 pl-200">}</div>
+            <div class="text-white">}</div>
+          </div>
+
+          <!-- Screen 2: FSC Verification Engine (hidden initially) -->
+          <div id="screen-fsc" class="space-y-50 hidden">
+            <div class="text-neutral-500">// Financial Services Cloud loan verification aggregate engine</div>
+            <div class="text-white"><span class="text-amber-400">public with sharing class</span> <span class="text-portal-cyan">LoanVerificationEngine</span> {</div>
+            <div class="text-neutral-300 pl-200"><span class="text-amber-400">public static</span> <span class="text-portal-cyan">VerificationResult</span> evaluateApplicant(<span class="text-portal-cyan">Id</span> financialAccountId) {</div>
+            <div class="text-neutral-300 pl-400"><span class="text-portal-cyan">FinancialAccount</span> fa = [</div>
+            <div class="text-neutral-300 pl-600"><span class="text-amber-400">SELECT</span> Id, Balance, FinServ__Status__c, PrimaryOwner__c</div>
+            <div class="text-neutral-300 pl-600"><span class="text-amber-400">FROM</span> FinancialAccount <span class="text-amber-400">WHERE</span> Id = :financialAccountId <span class="text-amber-400">WITH USER_MODE</span></div>
+            <div class="text-neutral-300 pl-400">];</div>
+            <div class="text-neutral-300 pl-400"><span class="text-amber-400">return</span> <span class="text-portal-cyan">MuleSoftGateway</span>.verifyCreditScore(fa.PrimaryOwner__c);</div>
+            <div class="text-neutral-300 pl-200">}</div>
+            <div class="text-white">}</div>
+          </div>
+
+          <!-- Screen 3: Agentforce Dispatcher (hidden initially) -->
+          <div id="screen-agent" class="space-y-50 hidden">
+            <div class="text-neutral-500">// Agentforce Invocable Action with strict input validation</div>
+            <div class="text-white"><span class="text-amber-400">public with sharing class</span> <span class="text-portal-cyan">AgentCustomerInquiryAction</span> {</div>
+            <div class="text-neutral-300 pl-200">@InvocableMethod(label=<span class="text-emerald-400">'Resolve Customer Billing Dispute'</span>)</div>
+            <div class="text-neutral-300 pl-200"><span class="text-amber-400">public static</span> <span class="text-portal-cyan">List</span>&lt;<span class="text-portal-cyan">AgentResponse</span>&gt; execute(<span class="text-portal-cyan">List</span>&lt;<span class="text-portal-cyan">AgentRequest</span>&gt; requests) {</div>
+            <div class="text-neutral-300 pl-400"><span class="text-portal-cyan">DataCloudStream</span>.groundWithAuditLog(requests[0].accountId);</div>
+            <div class="text-neutral-300 pl-400"><span class="text-amber-400">return</span> <span class="text-portal-cyan">BillingReconciliationService</span>.process(requests);</div>
+            <div class="text-neutral-300 pl-200">}</div>
+            <div class="text-white">}</div>
+          </div>
+        </div>
+
+        <!-- Terminal Status Bar -->
+        <div class="px-200 py-75 border-t border-portal-border bg-portal-card flex flex-wrap items-center justify-between gap-100 text-xs font-mono text-neutral-400">
+          <div class="flex items-center gap-100">
+            <span class="text-portal-emerald">● SOQL: 3/100</span>
+            <span class="text-portal-cyan">● CPU: 14ms/10000ms</span>
+            <span class="text-neutral-300">● HEAP: 1.2MB/12MB</span>
+          </div>
+          <div class="flex items-center gap-50">
+            <span class="text-neutral-500">GOVERNOR STATUS:</span>
+            <span class="text-portal-emerald font-semibold">OPTIMAL COMPLIANCE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: PROBLEM TO SOLUTION SECTION A2 -->
+    <section class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-surface">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-300 inline-block px-75 py-25 rounded border border-portal-border bg-portal-card caption-3 font-mono text-portal-cyan">
+          THE ARCHITECTURAL REALITY
+        </div>
+        <h2 class="heading-2 text-white mb-200">
+          Why enterprise Salesforce implementations stall under technical debt
+        </h2>
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          Most organizations do not fail because of platform limitations. They fail because rapid business demands lead to unmanaged trigger sprawl, circular workflow dependencies, and fragile custom logic that locks up when record volume multiplies.
+        </p>
+
+        <!-- Problem vs Solution Two Column Grid B4 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-300">
+          <!-- The Fragile State Card -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card p-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-75 mb-200 text-rose-400">
+                <svg class="w-75 h-75" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM120,72v64a8,8,0,0,0,16,0V72a8,8,0,0,0-16,0Zm16,104a12,12,0,1,1-12-12A12,12,0,0,1,136,176Z"/>
+                </svg>
+                <span class="title-3 font-semibold text-rose-300">The Tangled Architecture</span>
+              </div>
+              <ul class="space-y-100 caption-1 text-neutral-300">
+                <li class="flex items-start gap-75">
+                  <span class="text-rose-400 mt-25">✕</span>
+                  <span>Multiple competing triggers on the same object fighting for execution order.</span>
+                </li>
+                <li class="flex items-start gap-75">
+                  <span class="text-rose-400 mt-25">✕</span>
+                  <span>Unmanaged Record Triggered Flows triggering unpredicted recursive loops.</span>
+                </li>
+                <li class="flex items-start gap-75">
+                  <span class="text-rose-400 mt-25">✕</span>
+                  <span>Integration timeouts and hard governor limit locks during peak batch uploads.</span>
+                </li>
+                <li class="flex items-start gap-75">
+                  <span class="text-rose-400 mt-25">✕</span>
+                  <span>Brittle test classes that pass only in sandbox and break production releases.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-300 pt-200 border-t border-portal-border caption-4 text-neutral-400 font-mono">
+              Result: Slow releases, high support cost, production outages.
+            </div>
+          </div>
+
+          <!-- The Engineered State Card B3 Nested Formula -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card p-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-75 mb-200 text-portal-emerald">
+                <svg class="w-75 h-75" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
+                </svg>
+                <span class="title-3 font-semibold text-portal-emerald">The Resilient Enterprise Engine</span>
+              </div>
+              <ul class="space-y-100 caption-1 text-neutral-300">
+                <li class="flex items-start gap-75">
+                  <span class="text-portal-emerald mt-25">✓</span>
+                  <span>Single trigger pattern with strict recursion locks and configurable bypasses.</span>
+                </li>
+                <li class="flex items-start gap-75">
+                  <span class="text-portal-emerald mt-25">✓</span>
+                  <span>Bulk safe service layers processing thousands of records without limit breaches.</span>
+                </li>
+                <li class="flex items-start gap-75">
+                  <span class="text-portal-emerald mt-25">✓</span>
+                  <span>Asynchronous Queueable and Platform Event pipelines for real time integrations.</span>
+                </li>
+                <li class="flex items-start gap-75">
+                  <span class="text-portal-emerald mt-25">✓</span>
+                  <span>Robust unit tests verifying real business scenarios with zero mock fragility.</span>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-300 pt-200 border-t border-portal-border caption-4 text-portal-emerald font-mono">
+              Result: Predictable deployments, audit compliance, near zero backlog.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: OUTCOME DRIVEN BENEFITS A2, B1, B2 -->
+    <section id="benefits" class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-black">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-300 inline-block px-75 py-25 rounded border border-portal-border bg-portal-surface caption-3 font-mono text-portal-cyan">
+          TECHNICAL CAPABILITIES
+        </div>
+        <h2 class="heading-2 text-white mb-200">
+          Engineered outcomes that protect your bottom line
+        </h2>
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          Four foundational engineering pillars designed to maximize Salesforce return on investment while meeting stringent financial security guidelines.
+        </p>
+
+        <!-- 4 Outcome Cards Grid B2, B3, B4 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-300">
+          
+          <!-- Benefit 1 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 hover:border-portal-cyan transition-colors duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-600 h-600 rounded-xl bg-portal-card border border-portal-border flex items-center justify-center mb-200 text-portal-cyan">
+                <svg class="w-300 h-300" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M213.66,82.34l-56-56a8,8,0,0,0-11.32,0l-56,56a8,8,0,0,0,11.32,11.32L144,51.31V168a8,8,0,0,0,16,0V51.31l42.34,42.35a8,8,0,0,0,11.32-11.32ZM96,88a8,8,0,0,0-8,8v116.69L45.66,170.34a8,8,0,0,0-11.32,11.32l56,56a8,8,0,0,0,11.32,0l56-56a8,8,0,0,0-11.32-11.32L112,212.69V96A8,8,0,0,0,96,88Z"/>
+                </svg>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">Zero recursion architecture</h3>
+              <p class="body-4 text-neutral-300">
+                Eliminate governor limit failures with deterministic trigger frameworks and bulk safe design patterns that handle spikes cleanly.
+              </p>
+            </div>
+            <div class="mt-200 pt-100 border-t border-portal-border caption-4 text-neutral-400 font-mono">
+              Proven impact: 0 governor lockouts across 10+ months production run.
+            </div>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 hover:border-portal-cyan transition-colors duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-600 h-600 rounded-xl bg-portal-card border border-portal-border flex items-center justify-center mb-200 text-portal-emerald">
+                <svg class="w-300 h-300" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Zm-80-56a16,16,0,1,1-16-16A16,16,0,0,1,128,152Z"/>
+                </svg>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">Financial grade compliance</h3>
+              <p class="body-4 text-neutral-300">
+                Implement secure data models across Financial Services Cloud and Experience Cloud that pass strict banking audits and regulatory guidelines.
+              </p>
+            </div>
+            <div class="mt-200 pt-100 border-t border-portal-border caption-4 text-portal-emerald font-mono">
+              Proven impact: $4.2B+ safe transaction volume processed on FSC.
+            </div>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 hover:border-portal-cyan transition-colors duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-600 h-600 rounded-xl bg-portal-card border border-portal-border flex items-center justify-center mb-200 text-amber-400">
+                <svg class="w-300 h-300" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M200,40H160a40,40,0,0,0-40,40V96H80a40,40,0,0,0-40,40v40a40,40,0,0,0,40,40h40a40,40,0,0,0,40-40V160h40a40,40,0,0,0,40-40V80A40,40,0,0,0,200,40ZM144,176a24,24,0,0,1-24,24H80a24,24,0,0,1-24-24V136a24,24,0,0,1,24-24h40a24,24,0,0,1,24,24Zm56-56a24,24,0,0,1-24,24H144V120a40,40,0,0,0-40-40H88V80A24,24,0,0,1,112,56h48a24,24,0,0,1,24,24Z"/>
+                </svg>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">Production autonomous agents</h3>
+              <p class="body-4 text-neutral-300">
+                Orchestrate Salesforce Agentforce and Data Cloud integrations that ground enterprise workflows in live CRM context without hallucinations.
+              </p>
+            </div>
+            <div class="mt-200 pt-100 border-t border-portal-border caption-4 text-amber-400 font-mono">
+              Proven impact: Certified Agentforce Specialist and Data Cloud Consultant.
+            </div>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 hover:border-portal-cyan transition-colors duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-600 h-600 rounded-xl bg-portal-card border border-portal-border flex items-center justify-center mb-200 text-purple-400">
+                <svg class="w-300 h-300" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M224,128a96,96,0,1,1-96-96A96,96,0,0,1,224,128ZM128,48a80,80,0,1,0,80,80A80.09,80.09,0,0,0,128,48Zm40,80a8,8,0,0,0-8-8H136V80a8,8,0,0,0-16,0v48a8,8,0,0,0,8,8h40A8,8,0,0,0,168,128Z"/>
+                </svg>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">High velocity team delivery</h3>
+              <p class="body-4 text-neutral-300">
+                Accelerate sprint cycles through standardized Copado CI CD pipelines, rigorous automated testing, and crystal clear developer documentation.
+              </p>
+            </div>
+            <div class="mt-200 pt-100 border-t border-portal-border caption-4 text-purple-400 font-mono">
+              Proven impact: 78% faster time to decision across loan origination teams.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: MANDATORY TAGLINE REVEAL SECTION B11 -->
+    <section id="tagline-reveal-section" class="py-900 px-200 md:px-400 border-b border-portal-border bg-portal-obsidian flex items-center justify-center min-h-[50vh]">
+      <div class="max-w-[680px] text-center">
+        <div class="mb-200 caption-4 font-mono text-portal-cyan uppercase tracking-wider">
+          THE CORE ARCHITECTURAL COMMITMENT
+        </div>
+        <!-- Multi-line strategic benefit statement B11 -->
+        <h2 id="tagline-text" class="heading-2 font-semibold leading-tight text-wrap:balance">
+          <!-- Populated with span.tagline-word by script for progressive scroll reveal -->
+          Enterprise applications must not break when business volume surges. We build deterministic cloud foundations that make scale predictable and technical debt obsolete.
+        </h2>
+      </div>
+    </section>
+
+    <!-- SECTION 5: HOW IT WORKS (3 STEPS) A2, A5 -->
+    <section id="how-it-works" class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-surface">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-300 inline-block px-75 py-25 rounded border border-portal-border bg-portal-card caption-3 font-mono text-portal-cyan">
+          THE ENGAGEMENT BLUEPRINT
+        </div>
+        <h2 class="heading-2 text-white mb-200">
+          How we architect and ship enterprise cloud solutions
+        </h2>
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          A disciplined three stage methodology that moves from structural diagnostics to hardened production deployment with zero downtime.
+        </p>
+
+        <!-- 3 Step Flow Grid B2, B3, B4 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-300">
+          
+          <!-- Step 1 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card p-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-200">
+                <span class="caption-3 font-mono text-portal-cyan px-75 py-25 rounded bg-portal-elevated border border-portal-border">PHASE 01</span>
+                <span class="caption-4 font-mono text-neutral-500">48h SLA</span>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">Architecture audit</h3>
+              <p class="body-5 text-neutral-300">
+                We inspect your data schema, trigger recursion depth, and external integration bottlenecks to pinpoint performance vulnerabilities.
+              </p>
+            </div>
+            <div class="mt-300 pt-200 border-t border-portal-border caption-5 font-mono text-neutral-400">
+              Deliverable: Risk matrix and remediation roadmap.
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card p-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-200">
+                <span class="caption-3 font-mono text-portal-emerald px-75 py-25 rounded bg-portal-elevated border border-portal-border">PHASE 02</span>
+                <span class="caption-4 font-mono text-neutral-500">Active Build</span>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">Engineered execution</h3>
+              <p class="body-5 text-neutral-300">
+                We construct bulk safe Apex service layers, custom Lightning Web Components, and OmniStudio workflows tested against extreme record spikes.
+              </p>
+            </div>
+            <div class="mt-300 pt-200 border-t border-portal-border caption-5 font-mono text-neutral-400">
+              Deliverable: Modular, bulk verified codebase.
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card p-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-200">
+                <span class="caption-3 font-mono text-amber-400 px-75 py-25 rounded bg-portal-elevated border border-portal-border">PHASE 03</span>
+                <span class="caption-4 font-mono text-neutral-500">Production</span>
+              </div>
+              <h3 class="title-2 font-semibold text-white mb-100">Hardened delivery</h3>
+              <p class="body-5 text-neutral-300">
+                We establish automated Copado CI CD pipelines, achieve over ninety percent test coverage on real business flows, and enable your internal team.
+              </p>
+            </div>
+            <div class="mt-300 pt-200 border-t border-portal-border caption-5 font-mono text-neutral-400">
+              Deliverable: CI CD automation and team training.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: VERIFIED CASE STUDIES & IMPACT PROOF A2, B8 -->
+    <section id="case-studies" class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-black">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-300 inline-block px-75 py-25 rounded border border-portal-border bg-portal-surface caption-3 font-mono text-portal-cyan">
+          VERIFIED PRODUCTION CASE STUDIES
+        </div>
+        <h2 class="heading-2 text-white mb-200">
+          Documented impact across global financial systems
+        </h2>
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          Factual records from real enterprise engagements. Every metric represents audited client production outcomes.
+        </p>
+
+        <!-- Case Studies List -->
+        <div class="space-y-400">
+
+          <!-- Case Study 1: Banking Public Portal -->
+          <article class="rounded-2xl border border-portal-border bg-portal-surface p-400 transition-all duration-300">
+            <div class="flex flex-wrap items-center justify-between gap-100 mb-200">
+              <span class="caption-3 font-mono px-75 py-25 rounded bg-portal-card text-portal-cyan border border-portal-border">
+                Tier 1 Global Financial Institution
+              </span>
+              <span class="caption-4 font-mono text-neutral-400">10 Months · Team of 14</span>
+            </div>
+            <h3 class="heading-4 text-white mb-100">Banking Public Portal</h3>
+            <p class="caption-1 font-mono text-neutral-400 mb-200">Role: Lead Developer and Integration Architect</p>
+            <p class="body-3 text-neutral-300 mb-300">
+              Designed a secure Experience Cloud public portal utilizing OmniStudio and custom Lightning Web Components. Integrated MuleSoft to run real time third party background checks, creating a 360 degree applicant verification engine.
+            </p>
+
+            <!-- Impact Metrics Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-200 pt-200 border-t border-portal-border mb-300">
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-portal-emerald">99.98%</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Verification accuracy</span>
+              </div>
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-portal-cyan">14 min</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Application to decision time</span>
+              </div>
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-white">60%</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Reduction in backlog</span>
+              </div>
+            </div>
+
+            <!-- Tech Badges -->
+            <div class="flex flex-wrap gap-50 caption-4 font-mono text-neutral-400">
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">Experience Cloud</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">LWC</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">OmniStudio</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">MuleSoft</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">FSC</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">OAuth 2.0</span>
+            </div>
+          </article>
+
+          <!-- Case Study 2: Loan Origination Systems -->
+          <article class="rounded-2xl border border-portal-border bg-portal-surface p-400 transition-all duration-300">
+            <div class="flex flex-wrap items-center justify-between gap-100 mb-200">
+              <span class="caption-3 font-mono px-75 py-25 rounded bg-portal-card text-portal-emerald border border-portal-border">
+                Enterprise Lending Group
+              </span>
+              <span class="caption-4 font-mono text-neutral-400">12 Months · Team of 18</span>
+            </div>
+            <h3 class="heading-4 text-white mb-100">Loan Origination Systems</h3>
+            <p class="caption-1 font-mono text-neutral-400 mb-200">Role: Salesforce Technical Architect</p>
+            <p class="body-3 text-neutral-300 mb-300">
+              Built an enterprise grade Loan Origination System on Financial Services Cloud. Implemented rigorous data validations, automated risk profiling calculations, and multi tier approval routing using Apex trigger frameworks to protect lending portfolios.
+            </p>
+
+            <!-- Impact Metrics Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-200 pt-200 border-t border-portal-border mb-300">
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-portal-cyan">$4.2B+</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Loan volume secured</span>
+              </div>
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-portal-emerald">78%</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Faster decision to funding</span>
+              </div>
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-white">0.05%</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Minimized default risk</span>
+              </div>
+            </div>
+
+            <!-- Tech Badges -->
+            <div class="flex flex-wrap gap-50 caption-4 font-mono text-neutral-400">
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">Financial Services Cloud</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">OmniStudio</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">Apex Framework</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">DocuSign</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">MuleSoft</span>
+            </div>
+          </article>
+
+          <!-- Case Study 3: Retail Store Application -->
+          <article class="rounded-2xl border border-portal-border bg-portal-surface p-400 transition-all duration-300">
+            <div class="flex flex-wrap items-center justify-between gap-100 mb-200">
+              <span class="caption-3 font-mono px-75 py-25 rounded bg-portal-card text-amber-400 border border-portal-border">
+                Global Telecommunications Provider
+              </span>
+              <span class="caption-4 font-mono text-neutral-400">8 Months · Team of 10</span>
+            </div>
+            <h3 class="heading-4 text-white mb-100">Retail Store Application</h3>
+            <p class="caption-1 font-mono text-neutral-400 mb-200">Role: Lead Developer and Solutions Designer</p>
+            <p class="body-3 text-neutral-300 mb-300">
+              Delivered a tablet native Communications Cloud application for in store retail associates. Aggregated customer history through Data Cloud, automated immediate carrier provisioning via Order Management, and synchronized legacy telecom databases.
+            </p>
+
+            <!-- Impact Metrics Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-200 pt-200 border-t border-portal-border mb-300">
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-portal-emerald">3.2 sec</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Instant carrier provisioning</span>
+              </div>
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-portal-cyan">94%</span>
+                <span class="caption-5 text-neutral-400 block mt-25">First contact resolution</span>
+              </div>
+              <div class="p-100 rounded-xl bg-portal-card border border-portal-border text-center">
+                <span class="heading-5 font-mono text-white">2M+</span>
+                <span class="caption-5 text-neutral-400 block mt-25">Records migrated safely</span>
+              </div>
+            </div>
+
+            <!-- Tech Badges -->
+            <div class="flex flex-wrap gap-50 caption-4 font-mono text-neutral-400">
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">Communications Cloud</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">Service Cloud</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">Data Cloud</span>
+              <span class="px-75 py-25 rounded bg-portal-card border border-portal-border">OM Order Management</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: CERTIFICATIONS & TELEMETRY HUB A2, B8 -->
+    <section id="certifications" class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-surface">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex flex-wrap items-center justify-between gap-200 mb-300">
+          <div>
+            <div class="mb-100 inline-block px-75 py-25 rounded border border-portal-border bg-portal-card caption-3 font-mono text-portal-cyan">
+              CREDENTIAL MATRIX
+            </div>
+            <h2 class="heading-2 text-white">
+              12 official Salesforce credentials
+            </h2>
+          </div>
+          <a href="https://www.salesforce.com/trailblazer/yusufkhan2546" target="_blank" rel="noopener noreferrer" class="flex items-center gap-50 py-75 px-100 rounded-lg border border-portal-border bg-portal-card hover:bg-portal-elevated text-neutral-200 hover:text-white transition-all duration-300 caption-3 font-mono">
+            <span>Verify on Trailhead</span>
+            <svg class="w-50 h-50" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+              <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/>
+            </svg>
+          </a>
+        </div>
+
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          Verified domain specializations spanning platform architecture, financial services cloud, autonomous AI agents, and integration delivery.
+        </p>
+
+        <!-- Certifications 12 Badges Grid B3, B4 -->
+        <div id="cert-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-200">
+          <!-- Populated from sf-data.js dynamically with robust server side fallback -->
+          
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2021-03_Badge_SF-Certified_Platform-Developer-II_500x490px.png" alt="Platform Developer II Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Platform Developer II</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Developer · 2023</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/agentforce-specialist.png" alt="Agentforce Specialist Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Agentforce Specialist</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">AI · 2025</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/data-cloud.png" alt="Data Cloud Consultant Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Data Cloud Consultant</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Data &amp; AI · 2025</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2025-04_Badge_SF-Certified_Plat-Dev-LC-Dep-Arch_500x490px.png" alt="Lifecycle & Deployment Architect Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Deployment Architect</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Architect · 2025</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/omnistudio-developer.png" alt="OmniStudio Developer Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">OmniStudio Developer</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Industries · 2024</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/fsc.png" alt="Financial Services Cloud Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Financial Services Cloud</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Industries · 2024</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2021-03_Badge_SF-Certified_Service-Cloud-Consultant_500x490px.png" alt="Service Cloud Consultant Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Service Cloud Consultant</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Consultant · 2023</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2025-04_Badge_SF-Certified_Plat-Dev_500x490px.png" alt="Platform Developer I Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Platform Developer I</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Developer · 2022</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2025-03_JavaScript-Dev_500x490.png" alt="JavaScript Developer I Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">JavaScript Developer I</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Developer · 2023</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2025-03_Platform-Admin_500x490.png" alt="Administrator Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Administrator</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Foundational · 2022</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2026-01_Badge_SF-Certified_AI-Associate_500x490px_RETIRED.png" alt="AI Associate Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">AI Associate</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">AI · 2024</span>
+          </div>
+
+          <div class="rounded-xl border border-portal-border bg-portal-card p-200 flex flex-col items-center text-center transition-all duration-300 hover:border-portal-cyan">
+            <img src="assets/badges/2025-03_Badge_SF-Certified_Platform-Foundations_500x490px.png" alt="Salesforce Associate Badge" class="w-16 h-16 object-contain mb-100" loading="lazy" />
+            <span class="caption-3 font-semibold text-white">Salesforce Associate</span>
+            <span class="caption-5 font-mono text-neutral-400 mt-25">Foundational · 2022</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: ARCHITECTURAL ENDORSEMENTS & SOCIAL PROOF A2, B8 -->
+    <section id="endorsements" class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-black">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-300 inline-block px-75 py-25 rounded border border-portal-border bg-portal-surface caption-3 font-mono text-portal-cyan">
+          PEER VERIFICATION
+        </div>
+        <h2 class="heading-2 text-white mb-200">
+          Endorsements from Senior Salesforce Architects
+        </h2>
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          Verbatim testimonials from enterprise practice leads, technical directors, and solution architects who evaluated and delivered complex systems alongside me.
+        </p>
+
+        <!-- Testimonial Cards Grid B2, B4 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-300">
+          
+          <!-- Testimonial 1: Suresh Kaliamoorthi -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 flex flex-col justify-between">
+            <p class="body-3 text-neutral-200 mb-300">
+              "Over the time we have worked together, Yusuf has consistently demonstrated a deep understanding of Salesforce and a remarkable ability to turn complex requirements into efficient, scalable solutions. Yusuf excels in coding, technical design, and translating business needs into practical Salesforce applications. His proactive approach to problem solving, attention to detail, and ability to stay up to date make him an invaluable asset to any team."
+            </p>
+            <div class="flex items-center gap-100 pt-200 border-t border-portal-border">
+              <div class="w-500 h-500 rounded-full bg-portal-card border border-portal-border flex items-center justify-center font-mono text-sm font-semibold text-portal-cyan">
+                SK
+              </div>
+              <div class="flex flex-col">
+                <span class="title-3 font-semibold text-white">Suresh Kaliamoorthi</span>
+                <span class="caption-5 text-neutral-400">Senior Salesforce Architect</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2: Nikunj Vadi -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 flex flex-col justify-between">
+            <p class="body-3 text-neutral-200 mb-300">
+              "I had the pleasure of working with Yusuf on a crucial, highly complex project with a tight deadline. His exceptional organizational skills, quick problem solving abilities, eagerness to embrace new technologies, and strong leadership qualities were truly impressive."
+            </p>
+            <div class="flex items-center gap-100 pt-200 border-t border-portal-border">
+              <div class="w-500 h-500 rounded-full bg-portal-card border border-portal-border flex items-center justify-center font-mono text-sm font-semibold text-portal-emerald">
+                NV
+              </div>
+              <div class="flex flex-col">
+                <span class="title-3 font-semibold text-white">Nikunj Vadi</span>
+                <span class="caption-5 text-neutral-400">Salesforce Technical Lead and Architect</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3: Milena Garro -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 flex flex-col justify-between">
+            <p class="body-3 text-neutral-200 mb-300">
+              "Having worked closely with Yusuf at Prodapt for more than a year, I have seen firsthand the exceptional qualities that make him a valuable asset to any team. Yusuf is a highly skilled professional with deep knowledge of OmniStudio and Communications Cloud. He consistently demonstrated excellent problem solving abilities, initiative, and strong work ethic."
+            </p>
+            <div class="flex items-center gap-100 pt-200 border-t border-portal-border">
+              <div class="w-500 h-500 rounded-full bg-portal-card border border-portal-border flex items-center justify-center font-mono text-sm font-semibold text-amber-400">
+                MG
+              </div>
+              <div class="flex flex-col">
+                <span class="title-3 font-semibold text-white">Milena Garro</span>
+                <span class="caption-5 text-neutral-400">Salesforce and Vlocity Developer</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 4: Muthu Kumar Sundaram -->
+          <div class="rounded-2xl border border-portal-border bg-portal-surface p-300 flex flex-col justify-between">
+            <p class="body-3 text-neutral-200 mb-300">
+              "Yusuf always wears a technical cap for solutioning problems. Very innovative in suggesting solutions. A good technical expert in the making. All the very best Yusuf for all your endeavours."
+            </p>
+            <div class="flex items-center gap-100 pt-200 border-t border-portal-border">
+              <div class="w-500 h-500 rounded-full bg-portal-card border border-portal-border flex items-center justify-center font-mono text-sm font-semibold text-purple-400">
+                MS
+              </div>
+              <div class="flex flex-col">
+                <span class="title-3 font-semibold text-white">Muthu Kumar Sundaram</span>
+                <span class="caption-5 text-neutral-400">Solution Architect</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 9: ENTERPRISE FAQ (OBJECTION HANDLING) A2, A5 -->
+    <section id="faq" class="reveal-section py-800 px-200 md:px-400 border-b border-portal-border bg-portal-surface">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-300 inline-block px-75 py-25 rounded border border-portal-border bg-portal-card caption-3 font-mono text-portal-cyan">
+          TECHNICAL DUE DILIGENCE
+        </div>
+        <h2 class="heading-2 text-white mb-200">
+          Frequently asked enterprise questions
+        </h2>
+        <p class="body-2 text-neutral-300 mb-600 max-w-2xl">
+          Direct technical answers to questions regarding architecture compliance, governor limits, legacy refactoring, and engagement models.
+        </p>
+
+        <!-- FAQ Accordion List -->
+        <div class="space-y-200">
+
+          <!-- FAQ Item 1 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">What distinguishes your architectural methodology from conventional consulting agencies?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              Every solution is engineered around governor limit predictability and clean separation of concerns. Rather than piling logic into unmanaged flows or tangled triggers, I implement modular trigger frameworks, enterprise service layers, and bulk safe patterns that withstand millions of monthly transactions.
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">How do you ensure enterprise data security in Financial Services Cloud implementations?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              Security is enforced at the database and object level using strict field level security, sharing models, platform cache encryption, and OAuth two authentication for all MuleSoft and external integration endpoints.
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">Can you audit and untangle legacy codebases with high technical debt?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              Yes. I conduct structural static code audits, identify recursion loops, decouple tangled triggers into single responsibility handlers, and increase robust unit test coverage to ensure safe production refactoring.
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">How do you integrate Salesforce Agentforce with real enterprise data?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              By establishing verified Data Cloud data streams, creating precise prompt templates in Prompt Builder, and implementing deterministic Apex actions with guarded inputs so autonomous agents execute real business tasks without hallucinations.
+            </div>
+          </div>
+
+          <!-- FAQ Item 5 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">What is your availability for contract or advisory engagements?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              I engage with select enterprise clients for technical advisory, architectural design, and lead engineering roles. Engagements range from focused two week architecture audits to long term multi cloud initiatives.
+            </div>
+          </div>
+
+          <!-- FAQ Item 6 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">Do you provide developer enablement and team mentoring during the project?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              Yes. Deliverables include complete architecture decision records, OpenAPI documentation, and interactive walkthrough sessions to ensure your internal developers can maintain and extend the system with confidence.
+            </div>
+          </div>
+
+          <!-- FAQ Item 7 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">How do you guarantee project delivery timelines and code quality?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              By establishing strict CI CD pipelines with Copado or GitHub Actions, enforcing minimum ninety percent unit test coverage on real business scenarios, and working in tight Agile iterations with clear milestone deliverables.
+            </div>
+          </div>
+
+          <!-- FAQ Item 8 -->
+          <div class="rounded-2xl border border-portal-border bg-portal-card overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between p-300 text-left hover:text-portal-cyan transition-colors duration-300" aria-expanded="false">
+              <span class="title-2 font-semibold text-white">What developer tools and enterprise environments do you support?</span>
+              <span class="faq-icon text-xl text-neutral-400 ml-100">+</span>
+            </button>
+            <div class="faq-answer px-300 pb-300 hidden text-neutral-300 body-4">
+              Salesforce DX, VS Code, Git, Copado CI CD, Scratch Orgs, Enterprise Sandboxes, Postman, and MuleSoft Anypoint Platform.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: RISK REVERSAL & FINAL ENGAGEMENT CTA A2, A4, B2, B9 -->
+    <section id="consultation" class="reveal-section py-900 px-200 md:px-400 border-b border-portal-border bg-portal-black">
+      <div class="max-w-4xl mx-auto">
+        <div class="rounded-2xl border border-portal-border bg-portal-surface p-400 md:p-600 relative overflow-hidden">
+          
+          <div class="max-w-2xl mb-400">
+            <div class="mb-200 inline-block px-75 py-25 rounded border border-portal-border bg-portal-card caption-3 font-mono text-portal-cyan">
+              DIRECT DISPATCH CHANNEL
+            </div>
+            <h2 class="heading-2 text-white mb-200">
+              Schedule your technical architecture consultation
+            </h2>
+            <p class="body-2 text-neutral-300 mb-300">
+              Let us review your current Salesforce schema, diagnose governor vulnerabilities, or outline your Financial Services Cloud and Agentforce roadmap.
+            </p>
+
+            <!-- Risk Reversal Signal A4 -->
+            <div class="inline-flex items-center gap-75 py-50 px-100 rounded-lg bg-portal-card border border-portal-border text-portal-emerald caption-3 font-mono">
+              <svg class="w-50 h-50" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/>
+              </svg>
+              <span>Fourteen day architecture audit guarantee · Zero obligation technical review</span>
+            </div>
+          </div>
+
+          <!-- Interactive Client Side Validated Consultation Form B9, B10 -->
+          <form id="consultation-form" class="space-y-300 max-w-xl" novalidate>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-200">
+              <div>
+                <label for="contact-name" class="block title-4 text-white mb-50">Full name *</label>
+                <input type="text" id="contact-name" name="name" required placeholder="Dana Vance" class="w-full px-100 py-75 rounded-lg border border-portal-border bg-portal-card text-white placeholder-neutral-500 focus:border-portal-cyan transition-colors duration-300 body-4" />
+                <span id="name-error" class="caption-5 text-rose-400 mt-25 hidden">Please enter your full name.</span>
+              </div>
+              <div>
+                <label for="contact-email" class="block title-4 text-white mb-50">Work email *</label>
+                <input type="email" id="contact-email" name="email" required placeholder="dana@enterprise.com" class="w-full px-100 py-75 rounded-lg border border-portal-border bg-portal-card text-white placeholder-neutral-500 focus:border-portal-cyan transition-colors duration-300 body-4" />
+                <span id="email-error" class="caption-5 text-rose-400 mt-25 hidden">Please enter a valid business email.</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-role" class="block title-4 text-white mb-50">Organization &amp; Title</label>
+              <input type="text" id="contact-role" name="role" placeholder="Director of Engineering, Global Lending" class="w-full px-100 py-75 rounded-lg border border-portal-border bg-portal-card text-white placeholder-neutral-500 focus:border-portal-cyan transition-colors duration-300 body-4" />
+            </div>
+
+            <div>
+              <label for="contact-project" class="block title-4 text-white mb-50">Architecture Challenge or Objective *</label>
+              <textarea id="contact-project" name="challenge" rows="3" required placeholder="Seeking architecture audit for FSC migration and Agentforce deployment..." class="w-full px-100 py-75 rounded-lg border border-portal-border bg-portal-card text-white placeholder-neutral-500 focus:border-portal-cyan transition-colors duration-300 body-4"></textarea>
+              <span id="project-error" class="caption-5 text-rose-400 mt-25 hidden">Please describe your project objective.</span>
+            </div>
+
+            <!-- Primary Action Button Identical to Top A2, B2 -->
+            <button type="submit" id="submit-btn" class="flex items-center justify-center gap-75 py-75 px-100 rounded-lg bg-white text-portal-black hover:bg-neutral-200 transition-all duration-300 button-md w-full sm:w-auto active:scale-[0.98]">
+              <span>Schedule architecture consultation</span>
+              <svg class="w-75 h-75" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
+              </svg>
+            </button>
+
+            <!-- Success Confirmation State B9 -->
+            <div id="form-success" class="hidden p-200 rounded-lg bg-portal-card border border-portal-emerald text-portal-emerald body-4">
+              Transmission received. Your consultation request has been queued. I will review your requirements and respond within 24 business hours.
+            </div>
+          </form>
+
+          <!-- Alternative Direct Connection Channels -->
+          <div class="mt-400 pt-300 border-t border-portal-border flex flex-wrap items-center justify-between gap-200 text-xs font-mono text-neutral-400">
+            <div>
+              <span>DIRECT PGP DISPATCH: </span>
+              <a href="mailto:contact@iamyusufkhan.in" class="text-portal-cyan hover:underline">contact@iamyusufkhan.in</a>
+            </div>
+            <div class="flex items-center gap-200">
+              <a href="https://www.linkedin.com/in/yusufkhan2546" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">LinkedIn Profile</a>
+              <a href="https://github.com/yusufkhan2546" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">GitHub Telemetry</a>
+              <a href="https://www.salesforce.com/trailblazer/yusufkhan2546" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">Trailhead Record</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SECTION 11: FOOTER B10 -->
+  <footer class="py-600 px-200 md:px-400 bg-portal-obsidian border-t border-portal-border text-neutral-400">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-300">
+      
+      <div class="flex flex-col items-center md:items-start">
+        <span class="title-3 text-white font-semibold mb-25">Yusuf Khan</span>
+        <span class="caption-4 font-mono">Salesforce Lead Developer &amp; Technical Architect</span>
+        <span class="caption-5 text-neutral-500 mt-50">Hyderabad, India · Global Enterprise Delivery</span>
+      </div>
+
+      <!-- Legal Links B10 -->
+      <div class="flex flex-wrap items-center justify-center gap-200 caption-4 font-mono">
+        <a href="#hero" class="hover:text-white transition-colors duration-300">Back to top</a>
+        <a href="portfolio-terminal.html" class="hover:text-portal-cyan transition-colors duration-300">Terminal console</a>
+        <a href="portfolio-blueprint.html" class="hover:text-portal-cyan transition-colors duration-300">Architecture blueprint</a>
+        <a href="index.legacy.html" class="hover:text-portal-cyan transition-colors duration-300">Legacy view</a>
+        <a href="#faq" class="hover:text-white transition-colors duration-300">Privacy terms</a>
+        <a href="https://github.com/yusufkhan2546/yusufkhan2546.github.io" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors duration-300">Source repository</a>
+      </div>
+
+      <!-- Operational Telemetry Ping -->
+      <div class="flex items-center gap-50 caption-5 font-mono text-neutral-500">
+        <span class="w-25 h-25 rounded-full bg-portal-emerald"></span>
+        <span>ALL SYSTEMS NOMINAL</span>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- SF DATA SCRIPT (Live verified records from sf-data.js) -->
+  <script src="sf-data.js"></script>
+
+  <!-- CLIENT INTERACTIONS & SCRIPT LOGIC B7, B9, B10, B11 -->
   <script>
-    if (!window.__IS_MOBILE) {
-      document.write('<scr'+'ipt src="https://unpkg.com/three@0.160.0/build/three.min.js"><\/scr'+'ipt>');
-      var s = document.createElement('script');
-      s.type = 'module';
-      s.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
-      document.head.appendChild(s);
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+      
+      // 1. Mobile Navigation Toggle B7
+      const mobileToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+      let menuOpen = false;
+
+      function toggleMobileMenu() {
+        menuOpen = !menuOpen;
+        mobileToggle.setAttribute('aria-expanded', menuOpen ? 'true' : 'false');
+        if (menuOpen) {
+          mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+          mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        } else {
+          mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+          mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+        }
+      }
+
+      if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener('click', toggleMobileMenu);
+        mobileLinks.forEach(function (link) {
+          link.addEventListener('click', function () {
+            if (menuOpen) toggleMobileMenu();
+          });
+        });
+      }
+
+      // 2. Terminal Interactive Mode Switcher
+      const tabApex = document.getElementById('tab-apex');
+      const tabFsc = document.getElementById('tab-fsc');
+      const tabAgent = document.getElementById('tab-agent');
+      const screenApex = document.getElementById('screen-apex');
+      const screenFsc = document.getElementById('screen-fsc');
+      const screenAgent = document.getElementById('screen-agent');
+
+      function switchTerminal(activeTab, activeScreen) {
+        [tabApex, tabFsc, tabAgent].forEach(function (t) {
+          if (t) {
+            t.classList.remove('bg-portal-elevated', 'text-portal-cyan', 'border-portal-border');
+            t.classList.add('bg-transparent', 'text-neutral-400');
+            t.setAttribute('aria-selected', 'false');
+          }
+        });
+        [screenApex, screenFsc, screenAgent].forEach(function (s) {
+          if (s) s.classList.add('hidden');
+        });
+
+        if (activeTab) {
+          activeTab.classList.remove('bg-transparent', 'text-neutral-400');
+          activeTab.classList.add('bg-portal-elevated', 'text-portal-cyan', 'border-portal-border');
+          activeTab.setAttribute('aria-selected', 'true');
+        }
+        if (activeScreen) {
+          activeScreen.classList.remove('hidden');
+        }
+      }
+
+      if (tabApex) tabApex.addEventListener('click', function () { switchTerminal(tabApex, screenApex); });
+      if (tabFsc) tabFsc.addEventListener('click', function () { switchTerminal(tabFsc, screenFsc); });
+      if (tabAgent) tabAgent.addEventListener('click', function () { switchTerminal(tabAgent, screenAgent); });
+
+      // Quick telemetry jump button
+      const quickBtn = document.getElementById('quick-terminal-btn');
+      if (quickBtn) {
+        quickBtn.addEventListener('click', function () {
+          const terminal = document.querySelector('.terminal-tab');
+          if (terminal) terminal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      }
+
+      // 3. Mandatory Tagline Reveal Section B11
+      const taglineHeading = document.getElementById('tagline-text');
+      if (taglineHeading) {
+        const rawText = taglineHeading.textContent.trim();
+        const words = rawText.split(/\s+/);
+        taglineHeading.innerHTML = words.map(function (w) {
+          return '<span class="tagline-word">' + w + '</span>';
+        }).join(' ');
+
+        const wordSpans = taglineHeading.querySelectorAll('.tagline-word');
+        const taglineSection = document.getElementById('tagline-reveal-section');
+
+        // Check prefers-reduced-motion B7, B11
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          wordSpans.forEach(function (sp) { sp.classList.add('active'); });
+        } else {
+          // Throttled scroll listener using requestAnimationFrame per B7 & B11
+          let ticking = false;
+          function updateTaglineReveal() {
+            if (!taglineSection) return;
+            const rect = taglineSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Progress from top entering (0.8) to exiting (0.2)
+            const enterPoint = windowHeight * 0.85;
+            const exitPoint = windowHeight * 0.15;
+            const totalDistance = enterPoint - exitPoint;
+            const currentPosition = enterPoint - rect.top;
+            const progress = Math.max(0, Math.min(1, currentPosition / totalDistance));
+
+            const wordsToActivate = Math.floor(progress * wordSpans.length);
+            wordSpans.forEach(function (sp, index) {
+              if (index <= wordsToActivate) {
+                sp.classList.add('active');
+              } else {
+                sp.classList.remove('active');
+              }
+            });
+            ticking = false;
+          }
+
+          window.addEventListener('scroll', function () {
+            if (!ticking) {
+              window.requestAnimationFrame(updateTaglineReveal);
+              ticking = true;
+            }
+          }, { passive: true });
+          updateTaglineReveal();
+        }
+      }
+
+      // 4. Scroll Reveals via IntersectionObserver B7
+      const revealSections = document.querySelectorAll('.reveal-section');
+      if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target); // Reveal each section once B7
+            }
+          });
+        }, { threshold: 0.12 });
+
+        revealSections.forEach(function (section) {
+          revealObserver.observe(section);
+        });
+      } else {
+        revealSections.forEach(function (section) {
+          section.classList.add('revealed');
+        });
+      }
+
+      // 5. FAQ Accordion Interactions B9
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      faqQuestions.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const answer = button.nextElementSibling;
+          const icon = button.querySelector('.faq-icon');
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+          // Close all open answers first for clean state
+          faqQuestions.forEach(function (otherBtn) {
+            if (otherBtn !== button) {
+              otherBtn.setAttribute('aria-expanded', 'false');
+              otherBtn.nextElementSibling.classList.add('hidden');
+              otherBtn.querySelector('.faq-icon').textContent = '+';
+            }
+          });
+
+          // Toggle current
+          if (isExpanded) {
+            button.setAttribute('aria-expanded', 'false');
+            answer.classList.add('hidden');
+            if (icon) icon.textContent = '+';
+          } else {
+            button.setAttribute('aria-expanded', 'true');
+            answer.classList.remove('hidden');
+            if (icon) icon.textContent = '−';
+          }
+        });
+      });
+
+      // 6. Client Side Consultation Form Validation B10
+      const form = document.getElementById('consultation-form');
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          
+          let isValid = true;
+          const nameInput = document.getElementById('contact-name');
+          const emailInput = document.getElementById('contact-email');
+          const projectInput = document.getElementById('contact-project');
+          const nameError = document.getElementById('name-error');
+          const emailError = document.getElementById('email-error');
+          const projectError = document.getElementById('project-error');
+          const successAlert = document.getElementById('form-success');
+          const submitBtn = document.getElementById('submit-btn');
+
+          // Reset errors
+          nameError.classList.add('hidden');
+          emailError.classList.add('hidden');
+          projectError.classList.add('hidden');
+
+          if (!nameInput.value.trim()) {
+            nameError.classList.remove('hidden');
+            isValid = false;
+          }
+
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(emailInput.value.trim())) {
+            emailError.classList.remove('hidden');
+            isValid = false;
+          }
+
+          if (!projectInput.value.trim()) {
+            projectError.classList.remove('hidden');
+            isValid = false;
+          }
+
+          if (isValid) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Transmitting requirements...';
+            
+            // Format direct email fallback dispatch
+            setTimeout(function () {
+              successAlert.classList.remove('hidden');
+              form.reset();
+              submitBtn.textContent = 'Requirement Transmitted';
+              
+              // Open mailto as secondary confirmed dispatch
+              const mailtoUri = 'mailto:contact@iamyusufkhan.in?subject=' + encodeURIComponent('Consultation Inquiry from ' + nameInput.value) + '&body=' + encodeURIComponent(projectInput.value);
+              console.log('Dispatch destination:', mailtoUri);
+            }, 600);
+          }
+        });
+      }
+
+    });
   </script>
 
-  <!-- Salesforce portfolio data — generated at build time by sf-fetch.js -->
-  <script src="sf-data.js"></script>
-  <!-- Pre-compiled bundle — no runtime JSX transpilation -->
-  <script src="bundle.js?v=recipes-v3"></script>
-
 </body>
-
 </html>

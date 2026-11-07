@@ -1,0 +1,1465 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Yusuf Khan — Salesforce Lead Developer &amp; Architect</title>
+  <meta name="description" content="Portfolio of Yusuf Khan, a Salesforce Lead Developer &amp; Technical SME building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services." />
+  <meta name="keywords" content="Yusuf Khan, Salesforce Lead Developer, Salesforce Technical SME, Salesforce Architect, Apex, LWC, OmniStudio, Financial Services Cloud, FSC, Experience Cloud, Data Cloud, Agentforce" />
+  <meta name="author" content="Yusuf Khan" />
+  <link rel="canonical" href="https://iamyusufkhan.in/" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://iamyusufkhan.in/" />
+  <meta property="og:title" content="Yusuf Khan — Salesforce Lead Developer &amp; Architect" />
+  <meta property="og:description" content="Portfolio of Yusuf Khan, building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services." />
+  <meta property="og:image" content="https://iamyusufkhan.in/uploads/yusuf_cloud.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://iamyusufkhan.in/" />
+  <meta property="twitter:title" content="Yusuf Khan — Salesforce Lead Developer &amp; Architect" />
+  <meta property="twitter:description" content="Portfolio of Yusuf Khan, building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services." />
+  <meta property="twitter:image" content="https://iamyusufkhan.in/uploads/yusuf_cloud.png" />
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Yusuf Khan",
+      "url": "https://iamyusufkhan.in",
+      "image": "https://iamyusufkhan.in/uploads/yusuf_cloud.png",
+      "jobTitle": "Salesforce Lead Developer & Technical SME",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "K Square Group"
+      },
+      "alumniOf": {
+        "@type": "Organization",
+        "name": "Prodapt Solutions"
+      },
+      "knowsAbout": [
+        "Salesforce",
+        "Apex",
+        "Lightning Web Components (LWC)",
+        "OmniStudio",
+        "Financial Services Cloud (FSC)",
+        "Experience Cloud",
+        "Communications Cloud",
+        "Sales Cloud",
+        "Service Cloud",
+        "MuleSoft",
+        "Agentforce",
+        "AI"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/yusufkhan2546",
+        "https://www.salesforce.com/trailblazer/yusufkhan2546",
+        "https://github.com/yusufkhan2546"
+      ],
+      "description": "Salesforce Lead Developer & Technical SME with certifications including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant. Experienced in Banking & FSC, Retail/Commerce, and integrations."
+    }
+  </script>
+
+  <link rel="icon" type="image/png" href="uploads/YK.png" />
+  <!-- Google reCAPTCHA Enterprise -->
+  <script>
+    window._rcQueue = [];
+    window._rcReady = false;
+    window.onReCaptchaReady = function () {
+      window._rcReady = true;
+      window._rcQueue.forEach(function (fn) { fn(); });
+      window._rcQueue = [];
+    };
+  </script>
+  <script src="https://www.google.com/recaptcha/enterprise.js?onload=onReCaptchaReady&render=explicit" async defer></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F12CZVN8YV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-F12CZVN8YV');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  </noscript>
+
+  <style>
+    :root, html[data-theme="cyber-matrix"] {
+      --sf-blue: #00F0FF;
+      --sf-blue-deep: #00A3FF;
+      --sf-navy: #030712;
+      --sf-navy-2: #080D1F;
+      --sf-sky: rgba(0, 240, 255, 0.15);
+      --sf-cloud: rgba(0, 240, 255, 0.05);
+      --sf-trail: #00F0FF;
+      --sf-success: #10B981;
+      --sf-purple: #8B5CF6;
+      --sf-pink: #EC4899;
+      --ink: #F8FAFC;
+      --ink-2: rgba(248, 250, 252, 0.78);
+      --ink-3: rgba(248, 250, 252, 0.48);
+      --line: rgba(0, 240, 255, 0.22);
+      --line-2: rgba(0, 240, 255, 0.12);
+      --bg: #030712;
+      --bg-2: #070D1E;
+      --card: rgba(10, 18, 40, 0.65);
+      --card-solid: #0A1226;
+      --card-border: rgba(0, 240, 255, 0.28);
+      --accent: #00F0FF;
+      --accent-deep: #8B5CF6;
+      --accent-secondary: #EC4899;
+      --neon-glow: 0 0 25px rgba(0, 240, 255, 0.40);
+      --radius: 14px;
+      --shadow-1: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 240, 255, 0.10);
+      --shadow-2: 0 12px 36px -10px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 240, 255, 0.25);
+      --shadow-3: 0 30px 60px -20px rgba(0, 0, 0, 0.9), 0 0 45px rgba(139, 92, 246, 0.35);
+      --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+      --font-body: 'Manrope', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    }
+
+    html[data-theme="solar-flare"] {
+      --sf-blue: #F59E0B;
+      --sf-blue-deep: #D97706;
+      --sf-navy: #070503;
+      --sf-navy-2: #14100B;
+      --sf-sky: rgba(245, 158, 11, 0.15);
+      --sf-cloud: rgba(245, 158, 11, 0.05);
+      --sf-trail: #FBBF24;
+      --sf-purple: #F59E0B;
+      --sf-pink: #EF4444;
+      --ink: #FFFDF8;
+      --ink-2: rgba(255, 253, 248, 0.78);
+      --ink-3: rgba(255, 253, 248, 0.48);
+      --line: rgba(245, 158, 11, 0.24);
+      --line-2: rgba(245, 158, 11, 0.12);
+      --bg: #070503;
+      --bg-2: #14100B;
+      --card: rgba(28, 20, 12, 0.65);
+      --card-solid: #19120A;
+      --card-border: rgba(245, 158, 11, 0.30);
+      --accent: #F59E0B;
+      --accent-deep: #D97706;
+      --accent-secondary: #EF4444;
+      --neon-glow: 0 0 25px rgba(245, 158, 11, 0.40);
+    }
+
+    html[data-theme="neon-nebula"] {
+      --sf-blue: #A855F7;
+      --sf-blue-deep: #9333EA;
+      --sf-navy: #0A0413;
+      --sf-navy-2: #150926;
+      --sf-sky: rgba(168, 85, 247, 0.15);
+      --sf-cloud: rgba(168, 85, 247, 0.05);
+      --sf-trail: #F43F5E;
+      --sf-purple: #A855F7;
+      --sf-pink: #F43F5E;
+      --ink: #FDF4FF;
+      --ink-2: rgba(253, 244, 255, 0.78);
+      --ink-3: rgba(253, 244, 255, 0.48);
+      --line: rgba(168, 85, 247, 0.24);
+      --line-2: rgba(168, 85, 247, 0.12);
+      --bg: #0A0413;
+      --bg-2: #150926;
+      --card: rgba(28, 14, 46, 0.65);
+      --card-solid: #170A2A;
+      --card-border: rgba(168, 85, 247, 0.30);
+      --accent: #A855F7;
+      --accent-deep: #EC4899;
+      --accent-secondary: #38BDF8;
+      --neon-glow: 0 0 25px rgba(168, 85, 247, 0.40);
+    }
+
+    html[data-theme="apex-cyber"] {
+      --sf-blue: #10B981;
+      --sf-blue-deep: #059669;
+      --sf-navy: #030A08;
+      --sf-navy-2: #081A14;
+      --sf-sky: rgba(16, 185, 129, 0.15);
+      --sf-cloud: rgba(16, 185, 129, 0.05);
+      --sf-trail: #10B981;
+      --sf-purple: #10B981;
+      --sf-pink: #06B6D4;
+      --ink: #F0FDF4;
+      --ink-2: rgba(240, 253, 244, 0.78);
+      --ink-3: rgba(240, 253, 244, 0.48);
+      --line: rgba(16, 185, 129, 0.24);
+      --line-2: rgba(16, 185, 129, 0.12);
+      --bg: #030A08;
+      --bg-2: #081A14;
+      --card: rgba(10, 32, 26, 0.65);
+      --card-solid: #0A211A;
+      --card-border: rgba(16, 185, 129, 0.30);
+      --accent: #10B981;
+      --accent-deep: #0284C7;
+      --accent-secondary: #6366F1;
+      --neon-glow: 0 0 25px rgba(16, 185, 129, 0.40);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 90% 70% at 80% 0%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%),
+        radial-gradient(ellipse 75% 50% at 10% 30%, color-mix(in oklab, var(--accent-deep) 18%, transparent), transparent 60%),
+        radial-gradient(ellipse 90% 60% at 90% 100%, color-mix(in oklab, var(--sf-blue) 12%, transparent), transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 40%, #02040A 100%);
+      background-attachment: fixed;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* persistent starfield across whole page */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255, 255, 255, .9), transparent 100%),
+        radial-gradient(1px 1px at 70% 20%, rgba(180, 230, 255, .7), transparent 100%),
+        radial-gradient(1.2px 1.2px at 45% 70%, rgba(255, 255, 255, .6), transparent 100%),
+        radial-gradient(1px 1px at 88% 60%, rgba(180, 230, 255, .5), transparent 100%),
+        radial-gradient(1.5px 1.5px at 12% 80%, rgba(255, 220, 140, .6), transparent 100%),
+        radial-gradient(1px 1px at 60% 90%, rgba(255, 255, 255, .5), transparent 100%),
+        radial-gradient(1px 1px at 35% 15%, rgba(255, 255, 255, .7), transparent 100%),
+        radial-gradient(1.2px 1.2px at 78% 45%, rgba(180, 230, 255, .4), transparent 100%),
+        radial-gradient(1px 1px at 5% 50%, rgba(255, 255, 255, .6), transparent 100%),
+        radial-gradient(1.4px 1.4px at 95% 25%, rgba(255, 255, 255, .5), transparent 100%);
+      background-size: 1200px 800px;
+      opacity: .9;
+      animation: starDrift 120s linear infinite;
+    }
+
+    @keyframes starDrift {
+      from {
+        background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+      }
+
+      to {
+        background-position: 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px, 1200px 800px;
+      }
+    }
+
+    /* keep everything above the starfield */
+    body>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    ::selection {
+      background: var(--sf-blue);
+      color: white;
+    }
+
+    /* Custom cursor + lightning trail */
+    .cursor-trail-badge {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 32px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .08s ease-out, width .2s, height .2s;
+      filter: drop-shadow(0 4px 10px rgba(0, 40, 90, .45));
+    }
+
+    .cursor-trail-badge.hover {
+      width: 44px;
+      height: 47px;
+    }
+
+    .cursor-trail-badge.hover svg .badge-bg {
+      fill: var(--sf-blue);
+    }
+
+    .cursor-trail-badge.hover svg .badge-mountain {
+      fill: white;
+    }
+
+    #bolt-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* Page transitions */
+    .page-shell {
+      min-height: 100vh;
+    }
+
+    .page-enter {
+      animation: pageIn .55s cubic-bezier(.2, .7, .2, 1) both;
+    }
+
+    @keyframes pageIn {
+      0% {
+        opacity: 0;
+        transform: translateY(14px);
+        filter: blur(6px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: none;
+        filter: blur(0);
+      }
+    }
+
+    /* Common buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: .01em;
+      border: 1.5px solid transparent;
+      background: var(--ink);
+      color: white;
+      transition: transform .15s ease, background .2s, color .2s, border-color .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-2);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 8px 22px -8px var(--accent);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+
+    .btn.ghost:hover {
+      border-color: var(--ink);
+    }
+
+    .btn.dark {
+      background: var(--accent-deep);
+      color: white;
+    }
+
+    /* utility */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: var(--sf-sky);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in oklab, var(--sf-blue) 22%, transparent);
+    }
+
+    .eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sf-blue);
+      box-shadow: 0 0 8px var(--sf-blue);
+    }
+
+    .h-display {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      line-height: 1;
+    }
+
+    .h-section {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      font-size: 56px;
+      line-height: 1.02;
+    }
+
+    .body-lg {
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--ink-2);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    /* Lightning bolt SVG glyph reused */
+    .bolt-glyph {
+      color: var(--accent);
+    }
+
+    /* Nav */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px) saturate(1.2);
+      background: rgba(5, 8, 24, .7);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--sf-blue), var(--sf-navy));
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: 0 4px 12px -2px var(--sf-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+    }
+
+    .nav-link {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink-2);
+      transition: color .15s, background .15s;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+      background: var(--sf-cloud);
+    }
+
+    .nav-link.active {
+      color: #FFFFFF;
+      background: var(--sf-sky);
+    }
+
+    /* Page wrapper */
+    .page {
+      padding: 56px 0 120px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    /* Hero name — come-to-life animations when a star lands */
+    .hero-name {
+      transition: filter .35s ease;
+      will-change: filter;
+    }
+
+    .hero-name.name-spark {
+      animation: nameLive 1.1s cubic-bezier(.2, 1.6, .4, 1) both;
+    }
+
+    @keyframes nameLive {
+      0% {
+        filter: brightness(1) drop-shadow(0 0 0 rgba(255, 220, 140, 0));
+        transform: scale(1);
+      }
+
+      25% {
+        filter: brightness(1.65) drop-shadow(0 0 28px rgba(255, 220, 140, .85));
+        transform: scale(1.02);
+      }
+
+      60% {
+        filter: brightness(1.25) drop-shadow(0 0 16px rgba(180, 230, 255, .55));
+        transform: scale(1.005);
+      }
+
+      100% {
+        filter: brightness(1) drop-shadow(0 0 0 rgba(255, 220, 140, 0));
+        transform: scale(1);
+      }
+    }
+
+    .hero-name::after {
+      content: "";
+      position: absolute;
+      inset: -20% -8%;
+      background: linear-gradient(110deg,
+          transparent 30%,
+          rgba(255, 220, 140, 0) 45%,
+          rgba(255, 255, 255, .55) 50%,
+          rgba(255, 220, 140, 0) 55%,
+          transparent 70%);
+      background-size: 250% 100%;
+      background-position: 100% 0;
+      mix-blend-mode: screen;
+      opacity: 0;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(180deg, black, black);
+      border-radius: 12px;
+    }
+
+    .hero-name.name-spark::after {
+      animation: nameShine 1.1s cubic-bezier(.4, .2, .6, 1) both;
+    }
+
+    @keyframes nameShine {
+      0% {
+        background-position: 100% 0;
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      100% {
+        background-position: -100% 0;
+        opacity: 0;
+      }
+    }
+
+    .name-sparkle-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #ffd479 40%, transparent 70%);
+      box-shadow: 0 0 24px 8px rgba(255, 220, 140, .8), 0 0 60px 20px rgba(255, 220, 140, .35);
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      animation: sparkleDot .9s cubic-bezier(.2, 1.4, .4, 1) both;
+    }
+
+    @keyframes sparkleDot {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+      }
+
+      40% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translate(-50%, -50%) scale(.4);
+        opacity: 0;
+      }
+    }
+
+    /* Grid bg patterns with cyber HUD grid overlay */
+    .grid-bg {
+      background-image:
+        linear-gradient(to right, color-mix(in oklab, var(--accent) 12%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, var(--accent) 12%, transparent) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .dot-bg {
+      background-image: radial-gradient(color-mix(in oklab, var(--accent) 22%, transparent) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* Futuristic HUD Grid & Overlay */
+    .cyber-hud-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-hud-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 15%, transparent), transparent 70%),
+        linear-gradient(to right, color-mix(in oklab, var(--accent) 8%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, var(--accent) 8%, transparent) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px, 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Common card — futuristic glass on obsidian */
+    .card, .glass-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .card:hover, .glass-card:hover {
+      box-shadow: var(--shadow-2);
+      border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+      transform: translateY(-2px);
+    }
+
+    .cyber-card {
+      background: rgba(8, 15, 32, 0.65);
+      border: 1px solid color-mix(in oklab, var(--accent) 25%, transparent);
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cyber-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.6;
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.7), var(--neon-glow);
+    }
+
+    /* Futuristic HUD Pill Badge */
+    .hud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--accent) 12%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+      box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 20%, transparent);
+    }
+
+    .hud-badge .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: hudPulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes hudPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.5; }
+    }
+
+    /* Futuristic Theme Switcher Pills */
+    .theme-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(3, 7, 18, 0.6);
+      border: 1px solid var(--line);
+      padding: 3px;
+      border-radius: 999px;
+      backdrop-filter: blur(12px);
+    }
+
+    .theme-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--ink-2);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .theme-btn.active {
+      color: #FFFFFF;
+      background: color-mix(in oklab, var(--accent) 25%, transparent);
+      border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
+      box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 30%, transparent);
+    }
+
+    .theme-dot-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* sections — kill the bright stripe backgrounds, let cosmic show through */
+    main section {
+      background: transparent !important;
+      border-top-color: var(--line) !important;
+    }
+
+    main section[style*="linear-gradient"] {
+      background: transparent !important;
+    }
+
+    /* buttons revised for dark surface */
+    .btn {
+      background: rgba(255, 255, 255, .06);
+      color: var(--ink);
+      border-color: rgba(180, 210, 255, .18);
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, .10);
+    }
+
+    .btn.primary {
+      background: linear-gradient(90deg, var(--sf-blue), var(--sf-purple));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 10px 28px -10px rgba(0, 161, 224, .6);
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: rgba(180, 210, 255, .22);
+    }
+
+    .btn.ghost:hover {
+      background: rgba(255, 255, 255, .06);
+      border-color: rgba(180, 210, 255, .45);
+    }
+
+    .btn.dark {
+      background: rgba(255, 255, 255, .08);
+      color: white;
+    }
+
+    /* "Trail" themed underline */
+    .trail-underline {
+      background-image: linear-gradient(90deg, transparent, var(--sf-blue), transparent);
+      height: 2px;
+      width: 100%;
+    }
+
+    /* ─── Desktop only — hide mobile-only elements ─────── */
+    @media (min-width: 641px) {
+      .mobile-stats-strip   { display: none !important; }
+    }
+
+    /* ─── Performance ─────────────────────────────────────── */
+    /* GPU-composite the nav (prevents repaints on scroll) */
+    .nav { will-change: transform; }
+
+    /* Defer rendering of below-fold sections */
+    main section + section {
+      content-visibility: auto;
+      contain-intrinsic-size: 0 600px;
+    }
+
+    /* Reduce backdrop-filter cost on mobile */
+    @media (max-width: 900px) {
+      .nav { backdrop-filter: blur(8px) !important; }
+      .glass-card, .card { backdrop-filter: none !important; }
+    }
+
+    /* ─── Mobile performance — kill expensive rendering ──── */
+    @media (max-width: 900px) {
+      /* Stop the persistent starfield CSS animation */
+      body::before { animation: none !important; opacity: 0.4; }
+
+      /* Freeze background blobs in hero — they use GPU constantly */
+      @keyframes blob1 { 0%,100% { transform: none; } }
+      @keyframes blob2 { 0%,100% { transform: none; } }
+      @keyframes blob3 { 0%,100% { transform: none; } }
+
+      /* Kill marquee scroll animation — use static display */
+      @keyframes marquee { 0%,100% { transform: none; } }
+
+      /* Remove all backdrop-filter (most expensive CSS prop on mobile) */
+      * { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+      /* Simplify nav background */
+      .nav { background: rgba(5,8,24,.97) !important; }
+
+      /* Kill the SVG trail animations */
+      svg animate { display: none; }
+      svg animateMotion { display: none; }
+
+      /* Reduce will-change surface area */
+      * { will-change: auto !important; }
+
+      /* Disable scroll-driven entrance animations — show content immediately */
+      .page-enter { animation: none !important; }
+      .anim-word, .anim-fig, .anim-marquee { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+
+      /* No box-shadow blur on mobile */
+      .card { box-shadow: 0 2px 8px rgba(0,0,0,.4) !important; }
+
+      /* Simpler base on mobile — page-shell gradient provides depth */
+      body { background: #050818 !important; }
+    }
+
+    /* Custom cursor — only hide default cursor when badge cursor is enabled */
+    body.custom-cursor,
+    body.custom-cursor button,
+    body.custom-cursor a,
+    body.custom-cursor .btn,
+    body.custom-cursor .hoverable { cursor: none !important; }
+
+    /* ─── Section background blending ────────────────────── */
+    /* A single continuous gradient that all home sections sit on,
+       flowing from hero navy → cosmic dark → deep midnight */
+    .page-shell {
+      background: linear-gradient(
+        180deg,
+        #0a1b3c  0%,
+        #060e28  8%,
+        #050818  20%,
+        #07101f  38%,
+        #050818  55%,
+        #04091a  75%,
+        #020508  100%
+      );
+    }
+
+    /* Let sections show through the page-shell gradient */
+    main > section {
+      background: transparent !important;
+    }
+
+    /* ─── Responsive ──────────────────────────────────────── */
+
+    /* Tablet + Desktop nav-links hide */
+    @media (max-width: 900px) {
+      .h-section { font-size: 40px; }
+      .nav-links  { display: none; }
+    }
+
+    /* iOS Safari: fixed bg causes repaint jank */
+    body {
+      background-attachment: scroll;
+    }
+
+    /* Touch devices: restore pointer cursor */
+    @media (hover: none) and (pointer: coarse) {
+      body, button, a { cursor: auto !important; }
+    }
+
+    /* ── Mobile (≤ 640px) ───────────────────────────────── */
+    @media (max-width: 640px) {
+      .container   { padding: 0 16px; }
+      .h-section   { font-size: 28px; line-height: 1.1; }
+      .body-lg     { font-size: 15px; }
+      .page        { padding: 32px 0 80px; }
+      .eyebrow     { font-size: 10px; }
+
+      /* Hero wordmark clamp already uses vw but the 13vw
+         value is still huge on 360px — tighten here */
+      .hero-wordmark { font-size: clamp(64px, 18vw, 120px) !important; }
+
+      /* Stats strip: 2 × 2 grid */
+      .hero-stats  { grid-template-columns: repeat(2, 1fr) !important; max-width: 100% !important; }
+
+      /* CTA strip card */
+      .cta-card    { padding: 36px 20px !important; }
+      .cta-heading { font-size: 32px !important; line-height: 1.1 !important; }
+      .cta-glyph   { display: none !important; }
+
+      /* SkillsTrail — use a text list fallback */
+      .skills-svg-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+      /* Nav: hide both CTA buttons; show hamburger */
+      .nav-cta-group { display: none !important; }
+      .nav-hamburger { display: flex !important; }
+
+      /* Footer mobile: flex-wrap so brand and currently take full row,
+         sitemap + domains sit side-by-side in the same row */
+      .footer-grid        { display: flex !important; flex-wrap: wrap !important; gap: 20px !important; }
+      .footer-brand       { width: 100% !important; }
+      .footer-grid > div:not(.footer-brand):not(.footer-currently) { flex: 1 1 40% !important; min-width: 120px; }
+      .footer-currently   { width: 100% !important; }
+      .footer-bottom      { flex-direction: column !important; gap: 8px !important; text-align: center; }
+
+      /* Experience timeline: stack */
+      .timeline-card     { padding-left: 36px !important; }
+      .timeline-dot      { left: 0 !important; top: 6px !important; }
+      .timeline-axis     { left: 10px !important; top: 34px !important; }
+
+      /* Tech matrix: single column */
+      .tech-matrix  { grid-template-columns: 1fr !important; }
+      .tech-sidebar { display: none !important; }
+      .tech-main    { grid-template-columns: 1fr !important; }
+
+      /* Projects: single column card grid */
+      .projects-grid { grid-template-columns: 1fr !important; }
+
+      /* Certs: ledger row wrap */
+      .cert-row-meta { display: none !important; }
+
+      /* ── Projects page ─────────────────────── */
+      .project-card-header      { grid-template-columns: auto 1fr !important; }
+      .desktop-only-btn         { display: none !important; }
+      .desktop-expand-section   { display: none !important; }
+      .mobile-stats-strip       { display: block !important; }
+      .pipeline-grid            { grid-template-columns: repeat(2, 1fr) !important; }
+      .diagram-2col             { grid-template-columns: 1fr !important; }
+      .challenge-grid           { grid-template-columns: 1fr !important; }
+      .impact-strip             { grid-template-columns: 1fr !important; }
+      .project-expand-pad       { padding: 16px !important; }
+      .project-card-pad         { padding: 20px !important; }
+      .page-head                { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+      .page-head-actions        { display: flex; gap: 10px; flex-wrap: wrap; width: 100%; }
+
+      /* ── Contact page ──────────────────────── */
+      .contact-layout           { display: flex !important; flex-direction: column !important; gap: 16px !important; }
+      .contact-aside            { display: contents !important; }
+      .name-fields              { grid-template-columns: 1fr !important; }
+      .availability-strip       { grid-template-columns: 1fr !important; }
+      .availability-strip .avail-btn { width: 100%; justify-content: center; margin-top: 8px; }
+      .form-card                { padding: 20px !important; border-radius: 16px !important; }
+      .form-footer              { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+      .form-footer .submit-btn  { width: 100%; justify-content: center; }
+      .success-card             { padding: 36px 20px !important; margin: 40px auto !important; }
+    }
+
+    /* ─── Tablet (641px – 900px) ─────────────────────────── */
+    @media (min-width: 641px) and (max-width: 900px) {
+      .container   { padding: 0 24px; }
+      .h-section   { font-size: 36px; }
+
+      /* Stats strip: 2 × 2 */
+      .hero-stats  { grid-template-columns: repeat(2, 1fr) !important; max-width: 100% !important; }
+
+      /* CTA strip */
+      .cta-card    { padding: 48px 32px !important; }
+      .cta-heading { font-size: 40px !important; }
+      .cta-glyph   { display: none !important; }
+
+      /* Nav */
+      .nav-cta-group { display: none !important; }
+      .nav-hamburger { display: flex !important; }
+
+      /* Footer: 2-column */
+      .footer-grid { grid-template-columns: 1fr 1fr !important; }
+
+      /* Experience timeline: stack */
+      .timeline-card { padding-left: 36px !important; }
+      .timeline-dot  { left: 0 !important; top: 6px !important; }
+      .timeline-axis { left: 10px !important; top: 34px !important; }
+
+      /* Projects & Contact on tablet */
+      .pipeline-grid    { grid-template-columns: repeat(3, 1fr) !important; }
+      .contact-layout   { grid-template-columns: 1fr !important; }
+      .challenge-grid   { grid-template-columns: 1fr !important; }
+      .page-head        { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+      .page-head-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    }
+
+    /* ── Hamburger / Mobile Drawer ──────────────────────── */
+    .nav-hamburger {
+      display: none;
+      align-items: center; justify-content: center;
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(180,210,255,.18);
+      color: var(--ink); font-size: 18px;
+      cursor: auto;
+      transition: background .15s;
+      flex-shrink: 0;
+    }
+    .nav-hamburger:hover { background: rgba(255,255,255,.12); }
+
+    .mobile-drawer {
+      position: fixed; inset: 0; z-index: 9990;
+      background: rgba(5,8,24,.97);
+      backdrop-filter: blur(18px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 28px;
+      animation: drawerIn .25s ease both;
+    }
+    @keyframes drawerIn {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .drawer-link {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 7vw, 40px);
+      font-weight: 700; color: var(--ink);
+      letter-spacing: -.01em;
+      transition: color .15s;
+    }
+    .drawer-link:hover, .drawer-link.active { color: var(--accent); }
+    .drawer-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(180,210,255,.18);
+      color: var(--ink); font-size: 20px;
+      display: grid; place-items: center;
+      cursor: auto;
+    }
+    .drawer-ctas {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+      margin-top: 8px;
+    }
+
+    /* Cosmic Chat Widget Styles */
+    .cosmic-chat-window {
+      position: fixed;
+      bottom: 120px;
+      right: 24px;
+      width: 380px;
+      height: 520px;
+      max-width: calc(100vw - 48px);
+      max-height: calc(100vh - 160px);
+      background: rgba(10, 20, 50, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(180, 210, 255, 0.2);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 161, 224, 0.15);
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      overflow: hidden;
+      font-family: var(--font-body);
+      animation: chatFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes chatFadeIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .cosmic-chat-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(3, 45, 96, 0.6), rgba(127, 0, 255, 0.15));
+      border-bottom: 1px solid rgba(180, 210, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cosmic-chat-header-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cosmic-chat-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sf-blue), var(--sf-purple));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: white;
+      font-size: 14px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .cosmic-chat-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+    }
+    .cosmic-chat-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 1px;
+    }
+    .cosmic-chat-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sf-success);
+      box-shadow: 0 0 8px var(--sf-success);
+    }
+    .cosmic-chat-status-dot.connecting {
+      background: #EAB308;
+      box-shadow: 0 0 8px #EAB308;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    .cosmic-chat-close {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 20px;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .cosmic-chat-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .cosmic-chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+    .cosmic-chat-message {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13.5px;
+      line-height: 1.45;
+      animation: msgPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes msgPop {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .cosmic-chat-message.agent {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(180, 210, 255, 0.15);
+      color: var(--ink);
+      border-bottom-left-radius: 4px;
+    }
+    .cosmic-chat-message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--sf-blue), var(--sf-purple));
+      color: white;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 14px rgba(0, 161, 224, 0.2);
+    }
+    .cosmic-chat-input-area {
+      padding: 16px;
+      border-top: 1px solid rgba(180, 210, 255, 0.15);
+      background: rgba(5, 8, 24, 0.4);
+      display: flex;
+      gap: 10px;
+    }
+    .cosmic-chat-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(180, 210, 255, 0.15);
+      border-radius: 999px;
+      padding: 10px 18px;
+      color: white;
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .cosmic-chat-input:focus {
+      border-color: var(--sf-blue);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .cosmic-chat-send {
+      background: var(--sf-blue);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .cosmic-chat-send:hover {
+      background: var(--sf-blue-deep);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px var(--sf-blue);
+    }
+    .cosmic-chat-send:disabled {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.3);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    /* Typing indicator */
+    .cosmic-chat-typing {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(180, 210, 255, 0.1);
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+      width: fit-content;
+    }
+    .cosmic-chat-typing span {
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      animation: typing 1.4s infinite both;
+    }
+    .cosmic-chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+    .cosmic-chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+  </style>
+
+  <script>
+    // Detect low-power / mobile devices
+    const _isMobile = window.innerWidth <= 900 || ('ontouchstart' in window);
+    window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accent": "#0070D2",
+      "accentDeep": "#032D60",
+      "boltTrail": false,
+      "showCursor": false,
+      "mascot": true,
+      "mapplsToken": ""
+    }/*EDITMODE-END*/;
+    window.__IS_MOBILE = _isMobile;
+  </script>
+
+</head>
+
+<body>
+
+  <div id="root">
+    <!-- SEO fallback content for non-JS web crawlers and screen readers -->
+    <header style="padding: 20px; text-align: center;">
+      <h1>Yusuf Khan — Salesforce Developer</h1>
+      <p>Building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services.</p>
+      <nav style="margin: 10px 0;">
+        <a href="#home">Home</a> | 
+        <a href="#certs">Certifications</a> | 
+        <a href="#projects">Projects</a> | 
+        <a href="#experience">Experience</a> | 
+        <a href="#gigs">Services</a> | 
+        <a href="#demos">Demos &amp; Articles</a> | 
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main style="padding: 20px; max-width: 800px; margin: 0 auto; line-height: 1.6;">
+      <section id="about" style="margin-bottom: 30px;">
+        <h2>About Yusuf Khan</h2>
+        <p>I am a Salesforce Developer &amp; Technical SME based in Hyderabad, India. With deep expertise in design, development, and integration of Salesforce clouds (including Financial Services Cloud, Communications Cloud, Sales &amp; Service Cloud, Experience Cloud, and OmniStudio/Vlocity), I help organizations deliver high-performing, scalable solutions.</p>
+        <p>Currently serving as a Salesforce Developer &amp; Technical SME at K Square Group, and previously Software Engineer (Salesforce) at Prodapt Solutions.</p>
+      </section>
+
+      <section id="certifications" style="margin-bottom: 30px;">
+        <h2>Salesforce Certifications</h2>
+        <ul>
+          <li>Platform Developer II (PD2)</li>
+          <li>Agentforce Specialist</li>
+          <li>Data Cloud Consultant</li>
+          <li>OmniStudio Developer</li>
+          <li>Financial Services Cloud (FSC)</li>
+          <li>Lifecycle &amp; Deployment Architect</li>
+          <li>Platform Developer I (PD1)</li>
+          <li>JavaScript Developer I</li>
+          <li>Service Cloud Consultant</li>
+          <li>Administrator</li>
+          <li>AI Associate</li>
+          <li>Salesforce Associate</li>
+        </ul>
+      </section>
+
+      <section id="projects" style="margin-bottom: 30px;">
+        <h2>Key Projects</h2>
+        <ul>
+          <li>
+            <h3>Banking Public Portal</h3>
+            <p><strong>Role:</strong> Lead Developer &amp; Integration Architect</p>
+            <p><strong>Client:</strong> Tier-1 Global Financial Institution</p>
+            <p>Designed a custom, high-security Experience Cloud public portal utilizing OmniStudio and custom LWCs, integrating MuleSoft to run real-time 3rd-party background checks and automated risk-profiling.</p>
+          </li>
+          <li>
+            <h3>Loan Origination Systems</h3>
+            <p><strong>Role:</strong> Salesforce Technical Architect</p>
+            <p><strong>Client:</strong> Enterprise Lending Group</p>
+            <p>Built a secure, enterprise-grade Loan Origination System on FSC with deep validations, risk-profiling calculations, and multi-tier approval routing using Apex trigger frameworks.</p>
+          </li>
+          <li>
+            <h3>Retail Store Application</h3>
+            <p><strong>Role:</strong> Lead Developer &amp; Solutions Designer</p>
+            <p><strong>Client:</strong> Global Telecommunications Provider</p>
+            <p>Delivered a tablet-native Communications Cloud retail application that aggregates customer history via Data Cloud and orchestrates SIM and network provisioning.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="experience" style="margin-bottom: 30px;">
+        <h2>Work Experience</h2>
+        <ul>
+          <li>
+            <h3>K Square Group — Salesforce Developer &amp; Technical SME</h3>
+            <p>Sep 2024 — Present | Hyderabad, India</p>
+            <p>Led delivery of Salesforce implementations for financial services institutions. Architected and implemented custom workflows, flows, and enterprise integrations. Guided junior developers.</p>
+          </li>
+          <li>
+            <h3>Prodapt Solutions — Software Engineer (Salesforce)</h3>
+            <p>Oct 2021 — Sep 2024 | Hyderabad, India</p>
+            <p>Collaborated with stakeholders to deliver tailored, scalable solutions. Contributed to 60% of development, building Apex triggers, LWC, OmniStudio components, and Sales/Service Cloud features.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="services" style="margin-bottom: 30px;">
+        <h2>Technical Services &amp; Gigs</h2>
+        <p>Bespoke consulting packages and development solutions available on a daily rate:</p>
+        <ul>
+          <li><strong>Third-Party Integrations</strong> (Starting from $150 / day) — Connect Salesforce with external ERPs, legacy systems, payment gateways, or custom APIs.</li>
+          <li><strong>Admin &amp; Low-Code Development</strong> (Starting from $120 / day) — Complex Salesforce Flows, dynamic layouts, roll-ups, permissions models, and declarative automation.</li>
+          <li><strong>Apex &amp; LWC Custom Development</strong> (Starting from $130 / day) — Custom Lightning Web Components, bulkified triggers, asynchronous handlers, and unit test generation.</li>
+          <li><strong>Agentforce AI Development</strong> (Starting from $170 / day) — Custom Copilot Topics, Prompt Builder configurations, agent actions, and Einstein AI integration.</li>
+          <li><strong>Vlocity / Industries Org Development</strong> (Starting from $160 / day) — Custom OmniScripts, FlexCards, Integration Procedures, and DataRaptor mappings.</li>
+          <li><strong>Customer 360 Ecosystem Builds</strong> (Starting from $140 / day) — Data Cloud pipelines, identity resolution rules, and unified Experience Cloud community setups.</li>
+          <li><strong>Data Migration &amp; DevOps Deployments</strong> (Starting from $140 / day) — GitHub Actions CI/CD setup, Copado/Gearset release flows, and large-scale data imports.</li>
+        </ul>
+      </section>
+
+      <section id="demos" style="margin-bottom: 30px;">
+        <h2>Demos &amp; Salesforce Articles</h2>
+        <p>Interactive code components and technical articles published directly from Salesforce Knowledge (Knowledge__kav):</p>
+        <ul>
+          <li><strong>Apex Governor Limit Race (Demo)</strong>: Interactive simulation comparing non-bulkified code (SOQL inside loop) vs. bulkified code handlers to verify transaction limits and bulk safety.</li>
+          <li><strong>Bulkifying Salesforce Apex: A Patterns Guide for High-Volume Orgs</strong>: Article analyzing trigger patterns, maps, and asynchronous execution (Queueables/Batches) in Salesforce.</li>
+          <li><strong>OmniStudio Performance Tuning: Optimizing FlexCards &amp; Integration Procedures</strong>: Article detailing caching (Session/Org), payload management, and speed audits in Salesforce Industries Vlocity setups.</li>
+          <li><strong>Implementing OAuth 2.0 Client Credentials Flow in Apex</strong>: Article detailing secure system-to-system integrations, Named Credentials, and authentication.</li>
+          <li><strong>Agentforce Copilot: Building Custom Apex Actions for Intelligent Routing</strong>: Guide on writing Invocable Methods with dynamic prompt bindings for Agentforce agent routing.</li>
+        </ul>
+      </section>
+
+      <section id="contact" style="margin-bottom: 30px;">
+        <h2>Contact Yusuf Khan</h2>
+        <p>Interested in collaborating or discussing Salesforce development and architecture? Get in touch via LinkedIn or email.</p>
+        <ul>
+          <li>LinkedIn: <a href="https://www.linkedin.com/in/yusufkhan2546">yusufkhan2546</a></li>
+          <li>Trailblazer Profile: <a href="https://www.salesforce.com/trailblazer/yusufkhan2546">yusufkhan2546</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- React production builds (no dev warnings overhead) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <!-- Three.js + Lottie — desktop only (heavy libraries, skipped on mobile) -->
+  <script>
+    if (!window.__IS_MOBILE) {
+      document.write('<scr'+'ipt src="https://unpkg.com/three@0.160.0/build/three.min.js"><\/scr'+'ipt>');
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js';
+      document.head.appendChild(s);
+    }
+  </script>
+
+  <!-- Salesforce portfolio data — generated at build time by sf-fetch.js -->
+  <script src="sf-data.js"></script>
+  <!-- Pre-compiled bundle — no runtime JSX transpilation -->
+  <script src="bundle.js?v=recipes-v3"></script>
+
+</body>
+
+</html>

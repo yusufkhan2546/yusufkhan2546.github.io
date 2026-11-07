@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>404 — Route Not Found | Yusuf Khan Portal</title>
+  <link rel="icon" type="image/png" href="uploads/YK.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif'],
+            mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          },
+          colors: {
+            portal: {
+              black: '#000000',
+              obsidian: '#131209',
+              surface: '#181818',
+              card: '#1F1F1F',
+              elevated: '#272727',
+              border: '#313131',
+              cyan: '#00F0FF',
+              emerald: '#10B981'
+            }
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-portal-black text-white font-sans antialiased min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-md w-full rounded-2xl border border-portal-border bg-portal-surface p-8 text-center shadow-2xl">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-portal-border bg-portal-card font-mono text-xs text-rose-400 mb-6">
+      <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+      <span>404 ERROR // ROUTE UNMAPPED</span>
+    </div>
+
+    <h1 class="text-5xl font-semibold tracking-tight text-white mb-4 font-mono">
+      404
+    </h1>
+
+    <p class="text-neutral-300 text-sm mb-6 leading-relaxed">
+      The requested endpoint or record has been retired, relocated, or purged from the cloud gateway schema.
+    </p>
+
+    <div class="p-4 rounded-xl border border-portal-border bg-portal-card text-left font-mono text-xs text-neutral-400 mb-6">
+      <div>STATUS: <span class="text-rose-400">UNRESOLVED</span></div>
+      <div>DIAGNOSTIC: NullPointer in URI resolution</div>
+      <div>SAFE PATHWAY: Return to command deck</div>
+    </div>
+
+    <a href="index.html" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-white text-portal-black font-semibold text-sm hover:bg-neutral-200 transition-all duration-300 active:scale-[0.98]">
+      <span>Return to primary portal</span>
+      <svg class="w-4 h-4" viewBox="0 0 256 256" fill="currentColor">
+        <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
+      </svg>
+    </a>
+  </div>
+</body>
+</html>
+
