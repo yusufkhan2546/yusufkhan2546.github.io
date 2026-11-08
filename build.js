@@ -36,6 +36,7 @@ const files = [
   "trailhead/page-agent-recipes.jsx",
   "trailhead/page-soql-recipes.jsx",
   "trailhead/page-demos.jsx",
+  "trailhead/page-agent.jsx",
   "trailhead/main.jsx",
 ];
 

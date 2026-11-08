@@ -5,6 +5,8 @@
 function SoftAurora({
   active = true,
   speed = 1.0,
+  idleIntensity = 0.0,
+  activeIntensity = 1.0,
   blend = 1.0,
   colorPalette = "salesforce", // "salesforce" (blue/cyan/teal/violet) or "classic" (emerald/cyan/magenta)
   style = {},
@@ -15,6 +17,12 @@ function SoftAurora({
   const animRef = useRef(0);
   const activeRef = useRef(active);
   activeRef.current = active;
+  const speedRef = useRef(speed);
+  speedRef.current = speed;
+  const idleRef = useRef(idleIntensity);
+  idleRef.current = idleIntensity;
+  const activeIntRef = useRef(activeIntensity);
+  activeIntRef.current = activeIntensity;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -244,18 +252,22 @@ function SoftAurora({
     window.addEventListener("resize", resize);
 
     // Animation state
-    let startTime = performance.now();
-    let currentIntensity = activeRef.current ? 1.0 : 0.0;
+    let lastTime = performance.now();
+    let accumulatedTime = 0;
+    let currentIntensity = activeRef.current ? activeIntRef.current : idleRef.current;
 
     const render = (now) => {
-      const targetIntensity = activeRef.current ? 1.0 : 0.0;
+      const targetIntensity = activeRef.current ? activeIntRef.current : idleRef.current;
       // Smooth lerp transition for active / idle states
       currentIntensity += (targetIntensity - currentIntensity) * 0.06;
 
       if (currentIntensity > 0.005) {
-        const elapsed = (now - startTime) * 0.001 * speed;
+        const dt = Math.min((now - lastTime) * 0.001, 0.1);
+        lastTime = now;
+        accumulatedTime += dt * (speedRef.current || 1.0);
+
         gl.useProgram(program);
-        gl.uniform1f(uTimeLoc, elapsed);
+        gl.uniform1f(uTimeLoc, accumulatedTime);
         gl.uniform2f(uResolutionLoc, canvas.width, canvas.height);
         gl.uniform1f(uIntensityLoc, currentIntensity);
 
@@ -263,6 +275,7 @@ function SoftAurora({
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       } else {
+        lastTime = now;
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
       }
@@ -283,7 +296,7 @@ function SoftAurora({
         gl.deleteShader(fs);
       } catch (e) { }
     };
-  }, [speed, colorPalette]);
+  }, [colorPalette]);
 
   return (
     <div style={{
@@ -316,3 +329,4 @@ function SoftAurora({
 }
 
 Object.assign(window, { SoftAurora });
+

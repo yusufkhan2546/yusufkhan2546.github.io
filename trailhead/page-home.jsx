@@ -421,18 +421,24 @@ function HeroSection({ go }) {
             </p>
 
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
-              <button className="btn primary hoverable" onClick={() => go("projects")} style={{
+              <button className="btn primary hoverable" onClick={() => go("agent")} style={{
                 background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
                 boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
                 padding: "14px 26px", fontSize: 14, border: "none"
               }}>
-                Launch Case Studies <Icon name="arrow" size={16} />
+                ✨ Launch AI Agent <Icon name="arrow" size={16} />
+              </button>
+              <button className="btn ghost hoverable" onClick={() => go("projects")} style={{
+                background: "rgba(255,255,255,.05)", color: "white", borderColor: "var(--line)",
+                padding: "14px 24px", fontSize: 14,
+              }}>
+                Case Studies
               </button>
               <button className="btn ghost hoverable" onClick={() => go("certs")} style={{
                 background: "rgba(255,255,255,.05)", color: "white", borderColor: "var(--line)",
                 padding: "14px 24px", fontSize: 14,
               }}>
-                <Icon name="badge" size={16} /> Certification Vault (12×)
+                <Icon name="badge" size={16} /> Certifications (12×)
               </button>
             </div>
           </div>
