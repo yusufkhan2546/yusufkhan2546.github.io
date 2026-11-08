@@ -13,12 +13,29 @@ const ROUTES = [
 
 function useHashRoute() {
   const [route, setRoute] = useState(() => (location.hash.replace("#", "") || "home"));
+  const [isExiting, setIsExiting] = useState(false);
+
+  const go = (targetRoute) => {
+    const clean = (targetRoute || "").replace("#", "") || "home";
+    if (clean === route) return;
+    setIsExiting(true);
+    // Smooth transition delay: gracefully dissolve out before loading the next page
+    setTimeout(() => {
+      location.hash = clean;
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setTimeout(() => {
+        setIsExiting(false);
+      }, 50);
+    }, 240);
+  };
+
   useEffect(() => {
     const on = () => setRoute(location.hash.replace("#", "") || "home");
     window.addEventListener("hashchange", on);
     return () => window.removeEventListener("hashchange", on);
   }, []);
-  return [route, (r) => { location.hash = r; window.scrollTo({ top: 0, behavior: "instant" }); }];
+
+  return [route, go, isExiting];
 }
 
 const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
@@ -357,7 +374,7 @@ function FloatingTelemetryIsland({ route, go }) {
 }
 
 function App() {
-  const [route, go] = useHashRoute();
+  const [route, go, isExiting] = useHashRoute();
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
 
   // Apply accent CSS vars
@@ -425,7 +442,7 @@ function App() {
       <BoltTrail enabled={t.boltTrail} showCursor={t.showCursor} />
       <Nav route={route} go={go} />
       <FloatingTelemetryIsland route={route} go={go} />
-      <div key={route} className="page-shell page-enter" style={route === "home" ? { paddingTop: 0 } : undefined}>
+      <div key={route} className={"page-shell page-enter" + (isExiting ? " page-exiting" : "")} style={route === "home" ? { paddingTop: 0 } : undefined}>
         {Page}
       </div>
       <Footer go={go} />

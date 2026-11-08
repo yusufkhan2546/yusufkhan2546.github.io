@@ -7672,15 +7672,25 @@ const ROUTES = [
 ];
 function useHashRoute() {
   const [route, setRoute] = useState(() => location.hash.replace("#", "") || "home");
+  const [isExiting, setIsExiting] = useState(false);
+  const go = (targetRoute) => {
+    const clean = (targetRoute || "").replace("#", "") || "home";
+    if (clean === route) return;
+    setIsExiting(true);
+    setTimeout(() => {
+      location.hash = clean;
+      window.scrollTo({ top: 0, behavior: "instant" });
+      setTimeout(() => {
+        setIsExiting(false);
+      }, 50);
+    }, 240);
+  };
   useEffect(() => {
     const on = () => setRoute(location.hash.replace("#", "") || "home");
     window.addEventListener("hashchange", on);
     return () => window.removeEventListener("hashchange", on);
   }, []);
-  return [route, (r) => {
-    location.hash = r;
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }];
+  return [route, go, isExiting];
 }
 const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
 const THEMES = [
@@ -7914,7 +7924,7 @@ function FloatingTelemetryIsland({ route, go }) {
   ))));
 }
 function App() {
-  const [route, go] = useHashRoute();
+  const [route, go, isExiting] = useHashRoute();
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   useEffect(() => {
     document.documentElement.style.setProperty("--accent", t.accent);
@@ -7966,7 +7976,7 @@ function App() {
     demos: "06 Demos & Articles",
     contact: "07 Contact"
   };
-  return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(FadingStars, { enabled: t.fadingStars !== false }), /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement(FloatingTelemetryIsland, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(FadingStars, { enabled: t.fadingStars !== false }), /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement(FloatingTelemetryIsland, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter" + (isExiting ? " page-exiting" : ""), style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
     TweakColor,
     {
       label: "Accent",

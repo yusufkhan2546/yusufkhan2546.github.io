@@ -349,3 +349,4 @@ const FadingStars = forwardRef(function FadingStars({
 });
 
 Object.assign(window, { FadingStars });
+
