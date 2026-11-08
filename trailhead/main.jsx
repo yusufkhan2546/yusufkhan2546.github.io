@@ -172,7 +172,7 @@ function Nav({ route, go }) {
                   <span>ONLINE</span>
                 </span>
               </div>
-              <span style={{ fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>
+              <span className="brand-subtitle" style={{ fontWeight: 600, color: "var(--ink-2)", fontSize: 11, fontFamily: "var(--font-body)", lineHeight: 1.1 }}>
                 Salesforce Lead Architect &amp; SME
               </span>
             </div>

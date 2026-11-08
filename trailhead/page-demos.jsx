@@ -206,7 +206,7 @@ function PageDemos({ go }) {
               </div>
 
               {/* Code comparison boards */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 20, marginBottom: 32 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 20, marginBottom: 32 }}>
                 
                 {/* Bad Code Board */}
                 <div className="card" style={{ padding: 24, borderRadius: 18, background: "rgba(10,18,48,0.45)", border: "1px solid rgba(231,76,60,0.2)" }}>
@@ -292,7 +292,7 @@ function PageDemos({ go }) {
 
               {/* Console logs */}
               {(nonBulkLogs.length > 0 || bulkLogs.length > 0) && (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(480px, 1fr))", gap: 20 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 20 }}>
                   
                   {/* Non-bulk log console */}
                   <div style={{ 
@@ -434,7 +434,7 @@ function PageDemos({ go }) {
               ) : (
                 <div style={{ 
                   display: "grid", 
-                  gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", 
+                  gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 300px), 1fr))", 
                   gap: 20 
                 }}>
                   {ARTICLES.map((a, i) => (

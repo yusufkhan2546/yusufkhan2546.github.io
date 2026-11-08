@@ -386,10 +386,10 @@ function HeroSection({ go }) {
 
       <div className="container" style={{ position: "relative", zIndex: 3 }}>
         {/* Split Grid Hero: Left Text / Right 3D Orb */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, alignItems: "center" }}>
+        <div className="hero-split-grid">
           
           {/* Left Column: Operator Profile & Call to Actions */}
-          <div style={{ textAlign: "left" }}>
+          <div className="hero-left-col">
             <div style={{ marginBottom: 14 }}>
               <span className="hud-badge" style={{ padding: "6px 14px", fontSize: 11 }}>
                 <span className="pulse-dot"></span> OPERATOR STATUS: ONLINE // LEVEL 12 ARCHITECT
@@ -398,7 +398,7 @@ function HeroSection({ go }) {
 
             <h1 style={{
               fontFamily: "'Anton', system-ui, sans-serif",
-              fontSize: "clamp(52px, 7vw, 92px)",
+              fontSize: "clamp(46px, 7vw, 92px)",
               letterSpacing: ".02em",
               lineHeight: 1,
               color: "#FFFFFF",
@@ -420,7 +420,7 @@ function HeroSection({ go }) {
               Architecting enterprise <strong style={{ color: "white" }}>Salesforce Cloud</strong> &amp; <strong style={{ color: "var(--accent)" }}>Agentforce AI</strong> platforms across <strong style={{ color: "#6BB7FF" }}>Banking</strong>, <strong style={{ color: "#FF9F66" }}>Retail</strong>, and <strong style={{ color: "#B57BFF" }}>Lending</strong> — clean Apex, fast LWCs, automations that scale.
             </p>
 
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
+            <div className="hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
               <button className="btn primary hoverable" onClick={() => go("projects")} style={{
                 background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
                 boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
@@ -438,9 +438,9 @@ function HeroSection({ go }) {
           </div>
 
           {/* Right Column: 3D Orb (Expanded & Frameless) */}
-          <div style={{ position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" }}>
-            <div style={{ width: "100%", maxWidth: 660, height: 580 }}>
-              <ThreeOrb height={580} bare={true} />
+          <div className="hero-orb-col">
+            <div className="hero-orb-wrap">
+              <ThreeOrb height={typeof window !== "undefined" && window.innerWidth <= 640 ? 320 : typeof window !== "undefined" && window.innerWidth <= 900 ? 400 : 560} bare={true} />
             </div>
           </div>
         </div>
@@ -496,7 +496,7 @@ function HeroSection({ go }) {
 function ApexShowcase() {
   return (
     <section style={{ padding: "0px 0 60px", borderTop: "none" }}>
-      <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 56, alignItems: "center" }}>
+      <div className="container hero-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: 56, alignItems: "center" }}>
         <div>
           <span className="eyebrow"><span className="dot"></span> Live Apex · this very page</span>
           <h2 className="h-section" style={{ margin: "16px 0 18px" }}>The hiring code, written in Apex.</h2>
@@ -504,7 +504,7 @@ function ApexShowcase() {
             A live developer console rendering a class that defines me — public, sealed,
             and fully governor-limit aware. Watch it type itself.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div className="hero-cards-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
             <div className="card hoverable" style={{ padding: 18 }}>
               <Icon name="code" size={20} color="var(--accent)" />
               <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, marginTop: 8, fontSize: 16 }}>Clean Apex</div>
@@ -646,14 +646,14 @@ function Sparkline() {
 function AboutSection() {
   return (
     <section style={{ padding: "40px 0" }}>
-      <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+      <div className="container hero-grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
         <div>
           <span className="eyebrow"><span className="dot"></span> About</span>
           <h2 className="h-section" style={{ margin: "16px 0 18px" }}>Engineering the customer 360, one trail at a time.</h2>
           <p className="body-lg">
             Over the last eight years, I've led teams shipping Salesforce platforms for retail banks, lenders and omni-channel commerce — from greenfield org design to migrating legacy systems onto Data Cloud and Agentforce. I'm happiest when I'm bridging architecture, business outcomes and clean code.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 28 }}>
+          <div className="hero-cards-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 28 }}>
             {[
               ["Architect mindset", "Multi-cloud design, governance, scale"],
               ["Hands-on dev", "Apex, LWC, OmniStudio, Flows"],
@@ -1056,14 +1056,14 @@ function ThreeOrbSection() {
   return (
     <section style={{ padding: "100px 0", borderTop: "1px solid var(--line-2)", background: "linear-gradient(180deg, var(--bg), #F0F4FB)" }}>
       <div className="container">
-        <div style={{ display: "grid", gridTemplateColumns: ".9fr 1.1fr", gap: 56, alignItems: "center" }}>
+        <div className="hero-grid-2col" style={{ display: "grid", gridTemplateColumns: ".9fr 1.1fr", gap: 56, alignItems: "center" }}>
           <div>
             <span className="eyebrow"><span className="dot"></span> Customer 360 · live orbit</span>
             <h2 className="h-section" style={{ margin: "16px 0 18px" }}>Every cloud connects.</h2>
             <p className="body-lg">
               Sales, Service, Experience, Data Cloud, Agentforce, FSC, Industries — the clouds I orchestrate every day. Drag the orbit, hover any node, watch the lightning route between them. This is the platform, in 3D.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 22 }}>
+            <div className="hero-cards-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 22 }}>
               {[
                 ["Sales Cloud", "#00A1E0"], ["Service Cloud", "#FF6F00"], ["Experience", "#7F00FF"],
                 ["Data Cloud", "#2E844A"], ["Agentforce", "#B14AED"], ["FSC", "#0070D2"], ["Industries (Vlocity)", "#FFB75D"],

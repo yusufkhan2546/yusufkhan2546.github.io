@@ -306,7 +306,7 @@ function PageSoqlRecipes() {
   };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 32 }}>
+    <div className="recipes-layout" style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 32 }}>
       {/* Sidebar Selector */}
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "var(--ink-3)", marginBottom: 8, paddingLeft: 8 }}>
@@ -370,7 +370,7 @@ function PageSoqlRecipes() {
         </div>
 
         {/* Two Columns: Sandbox & Code */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" }}>
+        <div className="recipes-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "start" }}>
           
           {/* Sandbox Wrapper */}
           <div className="card" style={{ padding: 24, borderRadius: 18, background: "rgba(10,18,48,0.45)", border: "1px solid var(--line)" }}>
