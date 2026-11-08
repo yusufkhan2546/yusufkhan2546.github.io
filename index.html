@@ -1517,6 +1517,152 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
     }
+
+    /* Soft Aurora Processing Indicator (Agentforce AI) */
+    .cosmic-chat-aurora-processing {
+      position: relative;
+      width: 94%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(110, 195, 255, 0.4);
+      background: rgba(5, 16, 42, 0.88);
+      box-shadow: 0 8px 24px -4px rgba(0, 161, 224, 0.35);
+      margin: 8px 0 12px;
+      animation: auroraCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .cosmic-chat-aurora-processing .aurora-backdrop {
+      position: absolute;
+      inset: 0;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .cosmic-chat-aurora-processing .aurora-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .cosmic-chat-aurora-processing .aurora-pulse-orb {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #00E5FF;
+      box-shadow: 0 0 10px #00E5FF, 0 0 18px #0070D2;
+      animation: auroraPulse 1.3s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+    .cosmic-chat-aurora-processing .aurora-text {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      text-align: left;
+    }
+    .cosmic-chat-aurora-processing .aurora-title {
+      font-family: var(--font-mono, monospace);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #B6E6FF;
+      text-transform: uppercase;
+    }
+    .cosmic-chat-aurora-processing .aurora-sub {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      margin-top: 1px;
+    }
+    @keyframes auroraCardIn {
+      0% { opacity: 0; transform: translateY(6px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes auroraPulse {
+      0%, 100% { transform: scale(0.9); opacity: 0.75; }
+      50% { transform: scale(1.35); opacity: 1; filter: brightness(1.3); }
+    }
+
+    /* Concentric ripple glass rings (Uiverse.io by Smit-Prajapati) */
+    .loader {
+      --size: 260px;
+      --duration: 2.2s;
+      --background: linear-gradient(
+        0deg,
+        rgba(0, 70, 160, 0.14) 0%,
+        rgba(10, 35, 80, 0.28) 100%
+      );
+      width: var(--size);
+      height: var(--size);
+      aspect-ratio: 1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .loader .box {
+      position: absolute;
+      background: var(--background);
+      border-radius: 50%;
+      border-top: 1.5px solid rgba(110, 195, 255, 0.85);
+      border-bottom: 1px solid rgba(0, 161, 224, 0.2);
+      box-shadow: rgba(0, 112, 210, 0.25) 0px 10px 15px -0px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      animation: ripple var(--duration) infinite ease-in-out;
+    }
+
+    .loader .box:nth-child(1) {
+      inset: 40%;
+      z-index: 99;
+    }
+
+    .loader .box:nth-child(2) {
+      inset: 30%;
+      z-index: 98;
+      border-color: rgba(110, 195, 255, 0.7);
+      animation-delay: 0.2s;
+    }
+
+    .loader .box:nth-child(3) {
+      inset: 20%;
+      z-index: 97;
+      border-color: rgba(110, 195, 255, 0.5);
+      animation-delay: 0.4s;
+    }
+
+    .loader .box:nth-child(4) {
+      inset: 10%;
+      z-index: 96;
+      border-color: rgba(110, 195, 255, 0.35);
+      animation-delay: 0.6s;
+    }
+
+    .loader .box:nth-child(5) {
+      inset: 0%;
+      z-index: 95;
+      border-color: rgba(110, 195, 255, 0.2);
+      animation-delay: 0.8s;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(1);
+        box-shadow: rgba(0, 112, 210, 0.25) 0px 10px 10px -0px;
+      }
+      50% {
+        transform: scale(1.28);
+        box-shadow: rgba(0, 161, 224, 0.4) 0px 30px 25px -0px;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: rgba(0, 112, 210, 0.25) 0px 10px 10px -0px;
+      }
+    }
   </style>
 
   <script>
@@ -1665,7 +1811,7 @@
   <!-- Salesforce portfolio data — generated at build time by sf-fetch.js -->
   <script src="sf-data.js"></script>
   <!-- Pre-compiled bundle — no runtime JSX transpilation -->
-  <script src="bundle.js?v=orb-frameless-v5"></script>
+  <script src="bundle.js?v=orb-aurora-v7"></script>
 
 </body>
 

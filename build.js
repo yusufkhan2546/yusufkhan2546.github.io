@@ -23,6 +23,7 @@ const files = [
   "trailhead/three-orb.jsx",
   "trailhead/three-cert-cabinet.jsx",
   "tweaks-panel.jsx",
+  "trailhead/soft-aurora.jsx",
   "trailhead/mascot.jsx",
   "trailhead/page-home.jsx",
   "trailhead/page-certs.jsx",

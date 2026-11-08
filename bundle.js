@@ -306,6 +306,8 @@ function ThreeOrb({ height = 440, bare = false }) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.setClearColor(0, 0);
+    renderer.domElement.style.position = "relative";
+    renderer.domElement.style.zIndex = "2";
     wrap.innerHTML = "";
     wrap.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
@@ -324,132 +326,6 @@ function ThreeOrb({ height = 440, bare = false }) {
     scene.add(pt);
     const root = new THREE.Group();
     scene.add(root);
-    const coreGlowGeo = new THREE.CircleGeometry(2.1, 48);
-    const coreGlowMat = new THREE.MeshBasicMaterial({
-      color: 28882,
-      transparent: true,
-      opacity: 0.2,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    });
-    const coreGlow = new THREE.Mesh(coreGlowGeo, coreGlowMat);
-    coreGlow.position.z = -0.05;
-    scene.add(coreGlow);
-    const badgeCanvas = document.createElement("canvas");
-    badgeCanvas.width = 1024;
-    badgeCanvas.height = 1024;
-    const bctx = badgeCanvas.getContext("2d");
-    (function drawBadge() {
-      const cx2 = 512, cy2 = 512;
-      bctx.save();
-      bctx.shadowColor = "rgba(0,160,255,.55)";
-      bctx.shadowBlur = 60;
-      const R = 380;
-      bctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const a = Math.PI / 3 * i - Math.PI / 2;
-        const x = cx2 + Math.cos(a) * R;
-        const y = cy2 + Math.sin(a) * R;
-        if (i === 0) bctx.moveTo(x, y);
-        else bctx.lineTo(x, y);
-      }
-      bctx.closePath();
-      const grad = bctx.createLinearGradient(cx2 - R, cy2 - R, cx2 + R, cy2 + R);
-      grad.addColorStop(0, "#0A1B3C");
-      grad.addColorStop(1, "#1A2D5C");
-      bctx.fillStyle = grad;
-      bctx.fill();
-      bctx.restore();
-      bctx.lineWidth = 5;
-      bctx.strokeStyle = "rgba(180,230,255,.9)";
-      bctx.beginPath();
-      const R2 = R - 22;
-      for (let i = 0; i < 6; i++) {
-        const a = Math.PI / 3 * i - Math.PI / 2;
-        const x = cx2 + Math.cos(a) * R2;
-        const y = cy2 + Math.sin(a) * R2;
-        if (i === 0) bctx.moveTo(x, y);
-        else bctx.lineTo(x, y);
-      }
-      bctx.closePath();
-      bctx.stroke();
-      bctx.lineWidth = 2;
-      bctx.strokeStyle = "rgba(255,255,255,.18)";
-      bctx.setLineDash([4, 8]);
-      bctx.beginPath();
-      const R3 = R - 50;
-      for (let i = 0; i < 6; i++) {
-        const a = Math.PI / 3 * i - Math.PI / 2;
-        const x = cx2 + Math.cos(a) * R3;
-        const y = cy2 + Math.sin(a) * R3;
-        if (i === 0) bctx.moveTo(x, y);
-        else bctx.lineTo(x, y);
-      }
-      bctx.closePath();
-      bctx.stroke();
-      bctx.setLineDash([]);
-      bctx.save();
-      bctx.translate(cx2, cy2);
-      bctx.fillStyle = "rgba(180,230,255,.85)";
-      bctx.font = "700 38px 'JetBrains Mono', monospace";
-      bctx.textAlign = "center";
-      bctx.textBaseline = "middle";
-      const text = "\u2605  12 \xD7 CERTIFIED  \u2605  SALESFORCE LEAD DEV  \u2605  ";
-      const radius = 305;
-      const total = text.length;
-      const start = -Math.PI / 2 - 0.9;
-      for (let i = 0; i < total; i++) {
-        const a = start + 1.8 * i / (total - 1);
-        bctx.save();
-        bctx.rotate(a);
-        bctx.translate(0, -radius);
-        bctx.fillText(text[i], 0, 0);
-        bctx.restore();
-      }
-      bctx.restore();
-      bctx.fillStyle = "white";
-      bctx.font = "800 280px 'Bricolage Grotesque', system-ui, sans-serif";
-      bctx.textAlign = "center";
-      bctx.textBaseline = "middle";
-      bctx.fillText("YK", cx2, cy2 - 6);
-      const bgrad = bctx.createLinearGradient(cx2 + 120, cy2 + 40, cx2 + 200, cy2 + 120);
-      bgrad.addColorStop(0, "#FFD479");
-      bgrad.addColorStop(1, "#FF6F00");
-      bctx.fillStyle = bgrad;
-      bctx.beginPath();
-      const bx = cx2 + 175, by = cy2 + 70;
-      bctx.moveTo(bx, by - 35);
-      bctx.lineTo(bx - 18, by);
-      bctx.lineTo(bx - 5, by);
-      bctx.lineTo(bx - 12, by + 30);
-      bctx.lineTo(bx + 18, by - 6);
-      bctx.lineTo(bx + 4, by - 6);
-      bctx.lineTo(bx + 12, by - 35);
-      bctx.closePath();
-      bctx.shadowColor = "rgba(255,140,40,.8)";
-      bctx.shadowBlur = 30;
-      bctx.fill();
-      bctx.shadowBlur = 0;
-      bctx.strokeStyle = "rgba(255,255,255,.45)";
-      bctx.lineWidth = 2;
-      bctx.beginPath();
-      bctx.moveTo(cx2 - 80, cy2 + 188);
-      bctx.lineTo(cx2 + 80, cy2 + 188);
-      bctx.stroke();
-      bctx.fillStyle = "rgba(180,230,255,.95)";
-      bctx.font = "700 30px 'JetBrains Mono', monospace";
-      bctx.fillText("/ TRAILBLAZING SINCE 2018 /", cx2, cy2 + 215);
-      bctx.fillStyle = "rgba(255,183,93,.95)";
-      bctx.font = "600 22px 'JetBrains Mono', monospace";
-      bctx.fillText("est. India \xB7 global", cx2, cy2 + 252);
-    })();
-    const badgeTex = new THREE.CanvasTexture(badgeCanvas);
-    badgeTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
-    const badgeMat = new THREE.SpriteMaterial({ map: badgeTex, transparent: true, depthWrite: false });
-    const badge = new THREE.Sprite(badgeMat);
-    badge.scale.set(3, 3, 1);
-    badge.position.z = 0;
-    scene.add(badge);
     const NODES = [
       { name: "Administrator", img: "assets/badges/2025-03_Platform-Admin_500x490.png", tilt: 0.1 },
       { name: "Platform Developer I", img: "assets/badges/2025-04_Badge_SF-Certified_Plat-Dev_500x490px.png", tilt: -0.1 },
@@ -507,12 +383,18 @@ function ThreeOrb({ height = 440, bare = false }) {
     });
     const bolts = [];
     function spawnBolt() {
-      const a = nodes[Math.floor(Math.random() * nodes.length)].group;
-      const target = Math.random() < 0.5 ? new THREE.Vector3(0, 0, 0) : nodes[Math.floor(Math.random() * nodes.length)].group.position.clone();
+      if (nodes.length < 2) return;
+      const i1 = Math.floor(Math.random() * nodes.length);
+      let i2 = Math.floor(Math.random() * nodes.length);
+      while (i2 === i1) i2 = Math.floor(Math.random() * nodes.length);
+      const a = nodes[i1].group;
+      const bNode = nodes[i2].group;
       const start = new THREE.Vector3();
       a.getWorldPosition(start);
-      const startLocal = root.worldToLocal(start.clone());
-      const endLocal = target instanceof THREE.Vector3 ? target : root.worldToLocal(a.getWorldPosition(new THREE.Vector3()));
+      const target = new THREE.Vector3();
+      bNode.getWorldPosition(target);
+      const startLocal = root.worldToLocal(start);
+      const endLocal = root.worldToLocal(target);
       const points = [];
       const steps = 8;
       for (let i = 0; i <= steps; i++) {
@@ -613,10 +495,6 @@ function ThreeOrb({ height = 440, bare = false }) {
       }
       root.rotation.y += (targetRotY - root.rotation.y) * 0.06;
       root.rotation.x += (targetRotX - root.rotation.x) * 0.06;
-      const bs = 3 + Math.sin(t * 1.4) * 0.06;
-      badge.scale.set(bs, bs, 1);
-      const gs = 1 + Math.sin(t * 1.4) * 0.05;
-      coreGlow.scale.set(gs, gs, 1);
       nodes.forEach((n, i) => {
         n.group.position.y = Math.sin(t * 1.2 + i) * 0.15;
         if (n.group.userData.glow) {
@@ -707,7 +585,7 @@ function ThreeOrb({ height = 440, bare = false }) {
   }, [height, threeReady]);
   const bareStyle = { width: "100%", height, minHeight: height, position: "relative" };
   const fullStyle = { ...bareStyle, borderRadius: 18, overflow: "hidden", background: "linear-gradient(180deg, #061331, #0A1B3C 60%, #112858)", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 30px 60px -20px rgba(0,30,80,.45)" };
-  return /* @__PURE__ */ React.createElement("div", { ref: wrapRef, style: bare ? bareStyle : fullStyle }, !bare && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 14, left: 14, display: "flex", alignItems: "center", gap: 10, zIndex: 2, pointerEvents: "none" } }, /* @__PURE__ */ React.createElement("span", { style: { width: 8, height: 8, borderRadius: 99, background: "var(--sf-blue)", boxShadow: "0 0 10px var(--sf-blue)" } }), /* @__PURE__ */ React.createElement("span", { style: { fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(255,255,255,.7)", fontWeight: 700 } }, "Customer 360 \xB7 live orbit")), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 14, right: 14, color: "rgba(255,255,255,.4)", fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: ".08em", pointerEvents: "none" } }, "drag to rotate \xB7 hover for label")));
+  return /* @__PURE__ */ React.createElement("div", { ref: wrapRef, style: bare ? bareStyle : fullStyle }, /* @__PURE__ */ React.createElement("div", { className: "loader", "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("div", { className: "box" }), /* @__PURE__ */ React.createElement("div", { className: "box" }), /* @__PURE__ */ React.createElement("div", { className: "box" }), /* @__PURE__ */ React.createElement("div", { className: "box" }), /* @__PURE__ */ React.createElement("div", { className: "box" })), !bare && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 14, left: 14, display: "flex", alignItems: "center", gap: 10, zIndex: 3, pointerEvents: "none" } }, /* @__PURE__ */ React.createElement("span", { style: { width: 8, height: 8, borderRadius: 99, background: "var(--sf-blue)", boxShadow: "0 0 10px var(--sf-blue)" } }), /* @__PURE__ */ React.createElement("span", { style: { fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(255,255,255,.7)", fontWeight: 700 } }, "Customer 360 \xB7 live orbit")), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 14, right: 14, color: "rgba(255,255,255,.4)", fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: ".08em", pointerEvents: "none", zIndex: 3 } }, "drag to rotate \xB7 hover for label")));
 }
 Object.assign(window, { ThreeOrb });
 
@@ -1345,6 +1223,289 @@ Object.assign(window, {
 });
 
 
+/* ── trailhead/soft-aurora.jsx ── */
+function SoftAurora({
+  active = true,
+  speed = 1,
+  blend = 1,
+  colorPalette = "salesforce",
+  // "salesforce" (blue/cyan/teal/violet) or "classic" (emerald/cyan/magenta)
+  style = {},
+  className = "",
+  children = null
+}) {
+  const canvasRef = useRef(null);
+  const animRef = useRef(0);
+  const activeRef = useRef(active);
+  activeRef.current = active;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let gl = null;
+    try {
+      gl = canvas.getContext("webgl", { alpha: true, antialias: false, depth: false }) || canvas.getContext("experimental-webgl", { alpha: true, antialias: false, depth: false });
+    } catch (e) {
+      console.warn("WebGL not supported for SoftAurora, falling back");
+    }
+    if (!gl) {
+      canvas.style.display = "none";
+      return;
+    }
+    const vsSource = `
+      attribute vec2 position;
+      varying vec2 vUv;
+      void main() {
+        vUv = position * 0.5 + 0.5;
+        gl_Position = vec4(position, 0.0, 1.0);
+      }
+    `;
+    const fsSource = `
+      precision highp float;
+      uniform float uTime;
+      uniform vec2 uResolution;
+      uniform float uIntensity;
+      uniform float uPaletteMode;
+      varying vec2 vUv;
+
+      // 3D Simplex noise implementation
+      vec4 permute(vec4 x){ return mod(((x*34.0)+1.0)*x, 289.0); }
+      vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
+
+      float snoise(vec3 v){
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+        vec3 i  = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+
+        vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+        vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+        vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
+
+        i = mod(i, 289.0);
+        vec4 p = permute(permute(permute(
+                   i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                 + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                 + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+        float n_ = 0.142857142857;
+        vec3 ns = n_ * D.wyz - D.xzx;
+
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+
+        vec4 x = x_ * ns.x + ns.yyyy;
+        vec4 y = y_ * ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+
+        vec4 s0 = floor(b0) * 2.0 + 1.0;
+        vec4 s1 = floor(b1) * 2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+
+        vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+        p0 *= norm.x;
+        p1 *= norm.y;
+        p2 *= norm.z;
+        p3 *= norm.w;
+
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m * m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+
+      // Cosine Gradient Generator: color = a + b * cos(2*pi*(c*t + d))
+      vec3 cosinePalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
+        return a + b * cos(6.2831853 * (c * t + d));
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / uResolution.xy;
+        float t = uTime * 0.35;
+
+        // Flowing noise ribbons
+        float n1 = snoise(vec3(uv.x * 2.8, uv.y * 2.0 - t * 0.18, t * 0.12));
+        float n2 = snoise(vec3(uv.x * 4.2 + n1 * 0.7, uv.y * 3.2 + t * 0.14, t * 0.22));
+
+        // Soft curtain wave with dynamic ripple
+        float wave = smoothstep(-0.55, 0.85, n2 * 0.55 + n1 * 0.45 + sin(uv.x * 3.1415 + t * 0.25) * 0.3);
+
+        // Palette modes
+        vec3 a, b, c, d;
+        if (uPaletteMode > 0.5) {
+          // Classic Aurora (Emerald Green, Cyan, Magenta)
+          a = vec3(0.15, 0.50, 0.40);
+          b = vec3(0.40, 0.50, 0.35);
+          c = vec3(1.00, 1.00, 1.00);
+          d = vec3(0.00, 0.33, 0.67);
+        } else {
+          // Salesforce Cosmic Aurora (Electric Cyan, Royal Blue, Violet, Magenta)
+          a = vec3(0.12, 0.38, 0.72);
+          b = vec3(0.38, 0.52, 0.50);
+          c = vec3(1.00, 1.00, 0.85);
+          d = vec3(0.08, 0.38, 0.70);
+        }
+
+        vec3 auroraColor = cosinePalette(wave + t * 0.08, a, b, c, d);
+
+        // Core glow highlight on ribbons
+        float ribbonGlow = pow(clamp(wave, 0.0, 1.0), 2.4);
+        auroraColor += vec3(0.18, 0.72, 1.0) * ribbonGlow * 0.65;
+
+        // Alpha transparency driven by wave and active intensity
+        float alpha = clamp(wave * 0.85 + ribbonGlow * 0.35, 0.0, 0.95) * uIntensity;
+
+        gl_FragColor = vec4(auroraColor, alpha);
+      }
+    `;
+    function createShader(gl2, type, source) {
+      const shader = gl2.createShader(type);
+      gl2.shaderSource(shader, source);
+      gl2.compileShader(shader);
+      if (!gl2.getShaderParameter(shader, gl2.COMPILE_STATUS)) {
+        console.error("Shader compile error:", gl2.getShaderInfoLog(shader));
+        gl2.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    }
+    const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+    const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    if (!vs || !fs) return;
+    const program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error("Program link error:", gl.getProgramInfoLog(program));
+      return;
+    }
+    gl.useProgram(program);
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    const positions = new Float32Array([
+      -1,
+      -1,
+      1,
+      -1,
+      -1,
+      1,
+      -1,
+      1,
+      1,
+      -1,
+      1,
+      1
+    ]);
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+    const posAttrLoc = gl.getAttribLocation(program, "position");
+    gl.enableVertexAttribArray(posAttrLoc);
+    gl.vertexAttribPointer(posAttrLoc, 2, gl.FLOAT, false, 0, 0);
+    const uTimeLoc = gl.getUniformLocation(program, "uTime");
+    const uResolutionLoc = gl.getUniformLocation(program, "uResolution");
+    const uIntensityLoc = gl.getUniformLocation(program, "uIntensity");
+    const uPaletteModeLoc = gl.getUniformLocation(program, "uPaletteMode");
+    gl.uniform1f(uPaletteModeLoc, colorPalette === "classic" ? 1 : 0);
+    let width = 0;
+    let height = 0;
+    const resize = () => {
+      const parent = canvas.parentElement || canvas;
+      const rect = parent.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const newW = Math.max(rect.width || 300, 50);
+      const newH = Math.max(rect.height || 150, 50);
+      if (width !== newW || height !== newH) {
+        width = newW;
+        height = newH;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+    };
+    resize();
+    let ro = null;
+    if (window.ResizeObserver) {
+      ro = new ResizeObserver(resize);
+      if (canvas.parentElement) ro.observe(canvas.parentElement);
+    }
+    window.addEventListener("resize", resize);
+    let startTime = performance.now();
+    let currentIntensity = activeRef.current ? 1 : 0;
+    const render = (now) => {
+      const targetIntensity = activeRef.current ? 1 : 0;
+      currentIntensity += (targetIntensity - currentIntensity) * 0.06;
+      if (currentIntensity > 5e-3) {
+        const elapsed = (now - startTime) * 1e-3 * speed;
+        gl.useProgram(program);
+        gl.uniform1f(uTimeLoc, elapsed);
+        gl.uniform2f(uResolutionLoc, canvas.width, canvas.height);
+        gl.uniform1f(uIntensityLoc, currentIntensity);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      } else {
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      }
+      animRef.current = requestAnimationFrame(render);
+    };
+    animRef.current = requestAnimationFrame(render);
+    return () => {
+      cancelAnimationFrame(animRef.current);
+      if (ro) ro.disconnect();
+      window.removeEventListener("resize", resize);
+      try {
+        gl.deleteBuffer(positionBuffer);
+        gl.deleteProgram(program);
+        gl.deleteShader(vs);
+        gl.deleteShader(fs);
+      } catch (e) {
+      }
+    };
+  }, [speed, colorPalette]);
+  return /* @__PURE__ */ React.createElement("div", { style: {
+    position: "relative",
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+    pointerEvents: "none",
+    ...style
+  }, className: `soft-aurora-wrap ${className}` }, /* @__PURE__ */ React.createElement(
+    "canvas",
+    {
+      ref: canvasRef,
+      style: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        display: "block",
+        pointerEvents: "none"
+      }
+    }
+  ), children && /* @__PURE__ */ React.createElement("div", { style: { position: "relative", zIndex: 2, pointerEvents: "auto" } }, children));
+}
+Object.assign(window, { SoftAurora });
+
+
 /* ── trailhead/mascot.jsx ── */
 function CoverLetterForm({ onSubmit }) {
   const [jobDescription, setJobDescription] = useState("");
@@ -1537,8 +1698,11 @@ function Mascot({ route, setTweak, enabled = true }) {
   const [inputText, setInputText] = useState("");
   const [connecting, setConnecting] = useState(false);
   const [sending, setSending] = useState(false);
+  const [talking, setTalking] = useState(false);
   const [isNewSession, setIsNewSession] = useState(true);
   const [sessionActive, setSessionActive] = useState(false);
+  const talkingTimerRef = useRef(null);
+  const isAgentActive = connecting || sending || talking;
   const accessTokenRef = useRef(null);
   const conversationIdRef = useRef(null);
   const sseReaderRef = useRef(null);
@@ -1675,6 +1839,9 @@ function Mascot({ route, setTweak, enabled = true }) {
                       }];
                     });
                     setPose("wave");
+                    setTalking(true);
+                    if (talkingTimerRef.current) clearTimeout(talkingTimerRef.current);
+                    talkingTimerRef.current = setTimeout(() => setTalking(false), 5e3);
                     setTimeout(() => setPose("idle"), 1200);
                   }
                 }
@@ -1896,7 +2063,22 @@ Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
     borderRight: "8px solid transparent",
     borderTop: "8px solid rgba(255, 255, 255, 0.88)",
     filter: "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2))"
-  } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info" }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar" }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement("span", { className: `cosmic-chat-status-dot ${connecting ? "connecting" : ""}` }), /* @__PURE__ */ React.createElement("span", null, connecting ? "Connecting..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => {
+  } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header", style: { position: "relative", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    inset: 0,
+    opacity: isAgentActive ? 0.85 : 0.12,
+    transition: "opacity 0.6s ease",
+    pointerEvents: "none"
+  } }, /* @__PURE__ */ React.createElement(SoftAurora, { active: isAgentActive, speed: 1.2 })), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info", style: { position: "relative", zIndex: 3 } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar", style: {
+    boxShadow: isAgentActive ? "0 0 16px rgba(0, 225, 255, 0.75)" : "none",
+    transition: "box-shadow 0.4s ease"
+  } }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement(
+    "span",
+    {
+      className: `cosmic-chat-status-dot ${connecting || sending ? "connecting" : ""}`,
+      style: isAgentActive ? { background: "#00E5FF", boxShadow: "0 0 10px #00E5FF" } : {}
+    }
+  ), /* @__PURE__ */ React.createElement("span", { style: { color: isAgentActive ? "#A5E9FF" : "inherit", fontWeight: isAgentActive ? 600 : 400 } }, connecting ? "Initializing Agentforce..." : sending ? "Agent Processing..." : talking ? "Agent Responding..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", style: { position: "relative", zIndex: 3 }, onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => {
     const hasForm = msg.text && msg.text.includes("[SHOW_COVER_LETTER_FORM]");
     const hasDownload = msg.text && msg.text.includes("[DOWNLOAD_PDF:");
     let downloadBase64 = "";
@@ -1914,7 +2096,7 @@ Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
       background: hasForm ? "rgba(10,20,50,0.4)" : hasDownload ? "rgba(255,255,255,0.03)" : void 0,
       border: hasForm || hasDownload ? "1px solid rgba(180, 210, 255, 0.15)" : void 0
     } }, hasForm ? /* @__PURE__ */ React.createElement(CoverLetterForm, { onSubmit: submitCoverLetterForm }) : hasDownload ? /* @__PURE__ */ React.createElement(CoverLetterDownload, { base64Pdf: downloadBase64 }) : msg.text);
-  }), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing" }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
+  }), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-aurora-processing" }, /* @__PURE__ */ React.createElement("div", { className: "aurora-backdrop" }, /* @__PURE__ */ React.createElement(SoftAurora, { active: true, speed: 1.5 })), /* @__PURE__ */ React.createElement("div", { className: "aurora-content" }, /* @__PURE__ */ React.createElement("div", { className: "aurora-pulse-orb" }), /* @__PURE__ */ React.createElement("div", { className: "aurora-text" }, /* @__PURE__ */ React.createElement("span", { className: "aurora-title" }, "AGENTFORCE AI REASONING"), /* @__PURE__ */ React.createElement("span", { className: "aurora-sub" }, connecting ? "Initializing secure agent session..." : "Synthesizing response & reasoning...")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing", style: { margin: 0, padding: "2px 6px", background: "transparent", border: "none" } }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
     e.preventDefault();
     sendMessage(inputText);
   } }, /* @__PURE__ */ React.createElement(
@@ -1936,7 +2118,21 @@ Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
       title: "Send message"
     },
     /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 24 24", width: "18", height: "18", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("line", { x1: "22", y1: "2", x2: "11", y2: "13" }), /* @__PURE__ */ React.createElement("polygon", { points: "22 2 15 22 11 13 2 9 22 2" }))
-  ))), /* @__PURE__ */ React.createElement(
+  ))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "inline-block", pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: 140,
+    height: 140,
+    transform: `translate(-50%, -50%) scale(${isAgentActive ? 1.05 : 0.6})`,
+    borderRadius: "50%",
+    overflow: "hidden",
+    opacity: isAgentActive ? 0.95 : 0,
+    transition: "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease",
+    pointerEvents: "none",
+    filter: "blur(10px)",
+    zIndex: 0
+  } }, /* @__PURE__ */ React.createElement(SoftAurora, { active: isAgentActive, speed: 1.4 })), /* @__PURE__ */ React.createElement(
     "button",
     {
       className: "hoverable",
@@ -1952,19 +2148,22 @@ Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
       },
       title: "Agentforce Assistant \xB7 click me",
       style: {
+        position: "relative",
+        zIndex: 1,
         width: 84,
         height: 92,
         padding: 0,
         border: "none",
         background: "transparent",
         pointerEvents: "auto",
-        filter: "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
+        filter: isAgentActive ? "drop-shadow(0 0 20px rgba(0, 225, 255, 0.75)) drop-shadow(0 14px 22px rgba(8,30,69,.28))" : "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
         transformOrigin: "50% 90%",
-        animation: pose === "bounce" ? "mascotBounce .55s cubic-bezier(.3,1.5,.4,1)" : "mascotFloat 4.5s ease-in-out infinite"
+        animation: pose === "bounce" ? "mascotBounce .55s cubic-bezier(.3,1.5,.4,1)" : "mascotFloat 4.5s ease-in-out infinite",
+        transition: "filter 0.5s ease"
       }
     },
     /* @__PURE__ */ React.createElement(MascotSVG, { pose, eyes })
-  ), /* @__PURE__ */ React.createElement("style", null, `
+  )), /* @__PURE__ */ React.createElement("style", null, `
         @keyframes bubblePop { 0% { opacity: 0; transform: translateY(8px) scale(.9); } 100% { opacity: 1; transform: none; } }
         @keyframes mascotFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
         @keyframes mascotBounce { 0% { transform: scale(1); } 40% { transform: scale(1.15, .9) translateY(-6px); } 100% { transform: scale(1); } }

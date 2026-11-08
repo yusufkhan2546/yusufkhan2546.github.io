@@ -34,6 +34,8 @@ function ThreeOrb({ height = 440, bare = false }) {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.position = "relative";
+    renderer.domElement.style.zIndex = "2";
     wrap.innerHTML = "";
     wrap.appendChild(renderer.domElement);
 
@@ -58,149 +60,8 @@ function ThreeOrb({ height = 440, bare = false }) {
     const root = new THREE.Group();
     scene.add(root);
 
-    // Clean celestial ambient glow behind central badge (no 3D polygon/wireframe meshes)
-    const coreGlowGeo = new THREE.CircleGeometry(2.1, 48);
-    const coreGlowMat = new THREE.MeshBasicMaterial({
-      color: 0x0070d2, transparent: true, opacity: .20,
-      blending: THREE.AdditiveBlending, depthWrite: false
-    });
-    const coreGlow = new THREE.Mesh(coreGlowGeo, coreGlowMat);
-    coreGlow.position.z = -0.05;
-    scene.add(coreGlow);
-
-    // === Centerpiece: original "YK · Lead Dev" hex badge (canvas-texture sprite) ===
-    const badgeCanvas = document.createElement("canvas");
-    badgeCanvas.width = 1024; badgeCanvas.height = 1024;
-    const bctx = badgeCanvas.getContext("2d");
-    (function drawBadge() {
-      const cx2 = 512, cy2 = 512;
-      // shadow
-      bctx.save();
-      bctx.shadowColor = "rgba(0,160,255,.55)";
-      bctx.shadowBlur = 60;
-      // hex path
-      const R = 380;
-      bctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const a = (Math.PI / 3) * i - Math.PI / 2;
-        const x = cx2 + Math.cos(a) * R;
-        const y = cy2 + Math.sin(a) * R;
-        if (i === 0) bctx.moveTo(x, y); else bctx.lineTo(x, y);
-      }
-      bctx.closePath();
-      // gradient fill
-      const grad = bctx.createLinearGradient(cx2 - R, cy2 - R, cx2 + R, cy2 + R);
-      grad.addColorStop(0, "#0A1B3C");
-      grad.addColorStop(1, "#1A2D5C");
-      bctx.fillStyle = grad;
-      bctx.fill();
-      bctx.restore();
-
-      // inner ring (subtle highlight)
-      bctx.lineWidth = 5;
-      bctx.strokeStyle = "rgba(180,230,255,.9)";
-      bctx.beginPath();
-      const R2 = R - 22;
-      for (let i = 0; i < 6; i++) {
-        const a = (Math.PI / 3) * i - Math.PI / 2;
-        const x = cx2 + Math.cos(a) * R2;
-        const y = cy2 + Math.sin(a) * R2;
-        if (i === 0) bctx.moveTo(x, y); else bctx.lineTo(x, y);
-      }
-      bctx.closePath();
-      bctx.stroke();
-
-      // dotted hex frame
-      bctx.lineWidth = 2;
-      bctx.strokeStyle = "rgba(255,255,255,.18)";
-      bctx.setLineDash([4, 8]);
-      bctx.beginPath();
-      const R3 = R - 50;
-      for (let i = 0; i < 6; i++) {
-        const a = (Math.PI / 3) * i - Math.PI / 2;
-        const x = cx2 + Math.cos(a) * R3;
-        const y = cy2 + Math.sin(a) * R3;
-        if (i === 0) bctx.moveTo(x, y); else bctx.lineTo(x, y);
-      }
-      bctx.closePath();
-      bctx.stroke();
-      bctx.setLineDash([]);
-
-      // top arc text "12× CERTIFIED · LEAD DEVELOPER"
-      bctx.save();
-      bctx.translate(cx2, cy2);
-      bctx.fillStyle = "rgba(180,230,255,.85)";
-      bctx.font = "700 38px 'JetBrains Mono', monospace";
-      bctx.textAlign = "center";
-      bctx.textBaseline = "middle";
-      const text = "★  12 × CERTIFIED  ★  SALESFORCE LEAD DEV  ★  ";
-      const radius = 305;
-      const total = text.length;
-      const start = -Math.PI / 2 - .9;
-      for (let i = 0; i < total; i++) {
-        const a = start + (1.8 * i / (total - 1));
-        bctx.save();
-        bctx.rotate(a);
-        bctx.translate(0, -radius);
-        bctx.fillText(text[i], 0, 0);
-        bctx.restore();
-      }
-      bctx.restore();
-
-      // central YK monogram — bold
-      bctx.fillStyle = "white";
-      bctx.font = "800 280px 'Bricolage Grotesque', system-ui, sans-serif";
-      bctx.textAlign = "center";
-      bctx.textBaseline = "middle";
-      bctx.fillText("YK", cx2, cy2 - 6);
-
-      // dot/bolt accent after the K
-      // measure approx
-      const bgrad = bctx.createLinearGradient(cx2 + 120, cy2 + 40, cx2 + 200, cy2 + 120);
-      bgrad.addColorStop(0, "#FFD479");
-      bgrad.addColorStop(1, "#FF6F00");
-      bctx.fillStyle = bgrad;
-      // lightning bolt as the period
-      bctx.beginPath();
-      const bx = cx2 + 175, by = cy2 + 70;
-      bctx.moveTo(bx, by - 35);
-      bctx.lineTo(bx - 18, by);
-      bctx.lineTo(bx - 5, by);
-      bctx.lineTo(bx - 12, by + 30);
-      bctx.lineTo(bx + 18, by - 6);
-      bctx.lineTo(bx + 4, by - 6);
-      bctx.lineTo(bx + 12, by - 35);
-      bctx.closePath();
-      bctx.shadowColor = "rgba(255,140,40,.8)";
-      bctx.shadowBlur = 30;
-      bctx.fill();
-      bctx.shadowBlur = 0;
-
-      // bottom: divider + sublabel
-      bctx.strokeStyle = "rgba(255,255,255,.45)";
-      bctx.lineWidth = 2;
-      bctx.beginPath();
-      bctx.moveTo(cx2 - 80, cy2 + 188);
-      bctx.lineTo(cx2 + 80, cy2 + 188);
-      bctx.stroke();
-
-      bctx.fillStyle = "rgba(180,230,255,.95)";
-      bctx.font = "700 30px 'JetBrains Mono', monospace";
-      bctx.fillText("/ TRAILBLAZING SINCE 2018 /", cx2, cy2 + 215);
-
-      bctx.fillStyle = "rgba(255,183,93,.95)";
-      bctx.font = "600 22px 'JetBrains Mono', monospace";
-      bctx.fillText("est. India · global", cx2, cy2 + 252);
-    })();
-
-    const badgeTex = new THREE.CanvasTexture(badgeCanvas);
-    badgeTex.anisotropy = renderer.capabilities.getMaxAnisotropy ? renderer.capabilities.getMaxAnisotropy() : 1;
-    const badgeMat = new THREE.SpriteMaterial({ map: badgeTex, transparent: true, depthWrite: false });
-    const badge = new THREE.Sprite(badgeMat);
-    badge.scale.set(3.0, 3.0, 1);
-    badge.position.z = 0;
-    // Add badge OUTSIDE root so it always faces the camera and doesn't rotate with the orbit
-    scene.add(badge);
+    // Center is clean and open (no YK badge, no wireframe meshes).
+    // The animated concentric ripple glass rings sit in the DOM behind the transparent canvas.
 
     // Certification badges orbit — uses all 12 user-uploaded badge PNGs as textures.
     const NODES = [
@@ -265,16 +126,21 @@ function ThreeOrb({ height = 440, bare = false }) {
       nodes.push({ group: g, base, data: n, idx: i, sprite });
     });
 
-    // Lightning lines — periodic strikes between random nodes & core
+    // Lightning lines — periodic strikes between random nodes
     const bolts = [];
     function spawnBolt() {
-      const a = nodes[Math.floor(Math.random() * nodes.length)].group;
-      const target = Math.random() < .5 ? new THREE.Vector3(0, 0, 0) : nodes[Math.floor(Math.random() * nodes.length)].group.position.clone();
+      if (nodes.length < 2) return;
+      const i1 = Math.floor(Math.random() * nodes.length);
+      let i2 = Math.floor(Math.random() * nodes.length);
+      while (i2 === i1) i2 = Math.floor(Math.random() * nodes.length);
+      const a = nodes[i1].group;
+      const bNode = nodes[i2].group;
       const start = new THREE.Vector3();
       a.getWorldPosition(start);
-      // local-space (root) start
-      const startLocal = root.worldToLocal(start.clone());
-      const endLocal = target instanceof THREE.Vector3 ? target : root.worldToLocal(a.getWorldPosition(new THREE.Vector3()));
+      const target = new THREE.Vector3();
+      bNode.getWorldPosition(target);
+      const startLocal = root.worldToLocal(start);
+      const endLocal = root.worldToLocal(target);
       const points = [];
       const steps = 8;
       for (let i = 0; i <= steps; i++) {
@@ -384,12 +250,6 @@ function ThreeOrb({ height = 440, bare = false }) {
       root.rotation.y += (targetRotY - root.rotation.y) * 0.06;
       root.rotation.x += (targetRotX - root.rotation.x) * 0.06;
 
-      // Badge gentle breathe & ambient glow (pure 2D, no polygon meshes)
-      const bs = 3.0 + Math.sin(t * 1.4) * .06;
-      badge.scale.set(bs, bs, 1);
-      const gs = 1 + Math.sin(t * 1.4) * .05;
-      coreGlow.scale.set(gs, gs, 1);
-
       // Nodes — gentle bobbing; sprites always face the camera so no extra rotation needed
       nodes.forEach((n, i) => {
         n.group.position.y = Math.sin(t * 1.2 + i) * .15;
@@ -485,12 +345,21 @@ function ThreeOrb({ height = 440, bare = false }) {
   const fullStyle = { ...bareStyle, borderRadius: 18, overflow: "hidden", background: "linear-gradient(180deg, #061331, #0A1B3C 60%, #112858)", border: "1px solid rgba(255,255,255,.08)", boxShadow: "0 30px 60px -20px rgba(0,30,80,.45)" };
   return (
     <div ref={wrapRef} style={bare ? bareStyle : fullStyle}>
+      {/* Concentric ripple glass rings (Uiverse.io) in orbit core */}
+      <div className="loader" aria-hidden="true">
+        <div className="box"></div>
+        <div className="box"></div>
+        <div className="box"></div>
+        <div className="box"></div>
+        <div className="box"></div>
+      </div>
+
       {!bare && <>
-        <div style={{ position: "absolute", top: 14, left: 14, display: "flex", alignItems: "center", gap: 10, zIndex: 2, pointerEvents: "none" }}>
+        <div style={{ position: "absolute", top: 14, left: 14, display: "flex", alignItems: "center", gap: 10, zIndex: 3, pointerEvents: "none" }}>
           <span style={{ width: 8, height: 8, borderRadius: 99, background: "var(--sf-blue)", boxShadow: "0 0 10px var(--sf-blue)" }}></span>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(255,255,255,.7)", fontWeight: 700 }}>Customer 360 · live orbit</span>
         </div>
-        <div style={{ position: "absolute", bottom: 14, right: 14, color: "rgba(255,255,255,.4)", fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: ".08em", pointerEvents: "none" }}>
+        <div style={{ position: "absolute", bottom: 14, right: 14, color: "rgba(255,255,255,.4)", fontSize: 10.5, fontFamily: "var(--font-mono)", letterSpacing: ".08em", pointerEvents: "none", zIndex: 3 }}>
           drag to rotate · hover for label
         </div>
       </>}
