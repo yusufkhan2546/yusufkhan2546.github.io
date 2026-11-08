@@ -20,11 +20,10 @@ console.log("── Step 2/2  esbuild bundle ───────────�
 const files = [
   "trailhead/icons.jsx",
   "trailhead/bolt-trail.jsx",
+  "trailhead/fading-stars.jsx",
   "trailhead/three-orb.jsx",
   "trailhead/three-cert-cabinet.jsx",
   "tweaks-panel.jsx",
-  "trailhead/soft-aurora.jsx",
-  "trailhead/mascot.jsx",
   "trailhead/page-home.jsx",
   "trailhead/page-certs.jsx",
   "trailhead/page-projects.jsx",
@@ -36,7 +35,6 @@ const files = [
   "trailhead/page-agent-recipes.jsx",
   "trailhead/page-soql-recipes.jsx",
   "trailhead/page-demos.jsx",
-  "trailhead/page-agent.jsx",
   "trailhead/main.jsx",
 ];
 
@@ -51,6 +49,8 @@ var useCallback   = React.useCallback;
 var useReducer    = React.useReducer;
 var useContext    = React.useContext;
 var useLayoutEffect = React.useLayoutEffect;
+var forwardRef    = React.forwardRef;
+var useImperativeHandle = React.useImperativeHandle;
 `;
 
 // Pattern that matches any const/let/var destructuring of React hooks

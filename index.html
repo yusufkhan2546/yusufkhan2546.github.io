@@ -1518,72 +1518,6 @@
       50% { transform: translateY(-4px); }
     }
 
-    /* Soft Aurora Processing Indicator (Agentforce AI) */
-    .cosmic-chat-aurora-processing {
-      position: relative;
-      width: 94%;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid rgba(110, 195, 255, 0.4);
-      background: rgba(5, 16, 42, 0.88);
-      box-shadow: 0 8px 24px -4px rgba(0, 161, 224, 0.35);
-      margin: 8px 0 12px;
-      animation: auroraCardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .cosmic-chat-aurora-processing .aurora-backdrop {
-      position: absolute;
-      inset: 0;
-      opacity: 0.8;
-      pointer-events: none;
-    }
-    .cosmic-chat-aurora-processing .aurora-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 12px;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-    .cosmic-chat-aurora-processing .aurora-pulse-orb {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #00E5FF;
-      box-shadow: 0 0 10px #00E5FF, 0 0 18px #0070D2;
-      animation: auroraPulse 1.3s infinite ease-in-out;
-      flex-shrink: 0;
-    }
-    .cosmic-chat-aurora-processing .aurora-text {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      text-align: left;
-    }
-    .cosmic-chat-aurora-processing .aurora-title {
-      font-family: var(--font-mono, monospace);
-      font-size: 9.5px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: #B6E6FF;
-      text-transform: uppercase;
-    }
-    .cosmic-chat-aurora-processing .aurora-sub {
-      font-size: 11.5px;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 500;
-      margin-top: 1px;
-    }
-    @keyframes auroraCardIn {
-      0% { opacity: 0; transform: translateY(6px) scale(0.97); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes auroraPulse {
-      0%, 100% { transform: scale(0.9); opacity: 0.75; }
-      50% { transform: scale(1.35); opacity: 1; filter: brightness(1.3); }
-    }
-
     /* Concentric ripple glass rings (Uiverse.io by Smit-Prajapati) */
     .loader {
       --size: 260px;
@@ -1673,7 +1607,8 @@
       "accentDeep": "#032D60",
       "boltTrail": false,
       "showCursor": false,
-      "mascot": true,
+      "fadingStars": true,
+      "mascot": false,
       "mapplsToken": ""
     }/*EDITMODE-END*/;
     window.__IS_MOBILE = _isMobile;
@@ -1811,7 +1746,7 @@
   <!-- Salesforce portfolio data — generated at build time by sf-fetch.js -->
   <script src="sf-data.js"></script>
   <!-- Pre-compiled bundle — no runtime JSX transpilation -->
-  <script src="bundle.js?v=orb-page-agent-v8"></script>
+  <script src="bundle.js?v=fading-stars-v9"></script>
 
 </body>
 

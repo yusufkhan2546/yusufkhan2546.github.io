@@ -259,12 +259,8 @@ function Mascot({ route, setTweak, enabled = true }) {
   const [inputText, setInputText] = useState("");
   const [connecting, setConnecting] = useState(false);
   const [sending, setSending] = useState(false);
-  const [talking, setTalking] = useState(false);
   const [isNewSession, setIsNewSession] = useState(true);
   const [sessionActive, setSessionActive] = useState(false);
-
-  const talkingTimerRef = useRef(null);
-  const isAgentActive = connecting || sending || talking;
 
   const accessTokenRef = useRef(null);
   const conversationIdRef = useRef(null);
@@ -412,9 +408,6 @@ function Mascot({ route, setTweak, enabled = true }) {
                       }];
                     });
                     setPose("wave");
-                    setTalking(true);
-                    if (talkingTimerRef.current) clearTimeout(talkingTimerRef.current);
-                    talkingTimerRef.current = setTimeout(() => setTalking(false), 5000);
                     setTimeout(() => setPose("idle"), 1200);
                   }
                 }
@@ -656,35 +649,18 @@ function Mascot({ route, setTweak, enabled = true }) {
       {/* Cosmic Chat Window */}
       {chatOpen && (
         <div className="cosmic-chat-window" style={{ pointerEvents: "auto" }}>
-          <div className="cosmic-chat-header" style={{ position: "relative", overflow: "hidden" }}>
-            {/* Soft Aurora active in header whenever AI Agent is processing or talking back */}
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              opacity: isAgentActive ? 0.85 : 0.12,
-              transition: "opacity 0.6s ease",
-              pointerEvents: "none"
-            }}>
-              <SoftAurora active={isAgentActive} speed={1.2} />
-            </div>
-
-            <div className="cosmic-chat-header-info" style={{ position: "relative", zIndex: 3 }}>
-              <div className="cosmic-chat-avatar" style={{
-                boxShadow: isAgentActive ? "0 0 16px rgba(0, 225, 255, 0.75)" : "none",
-                transition: "box-shadow 0.4s ease"
-              }}>🤖</div>
+          <div className="cosmic-chat-header">
+            <div className="cosmic-chat-header-info">
+              <div className="cosmic-chat-avatar">🤖</div>
               <div>
                 <div className="cosmic-chat-title">Agentforce Representative</div>
                 <div className="cosmic-chat-status">
-                  <span className={`cosmic-chat-status-dot ${connecting || sending ? 'connecting' : ''}`}
-                    style={isAgentActive ? { background: "#00E5FF", boxShadow: "0 0 10px #00E5FF" } : {}}></span>
-                  <span style={{ color: isAgentActive ? "#A5E9FF" : "inherit", fontWeight: isAgentActive ? 600 : 400 }}>
-                    {connecting ? 'Initializing Agentforce...' : sending ? 'Agent Processing...' : talking ? 'Agent Responding...' : 'Online'}
-                  </span>
+                  <span className={`cosmic-chat-status-dot ${connecting ? 'connecting' : ''}`}></span>
+                  <span>{connecting ? 'Connecting...' : 'Online'}</span>
                 </div>
               </div>
             </div>
-            <button className="cosmic-chat-close" style={{ position: "relative", zIndex: 3 }} onClick={() => setChatOpen(false)} title="Close chat">×</button>
+            <button className="cosmic-chat-close" onClick={() => setChatOpen(false)} title="Close chat">×</button>
           </div>
           
           <div className="cosmic-chat-messages" ref={chatMessagesRef}>
@@ -721,24 +697,10 @@ function Mascot({ route, setTweak, enabled = true }) {
             })}
             
             {(sending || connecting) && (
-              <div className="cosmic-chat-aurora-processing">
-                <div className="aurora-backdrop">
-                  <SoftAurora active={true} speed={1.5} />
-                </div>
-                <div className="aurora-content">
-                  <div className="aurora-pulse-orb"></div>
-                  <div className="aurora-text">
-                    <span className="aurora-title">AGENTFORCE AI REASONING</span>
-                    <span className="aurora-sub">
-                      {connecting ? "Initializing secure agent session..." : "Synthesizing response & reasoning..."}
-                    </span>
-                  </div>
-                  <div className="cosmic-chat-typing" style={{ margin: 0, padding: "2px 6px", background: "transparent", border: "none" }}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
+              <div className="cosmic-chat-typing">
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
             )}
           </div>
@@ -767,57 +729,30 @@ function Mascot({ route, setTweak, enabled = true }) {
         </div>
       )}
 
-      {/* Mascot critter button wrapped with Soft Aurora halo aura */}
-      <div style={{ position: "relative", display: "inline-block", pointerEvents: "auto" }}>
-        {/* Soft Aurora Halo behind critter when AI Agent is processing or talking back */}
-        <div style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: 140,
-          height: 140,
-          transform: `translate(-50%, -50%) scale(${isAgentActive ? 1.05 : 0.6})`,
-          borderRadius: "50%",
-          overflow: "hidden",
-          opacity: isAgentActive ? 0.95 : 0,
-          transition: "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease",
-          pointerEvents: "none",
-          filter: "blur(10px)",
-          zIndex: 0
-        }}>
-          <SoftAurora active={isAgentActive} speed={1.4} />
-        </div>
-
-        <button
-          className="hoverable"
-          data-cursor="hover"
-          onClick={() => {
-            setPose("bounce");
-            const nextState = !chatOpen;
-            setChatOpen(nextState);
-            if (nextState && !sessionActive && !connecting) {
-              startSession();
-            }
-            setTimeout(() => setPose("idle"), 700);
-          }}
-          title="Agentforce Assistant · click me"
-          style={{
-            position: "relative",
-            zIndex: 1,
-            width: 84, height: 92, padding: 0, border: "none",
-            background: "transparent",
-            pointerEvents: "auto",
-            filter: isAgentActive
-              ? "drop-shadow(0 0 20px rgba(0, 225, 255, 0.75)) drop-shadow(0 14px 22px rgba(8,30,69,.28))"
-              : "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
-            transformOrigin: "50% 90%",
-            animation: pose === "bounce" ? "mascotBounce .55s cubic-bezier(.3,1.5,.4,1)" : "mascotFloat 4.5s ease-in-out infinite",
-            transition: "filter 0.5s ease"
-          }}
-        >
-          <MascotSVG pose={pose} eyes={eyes} />
-        </button>
-      </div>
+      <button
+        className="hoverable"
+        data-cursor="hover"
+        onClick={() => {
+          setPose("bounce");
+          const nextState = !chatOpen;
+          setChatOpen(nextState);
+          if (nextState && !sessionActive && !connecting) {
+            startSession();
+          }
+          setTimeout(() => setPose("idle"), 700);
+        }}
+        title="Agentforce Assistant · click me"
+        style={{
+          width: 84, height: 92, padding: 0, border: "none",
+          background: "transparent",
+          pointerEvents: "auto",
+          filter: "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
+          transformOrigin: "50% 90%",
+          animation: pose === "bounce" ? "mascotBounce .55s cubic-bezier(.3,1.5,.4,1)" : "mascotFloat 4.5s ease-in-out infinite",
+        }}
+      >
+        <MascotSVG pose={pose} eyes={eyes} />
+      </button>
 
       <style>{`
         @keyframes bubblePop { 0% { opacity: 0; transform: translateY(8px) scale(.9); } 100% { opacity: 1; transform: none; } }

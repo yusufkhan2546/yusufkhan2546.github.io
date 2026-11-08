@@ -7,6 +7,8 @@ var useCallback   = React.useCallback;
 var useReducer    = React.useReducer;
 var useContext    = React.useContext;
 var useLayoutEffect = React.useLayoutEffect;
+var forwardRef    = React.forwardRef;
+var useImperativeHandle = React.useImperativeHandle;
 
 /* ── trailhead/icons.jsx ── */
 const Icon = ({ name, size = 18, color = "currentColor", style, className }) => {
@@ -274,6 +276,375 @@ function BoltTrail({ enabled = true, showCursor = true }) {
   return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("canvas", { id: "bolt-canvas", ref: canvasRef }), showCursor && /* @__PURE__ */ React.createElement("div", { className: "cursor-trail-badge", ref: dotRef }, /* @__PURE__ */ React.createElement("img", { src: "assets/Cursor.svg", alt: "", style: { width: "100%", height: "100%", display: "block", pointerEvents: "none" } })));
 }
 Object.assign(window, { BoltTrail });
+
+
+/* ── trailhead/fading-stars.jsx ── */
+/* hooks from shim */
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const rand = (a, b) => a + Math.random() * (b - a);
+function hexToRgb(hex) {
+  const h = (hex || "#020817").replace("#", "");
+  const full = h.length === 3 ? h.split("").map((x) => x + x).join("") : h;
+  const n = parseInt(full, 16);
+  return { r: n >> 16 & 255, g: n >> 8 & 255, b: n & 255 };
+}
+function rgba(hex, alpha) {
+  const { r, g, b } = hexToRgb(hex);
+  return `rgba(${r},${g},${b},${clamp(alpha, 0, 1)})`;
+}
+const FadingStars = forwardRef(function FadingStars2({
+  enabled = true,
+  colors = ["#1677FF", "#C8F2FF"],
+  backgroundColor = "transparent",
+  // transparent allows theme gradient through, or '#020817'
+  mode = "auto",
+  direction = "up",
+  spread = 150,
+  focus = 0.35,
+  originOffset = 0.18,
+  originShift = 0,
+  count = 620,
+  speed = 0.18,
+  speedVariance = 0.72,
+  acceleration = 1.15,
+  trailLength = 0.52,
+  trailFade = 1.55,
+  lineWidth = 1,
+  starSize = 2.4,
+  twinkle = 0.42,
+  fadeIn = 0.06,
+  fadeOut = 0.3,
+  depth = 0.62,
+  glow = 0.8,
+  intensity = 1.15,
+  grain = 0.3,
+  interactive = true,
+  thrust = 1.35,
+  burst = 88,
+  paused = false,
+  quality = 1,
+  className = "",
+  style = {},
+  children = null
+}, ref) {
+  const rootRef = useRef(null);
+  const canvasRef = useRef(null);
+  const apiRef = useRef({ burst: () => {
+  } });
+  const settingsRef = useRef({});
+  settingsRef.current = {
+    enabled,
+    colors,
+    backgroundColor,
+    mode,
+    direction,
+    spread,
+    focus,
+    originOffset,
+    originShift,
+    count,
+    speed,
+    speedVariance,
+    acceleration,
+    trailLength,
+    trailFade,
+    lineWidth,
+    starSize,
+    twinkle,
+    fadeIn,
+    fadeOut,
+    depth,
+    glow,
+    intensity,
+    grain,
+    interactive,
+    thrust,
+    burst,
+    paused,
+    quality
+  };
+  useImperativeHandle(ref, () => ({
+    burst: (x, y) => apiRef.current.burst(x, y)
+  }), []);
+  useEffect(() => {
+    window.burstStars = (x, y) => apiRef.current.burst(x, y);
+    return () => {
+      if (window.burstStars === apiRef.current.burst) {
+        delete window.burstStars;
+      }
+    };
+  }, []);
+  useEffect(() => {
+    if (!enabled) return;
+    const canvas = canvasRef.current;
+    const root = rootRef.current;
+    if (!canvas || !root) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+    let width = 0, height = 0, dpr = 1, raf = 0, last = 0, elapsed = 0;
+    let stars = [], bursts = [];
+    let pointer = { x: 0, y: 0, lastX: 0, lastY: 0, velocity: 0, active: false };
+    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const getOrigin = () => {
+      const s = settingsRef.current;
+      const off = Math.min(width, height) * s.originOffset;
+      if (s.direction === "up") return { x: width * (0.5 + s.originShift * 0.5), y: height + off };
+      if (s.direction === "down") return { x: width * (0.5 + s.originShift * 0.5), y: -off };
+      if (s.direction === "left") return { x: width + off, y: height * (0.5 + s.originShift * 0.5) };
+      if (s.direction === "right") return { x: -off, y: height * (0.5 + s.originShift * 0.5) };
+      return { x: width * (0.5 + s.originShift * 0.5), y: height * 0.5 };
+    };
+    const angleFor = () => {
+      const s = settingsRef.current;
+      if (s.direction === "out") return rand(0, Math.PI * 2);
+      const base = { up: -Math.PI / 2, down: Math.PI / 2, left: Math.PI, right: 0 }[s.direction] ?? -Math.PI / 2;
+      const fan = s.spread * Math.PI / 180 / 2;
+      const bias = (Math.random() * 2 - 1) * fan * (1 - s.focus * 0.75);
+      return base + bias;
+    };
+    const makeStar = (initial = false) => {
+      const s = settingsRef.current;
+      const angle = angleFor();
+      const origin = getOrigin();
+      const maxDistance = Math.hypot(width, height) * 1.25;
+      const distance = initial ? rand(0, maxDistance) : rand(-maxDistance * 0.12, 0);
+      const far = Math.random() < s.depth;
+      return {
+        x: origin.x + Math.cos(angle) * distance,
+        y: origin.y + Math.sin(angle) * distance,
+        angle,
+        distance,
+        maxDistance,
+        baseSpeed: s.speed * rand(1 - s.speedVariance, 1 + s.speedVariance),
+        depthScale: far ? rand(0.25, 0.62) : rand(0.72, 1.25),
+        size: rand(0.45, 1.35),
+        phase: rand(0, Math.PI * 2),
+        age: initial ? rand(0.1, 1) : 0
+      };
+    };
+    const resetStars = () => {
+      const s = settingsRef.current;
+      const target = Math.round(s.count * (width * height / (1280 * 720)) * s.quality);
+      stars = Array.from({ length: clamp(target, 40, 2500) }, () => makeStar(true));
+    };
+    const resize = () => {
+      width = Math.max(1, window.innerWidth || root.clientWidth || 300);
+      height = Math.max(1, window.innerHeight || root.clientHeight || 300);
+      dpr = Math.min(window.devicePixelRatio || 1, 2) * clamp(settingsRef.current.quality, 0.25, 1);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      resetStars();
+      draw(0, true);
+    };
+    const launchBurst = (x, y) => {
+      const amount = Math.max(0, settingsRef.current.burst);
+      if (!amount) return;
+      const bx = x !== void 0 ? x : width / 2;
+      const by = y !== void 0 ? y : height * 0.5;
+      const shell = [];
+      for (let i = 0; i < amount; i++) {
+        const a = i / amount * Math.PI * 2 + rand(-0.045, 0.045);
+        const v = rand(80, 280);
+        shell.push({
+          x: bx,
+          y: by,
+          vx: Math.cos(a) * v,
+          vy: Math.sin(a) * v,
+          life: 0,
+          maxLife: rand(0.8, 1.6),
+          size: rand(0.7, 2),
+          phase: rand(0, 6)
+        });
+      }
+      bursts.push(...shell);
+    };
+    apiRef.current.burst = launchBurst;
+    const onPointerMove = (e) => {
+      const x = e.clientX, y = e.clientY;
+      const dx = x - pointer.lastX, dy = y - pointer.lastY;
+      pointer.velocity = clamp(Math.hypot(dx, dy) / 32, 0, 2.8);
+      pointer.x = x;
+      pointer.y = y;
+      pointer.lastX = x;
+      pointer.lastY = y;
+      pointer.active = true;
+    };
+    const onPointerLeave = () => {
+      pointer.active = false;
+    };
+    const onClick = (e) => {
+      if (!settingsRef.current.interactive) return;
+      launchBurst(e.clientX, e.clientY);
+    };
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("click", onClick, { passive: true });
+    const draw = (dt, still = false) => {
+      const s = settingsRef.current;
+      if (s.backgroundColor && s.backgroundColor !== "transparent") {
+        const bg = hexToRgb(s.backgroundColor);
+        ctx.fillStyle = `rgb(${bg.r},${bg.g},${bg.b})`;
+        ctx.fillRect(0, 0, width, height);
+      } else {
+        ctx.clearRect(0, 0, width, height);
+      }
+      const dark = true;
+      const glowMode = s.mode === "glow" || s.mode === "auto" && dark;
+      const trailColor = s.colors[0] || "#1677FF";
+      const headColor = s.colors[1] || "#C8F2FF";
+      const origin = getOrigin();
+      const diagonal = Math.hypot(width, height);
+      const thrustBoost = s.interactive && pointer.active ? pointer.velocity * s.thrust : 0;
+      pointer.velocity *= Math.exp(-dt * 2.8);
+      for (const star of stars) {
+        const progress = clamp(star.distance / star.maxDistance, 0, 1);
+        const velocity = star.baseSpeed * star.depthScale * (1 + s.acceleration * progress) * (1 + thrustBoost);
+        const travel = velocity * diagonal * dt;
+        if (!still) {
+          star.distance += travel;
+          star.x += Math.cos(star.angle) * travel;
+          star.y += Math.sin(star.angle) * travel;
+          star.age += dt;
+        }
+        const p = clamp(star.distance / star.maxDistance, 0, 1);
+        const inAlpha = s.fadeIn <= 0 ? 1 : clamp(p / s.fadeIn, 0, 1);
+        const outAlpha = s.fadeOut <= 0 ? 1 : clamp((1 - p) / s.fadeOut, 0, 1);
+        const shimmer = 1 - s.twinkle * 0.5 + Math.sin(elapsed * 4 + star.phase) * s.twinkle * 0.5;
+        const alpha = clamp(inAlpha * outAlpha * star.depthScale * shimmer * s.intensity, 0, 1);
+        const tail = Math.max(5, diagonal * s.trailLength * (velocity / Math.max(0.01, s.speed)) * 0.08);
+        const tx = star.x - Math.cos(star.angle) * tail;
+        const ty = star.y - Math.sin(star.angle) * tail;
+        const grad = ctx.createLinearGradient(tx, ty, star.x, star.y);
+        grad.addColorStop(0, rgba(trailColor, 0));
+        grad.addColorStop(clamp(1 - 0.58 / Math.max(0.35, s.trailFade), 0.18, 0.82), rgba(trailColor, alpha * 0.38));
+        grad.addColorStop(1, rgba(headColor, alpha));
+        ctx.lineCap = "round";
+        ctx.lineWidth = Math.max(0.35, s.lineWidth * star.depthScale);
+        ctx.strokeStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(star.x, star.y);
+        ctx.stroke();
+        const radius = s.starSize * star.size * (0.5 + star.depthScale * 0.5);
+        if (radius > 0.1 && alpha > 0.02) {
+          if (glowMode && s.glow > 0) {
+            ctx.shadowBlur = radius * 5 * s.glow;
+            ctx.shadowColor = rgba(headColor, alpha * 0.8);
+          }
+          ctx.fillStyle = rgba(headColor, alpha);
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+        if (!still && (star.distance > star.maxDistance * 1.15 || alpha < 1e-3 && star.distance > star.maxDistance)) {
+          Object.assign(star, makeStar(false));
+        }
+      }
+      if (!still) {
+        bursts = bursts.filter((p) => p.life < p.maxLife);
+        for (const p of bursts) {
+          p.life += dt;
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vx *= Math.pow(0.35, dt);
+          p.vy *= Math.pow(0.35, dt);
+          const a = clamp(1 - p.life / p.maxLife, 0, 1);
+          ctx.strokeStyle = rgba(headColor, a * 0.8);
+          ctx.lineWidth = p.size;
+          ctx.beginPath();
+          ctx.moveTo(p.x - p.vx * 0.018, p.y - p.vy * 0.018);
+          ctx.lineTo(p.x, p.y);
+          ctx.stroke();
+          if (glowMode && s.glow > 0) {
+            ctx.shadowBlur = 8 * s.glow;
+            ctx.shadowColor = headColor;
+          }
+          ctx.fillStyle = rgba("#FFFFFF", a);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 0.8, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      }
+      if (s.grain > 0) {
+        const speckles = Math.round(90 * s.grain * s.quality);
+        for (let i = 0; i < speckles; i++) {
+          const gx = Math.random() * width, gy = Math.random() * height;
+          ctx.fillStyle = `rgba(180,220,255,${Math.random() * 0.12 * s.grain})`;
+          ctx.fillRect(gx, gy, 1, 1);
+        }
+      }
+      if (glowMode) {
+        const haze = ctx.createRadialGradient(width * 0.52, height * 0.48, 0, width * 0.52, height * 0.48, diagonal * 0.72);
+        haze.addColorStop(0, "rgba(12,65,150,0.12)");
+        haze.addColorStop(0.55, "rgba(5,30,80,0.055)");
+        haze.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = haze;
+        ctx.fillRect(0, 0, width, height);
+      }
+    };
+    const frame = (now) => {
+      raf = requestAnimationFrame(frame);
+      if (!last) last = now;
+      const dt = Math.min(0.04, (now - last) / 1e3);
+      last = now;
+      if (settingsRef.current.paused || reducedMotion) {
+        draw(0, true);
+        return;
+      }
+      elapsed += dt;
+      draw(dt);
+    };
+    window.addEventListener("resize", resize);
+    resize();
+    raf = requestAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("click", onClick);
+    };
+  }, [enabled, interactive]);
+  if (!enabled) return null;
+  return /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      ref: rootRef,
+      className: `fading-stars-layer ${className}`,
+      style: {
+        position: "fixed",
+        inset: 0,
+        width: "100vw",
+        height: "100vh",
+        pointerEvents: "none",
+        zIndex: 0,
+        overflow: "hidden",
+        ...style
+      }
+    },
+    /* @__PURE__ */ React.createElement(
+      "canvas",
+      {
+        ref: canvasRef,
+        style: {
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          display: "block"
+        },
+        "aria-hidden": "true"
+      }
+    ),
+    children && /* @__PURE__ */ React.createElement("div", { style: { position: "relative", zIndex: 1, width: "100%", height: "100%" } }, children)
+  );
+});
+Object.assign(window, { FadingStars });
 
 
 /* ── trailhead/three-orb.jsx ── */
@@ -1223,990 +1594,6 @@ Object.assign(window, {
 });
 
 
-/* ── trailhead/soft-aurora.jsx ── */
-function SoftAurora({
-  active = true,
-  speed = 1,
-  idleIntensity = 0,
-  activeIntensity = 1,
-  blend = 1,
-  colorPalette = "salesforce",
-  // "salesforce" (blue/cyan/teal/violet) or "classic" (emerald/cyan/magenta)
-  style = {},
-  className = "",
-  children = null
-}) {
-  const canvasRef = useRef(null);
-  const animRef = useRef(0);
-  const activeRef = useRef(active);
-  activeRef.current = active;
-  const speedRef = useRef(speed);
-  speedRef.current = speed;
-  const idleRef = useRef(idleIntensity);
-  idleRef.current = idleIntensity;
-  const activeIntRef = useRef(activeIntensity);
-  activeIntRef.current = activeIntensity;
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    let gl = null;
-    try {
-      gl = canvas.getContext("webgl", { alpha: true, antialias: false, depth: false }) || canvas.getContext("experimental-webgl", { alpha: true, antialias: false, depth: false });
-    } catch (e) {
-      console.warn("WebGL not supported for SoftAurora, falling back");
-    }
-    if (!gl) {
-      canvas.style.display = "none";
-      return;
-    }
-    const vsSource = `
-      attribute vec2 position;
-      varying vec2 vUv;
-      void main() {
-        vUv = position * 0.5 + 0.5;
-        gl_Position = vec4(position, 0.0, 1.0);
-      }
-    `;
-    const fsSource = `
-      precision highp float;
-      uniform float uTime;
-      uniform vec2 uResolution;
-      uniform float uIntensity;
-      uniform float uPaletteMode;
-      varying vec2 vUv;
-
-      // 3D Simplex noise implementation
-      vec4 permute(vec4 x){ return mod(((x*34.0)+1.0)*x, 289.0); }
-      vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
-
-      float snoise(vec3 v){
-        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
-        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-
-        vec3 i  = floor(v + dot(v, C.yyy));
-        vec3 x0 = v - i + dot(i, C.xxx);
-
-        vec3 g = step(x0.yzx, x0.xyz);
-        vec3 l = 1.0 - g;
-        vec3 i1 = min(g.xyz, l.zxy);
-        vec3 i2 = max(g.xyz, l.zxy);
-
-        vec3 x1 = x0 - i1 + 1.0 * C.xxx;
-        vec3 x2 = x0 - i2 + 2.0 * C.xxx;
-        vec3 x3 = x0 - 1.0 + 3.0 * C.xxx;
-
-        i = mod(i, 289.0);
-        vec4 p = permute(permute(permute(
-                   i.z + vec4(0.0, i1.z, i2.z, 1.0))
-                 + i.y + vec4(0.0, i1.y, i2.y, 1.0))
-                 + i.x + vec4(0.0, i1.x, i2.x, 1.0));
-
-        float n_ = 0.142857142857;
-        vec3 ns = n_ * D.wyz - D.xzx;
-
-        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-
-        vec4 x_ = floor(j * ns.z);
-        vec4 y_ = floor(j - 7.0 * x_);
-
-        vec4 x = x_ * ns.x + ns.yyyy;
-        vec4 y = y_ * ns.x + ns.yyyy;
-        vec4 h = 1.0 - abs(x) - abs(y);
-
-        vec4 b0 = vec4(x.xy, y.xy);
-        vec4 b1 = vec4(x.zw, y.zw);
-
-        vec4 s0 = floor(b0) * 2.0 + 1.0;
-        vec4 s1 = floor(b1) * 2.0 + 1.0;
-        vec4 sh = -step(h, vec4(0.0));
-
-        vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-        vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-
-        vec3 p0 = vec3(a0.xy, h.x);
-        vec3 p1 = vec3(a0.zw, h.y);
-        vec3 p2 = vec3(a1.xy, h.z);
-        vec3 p3 = vec3(a1.zw, h.w);
-
-        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
-        p0 *= norm.x;
-        p1 *= norm.y;
-        p2 *= norm.z;
-        p3 *= norm.w;
-
-        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-        m = m * m;
-        return 42.0 * dot(m * m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
-      }
-
-      // Cosine Gradient Generator: color = a + b * cos(2*pi*(c*t + d))
-      vec3 cosinePalette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
-        return a + b * cos(6.2831853 * (c * t + d));
-      }
-
-      void main() {
-        vec2 uv = gl_FragCoord.xy / uResolution.xy;
-        float t = uTime * 0.35;
-
-        // Flowing noise ribbons
-        float n1 = snoise(vec3(uv.x * 2.8, uv.y * 2.0 - t * 0.18, t * 0.12));
-        float n2 = snoise(vec3(uv.x * 4.2 + n1 * 0.7, uv.y * 3.2 + t * 0.14, t * 0.22));
-
-        // Soft curtain wave with dynamic ripple
-        float wave = smoothstep(-0.55, 0.85, n2 * 0.55 + n1 * 0.45 + sin(uv.x * 3.1415 + t * 0.25) * 0.3);
-
-        // Palette modes
-        vec3 a, b, c, d;
-        if (uPaletteMode > 0.5) {
-          // Classic Aurora (Emerald Green, Cyan, Magenta)
-          a = vec3(0.15, 0.50, 0.40);
-          b = vec3(0.40, 0.50, 0.35);
-          c = vec3(1.00, 1.00, 1.00);
-          d = vec3(0.00, 0.33, 0.67);
-        } else {
-          // Salesforce Cosmic Aurora (Electric Cyan, Royal Blue, Violet, Magenta)
-          a = vec3(0.12, 0.38, 0.72);
-          b = vec3(0.38, 0.52, 0.50);
-          c = vec3(1.00, 1.00, 0.85);
-          d = vec3(0.08, 0.38, 0.70);
-        }
-
-        vec3 auroraColor = cosinePalette(wave + t * 0.08, a, b, c, d);
-
-        // Core glow highlight on ribbons
-        float ribbonGlow = pow(clamp(wave, 0.0, 1.0), 2.4);
-        auroraColor += vec3(0.18, 0.72, 1.0) * ribbonGlow * 0.65;
-
-        // Alpha transparency driven by wave and active intensity
-        float alpha = clamp(wave * 0.85 + ribbonGlow * 0.35, 0.0, 0.95) * uIntensity;
-
-        gl_FragColor = vec4(auroraColor, alpha);
-      }
-    `;
-    function createShader(gl2, type, source) {
-      const shader = gl2.createShader(type);
-      gl2.shaderSource(shader, source);
-      gl2.compileShader(shader);
-      if (!gl2.getShaderParameter(shader, gl2.COMPILE_STATUS)) {
-        console.error("Shader compile error:", gl2.getShaderInfoLog(shader));
-        gl2.deleteShader(shader);
-        return null;
-      }
-      return shader;
-    }
-    const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
-    const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-    if (!vs || !fs) return;
-    const program = gl.createProgram();
-    gl.attachShader(program, vs);
-    gl.attachShader(program, fs);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program link error:", gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    const positions = new Float32Array([
-      -1,
-      -1,
-      1,
-      -1,
-      -1,
-      1,
-      -1,
-      1,
-      1,
-      -1,
-      1,
-      1
-    ]);
-    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-    const posAttrLoc = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(posAttrLoc);
-    gl.vertexAttribPointer(posAttrLoc, 2, gl.FLOAT, false, 0, 0);
-    const uTimeLoc = gl.getUniformLocation(program, "uTime");
-    const uResolutionLoc = gl.getUniformLocation(program, "uResolution");
-    const uIntensityLoc = gl.getUniformLocation(program, "uIntensity");
-    const uPaletteModeLoc = gl.getUniformLocation(program, "uPaletteMode");
-    gl.uniform1f(uPaletteModeLoc, colorPalette === "classic" ? 1 : 0);
-    let width = 0;
-    let height = 0;
-    const resize = () => {
-      const parent = canvas.parentElement || canvas;
-      const rect = parent.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const newW = Math.max(rect.width || 300, 50);
-      const newH = Math.max(rect.height || 150, 50);
-      if (width !== newW || height !== newH) {
-        width = newW;
-        height = newH;
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
-        gl.viewport(0, 0, canvas.width, canvas.height);
-      }
-    };
-    resize();
-    let ro = null;
-    if (window.ResizeObserver) {
-      ro = new ResizeObserver(resize);
-      if (canvas.parentElement) ro.observe(canvas.parentElement);
-    }
-    window.addEventListener("resize", resize);
-    let lastTime = performance.now();
-    let accumulatedTime = 0;
-    let currentIntensity = activeRef.current ? activeIntRef.current : idleRef.current;
-    const render = (now) => {
-      const targetIntensity = activeRef.current ? activeIntRef.current : idleRef.current;
-      currentIntensity += (targetIntensity - currentIntensity) * 0.06;
-      if (currentIntensity > 5e-3) {
-        const dt = Math.min((now - lastTime) * 1e-3, 0.1);
-        lastTime = now;
-        accumulatedTime += dt * (speedRef.current || 1);
-        gl.useProgram(program);
-        gl.uniform1f(uTimeLoc, accumulatedTime);
-        gl.uniform2f(uResolutionLoc, canvas.width, canvas.height);
-        gl.uniform1f(uIntensityLoc, currentIntensity);
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-      } else {
-        lastTime = now;
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-      }
-      animRef.current = requestAnimationFrame(render);
-    };
-    animRef.current = requestAnimationFrame(render);
-    return () => {
-      cancelAnimationFrame(animRef.current);
-      if (ro) ro.disconnect();
-      window.removeEventListener("resize", resize);
-      try {
-        gl.deleteBuffer(positionBuffer);
-        gl.deleteProgram(program);
-        gl.deleteShader(vs);
-        gl.deleteShader(fs);
-      } catch (e) {
-      }
-    };
-  }, [colorPalette]);
-  return /* @__PURE__ */ React.createElement("div", { style: {
-    position: "relative",
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    pointerEvents: "none",
-    ...style
-  }, className: `soft-aurora-wrap ${className}` }, /* @__PURE__ */ React.createElement(
-    "canvas",
-    {
-      ref: canvasRef,
-      style: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        display: "block",
-        pointerEvents: "none"
-      }
-    }
-  ), children && /* @__PURE__ */ React.createElement("div", { style: { position: "relative", zIndex: 2, pointerEvents: "auto" } }, children));
-}
-Object.assign(window, { SoftAurora });
-
-
-/* ── trailhead/mascot.jsx ── */
-function CoverLetterForm({ onSubmit }) {
-  const [jobDescription, setJobDescription] = useState("");
-  const [highlightingPoints, setHighlightingPoints] = useState("");
-  const [tone, setTone] = useState("Results-oriented");
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [sponsorshipNeeded, setSponsorshipNeeded] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const availableSkills = ["Apex", "LWC", "Integrations", "OmniStudio", "Agentforce", "Data Cloud", "Flow"];
-  const toggleSkill = (skill) => {
-    setSelectedSkills(
-      (prev) => prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]
-    );
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!jobDescription.trim()) return;
-    setSubmitted(true);
-    onSubmit({
-      jobDescription,
-      highlightingPoints,
-      tone,
-      highlightSkills: selectedSkills.join(", "),
-      sponsorshipNeeded
-    });
-  };
-  if (submitted) {
-    return /* @__PURE__ */ React.createElement("div", { style: { padding: 10, textAlign: "center", color: "rgba(255,255,255,0.7)" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "center", alignItems: "center", gap: 4, margin: "10px auto" } }, /* @__PURE__ */ React.createElement("span", { style: { width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both" } }), /* @__PURE__ */ React.createElement("span", { style: { width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both", animationDelay: "0.2s" } }), /* @__PURE__ */ React.createElement("span", { style: { width: 6, height: 6, background: "rgba(255,255,255,0.5)", borderRadius: "50%", animation: "typing 1.4s infinite both", animationDelay: "0.4s" } })), /* @__PURE__ */ React.createElement("p", { style: { fontSize: "11px", margin: 0 } }, "Submitting preferences to Agentforce..."));
-  }
-  return /* @__PURE__ */ React.createElement("form", { onSubmit: handleSubmit, style: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    padding: "8px 4px",
-    fontSize: "12px",
-    color: "white",
-    width: "100%",
-    textAlign: "left"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "bold", borderBottom: "1px solid rgba(180,210,255,0.15)", paddingBottom: 4, color: "#00A1E0", fontSize: "12.5px" } }, "Configure Cover Letter"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 3 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Job Description *"), /* @__PURE__ */ React.createElement(
-    "textarea",
-    {
-      required: true,
-      rows: 3,
-      placeholder: "Paste job description here...",
-      value: jobDescription,
-      onChange: (e) => setJobDescription(e.target.value),
-      style: {
-        background: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(180,210,255,0.2)",
-        borderRadius: 6,
-        padding: 6,
-        color: "white",
-        fontSize: "11px",
-        resize: "vertical",
-        outline: "none",
-        fontFamily: "inherit"
-      }
-    }
-  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 3 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Highlighting Points"), /* @__PURE__ */ React.createElement(
-    "input",
-    {
-      type: "text",
-      placeholder: "e.g. Lead 3 FSC setups, 90% CSAT...",
-      value: highlightingPoints,
-      onChange: (e) => setHighlightingPoints(e.target.value),
-      style: {
-        background: "rgba(255,255,255,0.05)",
-        border: "1px solid rgba(180,210,255,0.2)",
-        borderRadius: 6,
-        padding: 6,
-        color: "white",
-        fontSize: "11px",
-        outline: "none",
-        fontFamily: "inherit"
-      }
-    }
-  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 3 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Tone"), /* @__PURE__ */ React.createElement(
-    "select",
-    {
-      value: tone,
-      onChange: (e) => setTone(e.target.value),
-      style: {
-        background: "rgba(10,20,50,0.95)",
-        border: "1px solid rgba(180,210,255,0.2)",
-        borderRadius: 6,
-        padding: 6,
-        color: "white",
-        fontSize: "11px",
-        outline: "none",
-        fontFamily: "inherit"
-      }
-    },
-    /* @__PURE__ */ React.createElement("option", { value: "Results-oriented" }, "Results-oriented (Outcomes & Metrics)"),
-    /* @__PURE__ */ React.createElement("option", { value: "Achievement-oriented" }, "Achievement-oriented (Projects & Awards)")
-  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4 } }, /* @__PURE__ */ React.createElement("label", { style: { fontWeight: 600, color: "rgba(255,255,255,0.85)" } }, "Highlight Skills"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 4 } }, availableSkills.map((skill) => {
-    const isSelected = selectedSkills.includes(skill);
-    return /* @__PURE__ */ React.createElement(
-      "button",
-      {
-        key: skill,
-        type: "button",
-        onClick: () => toggleSkill(skill),
-        style: {
-          background: isSelected ? "var(--accent)" : "rgba(255,255,255,0.04)",
-          border: `1px solid ${isSelected ? "var(--accent)" : "rgba(180,210,255,0.15)"}`,
-          borderRadius: 999,
-          padding: "2px 8px",
-          color: "white",
-          fontSize: "10px",
-          cursor: "pointer",
-          transition: "all 0.1s ease"
-        }
-      },
-      skill
-    );
-  }))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, margin: "2px 0" } }, /* @__PURE__ */ React.createElement(
-    "input",
-    {
-      type: "checkbox",
-      id: "sponsorship",
-      checked: sponsorshipNeeded,
-      onChange: (e) => setSponsorshipNeeded(e.target.checked),
-      style: { cursor: "pointer", width: 12, height: 12 }
-    }
-  ), /* @__PURE__ */ React.createElement("label", { htmlFor: "sponsorship", style: { cursor: "pointer", userSelect: "none", color: "rgba(255,255,255,0.85)", fontSize: "11px" } }, "Visa Sponsorship Required")), /* @__PURE__ */ React.createElement("button", { type: "submit", className: "btn primary", style: {
-    marginTop: 4,
-    padding: "8px 12px",
-    fontSize: "11.5px",
-    justifyContent: "center",
-    border: "none",
-    width: "100%"
-  } }, "Generate Letter"));
-}
-function CoverLetterDownload({ base64Pdf }) {
-  const handleDownload = () => {
-    try {
-      const byteCharacters = atob(base64Pdf);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "application/pdf" });
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = "Yusuf_Khan_Cover_Letter.pdf";
-      link.click();
-    } catch (e) {
-      console.error("Error creating download blob:", e);
-    }
-  };
-  return /* @__PURE__ */ React.createElement("div", { style: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 8,
-    padding: "10px 8px",
-    background: "rgba(255, 255, 255, 0.04)",
-    border: "1px solid rgba(180, 210, 255, 0.15)",
-    borderRadius: 12,
-    marginTop: 4,
-    width: "100%",
-    textAlign: "center"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 20 } }, "\u{1F4C4}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "bold", fontSize: "12px", color: "white" } }, "Yusuf_Khan_Cover_Letter.pdf"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "rgba(255,255,255,0.5)", marginTop: 2 } }, "Ready for download")), /* @__PURE__ */ React.createElement("button", { onClick: handleDownload, className: "btn primary", style: {
-    padding: "6px 12px",
-    fontSize: "11px",
-    border: "none",
-    gap: 4,
-    width: "100%",
-    justifyContent: "center"
-  } }, /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 24 24", width: "12", height: "12", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round", style: { marginTop: -1 } }, /* @__PURE__ */ React.createElement("path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }), /* @__PURE__ */ React.createElement("polyline", { points: "7 10 12 15 17 10" }), /* @__PURE__ */ React.createElement("line", { x1: "12", y1: "15", x2: "12", y2: "3" })), "Download Cover Letter"));
-}
-function Mascot({ route, setTweak, enabled = true }) {
-  const [pose, setPose] = useState("idle");
-  const [bubble, setBubble] = useState(null);
-  const [eyes, setEyes] = useState({ x: 0, y: 0 });
-  const [exited, setExited] = useState(!enabled);
-  const wrapRef = useRef(null);
-  const generateUUID = () => {
-    if (typeof crypto !== "undefined" && crypto.randomUUID) {
-      return crypto.randomUUID();
-    }
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0, v = c === "x" ? r : r & 3 | 8;
-      return v.toString(16);
-    });
-  };
-  const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [inputText, setInputText] = useState("");
-  const [connecting, setConnecting] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [talking, setTalking] = useState(false);
-  const [isNewSession, setIsNewSession] = useState(true);
-  const [sessionActive, setSessionActive] = useState(false);
-  const talkingTimerRef = useRef(null);
-  const isAgentActive = connecting || sending || talking;
-  const accessTokenRef = useRef(null);
-  const conversationIdRef = useRef(null);
-  const sseReaderRef = useRef(null);
-  const chatMessagesRef = useRef(null);
-  const SF_CONFIG = {
-    orgId: "00DgK00000AXqoT",
-    esDeveloperName: "POrtfolio_Agent_ESD",
-    url: "https://orgfarm-47cedb95ea-dev-ed.develop.my.salesforce-scrt.com"
-  };
-  useEffect(() => {
-    if (chatMessagesRef.current) {
-      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-    }
-  }, [messages, sending]);
-  useEffect(() => {
-    return () => {
-      if (sseReaderRef.current) {
-        try {
-          sseReaderRef.current.cancel();
-        } catch (e) {
-        }
-      }
-    };
-  }, []);
-  useEffect(() => {
-    if (!enabled) return;
-    const tipsByRoute = {
-      home: "Hai....",
-      certs: "Hover any badge to read it. Hit 'Spin all' for the full cabinet show.",
-      projects: "Click 'Walk the flow' \u2014 each project animates its automation diagram.",
-      experience: "Scroll the Trailblazer stats \u2014 those counters are live.",
-      gigs: "Pick a service package and let's discuss details.",
-      demos: "Check out my interactive Apex limits simulator!",
-      contact: "Pick an engagement type and tell me what you're building."
-    };
-    const tip = tipsByRoute[route];
-    if (tip && !chatOpen) {
-      setBubble(tip);
-      setPose("wave");
-      const t1 = setTimeout(() => setPose("idle"), 1400);
-      const t2 = setTimeout(() => setBubble(null), 6500);
-      return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
-    }
-  }, [route, enabled, chatOpen]);
-  useEffect(() => {
-    if (!enabled) return;
-    const onMove = (e) => {
-      const el = wrapRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const cx = r.left + r.width / 2;
-      const cy = r.top + r.height / 2;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const d = Math.hypot(dx, dy) || 1;
-      const max = 3;
-      setEyes({ x: dx / d * max, y: dy / d * max });
-    };
-    window.addEventListener("pointermove", onMove);
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [enabled]);
-  useEffect(() => {
-    if (!enabled) return;
-    const i = setInterval(() => {
-      if (!chatOpen) {
-        setPose("wave");
-        setTimeout(() => setPose("idle"), 1200);
-      }
-    }, 12e3);
-    return () => clearInterval(i);
-  }, [enabled, chatOpen]);
-  const startSSEStream = async (token, convId) => {
-    try {
-      if (sseReaderRef.current) {
-        try {
-          sseReaderRef.current.cancel();
-        } catch (e) {
-        }
-      }
-      const sseUrl = `${SF_CONFIG.url}/eventrouter/v1/sse`;
-      const response = await fetch(sseUrl, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "X-Org-Id": SF_CONFIG.orgId,
-          "Accept": "text/event-stream"
-        }
-      });
-      if (!response.ok) throw new Error("SSE connection failed: " + response.statusText);
-      const reader = response.body.getReader();
-      sseReaderRef.current = reader;
-      const decoder = new TextDecoder();
-      let buffer = "";
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop();
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (trimmed) console.log("[Mascot] SSE line:", trimmed.slice(0, 120));
-          if (trimmed.startsWith("data:")) {
-            const jsonStr = trimmed.slice(5).trim();
-            try {
-              const eventData = JSON.parse(jsonStr);
-              const entry = eventData.conversationEntry || eventData;
-              const entryType = (entry.entryType || entry.type || "").toLowerCase();
-              console.log("[Mascot] parsed event \u2014 entryType:", entry.entryType, "| role:", entry.sender?.role, "| payload:", entry.entryPayload?.slice(0, 200));
-              if (entry && entryType === "message") {
-                let payload = {};
-                try {
-                  payload = JSON.parse(entry.entryPayload || "{}");
-                } catch (e) {
-                  console.error("[Mascot] entryPayload parse error", e);
-                }
-                const abstractMsg = payload.abstractMessage || entry.abstractMessage || {};
-                const sender = entry.sender || {};
-                const text = abstractMsg.staticContent && abstractMsg.staticContent.text || abstractMsg.messageText || entry.messageText;
-                const entryId = entry.identifier || entry.id || eventData.id || "agent-" + Date.now();
-                const role = (sender.role || entry.actorType || "").toLowerCase();
-                console.log("[Mascot] message event \u2014 role:", role, "| text:", text);
-                if (role !== "enduser") {
-                  if (text) {
-                    setMessages((prev) => {
-                      if (prev.some((m) => m.id === entryId)) return prev;
-                      return [...prev, {
-                        id: entryId,
-                        text,
-                        sender: "agent"
-                      }];
-                    });
-                    setPose("wave");
-                    setTalking(true);
-                    if (talkingTimerRef.current) clearTimeout(talkingTimerRef.current);
-                    talkingTimerRef.current = setTimeout(() => setTalking(false), 5e3);
-                    setTimeout(() => setPose("idle"), 1200);
-                  }
-                }
-              }
-            } catch (e) {
-              console.error("Error parsing event JSON:", e, jsonStr);
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.error("SSE stream ended:", err);
-      if (chatOpen && sessionActive) {
-        console.log("Attempting SSE reconnect in 5 seconds...");
-        setTimeout(() => {
-          if (chatOpen && accessTokenRef.current && conversationIdRef.current) {
-            startSSEStream(accessTokenRef.current, conversationIdRef.current);
-          }
-        }, 5e3);
-      }
-    }
-  };
-  const startSession = async () => {
-    setConnecting(true);
-    try {
-      const tokenRes = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/authorization/unauthenticated/access-token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orgId: SF_CONFIG.orgId,
-          esDeveloperName: SF_CONFIG.esDeveloperName,
-          capabilitiesVersion: "1",
-          platform: "Web"
-        })
-      });
-      if (!tokenRes.ok) throw new Error("Failed token fetch: " + tokenRes.statusText);
-      const tokenData = await tokenRes.json();
-      const token = tokenData.accessToken;
-      accessTokenRef.current = token;
-      const convId = generateUUID();
-      conversationIdRef.current = convId;
-      const convRes = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          conversationId: convId,
-          esDeveloperName: SF_CONFIG.esDeveloperName
-        })
-      });
-      if (!convRes.ok) throw new Error("Failed conversation create: " + convRes.statusText);
-      startSSEStream(token, convId);
-      setSessionActive(true);
-      setConnecting(false);
-    } catch (err) {
-      console.error("Session start failed:", err);
-      setConnecting(false);
-      setMessages((prev) => [...prev, {
-        id: "err-" + Date.now(),
-        text: "Sorry, I couldn't connect to Salesforce. Please check your browser console for details.",
-        sender: "agent"
-      }]);
-    }
-  };
-  const sendMessage = async (text) => {
-    if (!text.trim() || sending) return;
-    const userMsgId = "user-" + Date.now();
-    setMessages((prev) => [...prev, {
-      id: userMsgId,
-      text,
-      sender: "user"
-    }]);
-    setInputText("");
-    setSending(true);
-    setPose("thinking");
-    try {
-      const token = accessTokenRef.current;
-      const convId = conversationIdRef.current;
-      const messageId = generateUUID();
-      const isFirst = isNewSession;
-      if (isFirst) {
-        setIsNewSession(false);
-      }
-      const response = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation/${convId}/message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          message: {
-            id: messageId,
-            messageType: "StaticContentMessage",
-            staticContent: {
-              formatType: "Text",
-              text
-            }
-          },
-          esDeveloperName: SF_CONFIG.esDeveloperName,
-          isNewMessagingSession: isFirst,
-          language: "en"
-        })
-      });
-      const sendBody = await response.text();
-      console.log("[Mascot] send response", response.status, sendBody);
-      if (!response.ok) throw new Error("Send failed: " + response.statusText);
-      setSending(false);
-      setPose("idle");
-    } catch (err) {
-      console.error("Message send error:", err);
-      setSending(false);
-      setPose("idle");
-      setMessages((prev) => [...prev, {
-        id: "err-" + Date.now(),
-        text: "Failed to send message. Please try again.",
-        sender: "agent"
-      }]);
-    }
-  };
-  const submitCoverLetterForm = async (data) => {
-    if (sending) return;
-    const userMsgId = "user-" + Date.now();
-    setMessages((prev) => [...prev, {
-      id: userMsgId,
-      text: "Submitted cover letter preferences.",
-      sender: "user"
-    }]);
-    setSending(true);
-    setPose("thinking");
-    try {
-      const token = accessTokenRef.current;
-      const convId = conversationIdRef.current;
-      const messageId = generateUUID();
-      const payloadText = `Job Description: ${data.jobDescription}
-Highlighting Points: ${data.highlightingPoints || "None"}
-Tone: ${data.tone || "Results-oriented"}
-Highlight Skills: ${data.highlightSkills || "None"}
-Sponsorship Needed: ${data.sponsorshipNeeded ? "True" : "False"}`;
-      const response = await fetch(`${SF_CONFIG.url}/iamessage/api/v2/conversation/${convId}/message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          message: {
-            id: messageId,
-            messageType: "StaticContentMessage",
-            staticContent: {
-              formatType: "Text",
-              text: payloadText
-            }
-          },
-          esDeveloperName: SF_CONFIG.esDeveloperName,
-          isNewMessagingSession: false,
-          language: "en"
-        })
-      });
-      if (!response.ok) throw new Error("Send failed: " + response.statusText);
-      setSending(false);
-      setPose("idle");
-    } catch (err) {
-      console.error("Message send error:", err);
-      setSending(false);
-      setPose("idle");
-      setMessages((prev) => [...prev, {
-        id: "err-" + Date.now(),
-        text: "Failed to submit form. Please try again.",
-        sender: "agent"
-      }]);
-    }
-  };
-  if (!enabled) return null;
-  return /* @__PURE__ */ React.createElement("div", { ref: wrapRef, style: {
-    position: "fixed",
-    bottom: 24,
-    right: 24,
-    zIndex: 200,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-    gap: 10,
-    pointerEvents: "none"
-  } }, bubble && !chatOpen && /* @__PURE__ */ React.createElement("div", { className: "mascot-bubble", style: {
-    background: "rgba(255, 255, 255, 0.88)",
-    backdropFilter: "blur(8px)",
-    WebkitBackdropFilter: "blur(8px)",
-    border: "1px solid rgba(255, 255, 255, 0.45)",
-    borderRadius: 16,
-    padding: "10px 14px",
-    maxWidth: 240,
-    fontSize: 12.5,
-    lineHeight: 1.45,
-    color: "black",
-    boxShadow: "var(--shadow-2), 0 4px 20px rgba(255, 255, 255, 0.05)",
-    position: "relative",
-    marginRight: 12,
-    fontWeight: 500,
-    pointerEvents: "auto",
-    fontFamily: "var(--font-body)",
-    animation: "bubblePop .4s cubic-bezier(.2,1.4,.4,1) both"
-  } }, bubble, /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      onClick: () => setBubble(null),
-      className: "hoverable",
-      style: { position: "absolute", top: 4, right: 6, background: "transparent", border: "none", color: "rgba(0, 0, 0, 0.45)", fontSize: 14, padding: 0, width: 18, height: 18 }
-    },
-    "\xD7"
-  ), /* @__PURE__ */ React.createElement("span", { style: {
-    position: "absolute",
-    bottom: -7,
-    right: 28,
-    width: 0,
-    height: 0,
-    borderLeft: "8px solid transparent",
-    borderRight: "8px solid transparent",
-    borderTop: "8px solid rgba(255, 255, 255, 0.88)",
-    filter: "drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2))"
-  } })), chatOpen && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-window", style: { pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header", style: { position: "relative", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    inset: 0,
-    opacity: isAgentActive ? 0.85 : 0.12,
-    transition: "opacity 0.6s ease",
-    pointerEvents: "none"
-  } }, /* @__PURE__ */ React.createElement(SoftAurora, { active: isAgentActive, speed: 1.2 })), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-header-info", style: { position: "relative", zIndex: 3 } }, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-avatar", style: {
-    boxShadow: isAgentActive ? "0 0 16px rgba(0, 225, 255, 0.75)" : "none",
-    transition: "box-shadow 0.4s ease"
-  } }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-title" }, "Agentforce Representative"), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-status" }, /* @__PURE__ */ React.createElement(
-    "span",
-    {
-      className: `cosmic-chat-status-dot ${connecting || sending ? "connecting" : ""}`,
-      style: isAgentActive ? { background: "#00E5FF", boxShadow: "0 0 10px #00E5FF" } : {}
-    }
-  ), /* @__PURE__ */ React.createElement("span", { style: { color: isAgentActive ? "#A5E9FF" : "inherit", fontWeight: isAgentActive ? 600 : 400 } }, connecting ? "Initializing Agentforce..." : sending ? "Agent Processing..." : talking ? "Agent Responding..." : "Online")))), /* @__PURE__ */ React.createElement("button", { className: "cosmic-chat-close", style: { position: "relative", zIndex: 3 }, onClick: () => setChatOpen(false), title: "Close chat" }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-messages", ref: chatMessagesRef }, messages.map((msg) => {
-    const hasForm = msg.text && msg.text.includes("[SHOW_COVER_LETTER_FORM]");
-    const hasDownload = msg.text && msg.text.includes("[DOWNLOAD_PDF:");
-    let downloadBase64 = "";
-    if (hasDownload) {
-      const startIdx = msg.text.indexOf("[DOWNLOAD_PDF:") + "[DOWNLOAD_PDF:".length;
-      const endIdx = msg.text.indexOf("]", startIdx);
-      if (endIdx !== -1) {
-        downloadBase64 = msg.text.substring(startIdx, endIdx).trim();
-      }
-    }
-    return /* @__PURE__ */ React.createElement("div", { key: msg.id, className: `cosmic-chat-message ${msg.sender}`, style: {
-      width: hasForm || hasDownload ? "90%" : void 0,
-      maxWidth: hasForm || hasDownload ? "90%" : void 0,
-      padding: hasForm || hasDownload ? "6px 8px" : void 0,
-      background: hasForm ? "rgba(10,20,50,0.4)" : hasDownload ? "rgba(255,255,255,0.03)" : void 0,
-      border: hasForm || hasDownload ? "1px solid rgba(180, 210, 255, 0.15)" : void 0
-    } }, hasForm ? /* @__PURE__ */ React.createElement(CoverLetterForm, { onSubmit: submitCoverLetterForm }) : hasDownload ? /* @__PURE__ */ React.createElement(CoverLetterDownload, { base64Pdf: downloadBase64 }) : msg.text);
-  }), (sending || connecting) && /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-aurora-processing" }, /* @__PURE__ */ React.createElement("div", { className: "aurora-backdrop" }, /* @__PURE__ */ React.createElement(SoftAurora, { active: true, speed: 1.5 })), /* @__PURE__ */ React.createElement("div", { className: "aurora-content" }, /* @__PURE__ */ React.createElement("div", { className: "aurora-pulse-orb" }), /* @__PURE__ */ React.createElement("div", { className: "aurora-text" }, /* @__PURE__ */ React.createElement("span", { className: "aurora-title" }, "AGENTFORCE AI REASONING"), /* @__PURE__ */ React.createElement("span", { className: "aurora-sub" }, connecting ? "Initializing secure agent session..." : "Synthesizing response & reasoning...")), /* @__PURE__ */ React.createElement("div", { className: "cosmic-chat-typing", style: { margin: 0, padding: "2px 6px", background: "transparent", border: "none" } }, /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null), /* @__PURE__ */ React.createElement("span", null))))), /* @__PURE__ */ React.createElement("form", { className: "cosmic-chat-input-area", onSubmit: (e) => {
-    e.preventDefault();
-    sendMessage(inputText);
-  } }, /* @__PURE__ */ React.createElement(
-    "input",
-    {
-      type: "text",
-      className: "cosmic-chat-input",
-      placeholder: connecting ? "Connecting..." : "Ask me anything...",
-      value: inputText,
-      onChange: (e) => setInputText(e.target.value),
-      disabled: connecting
-    }
-  ), /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      type: "submit",
-      className: "cosmic-chat-send",
-      disabled: connecting || !inputText.trim() || sending,
-      title: "Send message"
-    },
-    /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 24 24", width: "18", height: "18", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("line", { x1: "22", y1: "2", x2: "11", y2: "13" }), /* @__PURE__ */ React.createElement("polygon", { points: "22 2 15 22 11 13 2 9 22 2" }))
-  ))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "inline-block", pointerEvents: "auto" } }, /* @__PURE__ */ React.createElement("div", { style: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    width: 140,
-    height: 140,
-    transform: `translate(-50%, -50%) scale(${isAgentActive ? 1.05 : 0.6})`,
-    borderRadius: "50%",
-    overflow: "hidden",
-    opacity: isAgentActive ? 0.95 : 0,
-    transition: "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease",
-    pointerEvents: "none",
-    filter: "blur(10px)",
-    zIndex: 0
-  } }, /* @__PURE__ */ React.createElement(SoftAurora, { active: isAgentActive, speed: 1.4 })), /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      className: "hoverable",
-      "data-cursor": "hover",
-      onClick: () => {
-        setPose("bounce");
-        const nextState = !chatOpen;
-        setChatOpen(nextState);
-        if (nextState && !sessionActive && !connecting) {
-          startSession();
-        }
-        setTimeout(() => setPose("idle"), 700);
-      },
-      title: "Agentforce Assistant \xB7 click me",
-      style: {
-        position: "relative",
-        zIndex: 1,
-        width: 84,
-        height: 92,
-        padding: 0,
-        border: "none",
-        background: "transparent",
-        pointerEvents: "auto",
-        filter: isAgentActive ? "drop-shadow(0 0 20px rgba(0, 225, 255, 0.75)) drop-shadow(0 14px 22px rgba(8,30,69,.28))" : "drop-shadow(0 14px 22px rgba(8,30,69,.28))",
-        transformOrigin: "50% 90%",
-        animation: pose === "bounce" ? "mascotBounce .55s cubic-bezier(.3,1.5,.4,1)" : "mascotFloat 4.5s ease-in-out infinite",
-        transition: "filter 0.5s ease"
-      }
-    },
-    /* @__PURE__ */ React.createElement(MascotSVG, { pose, eyes })
-  )), /* @__PURE__ */ React.createElement("style", null, `
-        @keyframes bubblePop { 0% { opacity: 0; transform: translateY(8px) scale(.9); } 100% { opacity: 1; transform: none; } }
-        @keyframes mascotFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        @keyframes mascotBounce { 0% { transform: scale(1); } 40% { transform: scale(1.15, .9) translateY(-6px); } 100% { transform: scale(1); } }
-        @keyframes wave { 0%,100% { transform: rotate(0deg); } 30% { transform: rotate(-22deg); } 60% { transform: rotate(18deg); } }
-      `));
-}
-function MascotSVG({ pose, eyes }) {
-  const waving = pose === "wave";
-  return /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 120 130", width: "100%", height: "100%", xmlns: "http://www.w3.org/2000/svg" }, /* @__PURE__ */ React.createElement("defs", null, /* @__PURE__ */ React.createElement("linearGradient", { id: "m-body", x1: "0", x2: "0", y1: "0", y2: "1" }, /* @__PURE__ */ React.createElement("stop", { offset: "0%", stopColor: "#FFFFFF" }), /* @__PURE__ */ React.createElement("stop", { offset: "100%", stopColor: "#D6EAFB" })), /* @__PURE__ */ React.createElement("linearGradient", { id: "m-bolt", x1: "0", x2: "1" }, /* @__PURE__ */ React.createElement("stop", { offset: "0%", stopColor: "#FFD479" }), /* @__PURE__ */ React.createElement("stop", { offset: "100%", stopColor: "#FF8A4C" })), /* @__PURE__ */ React.createElement("radialGradient", { id: "m-cheek", cx: ".5", cy: ".5", r: ".5" }, /* @__PURE__ */ React.createElement("stop", { offset: "0%", stopColor: "#FFB3D1" }), /* @__PURE__ */ React.createElement("stop", { offset: "100%", stopColor: "#FFB3D1", stopOpacity: "0" })), /* @__PURE__ */ React.createElement("filter", { id: "m-shadow", x: "-20%", y: "-20%", width: "140%", height: "140%" }, /* @__PURE__ */ React.createElement("feGaussianBlur", { stdDeviation: "2" }))), /* @__PURE__ */ React.createElement("ellipse", { cx: "60", cy: "120", rx: "28", ry: "4", fill: "rgba(8,30,69,.18)" }), /* @__PURE__ */ React.createElement("ellipse", { cx: "48", cy: "112", rx: "10", ry: "6", fill: "var(--accent-deep)" }), /* @__PURE__ */ React.createElement("ellipse", { cx: "72", cy: "112", rx: "10", ry: "6", fill: "var(--accent-deep)" }), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement(
-    "path",
-    {
-      d: "M30 70 Q18 70 18 56 Q18 44 32 42 Q34 26 52 26 Q60 18 72 22 Q90 22 92 40 Q104 42 104 56 Q104 70 92 72 L92 100 Q92 110 80 110 L40 110 Q28 110 28 100 Z",
-      fill: "url(#m-body)",
-      stroke: "var(--accent-deep)",
-      strokeWidth: "2.5",
-      strokeLinejoin: "round"
-    }
-  ), /* @__PURE__ */ React.createElement("circle", { cx: "60", cy: "86", r: "13", fill: "var(--accent)", opacity: ".15" }), /* @__PURE__ */ React.createElement("path", { d: "M62 78 L54 90 L60 90 L58 96 L66 84 L60 84 Z", fill: "url(#m-bolt)", stroke: "var(--accent-deep)", strokeWidth: "1.5", strokeLinejoin: "round" })), /* @__PURE__ */ React.createElement("circle", { cx: "42", cy: "62", r: "6", fill: "url(#m-cheek)" }), /* @__PURE__ */ React.createElement("circle", { cx: "78", cy: "62", r: "6", fill: "url(#m-cheek)" }), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("ellipse", { cx: "48", cy: "54", rx: "6", ry: "7", fill: "white", stroke: "var(--accent-deep)", strokeWidth: "1.6" }), /* @__PURE__ */ React.createElement("ellipse", { cx: "72", cy: "54", rx: "6", ry: "7", fill: "white", stroke: "var(--accent-deep)", strokeWidth: "1.6" }), /* @__PURE__ */ React.createElement("circle", { cx: 48 + eyes.x, cy: 54 + eyes.y, r: "2.4", fill: "var(--accent-deep)" }), /* @__PURE__ */ React.createElement("circle", { cx: 72 + eyes.x, cy: 54 + eyes.y, r: "2.4", fill: "var(--accent-deep)" }), /* @__PURE__ */ React.createElement("circle", { cx: 48 + eyes.x + 1, cy: 54 + eyes.y - 1, r: ".8", fill: "white" }), /* @__PURE__ */ React.createElement("circle", { cx: 72 + eyes.x + 1, cy: 54 + eyes.y - 1, r: ".8", fill: "white" })), /* @__PURE__ */ React.createElement(
-    "path",
-    {
-      d: pose === "thinking" ? "M54 68 Q60 70 66 68" : "M54 66 Q60 73 66 66",
-      stroke: "var(--accent-deep)",
-      strokeWidth: "1.8",
-      fill: "none",
-      strokeLinecap: "round"
-    }
-  ), /* @__PURE__ */ React.createElement("g", { style: { transformOrigin: "26px 70px", animation: waving ? "wave 1.2s ease infinite" : "none" } }, /* @__PURE__ */ React.createElement("path", { d: "M28 70 Q14 64 14 50", stroke: "var(--accent-deep)", strokeWidth: "3", fill: "none", strokeLinecap: "round" }), /* @__PURE__ */ React.createElement("circle", { cx: "12", cy: "48", r: "5.5", fill: "white", stroke: "var(--accent-deep)", strokeWidth: "2" })), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d: "M92 70 Q104 76 100 92", stroke: "var(--accent-deep)", strokeWidth: "3", fill: "none", strokeLinecap: "round" }), /* @__PURE__ */ React.createElement("circle", { cx: "102", cy: "94", r: "5.5", fill: "white", stroke: "var(--accent-deep)", strokeWidth: "2" })), /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d: "M60 26 L60 14", stroke: "var(--accent-deep)", strokeWidth: "2.2", strokeLinecap: "round" }), /* @__PURE__ */ React.createElement("path", { d: "M58 6 L54 12 L58 12 L56 18 L62 10 L58 10 Z", fill: "url(#m-bolt)", stroke: "var(--accent-deep)", strokeWidth: "1.3", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("animateTransform", { attributeName: "transform", type: "rotate", values: "0 60 12; 5 60 12; -5 60 12; 0 60 12", dur: "2.4s", repeatCount: "indefinite" }))));
-}
-Object.assign(window, { Mascot });
-
-
 /* ── trailhead/page-home.jsx ── */
 function ApexTypewriter() {
   const lines = useMemo(() => [
@@ -2549,25 +1936,25 @@ function HeroSection({ go }) {
     fontWeight: 500,
     marginBottom: 28,
     maxWidth: 580
-  } }, "Architecting enterprise ", /* @__PURE__ */ React.createElement("strong", { style: { color: "white" } }, "Salesforce Cloud"), " & ", /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--accent)" } }, "Agentforce AI"), " platforms across ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#6BB7FF" } }, "Banking"), ", ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#FF9F66" } }, "Retail"), ", and ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#B57BFF" } }, "Lending"), " \u2014 clean Apex, fast LWCs, automations that scale."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("agent"), style: {
+  } }, "Architecting enterprise ", /* @__PURE__ */ React.createElement("strong", { style: { color: "white" } }, "Salesforce Cloud"), " & ", /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--accent)" } }, "Agentforce AI"), " platforms across ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#6BB7FF" } }, "Banking"), ", ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#FF9F66" } }, "Retail"), ", and ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#B57BFF" } }, "Lending"), " \u2014 clean Apex, fast LWCs, automations that scale."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: {
     background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
     boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
     padding: "14px 26px",
     fontSize: 14,
     border: "none"
-  } }, "\u2728 Launch AI Agent ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 16 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("projects"), style: {
+  } }, "Launch Case Studies ", /* @__PURE__ */ React.createElement(Icon, { name: "arrow", size: 16 })), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("certs"), style: {
     background: "rgba(255,255,255,.05)",
     color: "white",
     borderColor: "var(--line)",
     padding: "14px 24px",
     fontSize: 14
-  } }, "Case Studies"), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => go("certs"), style: {
-    background: "rgba(255,255,255,.05)",
-    color: "white",
-    borderColor: "var(--line)",
-    padding: "14px 24px",
+  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => window.burstStars?.(), title: "Trigger Supernova Starburst", style: {
+    background: "rgba(22, 119, 255, 0.16)",
+    color: "#C8F2FF",
+    borderColor: "rgba(105, 177, 255, 0.35)",
+    padding: "14px 22px",
     fontSize: 14
-  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certifications (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 660, height: 580 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 580, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
+  } }, "\u26A1 Starburst ", /* @__PURE__ */ React.createElement("span", null, "\u2197"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10.5, fontFamily: "var(--font-mono, monospace)", letterSpacing: "0.18em", color: "rgba(119, 186, 255, 0.75)", textTransform: "uppercase", marginBottom: 28 } }, "BLUE COSMOS ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1677FF" } }, "\xB7"), " INTERACTIVE FIELD ", /* @__PURE__ */ React.createElement("span", { style: { opacity: 0.6, fontSize: 10 } }, "(move cursor to bend starlight \xB7 click anywhere for supernova)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 660, height: 580 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 580, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
     marginTop: 40,
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
@@ -8272,526 +7659,10 @@ function PageDemos({ go }) {
 Object.assign(window, { PageDemos });
 
 
-/* ── trailhead/page-agent.jsx ── */
-/* hooks from shim */
-function PageAgent({ go }) {
-  const [input, setInput] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [stage, setStage] = useState(0);
-  const [output, setOutput] = useState(null);
-  const [history, setHistory] = useState([]);
-  const [copied, setCopied] = useState(false);
-  const outputRef = useRef(null);
-  const timerRef = useRef(null);
-  const samplePrompts = [
-    { label: "\u26A1 Apex Bulkification", prompt: "Explain best patterns to bulkify Apex triggers for 50,000+ DML volume without hitting governor limits." },
-    { label: "\u{1F3DB}\uFE0F FSC Architecture", prompt: "How does Yusuf architect Financial Services Cloud (FSC) Person Accounts and Household rollups?" },
-    { label: "\u{1F916} Agentforce Actions", prompt: "How do custom Apex Invocable Actions and Prompt Resolvers integrate with Agentforce?" },
-    { label: "\u{1F3C6} 12\xD7 Certifications", prompt: "Summarize Yusuf Khan's 12 Salesforce certifications and architectural focus areas." },
-    { label: "\u26A1 OmniStudio Tuning", prompt: "How to tune OmniStudio Integration Procedures and FlexCards to achieve sub-second response times?" }
-  ];
-  const generateAgentResponse = (query) => {
-    const q = query.toLowerCase();
-    if (q.includes("apex") || q.includes("bulk") || q.includes("trigger") || q.includes("limit")) {
-      return {
-        title: "Enterprise Apex Bulkification & Governor Limit Mitigation",
-        badge: "APEX DESIGN PATTERN // ARCHITECTURE",
-        confidence: "99.4%",
-        executionTime: "1.24s",
-        tokens: "482 tokens",
-        sections: [
-          {
-            heading: "1. Core Trigger Framework Architecture",
-            text: "All triggers are delegated through a strictly singleton-managed Trigger Handler pattern (e.g. fflib or custom interface-based dispatcher). Triggers contain 0 lines of business logic."
-          },
-          {
-            heading: "2. Bulkification Rules of Engagement",
-            code: `// Pattern: Bulkified In-Memory Maps & Set Indexing
-public void onBeforeInsert(List<Account> newAccounts) {
-    Set<String> taxIdentifiers = new Set<String>();
-    for (Account acc : newAccounts) {
-        if (acc.Tax_ID__c != null) {
-            taxIdentifiers.add(acc.Tax_ID__c);
-        }
-    }
-
-    // 1 SOQL query for 200+ records in transaction
-    Map<String, Account> existingMap = new Map<String, Account>();
-    for (Account existing : [SELECT Id, Tax_ID__c FROM Account 
-                             WHERE Tax_ID__c IN :taxIdentifiers 
-                             WITH SECURITY_ENFORCED LIMIT 10000]) {
-        existingMap.put(existing.Tax_ID__c, existing);
-    }
-
-    for (Account acc : newAccounts) {
-        if (existingMap.containsKey(acc.Tax_ID__c)) {
-            acc.addError('Duplicate Tax Identifier already registered.');
-        }
-    }
-}`
-          },
-          {
-            heading: "3. Asynchronous Chaining for High Volumes",
-            text: "For operations exceeding synchronous 10,000 DML or 100 SOQL limits, tasks are fanned out using Queueable Apex with Database.AllowsCallouts and transaction finalizers (`System.Finalizer`) to guarantee rollback recovery and state audit."
-          }
-        ]
-      };
-    } else if (q.includes("fsc") || q.includes("financial") || q.includes("bank") || q.includes("lending") || q.includes("household")) {
-      return {
-        title: "Financial Services Cloud (FSC) Architecture & Data Modeling",
-        badge: "FSC INDUSTRY CLOUD // SME SPECIFICATION",
-        confidence: "98.9%",
-        executionTime: "1.18s",
-        tokens: "512 tokens",
-        sections: [
-          {
-            heading: "1. Individual & Household Data Modeling",
-            text: "Engineered using FSC Person Account architecture mapped to Household Groups via Account-Contact Relationship (ACR) and Contact-Contact Relationship (CCR) tables. Financial Accounts (Savings, Checking, Wealth, Commercial Credit) roll up dynamically using Financial Services Cloud Rollup-by-Lookup (RBL) rules and Data Cloud streaming."
-          },
-          {
-            heading: "2. OmniStudio Process Automation",
-            text: "Integrated OmniScripts with Omnistudio Integration Procedures (IPs) for seamless customer onboarding, KYC document verification, and real-time core banking API calls via Salesforce Named Credentials (OAuth 2.0 Mutual TLS)."
-          },
-          {
-            heading: "3. Security & Compliance",
-            text: "Full compliance with GLBA and RBI data security mandates: Salesforce Shield Platform Encryption on PII fields (Tax ID, SSN, Account Numbers), Field Audit Trail (FAT), and Transaction Security Policies on bulk report exports."
-          }
-        ]
-      };
-    } else if (q.includes("agent") || q.includes("prompt") || q.includes("copilot") || q.includes("invocable") || q.includes("action")) {
-      return {
-        title: "Agentforce Copilot: Dynamic Prompts & Custom Invocable Actions",
-        badge: "AGENTFORCE AI // LLM ORCHESTRATION",
-        confidence: "99.8%",
-        executionTime: "1.05s",
-        tokens: "440 tokens",
-        sections: [
-          {
-            heading: "1. Agentforce Architecture Stack",
-            text: "Agentforce operates as an autonomous reasoning engine on the Salesforce platform, orchestrating LLM prompt templates, Grounding via Data Cloud, and deterministic execution through Apex Invocable Methods."
-          },
-          {
-            heading: "2. Sample Custom Invocable Action for Agentforce",
-            code: `public class AgentGetAccountRiskAction {
-    public class Request {
-        @InvocableVariable(required=true description='Salesforce Account record Id')
-        public Id accountId;
-    }
-    public class Response {
-        @InvocableVariable(description='Calculated risk score based on transactions')
-        public Decimal riskScore;
-        @InvocableVariable(description='Natural language summary for Agentforce Copilot')
-        public String agentInsight;
-    }
-
-    @InvocableMethod(label='Calculate Account Risk' 
-                     description='Evaluates financial balance and past due invoices' 
-                     category='Agentforce')
-    public static List<Response> evaluateRisk(List<Request> requests) {
-        List<Response> outputs = new List<Response>();
-        for (Request req : requests) {
-            Response res = new Response();
-            // Calculation logic with Data Cloud grounding...
-            res.riskScore = 0.15;
-            res.agentInsight = 'Account has clean payment history. Low default probability.';
-            outputs.add(res);
-        }
-        return outputs;
-    }
-}`
-          },
-          {
-            heading: "3. Grounding & Guardrails",
-            text: "Grounds agent decisions against verified CRM data. Zero data leakage to public models; all interactions stay strictly inside the Salesforce Einstein Trust Layer with toxicity masking and audit logging."
-          }
-        ]
-      };
-    } else if (q.includes("cert") || q.includes("qualification") || q.includes("credential") || q.includes("yusuf")) {
-      return {
-        title: "Yusuf Khan: 12\xD7 Salesforce Certified Architect Profile",
-        badge: "CREDENTIAL VERIFICATION // LIVE METRICS",
-        confidence: "100%",
-        executionTime: "0.92s",
-        tokens: "390 tokens",
-        sections: [
-          {
-            heading: "1. Core Developer & Architecture Track",
-            text: "\u2022 Platform Developer II (PD2) \u2014 Master level Apex, asynchronous frameworks, performance.\n\u2022 Platform Developer I (PD1) \u2014 Declarative + programmatic solutions.\n\u2022 JavaScript Developer I \u2014 Modern ECMAScript, LWC lifecycle, event propagation.\n\u2022 Lifecycle & Deployment Architect \u2014 CI/CD pipelines, SFDX, branching strategies, scratch orgs."
-          },
-          {
-            heading: "2. Industry & AI Track",
-            text: "\u2022 Agentforce Specialist \u2014 Designing autonomous agent topics, guardrails, actions.\n\u2022 Data Cloud Consultant \u2014 Unified Customer 360 profiles, calculated insights, streaming ingestion.\n\u2022 OmniStudio Developer \u2014 FlexCards, Integration Procedures, DataRaptors, OmniScripts.\n\u2022 Financial Services Cloud (FSC) \u2014 Commercial/Retail banking architectures."
-          },
-          {
-            heading: "3. Enterprise Production Scale",
-            text: "6+ years enterprise delivery across K Square Group and Prodapt Solutions. Managed $4.2B+ volume transaction systems with 99.98% uptime."
-          }
-        ]
-      };
-    } else {
-      return {
-        title: `Agentforce Analysis: "${query.slice(0, 48)}..."`,
-        badge: "AGENTFORCE SYNTHESIS // ONLINE",
-        confidence: "98.5%",
-        executionTime: "1.32s",
-        tokens: "410 tokens",
-        sections: [
-          {
-            heading: "1. Architectural Assessment",
-            text: `Agentforce has analyzed the prompt "${query}". In enterprise Salesforce implementations, this requirement is addressed through a combination of modular Lightning Web Components (LWCs), robust asynchronous Apex frameworks, and deterministic business rules.`
-          },
-          {
-            heading: "2. Strategic Recommendation",
-            text: "\u2022 Clean separation of concerns (SOC): Keep UI, Domain logic, Selector layers, and Service layers distinct.\n\u2022 Enforce object and field-level security using WITH USER_MODE and stripInaccessible.\n\u2022 Utilize platform cache for read-heavy operations to avoid hitting SOQL limit bottlenecks."
-          },
-          {
-            heading: "3. Direct Consultation",
-            text: "Yusuf Khan specializes in architecting end-to-end solutions for enterprise orgs. Connect directly via the Contact page or LinkedIn to discuss specific project deliverables."
-          }
-        ]
-      };
-    }
-  };
-  const handleSubmit = (e) => {
-    if (e) e.preventDefault();
-    if (!input.trim() || isProcessing) return;
-    const currentQuery = input.trim();
-    setIsProcessing(true);
-    setOutput(null);
-    setStage(1);
-    timerRef.current = setTimeout(() => {
-      setStage(2);
-      setTimeout(() => {
-        setStage(3);
-        setTimeout(() => {
-          setStage(4);
-          setTimeout(() => {
-            const resp = generateAgentResponse(currentQuery);
-            setOutput(resp);
-            setHistory((prev) => [{ query: currentQuery, response: resp }, ...prev]);
-            setIsProcessing(false);
-            setStage(0);
-            setTimeout(() => {
-              if (outputRef.current) {
-                outputRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-              }
-            }, 100);
-          }, 500);
-        }, 500);
-      }, 500);
-    }, 500);
-  };
-  const handlePromptClick = (p) => {
-    setInput(p);
-  };
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2e3);
-  };
-  return /* @__PURE__ */ React.createElement("div", { style: {
-    position: "relative",
-    minHeight: "100vh",
-    background: "#02040A",
-    color: "#FFFFFF",
-    overflow: "hidden",
-    padding: "110px 20px 80px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  } }, /* @__PURE__ */ React.createElement("div", { style: {
-    position: "fixed",
-    top: "40%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "100vw",
-    height: "85vh",
-    maxWidth: 1400,
-    pointerEvents: "none",
-    zIndex: 1,
-    opacity: isProcessing ? 1 : 0.65,
-    filter: isProcessing ? "blur(4px)" : "blur(18px)",
-    transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
-  } }, /* @__PURE__ */ React.createElement(
-    SoftAurora,
-    {
-      active: true,
-      speed: isProcessing ? 1.85 : 0.75,
-      idleIntensity: 0.35,
-      activeIntensity: 1
-    }
-  )), /* @__PURE__ */ React.createElement("div", { style: {
-    position: "fixed",
-    inset: 0,
-    background: "radial-gradient(circle at 50% 35%, rgba(0, 161, 224, 0.08), transparent 70%), radial-gradient(circle at 80% 80%, rgba(177, 74, 237, 0.05), transparent 50%)",
-    pointerEvents: "none",
-    zIndex: 2
-  } }), /* @__PURE__ */ React.createElement("div", { className: "container", style: {
-    position: "relative",
-    zIndex: 5,
-    width: "100%",
-    maxWidth: 960,
-    textAlign: "center"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: 16 } }, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: {
-    padding: "8px 18px",
-    fontSize: 12,
-    background: "rgba(0, 112, 210, 0.15)",
-    border: "1px solid rgba(110, 195, 255, 0.35)",
-    boxShadow: "0 0 20px rgba(0, 161, 224, 0.25)"
-  } }, /* @__PURE__ */ React.createElement("span", { className: `hud-badge-dot ${isProcessing ? "connecting" : ""}`, style: isProcessing ? { background: "#00E5FF", boxShadow: "0 0 10px #00E5FF" } : {} }), /* @__PURE__ */ React.createElement("span", null, isProcessing ? "AGENTFORCE REASONING RUNTIME // ACTIVE" : "AUTONOMOUS AI AGENT PORTAL // ONLINE"))), /* @__PURE__ */ React.createElement("h1", { style: {
-    fontFamily: "'Anton', system-ui, sans-serif",
-    fontSize: "clamp(42px, 6vw, 76px)",
-    letterSpacing: ".02em",
-    lineHeight: 1.05,
-    textTransform: "uppercase",
-    margin: "0 0 16px",
-    color: "#FFFFFF",
-    textShadow: "0 0 40px rgba(0, 161, 224, 0.5), 0 0 80px rgba(110, 195, 255, 0.2)"
-  } }, "AGENTFORCE ", /* @__PURE__ */ React.createElement("span", { style: { color: "var(--accent, #00A1E0)" } }, "AI RUNTIME")), /* @__PURE__ */ React.createElement("p", { style: {
-    fontSize: "clamp(15px, 2vw, 18px)",
-    lineHeight: 1.6,
-    color: "rgba(255,255,255,0.75)",
-    maxWidth: 680,
-    margin: "0 auto 36px",
-    fontWeight: 500
-  } }, "Direct natural language reasoning grounded in Yusuf Khan's 12\xD7 Salesforce Certifications, Apex frameworks, and Financial Services Cloud patterns."), /* @__PURE__ */ React.createElement("form", { onSubmit: handleSubmit, style: {
-    position: "relative",
-    width: "100%",
-    background: "rgba(8, 18, 44, 0.75)",
-    backdropFilter: "blur(20px)",
-    WebkitBackdropFilter: "blur(20px)",
-    border: isProcessing ? "1.5px solid rgba(0, 229, 255, 0.8)" : "1px solid rgba(110, 195, 255, 0.28)",
-    borderRadius: 22,
-    padding: "18px 20px",
-    boxShadow: isProcessing ? "0 20px 60px rgba(0, 161, 224, 0.35), 0 0 35px rgba(0, 229, 255, 0.3)" : "0 24px 60px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 112, 210, 0.15)",
-    transition: "all 0.4s ease",
-    marginBottom: 20
-  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "flex-start", gap: 14 } }, /* @__PURE__ */ React.createElement("div", { style: {
-    width: 36,
-    height: 36,
-    borderRadius: "50%",
-    background: "linear-gradient(135deg, rgba(0, 161, 224, 0.2), rgba(177, 74, 237, 0.3))",
-    border: "1px solid rgba(110, 195, 255, 0.4)",
-    display: "grid",
-    placeItems: "center",
-    fontSize: 18,
-    flexShrink: 0,
-    marginTop: 4
-  } }, "\u{1F916}"), /* @__PURE__ */ React.createElement(
-    "textarea",
-    {
-      value: input,
-      onChange: (e) => setInput(e.target.value),
-      onKeyDown: (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault();
-          handleSubmit();
-        }
-      },
-      placeholder: "Ask the AI Agent anything... (e.g. 'How do you optimize high-volume Apex batch jobs?' or 'Summarize Yusuf's FSC architecture experience')",
-      rows: 3,
-      disabled: isProcessing,
-      style: {
-        width: "100%",
-        background: "transparent",
-        border: "none",
-        outline: "none",
-        color: "#FFFFFF",
-        fontSize: "17px",
-        lineHeight: 1.55,
-        fontFamily: "var(--font-body, system-ui, sans-serif)",
-        resize: "none",
-        fontWeight: 500
-      }
-    }
-  )), /* @__PURE__ */ React.createElement("div", { style: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 14,
-    paddingTop: 12,
-    borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-    flexWrap: "wrap",
-    gap: 12
-  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, color: "rgba(255, 255, 255, 0.5)", fontSize: 12, fontFamily: "var(--font-mono, monospace)" } }, /* @__PURE__ */ React.createElement("span", { style: { width: 7, height: 7, borderRadius: "50%", background: "#00E5FF", boxShadow: "0 0 8px #00E5FF" } }), /* @__PURE__ */ React.createElement("span", null, "ENGINE: AGENTFORCE LLM // PRESS ENTER TO SUBMIT")), /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      type: "submit",
-      disabled: isProcessing || !input.trim(),
-      className: "hoverable",
-      style: {
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 8,
-        padding: "12px 28px",
-        borderRadius: 999,
-        border: "none",
-        background: isProcessing ? "rgba(0, 161, 224, 0.35)" : "linear-gradient(90deg, #00A1E0, #0070D2)",
-        color: "#FFFFFF",
-        fontSize: 14,
-        fontWeight: 700,
-        cursor: isProcessing || !input.trim() ? "not-allowed" : "pointer",
-        boxShadow: isProcessing ? "none" : "0 10px 25px -5px rgba(0, 161, 224, 0.6), 0 0 15px rgba(0, 161, 224, 0.3)",
-        transition: "all 0.25s ease"
-      }
-    },
-    isProcessing ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { style: { width: 14, height: 14, border: "2px solid #FFFFFF", borderTopColor: "transparent", borderRadius: "50%", animation: "typing 0.8s infinite linear" } }), /* @__PURE__ */ React.createElement("span", null, "Synthesizing...")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", null, "Run Agent"), /* @__PURE__ */ React.createElement("svg", { width: "15", height: "15", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }, /* @__PURE__ */ React.createElement("line", { x1: "22", y1: "2", x2: "11", y2: "13" }), /* @__PURE__ */ React.createElement("polygon", { points: "22 2 15 22 11 13 2 9 22 2" })))
-  ))), /* @__PURE__ */ React.createElement("div", { style: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    gap: 8,
-    marginBottom: 36
-  } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: "rgba(255,255,255,0.45)", marginRight: 4, fontFamily: "var(--font-mono, monospace)" } }, "TRY PROMPTS:"), samplePrompts.map((p, idx) => /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      key: idx,
-      onClick: () => handlePromptClick(p.prompt),
-      className: "hoverable",
-      style: {
-        background: "rgba(255, 255, 255, 0.04)",
-        border: "1px solid rgba(180, 210, 255, 0.15)",
-        borderRadius: 999,
-        padding: "6px 14px",
-        color: "rgba(255, 255, 255, 0.85)",
-        fontSize: 12,
-        fontWeight: 600,
-        cursor: "pointer",
-        transition: "all 0.2s ease"
-      },
-      onMouseEnter: (e) => {
-        e.currentTarget.style.borderColor = "var(--accent, #00A1E0)";
-        e.currentTarget.style.color = "#FFFFFF";
-        e.currentTarget.style.background = "rgba(0, 161, 224, 0.15)";
-      },
-      onMouseLeave: (e) => {
-        e.currentTarget.style.borderColor = "rgba(180, 210, 255, 0.15)";
-        e.currentTarget.style.color = "rgba(255, 255, 255, 0.85)";
-        e.currentTarget.style.background = "rgba(255, 255, 255, 0.04)";
-      }
-    },
-    p.label
-  ))), isProcessing && /* @__PURE__ */ React.createElement("div", { style: {
-    position: "relative",
-    width: "100%",
-    borderRadius: 18,
-    overflow: "hidden",
-    border: "1px solid rgba(0, 229, 255, 0.5)",
-    background: "rgba(4, 14, 38, 0.9)",
-    padding: "24px 28px",
-    boxShadow: "0 20px 50px rgba(0, 161, 224, 0.35)",
-    marginBottom: 30,
-    textAlign: "left",
-    animation: "auroraCardIn 0.35s ease both"
-  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 14 } }, /* @__PURE__ */ React.createElement("div", { style: {
-    width: 12,
-    height: 12,
-    borderRadius: "50%",
-    background: "#00E5FF",
-    boxShadow: "0 0 16px #00E5FF, 0 0 30px #0070D2",
-    animation: "auroraPulse 1.2s infinite ease-in-out"
-  } }), /* @__PURE__ */ React.createElement("span", { style: { fontFamily: "var(--font-mono, monospace)", fontSize: 13, fontWeight: 700, color: "#B6E6FF", letterSpacing: "0.08em" } }, "AGENTFORCE REASONING IN PROGRESS...")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8, fontSize: 13.5 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, color: stage >= 1 ? "#00E5FF" : "rgba(255,255,255,0.4)" } }, /* @__PURE__ */ React.createElement("span", null, stage >= 1 ? "\u2713" : "\u25CB"), /* @__PURE__ */ React.createElement("span", null, "[STAGE 1] Semantic Intent Tokenization & Guardrail Validation")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, color: stage >= 2 ? "#00E5FF" : "rgba(255,255,255,0.4)" } }, /* @__PURE__ */ React.createElement("span", null, stage >= 2 ? "\u2713" : "\u25CB"), /* @__PURE__ */ React.createElement("span", null, "[STAGE 2] Querying 12\xD7 Salesforce Certifications & Architecture Repository")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, color: stage >= 3 ? "#00E5FF" : "rgba(255,255,255,0.4)" } }, /* @__PURE__ */ React.createElement("span", null, stage >= 3 ? "\u2713" : "\u25CB"), /* @__PURE__ */ React.createElement("span", null, "[STAGE 3] Executing Invocable Action / Prompt Template Grounding")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, color: stage >= 4 ? "#00E5FF" : "rgba(255,255,255,0.4)" } }, /* @__PURE__ */ React.createElement("span", null, stage >= 4 ? "\u2713" : "\u25CB"), /* @__PURE__ */ React.createElement("span", null, "[STAGE 4] Synthesizing Production Architecture Response..."))), /* @__PURE__ */ React.createElement("div", { style: { width: "100%", height: 3, background: "rgba(255,255,255,0.1)", borderRadius: 99, marginTop: 18, overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { style: {
-    width: `${stage / 4 * 100}%`,
-    height: "100%",
-    background: "linear-gradient(90deg, #00A1E0, #00E5FF)",
-    boxShadow: "0 0 10px #00E5FF",
-    transition: "width 0.4s ease"
-  } }))), output && /* @__PURE__ */ React.createElement("div", { ref: outputRef, style: {
-    position: "relative",
-    width: "100%",
-    borderRadius: 22,
-    border: "1px solid rgba(110, 195, 255, 0.35)",
-    background: "rgba(6, 16, 42, 0.88)",
-    backdropFilter: "blur(24px)",
-    WebkitBackdropFilter: "blur(24px)",
-    padding: "32px",
-    boxShadow: "0 30px 80px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 161, 224, 0.2)",
-    textAlign: "left",
-    animation: "auroraCardIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both"
-  } }, /* @__PURE__ */ React.createElement("div", { style: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingBottom: 18,
-    borderBottom: "1px solid rgba(180, 210, 255, 0.15)",
-    flexWrap: "wrap",
-    gap: 12
-  } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("span", { className: "hud-badge", style: { fontSize: 10.5, padding: "4px 10px", background: "rgba(0, 161, 224, 0.15)" } }, output.badge), /* @__PURE__ */ React.createElement("h3", { style: { fontSize: 22, margin: "8px 0 0", color: "#FFFFFF", fontWeight: 700 } }, output.title)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11.5, fontFamily: "var(--font-mono, monospace)", color: "rgba(255,255,255,0.5)" } }, "LATENCY: ", output.executionTime, " // ", output.confidence), /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      onClick: () => copyToClipboard(output.sections.map((s) => s.heading + "\n" + (s.text || s.code)).join("\n\n")),
-      className: "hoverable",
-      style: {
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        padding: "7px 14px",
-        borderRadius: 8,
-        background: copied ? "rgba(0, 229, 255, 0.25)" : "rgba(255, 255, 255, 0.08)",
-        border: "1px solid rgba(180, 210, 255, 0.2)",
-        color: copied ? "#00E5FF" : "#FFFFFF",
-        fontSize: 12,
-        cursor: "pointer",
-        transition: "all 0.2s ease"
-      }
-    },
-    copied ? "\u2713 Copied" : "Copy Output"
-  ))), /* @__PURE__ */ React.createElement("div", { style: { marginTop: 22, display: "flex", flexDirection: "column", gap: 20 } }, output.sections.map((sec, idx) => /* @__PURE__ */ React.createElement("div", { key: idx, style: {
-    padding: "16px 20px",
-    borderRadius: 14,
-    background: "rgba(255, 255, 255, 0.025)",
-    border: "1px solid rgba(255, 255, 255, 0.05)"
-  } }, /* @__PURE__ */ React.createElement("h4", { style: {
-    fontSize: 15,
-    color: "var(--accent, #00A1E0)",
-    margin: "0 0 10px",
-    fontWeight: 700,
-    letterSpacing: "0.01em"
-  } }, sec.heading), sec.text && /* @__PURE__ */ React.createElement("p", { style: {
-    fontSize: 14.5,
-    lineHeight: 1.65,
-    color: "rgba(255, 255, 255, 0.9)",
-    margin: 0,
-    whiteSpace: "pre-line"
-  } }, sec.text), sec.code && /* @__PURE__ */ React.createElement("pre", { style: {
-    margin: "12px 0 0",
-    padding: 16,
-    borderRadius: 10,
-    background: "#010714",
-    border: "1px solid rgba(110, 195, 255, 0.15)",
-    color: "#A5E9FF",
-    fontFamily: "var(--font-mono, monospace)",
-    fontSize: 12.5,
-    lineHeight: 1.55,
-    overflowX: "auto"
-  } }, /* @__PURE__ */ React.createElement("code", null, sec.code))))), /* @__PURE__ */ React.createElement("div", { style: {
-    marginTop: 26,
-    paddingTop: 18,
-    borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: 12
-  } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, color: "rgba(255, 255, 255, 0.65)" } }, "Want to build enterprise Agentforce solutions together?"), /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      onClick: () => go("contact"),
-      className: "btn primary hoverable",
-      style: { padding: "8px 18px", fontSize: 13 }
-    },
-    "Schedule Technical Discussion \u2192"
-  )))));
-}
-Object.assign(window, { PageAgent });
-
-
 /* ── trailhead/main.jsx ── */
 /* hooks from shim */
 const ROUTES = [
   { id: "home", label: "Home" },
-  { id: "agent", label: "AI Agent" },
   { id: "certs", label: "Certifications" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
@@ -9001,7 +7872,6 @@ function FloatingTelemetryIsland({ route, go }) {
   }, []);
   const routeNames = {
     home: "Orbit 360",
-    agent: "Agentforce AI",
     certs: "12 Credentials",
     projects: "Case Studies",
     experience: "Experience",
@@ -9009,7 +7879,15 @@ function FloatingTelemetryIsland({ route, go }) {
     demos: "Sandbox Demos",
     contact: "Contact Channel"
   };
-  return /* @__PURE__ */ React.createElement("aside", { className: "floating-dock" + (minimized ? " minimized" : ""), "aria-label": "Quick Telemetry Dock" }, /* @__PURE__ */ React.createElement("div", { className: "dock-pill" }, /* @__PURE__ */ React.createElement("div", { className: "dock-telemetry" }, /* @__PURE__ */ React.createElement("span", { className: "dock-ping" }), /* @__PURE__ */ React.createElement("span", { className: "dock-label" }, "COSMIC VERSE"), /* @__PURE__ */ React.createElement("span", { className: "dock-sep" }, "//"), /* @__PURE__ */ React.createElement("span", { className: "dock-route" }, routeNames[route] || route)), /* @__PURE__ */ React.createElement("div", { className: "dock-actions" }, route !== "demos" && /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("aside", { className: "floating-dock" + (minimized ? " minimized" : ""), "aria-label": "Quick Telemetry Dock" }, /* @__PURE__ */ React.createElement("div", { className: "dock-pill" }, /* @__PURE__ */ React.createElement("div", { className: "dock-telemetry" }, /* @__PURE__ */ React.createElement("span", { className: "dock-ping" }), /* @__PURE__ */ React.createElement("span", { className: "dock-label" }, "COSMIC VERSE"), /* @__PURE__ */ React.createElement("span", { className: "dock-sep" }, "//"), /* @__PURE__ */ React.createElement("span", { className: "dock-route" }, routeNames[route] || route)), /* @__PURE__ */ React.createElement("div", { className: "dock-actions" }, /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: "dock-btn",
+      onClick: () => window.burstStars?.(),
+      title: "Launch Supernova Starburst"
+    },
+    "\u2726 Starburst"
+  ), route !== "demos" && /* @__PURE__ */ React.createElement(
     "button",
     {
       className: "dock-btn",
@@ -9048,7 +7926,6 @@ function App() {
   useEffect(() => {
     const titles = {
       home: "Yusuf Khan \u2014 Salesforce Lead Developer & Architect",
-      agent: "Agentforce AI Portal \u2014 Yusuf Khan",
       certs: "Salesforce Certifications \u2014 Yusuf Khan",
       projects: "Enterprise Projects \u2014 Yusuf Khan",
       experience: "Professional Experience \u2014 Yusuf Khan",
@@ -9059,7 +7936,6 @@ function App() {
     document.title = titles[route] || "Yusuf Khan \u2014 Salesforce Lead Developer & Architect";
     const descriptions = {
       home: "Portfolio of Yusuf Khan, a Salesforce Lead Developer & Technical SME building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services.",
-      agent: "Interact with Yusuf Khan's autonomous Agentforce AI portal powered by deep architectural reasoning and Soft Aurora cosmic visuals.",
       certs: "Explore Salesforce certifications earned by Yusuf Khan, including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant.",
       projects: "View real-world enterprise Salesforce projects delivered by Yusuf Khan, including Experience Cloud portals and Loan Origination systems.",
       experience: "Read about Yusuf Khan's professional experience as a Salesforce Technical SME and Software Engineer leading complex integrations.",
@@ -9074,7 +7950,6 @@ function App() {
   }, [route]);
   let Page = null;
   if (route === "home") Page = /* @__PURE__ */ React.createElement(PageHome, { go });
-  else if (route === "agent" || route === "ai") Page = /* @__PURE__ */ React.createElement(PageAgent, { go });
   else if (route === "certs") Page = /* @__PURE__ */ React.createElement(PageCerts, { go });
   else if (route === "projects") Page = /* @__PURE__ */ React.createElement(PageProjects, { go });
   else if (route === "experience") Page = /* @__PURE__ */ React.createElement(PageExperience, { go });
@@ -9084,15 +7959,14 @@ function App() {
   else Page = /* @__PURE__ */ React.createElement(PageHome, { go });
   const labels = {
     home: "01 Home",
-    agent: "02 AI Agent",
-    certs: "03 Certifications",
-    projects: "04 Projects",
-    experience: "05 Experience",
-    gigs: "06 Services",
-    demos: "07 Demos & Articles",
-    contact: "08 Contact"
+    certs: "02 Certifications",
+    projects: "03 Projects",
+    experience: "04 Experience",
+    gigs: "05 Services",
+    demos: "06 Demos & Articles",
+    contact: "07 Contact"
   };
-  return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Mascot, { route, setTweak, enabled: t.mascot }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement(FloatingTelemetryIsland, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("div", { "data-screen-label": labels[route] || route }, /* @__PURE__ */ React.createElement(FadingStars, { enabled: t.fadingStars !== false }), /* @__PURE__ */ React.createElement(BoltTrail, { enabled: t.boltTrail, showCursor: t.showCursor }), /* @__PURE__ */ React.createElement(Nav, { route, go }), /* @__PURE__ */ React.createElement(FloatingTelemetryIsland, { route, go }), /* @__PURE__ */ React.createElement("div", { key: route, className: "page-shell page-enter", style: route === "home" ? { paddingTop: 0 } : void 0 }, Page), /* @__PURE__ */ React.createElement(Footer, { go }), /* @__PURE__ */ React.createElement(TweaksPanel, { title: "Tweaks" }, /* @__PURE__ */ React.createElement(TweakSection, { title: "Theme" }, /* @__PURE__ */ React.createElement(
     TweakColor,
     {
       label: "Accent",
@@ -9108,7 +7982,7 @@ function App() {
       options: ["#032D60", "#16325C", "#1A1A2E", "#3C0F66", "#1F2937"],
       onChange: (v) => setTweak("accentDeep", v)
     }
-  )), /* @__PURE__ */ React.createElement(TweakSection, { title: "Effects" }, /* @__PURE__ */ React.createElement(TweakToggle, { label: "Lightning bolt cursor trail", value: t.boltTrail, onChange: (v) => setTweak("boltTrail", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Custom cursor dot", value: t.showCursor, onChange: (v) => setTweak("showCursor", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Trail companion mascot", value: t.mascot, onChange: (v) => setTweak("mascot", v) })), /* @__PURE__ */ React.createElement(TweakSection, { title: "Integrations" }, /* @__PURE__ */ React.createElement(
+  )), /* @__PURE__ */ React.createElement(TweakSection, { title: "Effects" }, /* @__PURE__ */ React.createElement(TweakToggle, { label: "Fading stars starlight field", value: t.fadingStars !== false, onChange: (v) => setTweak("fadingStars", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Lightning bolt cursor trail", value: t.boltTrail, onChange: (v) => setTweak("boltTrail", v) }), /* @__PURE__ */ React.createElement(TweakToggle, { label: "Custom cursor dot", value: t.showCursor, onChange: (v) => setTweak("showCursor", v) })), /* @__PURE__ */ React.createElement(TweakSection, { title: "Integrations" }, /* @__PURE__ */ React.createElement(
     TweakText,
     {
       label: "Mappls Access Token",

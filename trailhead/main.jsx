@@ -3,7 +3,6 @@ const { useState, useEffect, useRef, useMemo } = React;
 
 const ROUTES = [
   { id: "home", label: "Home" },
-  { id: "agent", label: "AI Agent" },
   { id: "certs", label: "Certifications" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
@@ -297,7 +296,6 @@ function FloatingTelemetryIsland({ route, go }) {
 
   const routeNames = {
     home: "Orbit 360",
-    agent: "Agentforce AI",
     certs: "12 Credentials",
     projects: "Case Studies",
     experience: "Experience",
@@ -317,6 +315,14 @@ function FloatingTelemetryIsland({ route, go }) {
         </div>
 
         <div className="dock-actions">
+          <button
+            className="dock-btn"
+            onClick={() => window.burstStars?.()}
+            title="Launch Supernova Starburst"
+          >
+            ✦ Starburst
+          </button>
+
           {route !== "demos" && (
             <button
               className="dock-btn"
@@ -369,7 +375,6 @@ function App() {
   useEffect(() => {
     const titles = {
       home: "Yusuf Khan — Salesforce Lead Developer & Architect",
-      agent: "Agentforce AI Portal — Yusuf Khan",
       certs: "Salesforce Certifications — Yusuf Khan",
       projects: "Enterprise Projects — Yusuf Khan",
       experience: "Professional Experience — Yusuf Khan",
@@ -381,7 +386,6 @@ function App() {
 
     const descriptions = {
       home: "Portfolio of Yusuf Khan, a Salesforce Lead Developer & Technical SME building enterprise-grade Cloud experiences across Banking, Retail, and Financial Services.",
-      agent: "Interact with Yusuf Khan's autonomous Agentforce AI portal powered by deep architectural reasoning and Soft Aurora cosmic visuals.",
       certs: "Explore Salesforce certifications earned by Yusuf Khan, including Platform Developer II, Agentforce Specialist, OmniStudio Developer, and Data Cloud Consultant.",
       projects: "View real-world enterprise Salesforce projects delivered by Yusuf Khan, including Experience Cloud portals and Loan Origination systems.",
       experience: "Read about Yusuf Khan's professional experience as a Salesforce Technical SME and Software Engineer leading complex integrations.",
@@ -397,7 +401,6 @@ function App() {
 
   let Page = null;
   if (route === "home") Page = <PageHome go={go} />;
-  else if (route === "agent" || route === "ai") Page = <PageAgent go={go} />;
   else if (route === "certs") Page = <PageCerts go={go} />;
   else if (route === "projects") Page = <PageProjects go={go} />;
   else if (route === "experience") Page = <PageExperience go={go} />;
@@ -408,19 +411,18 @@ function App() {
 
   const labels = {
     home: "01 Home",
-    agent: "02 AI Agent",
-    certs: "03 Certifications",
-    projects: "04 Projects",
-    experience: "05 Experience",
-    gigs: "06 Services",
-    demos: "07 Demos & Articles",
-    contact: "08 Contact"
+    certs: "02 Certifications",
+    projects: "03 Projects",
+    experience: "04 Experience",
+    gigs: "05 Services",
+    demos: "06 Demos & Articles",
+    contact: "07 Contact"
   };
 
   return (
     <div data-screen-label={labels[route] || route}>
+      <FadingStars enabled={t.fadingStars !== false} />
       <BoltTrail enabled={t.boltTrail} showCursor={t.showCursor} />
-      <Mascot route={route} setTweak={setTweak} enabled={t.mascot} />
       <Nav route={route} go={go} />
       <FloatingTelemetryIsland route={route} go={go} />
       <div key={route} className="page-shell page-enter" style={route === "home" ? { paddingTop: 0 } : undefined}>
@@ -436,9 +438,9 @@ function App() {
             onChange={v=>setTweak("accentDeep", v)} />
         </TweakSection>
         <TweakSection title="Effects">
+          <TweakToggle label="Fading stars starlight field" value={t.fadingStars !== false} onChange={v=>setTweak("fadingStars", v)} />
           <TweakToggle label="Lightning bolt cursor trail" value={t.boltTrail} onChange={v=>setTweak("boltTrail", v)} />
           <TweakToggle label="Custom cursor dot" value={t.showCursor} onChange={v=>setTweak("showCursor", v)} />
-          <TweakToggle label="Trail companion mascot" value={t.mascot} onChange={v=>setTweak("mascot", v)} />
         </TweakSection>
         <TweakSection title="Integrations">
           <TweakText label="Mappls Access Token" value={t.mapplsToken || ""} placeholder="MapmyIndia SDK Token"
