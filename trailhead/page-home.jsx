@@ -420,7 +420,7 @@ function HeroSection({ go }) {
               Architecting enterprise <strong style={{ color: "white" }}>Salesforce Cloud</strong> &amp; <strong style={{ color: "var(--accent)" }}>Agentforce AI</strong> platforms across <strong style={{ color: "#6BB7FF" }}>Banking</strong>, <strong style={{ color: "#FF9F66" }}>Retail</strong>, and <strong style={{ color: "#B57BFF" }}>Lending</strong> — clean Apex, fast LWCs, automations that scale.
             </p>
 
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 }}>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
               <button className="btn primary hoverable" onClick={() => go("projects")} style={{
                 background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
                 boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
@@ -434,16 +434,6 @@ function HeroSection({ go }) {
               }}>
                 <Icon name="badge" size={16} /> Certification Vault (12×)
               </button>
-              <button className="btn ghost hoverable" onClick={() => window.burstStars?.()} title="Trigger Supernova Starburst" style={{
-                background: "rgba(22, 119, 255, 0.16)", color: "#C8F2FF", borderColor: "rgba(105, 177, 255, 0.35)",
-                padding: "14px 22px", fontSize: 14,
-              }}>
-                ⚡ Starburst <span>↗</span>
-              </button>
-            </div>
-
-            <div style={{ fontSize: 10.5, fontFamily: "var(--font-mono, monospace)", letterSpacing: "0.18em", color: "rgba(119, 186, 255, 0.75)", textTransform: "uppercase", marginBottom: 28 }}>
-              BLUE COSMOS <span style={{ color: "#1677FF" }}>·</span> INTERACTIVE FIELD <span style={{ opacity: 0.6, fontSize: 10 }}>(move cursor to bend starlight · click anywhere for supernova)</span>
             </div>
           </div>
 

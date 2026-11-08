@@ -1936,7 +1936,7 @@ function HeroSection({ go }) {
     fontWeight: 500,
     marginBottom: 28,
     maxWidth: 580
-  } }, "Architecting enterprise ", /* @__PURE__ */ React.createElement("strong", { style: { color: "white" } }, "Salesforce Cloud"), " & ", /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--accent)" } }, "Agentforce AI"), " platforms across ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#6BB7FF" } }, "Banking"), ", ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#FF9F66" } }, "Retail"), ", and ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#B57BFF" } }, "Lending"), " \u2014 clean Apex, fast LWCs, automations that scale."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: {
+  } }, "Architecting enterprise ", /* @__PURE__ */ React.createElement("strong", { style: { color: "white" } }, "Salesforce Cloud"), " & ", /* @__PURE__ */ React.createElement("strong", { style: { color: "var(--accent)" } }, "Agentforce AI"), " platforms across ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#6BB7FF" } }, "Banking"), ", ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#FF9F66" } }, "Retail"), ", and ", /* @__PURE__ */ React.createElement("strong", { style: { color: "#B57BFF" } }, "Lending"), " \u2014 clean Apex, fast LWCs, automations that scale."), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 } }, /* @__PURE__ */ React.createElement("button", { className: "btn primary hoverable", onClick: () => go("projects"), style: {
     background: "linear-gradient(90deg, var(--accent), var(--accent-deep))",
     boxShadow: "0 14px 35px -10px color-mix(in oklab, var(--accent) 60%, transparent)",
     padding: "14px 26px",
@@ -1948,13 +1948,7 @@ function HeroSection({ go }) {
     borderColor: "var(--line)",
     padding: "14px 24px",
     fontSize: 14
-  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"), /* @__PURE__ */ React.createElement("button", { className: "btn ghost hoverable", onClick: () => window.burstStars?.(), title: "Trigger Supernova Starburst", style: {
-    background: "rgba(22, 119, 255, 0.16)",
-    color: "#C8F2FF",
-    borderColor: "rgba(105, 177, 255, 0.35)",
-    padding: "14px 22px",
-    fontSize: 14
-  } }, "\u26A1 Starburst ", /* @__PURE__ */ React.createElement("span", null, "\u2197"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10.5, fontFamily: "var(--font-mono, monospace)", letterSpacing: "0.18em", color: "rgba(119, 186, 255, 0.75)", textTransform: "uppercase", marginBottom: 28 } }, "BLUE COSMOS ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1677FF" } }, "\xB7"), " INTERACTIVE FIELD ", /* @__PURE__ */ React.createElement("span", { style: { opacity: 0.6, fontSize: 10 } }, "(move cursor to bend starlight \xB7 click anywhere for supernova)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 660, height: 580 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 580, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
+  } }, /* @__PURE__ */ React.createElement(Icon, { name: "badge", size: 16 }), " Certification Vault (12\xD7)"))), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", display: "grid", placeItems: "center", width: "100%", overflow: "visible" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "100%", maxWidth: 660, height: 580 } }, /* @__PURE__ */ React.createElement(ThreeOrb, { height: 580, bare: true })))), /* @__PURE__ */ React.createElement("div", { className: "hero-stats", style: {
     marginTop: 40,
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
@@ -7889,15 +7883,7 @@ function FloatingTelemetryIsland({ route, go }) {
     demos: "Sandbox Demos",
     contact: "Contact Channel"
   };
-  return /* @__PURE__ */ React.createElement("aside", { className: "floating-dock" + (minimized ? " minimized" : ""), "aria-label": "Quick Telemetry Dock" }, /* @__PURE__ */ React.createElement("div", { className: "dock-pill" }, /* @__PURE__ */ React.createElement("div", { className: "dock-telemetry" }, /* @__PURE__ */ React.createElement("span", { className: "dock-ping" }), /* @__PURE__ */ React.createElement("span", { className: "dock-label" }, "COSMIC VERSE"), /* @__PURE__ */ React.createElement("span", { className: "dock-sep" }, "//"), /* @__PURE__ */ React.createElement("span", { className: "dock-route" }, routeNames[route] || route)), /* @__PURE__ */ React.createElement("div", { className: "dock-actions" }, /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      className: "dock-btn",
-      onClick: () => window.burstStars?.(),
-      title: "Launch Supernova Starburst"
-    },
-    "\u2726 Starburst"
-  ), route !== "demos" && /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ React.createElement("aside", { className: "floating-dock" + (minimized ? " minimized" : ""), "aria-label": "Quick Telemetry Dock" }, /* @__PURE__ */ React.createElement("div", { className: "dock-pill" }, /* @__PURE__ */ React.createElement("div", { className: "dock-telemetry" }, /* @__PURE__ */ React.createElement("span", { className: "dock-ping" }), /* @__PURE__ */ React.createElement("span", { className: "dock-label" }, "COSMIC VERSE"), /* @__PURE__ */ React.createElement("span", { className: "dock-sep" }, "//"), /* @__PURE__ */ React.createElement("span", { className: "dock-route" }, routeNames[route] || route)), /* @__PURE__ */ React.createElement("div", { className: "dock-actions" }, route !== "demos" && /* @__PURE__ */ React.createElement(
     "button",
     {
       className: "dock-btn",

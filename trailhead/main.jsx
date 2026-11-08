@@ -332,14 +332,6 @@ function FloatingTelemetryIsland({ route, go }) {
         </div>
 
         <div className="dock-actions">
-          <button
-            className="dock-btn"
-            onClick={() => window.burstStars?.()}
-            title="Launch Supernova Starburst"
-          >
-            ✦ Starburst
-          </button>
-
           {route !== "demos" && (
             <button
               className="dock-btn"
